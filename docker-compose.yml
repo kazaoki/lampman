@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+  mysql-main:
+    # restart: always
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.lampman:/lampman
+      - ./.lampman/mysql/main/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    entrypoint: /lampman/mysql/before-entrypoint.sh
+    command: mysqld
+    user: root
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      LAMPMAN_MYSQL_LABEL: main
+
+  phpenv:
+    image: kazaoki/phpenv:5.6.22
+
+  lampman:
+    # restart: always
+    depends_on:
+      - phpenv
+      - mysql-main
+    image: kazaoki/lampman
+    ports:
+      - "80:80"
+    volumes:
+      - ./.lampman:/lampman
+      - ./public_html:/var/www/html
+    volumes_from:
+      - phpenv
+    entrypoint: /lampman/entrypoint.sh
+    environment:
+      LAMPMAN_PHP_PHPENV_IMAGE: kazaoki/phpenv:5.6.22
+      LAMPMAN_PHP_PHPENV_VERSION: 5.6.22
+      LAMPMAN_PHP_ERROR_REPORT: 1
+      LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
+      LAMPMAN_PHP_XDEBUG_PORT: 9000
+      LAMPMAN_ADD_HOST: main.db:mysql-main, sub.db:psql-sub

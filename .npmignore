@@ -1,0 +1,8 @@
+node_modules/
+.git/
+.vscode/
+public_html/
+.npmignore
+build.sh
+docker-compose.yml
+Dockerfile
