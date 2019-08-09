@@ -1,0 +1,22 @@
+{
+    "name": "lampman",
+    "description": "LAMP server orchestration command tool on docker-compose",
+    "version": "0.0.1",
+    "license": "MIT",
+    "private": false,
+    "bin": {
+        "lampman": "dist/lampman",
+        "lm": "dist/lampman"
+    },
+    "scripts": {
+        "gulp": "gulp",
+        "build": "gulp ts"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.26.7",
+        "gulp": "^4.0.2",
+        "gulp-typescript": "^5.0.1",
+        "gulp-uglify": "^3.0.2",
+        "typescript": "^3.5.3"
+    }
+}
