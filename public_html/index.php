@@ -34,7 +34,7 @@
 
 <section>
     <?php $dbh = new PDO('mysql:host=main.db;dbname=test', 'test', 'test'); ?>
-    <h1>MYSQL CONNECT TEST</h1>
+    <h1>MYSQL CONNECT TEST (main.db)</h1>
     <div class="center">
         <table>
             <tbody>

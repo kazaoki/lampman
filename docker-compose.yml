@@ -9,8 +9,7 @@ services:
     volumes:
       - ./.lampman:/lampman
     entrypoint: /lampman/mysql/before-entrypoint.sh
-    command: mysqld
-    user: root
+    command: ["mysqld"]
     environment:
       MYSQL_ROOT_PASSWORD: test
       MYSQL_DATABASE: test
