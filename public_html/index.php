@@ -68,6 +68,41 @@
 </section>
 
 <section>
+    <?php $pdbh = new PDO('pgsql:host=sub.db;dbname=test', 'test', 'test'); ?>
+    <h1>POSTGRESQL CONNECT TEST (sub.db)</h1>
+    <div class="center">
+        <table>
+            <tbody>
+                <?php
+                try {
+                    $sth = $pdbh->query('SELECT NOW() as now');
+                    $row = $sth->fetchAll();
+                } catch(PDOException $e) {
+                    var_dump($e->getMessage());
+                }
+                ?>
+                <tr>
+                    <td class="e"><?= $sth->queryString ?></td>
+                    <td class="v"><?= $row[0]['now'] ?></td>
+                </tr>
+                <?php
+                try {
+                    $sth = $pdbh->query('SELECT COUNT(*) as count FROM users');
+                    $row = $sth->fetchAll();
+                } catch(PDOException $e) {
+                    var_dump($e->getMessage());
+                }
+                ?>
+                <tr>
+                    <td class="e"><?= $sth->queryString ?></td>
+                    <td class="v"><?= $row[0]['count'] ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section>
     <h1>PHP INFO</h1>
     <?php phpinfo() ?>
 </section>
