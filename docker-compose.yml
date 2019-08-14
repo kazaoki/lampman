@@ -42,4 +42,4 @@ services:
       LAMPMAN_PHP_ERROR_REPORT: 1
       LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
       LAMPMAN_PHP_XDEBUG_PORT: 9000
-      LAMPMAN_ADD_HOST: main.db:mysql-main, sub.db:psql-sub
+      LAMPMAN_BIND_HOST: main.db:mysql-main, sub.db:psql-sub

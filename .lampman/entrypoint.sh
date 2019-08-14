@@ -206,7 +206,7 @@ sed -i "s/#ServerName www\.example\.com\:80/ServerName lampman\.localhost/" /etc
 # --------------------------------------------------------------------
 # Add host set to hosts file
 # --------------------------------------------------------------------
-for item in `echo $LAMPMAN_ADD_HOST | tr ',' ' '`
+for item in `echo $LAMPMAN_BIND_HOST | tr ',' ' '`
 do
   value=(`echo $item | xargs | tr ':' ' '`)
   host=${value[0]}
