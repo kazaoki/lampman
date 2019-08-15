@@ -218,14 +218,30 @@ do
 done
 
 # --------------------------------------------------------------------
-# other setups
+# Add run shell before servers start
 # --------------------------------------------------------------------
-sh /lampman/init.sh
+if [ -e /lampman/init-before.sh ]; then
+  /lampman/init-before.sh
+fi
 
 # --------------------------------------------------------------------
 # start servers
 # --------------------------------------------------------------------
+# -- Apache2
 /usr/sbin/httpd -k start
+# -- Postfix
+/usr/sbin/postfix start
+# -- MailDev
+if [[ $LAMPMAN_MAILDEV ]]; then
+  maildev -s 1025 -w 9981 &
+fi
+
+# --------------------------------------------------------------------
+# Add run shell after servers start
+# --------------------------------------------------------------------
+if [ -e /lampman/after.sh ]; then
+  /lampman/after.sh
+fi
 
 # --------------------------------------------------------------------
 # daemon loop start

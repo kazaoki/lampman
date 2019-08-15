@@ -9,6 +9,27 @@
 <body>
 
 <section>
+    <h1>MAILDEV (<a href="http://<?= getenv('HTTP_HOST') ?>:9981" target="_blank">open blank window : port 9981</a>)</h1>
+    <div class="center">
+        <table>
+            <tbody>
+                <tr>
+                    <td class="e">LAMPMAN_MAILDEV</td>
+                    <td class="v"><?= getenv('LAMPMAN_MAILDEV') ?></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <form action="mail-submit.php" method="post">
+                            <button>テストメール送信</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section>
     <h1>LAMPMAN ENV</h1>
     <div class="center">
         <table>
