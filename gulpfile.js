@@ -4,8 +4,10 @@ const distPath = './dist';
 
 const gulp         = require('gulp');
 const browserSync  = require('browser-sync');
-const ts           = require('gulp-typescript');
 const uglify       = require('gulp-uglify');
+const rename       = require('gulp-rename');
+const concat       = require("gulp-concat");
+const ts           = require('gulp-typescript');
 
 /**
  * browser sync
@@ -27,12 +29,13 @@ gulp.task('server', ()=>{
 });
 
 // TypeScript
-gulp.task('ts', function () {
-	return gulp.src('src/**/*.ts')
+gulp.task('lampmants', function () {
+	return gulp.src(['src/modules/*.ts', 'src/*.ts'])
 		.pipe(ts({
 			noImplicitAny: true,
-			outFile: 'lampman.js'
 		}))
+		.pipe(concat('lampman.js'))
+		.pipe(rename({ extname: '' }))
 		.pipe(gulp.dest(distPath))
 		.pipe(uglify())
 		.pipe(gulp.dest(distPath))
@@ -42,7 +45,7 @@ gulp.task('ts', function () {
  * watch files change
  */
 gulp.task('watch', ()=>{
-	gulp.watch('src/**/*.ts', gulp.task('ts'))
+	gulp.watch('src/**/*.ts', gulp.task('lampmants'))
 	gulp.watch('public_html/**/*.{html,php,js,css}').on('change', browserSync.reload)
 });
 
@@ -52,7 +55,7 @@ gulp.task('watch', ()=>{
 gulp.task('default',
 	gulp.series(
 		gulp.parallel(
-			'ts',
+			'lampmants',
 			'server',
 			'watch',
 		)

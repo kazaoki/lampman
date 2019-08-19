@@ -1,0 +1,1 @@
+var Version=function(){function n(){}return n.prototype.run=function(){var n=require("../package.json");process.stdout.write("\n"),console.log(n.name+" ver "+n.version),process.stdout.write("\n")},n}();console.log("I am a Lampman !?");var v=new Version;v.run();
