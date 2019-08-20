@@ -22,6 +22,8 @@
         "typescript": "^3.5.3"
     },
     "dependencies": {
-        "@types/node": "^12.7.2"
+        "@types/node": "^12.7.2",
+        "boxen": "^4.1.0",
+        "prompts": "^2.2.1"
     }
 }

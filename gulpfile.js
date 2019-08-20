@@ -36,7 +36,6 @@ gulp.task('lampmants', function () {
 		}))
 		.pipe(concat('lampman.js'))
 		.pipe(rename({ extname: '' }))
-		.pipe(gulp.dest(distPath))
 		.pipe(uglify())
 		.pipe(gulp.dest(distPath))
 })
