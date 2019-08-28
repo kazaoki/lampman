@@ -1,18 +1,16 @@
 
+'use strict'
+
+import * as libs from '../libs';
+
 /**
  * バージョン情報モジュール
  */
-class Version
-{
-    /**
-     * バージョン情報を表示する
-     */
-    run() {
-        // バージョン表示
-        var json = require('../package.json');
-        process.stdout.write('\n')
-        console.log(`${json.name} ver ${json.version}`)
-        // lib.Message(`${json.name} ver ${json.version}`, 'primary');
-        process.stdout.write('\n')
-    }
+
+export default function version(cmd: any, options: any) {
+    var json = require('../../package.json');
+    process.stdout.write('\n')
+    // console.log(`${json.name} ver ${json.version}`)
+    libs.Message(`${json.name} ver ${json.version}`, 'primary');
+    process.stdout.write('\n')
 }

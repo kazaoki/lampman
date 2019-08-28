@@ -5,14 +5,14 @@
     "license": "MIT",
     "private": false,
     "bin": {
-        "lampman": "dist/lampman",
-        "lm": "dist/lampman"
+        "lamp": "dist/lamp"
     },
     "scripts": {
         "gulp": "gulp",
         "build": "gulp ts"
     },
     "devDependencies": {
+        "@types/node": "^12.7.2",
         "browser-sync": "^2.26.7",
         "gulp": "^4.0.2",
         "gulp-concat": "^2.6.1",
@@ -22,8 +22,10 @@
         "typescript": "^3.5.3"
     },
     "dependencies": {
-        "@types/node": "^12.7.2",
-        "boxen": "^4.1.0",
-        "prompts": "^2.2.1"
+        "cli-color": "^1.4.0",
+        "commander": "^3.0.0",
+        "jp-wrap": "^0.2.2",
+        "prompts": "^2.2.1",
+        "string-width": "^4.1.0"
     }
 }

@@ -8,6 +8,7 @@ const uglify       = require('gulp-uglify');
 const rename       = require('gulp-rename');
 const concat       = require("gulp-concat");
 const ts           = require('gulp-typescript');
+const tsProject    = ts.createProject('tsconfig.json');
 
 /**
  * browser sync
@@ -30,14 +31,9 @@ gulp.task('server', ()=>{
 
 // TypeScript
 gulp.task('lampmants', function () {
-	return gulp.src(['src/modules/*.ts', 'src/*.ts'])
-		.pipe(ts({
-			noImplicitAny: true,
-		}))
-		.pipe(concat('lampman.js'))
-		.pipe(rename({ extname: '' }))
-		.pipe(uglify())
-		.pipe(gulp.dest(distPath))
+	return tsProject.src()
+		.pipe(tsProject())
+		.js.pipe(gulp.dest(distPath));
 })
 
 /**
