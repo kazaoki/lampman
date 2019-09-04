@@ -1,8 +1,12 @@
 node_modules/
 .git/
+.lampman/
+.lampman-product/
 .vscode/
 public_html/
+src/
+.editorconfig
+.gitignore
 .npmignore
-build.sh
-docker-compose.yml
-Dockerfile
+gulpfile.js
+tsconfig.json

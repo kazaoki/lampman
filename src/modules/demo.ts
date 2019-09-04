@@ -1,15 +1,13 @@
 
 'use strict'
 
-const prompts = require('prompts')
-
-import * as libs from '../libs';
+const prompts = require('prompts');
 
 /**
  * デモ
  */
 
-export default async function demo(cmd: any, options: any) {
+export default async function demo(cmd: any, options: any, config: object) {
 
     const response = await prompts([
         // {
@@ -41,7 +39,7 @@ export default async function demo(cmd: any, options: any) {
                 { title: 'Red', value: '#ff0000' },
                 { title: 'Green', value: '#00ff00' },
                 { title: 'Blue', value: '#0000ff' },
-                { title: 'Blue2', value: '#0000ff', disabled: true, description: 'đş' }
+                { title: 'Blue2', value: '#0000ff', disabled: true, description: '😺' }
             ],
         }
     ]);

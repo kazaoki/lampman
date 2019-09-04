@@ -1,17 +1,25 @@
 
 'use strict'
 
-// const fs       = require('fs')
-const strwidth = require('string-width')
-const color    = require('cli-color')
+const strwidth = require('string-width');
+const color    = require('cli-color');
 const wrap     = require('jp-wrap')(color.windowSize.width-8);
+const util     = require('util');
+// const fs       = require('fs')
 // const child    = require('child_process')
 // const path     = require('path')
-// const util     = require('util');
+
+/**
+ * d
+ * @param {object} ダンプ表示するデータオブジェクト
+ */
+export function d(data: any) {
+    console.log(util.inspect(data, {colors: true, compact: false, breakLength: 10, depth: 10}))
+}
 
 /**
  * Repeat
- * -----------------------------------------------------------------------------
+ *
  * @param {string} string 繰り返したい文字
  * @param {number} times 繰り返したい回数
  * @return {string} 繰り返した文字列
@@ -27,7 +35,7 @@ export function Repeat (string: string, times: number=1): string {
 
 /**
  * Message
- * -----------------------------------------------------------------------------
+ *
  * @param {string} message 表示したいメッセージ。改行込み複数行対応。
  * @param {string} type タイプ。primary|success|danger|warning|info|default
  * @param {number} line タイトル線を引く位置。
@@ -96,4 +104,16 @@ export function Message (message: any, type: string='default', line: number=0): 
         line_color(Repeat('═', width)) +
         line_color('╛')
     )
+}
+
+
+/**
+ * ConfigLoad
+ *
+ * @return {string} mode引数で指定された場所のconfig.jsonをロード
+ */
+export function LoadConfig() {
+    return {
+        'test': 123
+    }
 }

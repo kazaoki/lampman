@@ -220,28 +220,29 @@ done
 # --------------------------------------------------------------------
 # Add run shell before servers start
 # --------------------------------------------------------------------
-if [ -e /lampman/init-before.sh ]; then
-  /lampman/init-before.sh
+if [ -e /lampman/entrypoint-add.sh ]; then
+  /lampman/entrypoint-add.sh
 fi
 
 # --------------------------------------------------------------------
 # start servers
 # --------------------------------------------------------------------
-# -- Apache2
+
+# -- Apache2 start
 /usr/sbin/httpd -k start
-# -- Postfix
-/usr/sbin/postfix start
-# -- MailDev
-if [[ $LAMPMAN_MAILDEV ]]; then
-  maildev -s 1025 -w 9981 &
+
+if [[ $LAMPMAN_MAILDEV_START ]]; then
+
+  # -- Postfix config change
+  echo 'relayhost = 127.0.0.1:1025' >> /etc/postfix/main.cf
+  sed -i 's/inet_protocols = all/inet_protocols = ipv4/g' /etc/postfix/main.cf
+
+  # -- MailDev start
+  maildev -s 1025 -w $LAMPMAN_MAILDEV_PORT &
 fi
 
-# --------------------------------------------------------------------
-# Add run shell after servers start
-# --------------------------------------------------------------------
-if [ -e /lampman/after.sh ]; then
-  /lampman/after.sh
-fi
+# -- Postfix start
+/usr/sbin/postfix start
 
 # --------------------------------------------------------------------
 # daemon loop start

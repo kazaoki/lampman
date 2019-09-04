@@ -7,7 +7,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./.lampman:/lampman
+      - ./:/lampman
     entrypoint: /lampman/mysql/before-entrypoint.sh
     command: ["mysqld"]
     labels:
@@ -25,7 +25,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./.lampman:/lampman
+      - ./:/lampman
     entrypoint: /lampman/postgresql/before-entrypoint.sh
     command: ["postgres"]
     labels:
@@ -52,8 +52,8 @@ services:
       - "80:80"
       - "9981:9981"
     volumes:
-      - ./.lampman:/lampman
-      - ./public_html:/var/www/html
+      - ./:/lampman
+      - ../public_html:/var/www/html
     volumes_from:
       - phpenv
     entrypoint: /lampman/entrypoint.sh
@@ -63,7 +63,9 @@ services:
       LAMPMAN_PHP_PHPENV_IMAGE: kazaoki/phpenv:5.6.22
       LAMPMAN_PHP_PHPENV_VERSION: 5.6.22
       LAMPMAN_PHP_ERROR_REPORT: 1
+      LAMPMAN_PHP_XDEBUG_START: 1
       LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
       LAMPMAN_PHP_XDEBUG_PORT: 9000
       LAMPMAN_BIND_HOST: main.db:mysql-main, sub.db:postgresql-sub
-      LAMPMAN_MAILDEV: 1
+      LAMPMAN_MAILDEV_START: 1
+      LAMPMAN_MAILDEV_PORT: 9981

@@ -1,15 +1,23 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-// const fs       = require('fs')
 var strwidth = require('string-width');
 var color = require('cli-color');
 var wrap = require('jp-wrap')(color.windowSize.width - 8);
+var util = require('util');
+// const fs       = require('fs')
 // const child    = require('child_process')
 // const path     = require('path')
-// const util     = require('util');
+/**
+ * d
+ * @param {object} ダンプ表示するデータオブジェクト
+ */
+function d(data) {
+    console.log(util.inspect(data, { colors: true, compact: false, breakLength: 10, depth: 10 }));
+}
+exports.d = d;
 /**
  * Repeat
- * -----------------------------------------------------------------------------
+ *
  * @param {string} string 繰り返したい文字
  * @param {number} times 繰り返したい回数
  * @return {string} 繰り返した文字列
@@ -27,7 +35,7 @@ function Repeat(string, times) {
 exports.Repeat = Repeat;
 /**
  * Message
- * -----------------------------------------------------------------------------
+ *
  * @param {string} message 表示したいメッセージ。改行込み複数行対応。
  * @param {string} type タイプ。primary|success|danger|warning|info|default
  * @param {number} line タイトル線を引く位置。
@@ -96,3 +104,14 @@ function Message(message, type, line) {
         line_color('╛'));
 }
 exports.Message = Message;
+/**
+ * ConfigLoad
+ *
+ * @return {string} mode引数で指定された場所のconfig.jsonをロード
+ */
+function LoadConfig() {
+    return {
+        'test': 123
+    };
+}
+exports.LoadConfig = LoadConfig;

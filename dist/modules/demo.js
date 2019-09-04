@@ -39,7 +39,7 @@ var prompts = require('prompts');
 /**
  * デモ
  */
-function demo(cmd, options) {
+function demo(cmd, options, config) {
     return __awaiter(this, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
@@ -74,7 +74,7 @@ function demo(cmd, options) {
                                 { title: 'Red', value: '#ff0000' },
                                 { title: 'Green', value: '#00ff00' },
                                 { title: 'Blue', value: '#0000ff' },
-                                { title: 'Blue2', value: '#0000ff', disabled: true, description: 'đş' }
+                                { title: 'Blue2', value: '#0000ff', disabled: true, description: '😺' }
                             ],
                         }
                     ])];

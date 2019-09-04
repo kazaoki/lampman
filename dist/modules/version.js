@@ -4,11 +4,14 @@ var libs = require("../libs");
 /**
  * バージョン情報モジュール
  */
-function version(cmd, options) {
+function version(commands, options, config) {
     var json = require('../../package.json');
     process.stdout.write('\n');
     // console.log(`${json.name} ver ${json.version}`)
     libs.Message(json.name + " ver " + json.version, 'primary');
     process.stdout.write('\n');
+    // libs.d(config)
+    // libs.d(commands)
+    // libs.d(options)
 }
 exports.default = version;
