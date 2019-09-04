@@ -1,11 +1,12 @@
 {
     "name": "lampman",
-    "description": "LAMP server orchestration command tool on docker-compose",
-    "version": "0.0.1",
+    "description": "LAMP server orchestration command tool on docker-compose (testing)",
+    "version": "0.0.2",
     "license": "MIT",
     "private": false,
     "bin": {
-        "lamp": "dist/lamp"
+        "lamp": "dist/lamp",
+        "lm": "dist/lamp"
     },
     "scripts": {
         "gulp": "gulp",

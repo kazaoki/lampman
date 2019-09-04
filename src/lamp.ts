@@ -14,34 +14,42 @@ import noargs  from './modules/noargs';
 process.argv.forEach((value, i)=>{if('-m'===value || '--mode'===value) process.env.LAMPMAN_MODE = process.argv[i+1]})
 if(!process.env.LAMPMAN_MODE) process.env.LAMPMAN_MODE = 'default'
 
+// Lampmanオブジェクト用意
+let lampman: any = {}
+
 // 設定ディレクトリ特定（見つかるまでディレクトリ遡る）
-let lampman_dir: string
 let dirs = process.cwd().split(path.sep)
-while(1!==dirs.length && !lampman_dir) {
-    // console.log(dirs)
-    let tmp = path.join(...dirs, '.lampman'+('default'===process.env.LAMPMAN_MODE ? '' : '-'+process.env.LAMPMAN_MODE))
+while(1!==dirs.length) {
+    let config_dir = path.join(...dirs, '.lampman'+('default'===process.env.LAMPMAN_MODE ? '' : '-'+process.env.LAMPMAN_MODE))
     try {
-        fs.accessSync(tmp, fs.constants.R_OK)
-        lampman_dir = tmp
-    } catch(e){}
+        fs.accessSync(config_dir, fs.constants.R_OK)
+        lampman.dir = config_dir
+        break
+    } catch(e){
+        console.log('Unexpected error!\n'+e)
+        process.exit();
+    }
     dirs.pop()
 }
 
 // 設定ファイル特定
-let lampman_config: string
-let config: object
-if(lampman_dir) {
+if(lampman.dir) {
     try {
-        let tmp = path.join(lampman_dir, 'config.js')
-        fs.accessSync(tmp, fs.constants.R_OK)
-        lampman_config = tmp
-        config = require(lampman_config)
-    } catch(e){}
+        let config_file = path.join(lampman.dir, 'config.js')
+        fs.accessSync(config_file, fs.constants.R_OK)
+        lampman.config = require(config_file).config
+    } catch(e){
+        console.log('config load error.')
+    }
 }
-// console.log(lampman_dir)
-// console.log(lampman_config)
 
-// let config = require(lampman_config)
+// ymlビルド
+// TODO: 生成
+lampman.yml = {version: 2}
+
+// TODO: カスタマイズ適用
+
+// TODO: yml出力
 
 
 // 基本オプション
@@ -51,23 +59,34 @@ commander.option('-m, --mode <mode>', '実行モードを指定できます。�
 commander
     .command('version')
     .description('バージョン表示')
-    .action((...args)=>version(args[0], args[1], config))
+    .action((...args)=>version(args[0], args[1], lampman))
 
 // デモ
 commander
     .command('demo')
     .description('デモ実行')
-    .action((...args)=>demo(args[0], args[1], config))
+    .action((...args)=>demo(args[0], args[1], lampman))
 
-// パース実行
+// 追加コマンド
+for(let key of Object.keys(lampman.config.extra)) {
+    let cmd = lampman.config.extra[key].cmd
+    if('object'===typeof cmd) cmd = cmd['win32'===process.platform ? 'win' : 'unix']
+    commander
+        .command(key)
+        .description(cmd)
+        .action((...args)=>{
+            // TODO: コマンド実行
+            console.log(key)
+            console.log(cmd)
+        })
+}
+
+    // パース実行
 commander.parse(process.argv)
 
 // 引数なし
-if(!commander.args.length) {
-    // console.log('引数なしのときの処理');
-    noargs(
-        commander.commands,
-        commander.options,
-        config
-    )
-}
+noargs(
+    commander.commands,
+    commander.options,
+    lampman
+)

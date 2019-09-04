@@ -4,11 +4,8 @@ const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE;
 /**
  * load modules
  */
-// const apache     = require('lampman-apache');
-// const mysql      = require('lampman-mysql');
-// const postgresql = require('lampman-postgresql');
 
-/**
+ /**
  * export configs
  */
 module.exports.config = {
@@ -16,6 +13,13 @@ module.exports.config = {
     // general
     package_name: 'lampman-test',
     image: 'kazaoki/lampman',
+
+    // Apache
+    apache: {
+        mounts: [
+            {'../public_html': '/var/www/html'},
+        ],
+    },
 
     // PHP
     php: {
@@ -25,13 +29,6 @@ module.exports.config = {
         xdebug_start: __TRUE_ON_DEFAULT__,
         xdebug_host: '192.168.0.10',
         xdebug_port: 9000,
-    },
-
-    // Apache
-    apache: {
-        mounts: [
-            {'../public_html': '/var/www/html'},
-        ]
     },
 
     // maildev
@@ -84,8 +81,13 @@ module.exports.config = {
             side: 'host', // host|container
             cmd: {
                 win: 'dir',
-                mac: 'ls -la',
+                unix: 'ls -la',
             },
         },
+    },
+
+    // customize lampman object
+    customize: lampman=>{
+        lampman.yml.services.lampman.depends_on.push('test-alpine')
     },
 }
