@@ -1,0 +1,9 @@
+
+  alpine:
+    image: alpine
+    volumes:
+      - ./:/lampman
+    labels:
+      - "test-alpine"
+    environment:
+      LAMPMAN_ADD_TEST: aaaaaaaa

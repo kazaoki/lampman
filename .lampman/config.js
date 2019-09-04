@@ -16,6 +16,10 @@ module.exports.config = {
 
     // Apache
     apache: {
+        ports: [
+            '80:80',
+            '443:443'
+        ],
         mounts: [
             {'../public_html': '/var/www/html'},
         ],
@@ -34,13 +38,13 @@ module.exports.config = {
     // maildev
     maildev: {
         start: __TRUE_ON_DEFAULT__,
-        port: 9981,
+        ports: ['9981:9981'],
     },
 
     // MySQL
     mysql: {
         image: 'mysql:5.7',
-        ports: {3306: 3306},
+        ports: ['3306:3306'],
         database: 'test',
         user: 'test',
         password: 'test', // same root password
@@ -59,7 +63,7 @@ module.exports.config = {
     // PostgreSQL
     postgresql: {
         image: 'postgres:9',
-        ports: {5432: 5432},
+        ports: ['5432:5432'],
         database: 'test',
         user: 'test',
         password: 'test', // same root password
