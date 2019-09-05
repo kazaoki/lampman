@@ -1,6 +1,7 @@
 version: '2'
 
 services:
+
   mysql-main:
     # restart: always
     image: mysql:5.7
@@ -50,13 +51,14 @@ services:
     image: kazaoki/lampman
     ports:
       - "80:80"
+      - "443:443"
       - "9981:9981"
     volumes:
       - ./:/lampman
       - ../public_html:/var/www/html
     volumes_from:
       - phpenv
-    entrypoint: /lampman/entrypoint.sh
+    entrypoint: /lampman/lampman/entrypoint.sh
     labels:
       - "kazaoki-lampman"
     environment:
