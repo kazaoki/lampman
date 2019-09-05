@@ -11,7 +11,7 @@ const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE;
 module.exports.config = {
 
     // general
-    package_name: 'lampman-test',
+    project: 'lampman-test',
     image: 'kazaoki/lampman',
 
     // Apache
