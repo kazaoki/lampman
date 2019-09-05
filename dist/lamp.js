@@ -6,6 +6,7 @@ var commander = require("commander");
 var libs = require("./libs");
 var version_1 = require("./modules/version");
 var init_1 = require("./modules/init");
+var update_1 = require("./modules/update");
 var up_1 = require("./modules/up");
 var down_1 = require("./modules/down");
 var mysql_1 = require("./modules/mysql");
@@ -60,8 +61,18 @@ commander
     return init_1.default(args[0], args[1], lampman);
 });
 commander
+    .command('update')
+    .description('.lampman/docker-compose.out.yml 更新')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return update_1.default(args[0], args[1], lampman);
+});
+commander
     .command('up')
-    .description('LAMP起動')
+    .description('LAMP起動（.lampman/docker-compose.out.yml 更新含む）')
     .action(function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -81,7 +92,10 @@ commander
 });
 commander
     .command('mysql')
-    .description('MySQL操作')
+    .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
+    .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
+    .option('-r, --restore', 'リストアします。')
+    .option('-c, --cli', 'コンソールに入ります。')
     .action(function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {

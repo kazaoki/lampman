@@ -10,6 +10,7 @@ import libs      = require('./libs');
 import version  from './modules/version';
 import demo     from './modules/demo';
 import init     from './modules/init';
+import update   from './modules/update';
 import up       from './modules/up';
 import down     from './modules/down';
 import mysql    from './modules/mysql';
@@ -76,10 +77,16 @@ commander
     .description('初期化（.lampman/ ディレクトリ作成）')
     .action((...args)=>init(args[0], args[1], lampman))
 
-// up: LAMP起動
+// update: yml更新
+commander
+    .command('update')
+    .description('.lampman/docker-compose.out.yml 更新')
+    .action((...args)=>update(args[0], args[1], lampman))
+
+    // up: LAMP起動
 commander
     .command('up')
-    .description('LAMP起動')
+    .description('LAMP起動（.lampman/docker-compose.out.yml 更新含む）')
     .action((...args)=>up(args[0], args[1], lampman))
 
 // down: LAMP終了
@@ -91,7 +98,10 @@ commander
 // mysql: MySQL操作
 commander
     .command('mysql')
-    .description('MySQL操作')
+    .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
+    .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
+    .option('-r, --restore', 'リストアします。')
+    .option('-c, --cli', 'コンソールに入ります。')
     .action((...args)=>mysql(args[0], args[1], lampman))
 
 // psql: PostgreSQL操作
