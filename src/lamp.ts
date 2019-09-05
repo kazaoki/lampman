@@ -14,6 +14,7 @@ import down     from './modules/down';
 import mysql    from './modules/mysql';
 import psql     from './modules/psql';
 import errors   from './modules/errors';
+import yml      from './modules/yml';
 import noargs   from './modules/noargs';
 
 // モードの設定
@@ -108,6 +109,12 @@ commander
     .command('errors')
     .description('エラーログ監視')
     .action((...args)=>errors(args[0], args[1], lampman))
+
+// yml: マージした最終ymlを標準出力
+commander
+    .command('yml')
+    .description('マージした最終ymlを標準出力（プロジェクトルートから相対）')
+    .action((...args)=>yml(args[0], args[1], lampman))
 
 // 追加コマンド
 for(let key of Object.keys(lampman.config.extra)) {

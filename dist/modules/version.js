@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 /**
- * バージョン情報モジュール
+ * version: バージョン情報モジュール
  */
 function version(commands, options, lampman) {
     var json = require('../../package.json');

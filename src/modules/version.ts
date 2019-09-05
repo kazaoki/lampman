@@ -4,10 +4,10 @@
 import libs = require('../libs');
 
 /**
- * バージョン情報モジュール
+ * version: バージョン情報モジュール
  */
 
-export default function version(commands: any, options: any, lampman: object) {
+export default function version(commands: any, options: any, lampman: any) {
 
     var json = require('../../package.json');
     process.stdout.write('\n')

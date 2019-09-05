@@ -11,6 +11,7 @@ var down_1 = require("./modules/down");
 var mysql_1 = require("./modules/mysql");
 var psql_1 = require("./modules/psql");
 var errors_1 = require("./modules/errors");
+var yml_1 = require("./modules/yml");
 var noargs_1 = require("./modules/noargs");
 // モードの設定
 process.argv.forEach(function (value, i) { if ('-m' === value || '--mode' === value)
@@ -139,6 +140,17 @@ commander
         args[_i] = arguments[_i];
     }
     return errors_1.default(args[0], args[1], lampman);
+});
+// yml: マージした最終ymlを標準出力
+commander
+    .command('yml')
+    .description('マージした最終ymlを標準出力（プロジェクトルートから相対）')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return yml_1.default(args[0], args[1], lampman);
 });
 var _loop_1 = function (key) {
     var cmd = lampman.config.extra[key].cmd;
