@@ -5,7 +5,6 @@ var path = require("path");
 var commander = require("commander");
 var libs = require("./libs");
 var version_1 = require("./modules/version");
-var demo_1 = require("./modules/demo");
 var init_1 = require("./modules/init");
 var up_1 = require("./modules/up");
 var down_1 = require("./modules/down");
@@ -51,28 +50,8 @@ if (lampman.dir) {
 lampman.yml = { version: 2 };
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）');
 commander
-    .command('version')
-    .description('バージョン表示')
-    .action(function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    return version_1.default(args[0], args[1], lampman);
-});
-commander
-    .command('demo')
-    .description('デモ実行')
-    .action(function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    return demo_1.default(args[0], args[1], lampman);
-});
-commander
     .command('init')
-    .description('初期化')
+    .description('初期化（.lampman/ ディレクトリ作成）')
     .action(function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -140,13 +119,24 @@ commander
     }
     return yml_1.default(args[0], args[1], lampman);
 });
+commander
+    .command('version')
+    .description('バージョン表示')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return version_1.default(args[0], args[1], lampman);
+});
 var _loop_1 = function (key) {
     var cmd = lampman.config.extra[key].cmd;
+    var side = lampman.config.extra[key].side;
     if ('object' === typeof cmd)
         cmd = cmd['win32' === process.platform ? 'win' : 'unix'];
     commander
         .command(key)
-        .description(cmd)
+        .description(cmd + ' （' + (side) + ' side）')
         .action(function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {

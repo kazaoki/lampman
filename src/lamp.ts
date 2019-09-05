@@ -70,22 +70,10 @@ lampman.yml = {version: 2}
 // 基本オプション
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）')
 
-// version: バージョン表示
-commander
-    .command('version')
-    .description('バージョン表示')
-    .action((...args)=>version(args[0], args[1], lampman))
-
-// demo: デモ
-commander
-    .command('demo')
-    .description('デモ実行')
-    .action((...args)=>demo(args[0], args[1], lampman))
-
 // init: 初期化
 commander
     .command('init')
-    .description('初期化')
+    .description('初期化（.lampman/ ディレクトリ作成）')
     .action((...args)=>init(args[0], args[1], lampman))
 
 // up: LAMP起動
@@ -124,13 +112,26 @@ commander
     .description('マージした最終ymlを標準出力（プロジェクトルートから相対）')
     .action((...args)=>yml(args[0], args[1], lampman))
 
-// 追加コマンド
+// version: バージョン表示
+commander
+    .command('version')
+    .description('バージョン表示')
+    .action((...args)=>version(args[0], args[1], lampman))
+
+// // demo: デモ
+// commander
+//     .command('demo')
+//     .description('デモ実行')
+//     .action((...args)=>demo(args[0], args[1], lampman))
+
+    // 追加コマンド
 for(let key of Object.keys(lampman.config.extra)) {
     let cmd = lampman.config.extra[key].cmd
+    let side = lampman.config.extra[key].side
     if('object'===typeof cmd) cmd = cmd['win32'===process.platform ? 'win' : 'unix']
     commander
         .command(key)
-        .description(cmd)
+        .description(cmd+' （'+(side)+' side）')
         .action((...args)=>{
             // TODO: コマンド実行
             console.log(key)
@@ -151,3 +152,5 @@ if(commander.args.length) {
         lampman
     )
 }
+
+
