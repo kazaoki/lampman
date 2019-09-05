@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
 var path = require("path");
 var commander = require("commander");
+var libs = require("./libs");
 var version_1 = require("./modules/version");
 var demo_1 = require("./modules/demo");
 var init_1 = require("./modules/init");
@@ -13,9 +14,15 @@ var psql_1 = require("./modules/psql");
 var errors_1 = require("./modules/errors");
 var yml_1 = require("./modules/yml");
 var noargs_1 = require("./modules/noargs");
+// 1行改行
+console.log('\r');
 // モードの設定
-process.argv.forEach(function (value, i) { if ('-m' === value || '--mode' === value)
-    process.env.LAMPMAN_MODE = process.argv[i + 1]; });
+process.argv.forEach(function (value, i) {
+    if ('-m' === value || '--mode' === value) {
+        if (process.argv[i + 1])
+            process.env.LAMPMAN_MODE = process.argv[i + 1];
+    }
+});
 if (!process.env.LAMPMAN_MODE)
     process.env.LAMPMAN_MODE = 'default';
 // Lampmanオブジェクト用意
@@ -43,7 +50,7 @@ if (lampman.dir) {
         lampman.config = require(config_file).config;
     }
     catch (e) {
-        console.log('config load error.');
+        console.log('config load error!\n' + e);
     }
 }
 // ymlビルド
@@ -176,5 +183,10 @@ for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
 }
 // パース実行
 commander.parse(process.argv);
-// 引数なし
-noargs_1.default(commander.commands, commander.options, lampman);
+if (commander.args.length) {
+    libs.Message(commander.args[0] + ': ご指定のコマンドはありません。', 'danger');
+}
+else {
+    // 引数なし
+    noargs_1.default(commander.commands, commander.options, lampman);
+}

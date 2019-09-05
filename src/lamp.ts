@@ -5,6 +5,7 @@ import fs        = require('fs');
 import path      = require('path');
 import util      = require('util');
 import commander = require('commander');
+import libs      = require('./libs');
 
 import version  from './modules/version';
 import demo     from './modules/demo';
@@ -17,8 +18,15 @@ import errors   from './modules/errors';
 import yml      from './modules/yml';
 import noargs   from './modules/noargs';
 
+// 1行改行
+console.log('\r')
+
 // モードの設定
-process.argv.forEach((value, i)=>{if('-m'===value || '--mode'===value) process.env.LAMPMAN_MODE = process.argv[i+1]})
+process.argv.forEach((value, i)=>{
+    if('-m'===value || '--mode'===value) {
+        if(process.argv[i+1]) process.env.LAMPMAN_MODE = process.argv[i+1]
+    }
+})
 if(!process.env.LAMPMAN_MODE) process.env.LAMPMAN_MODE = 'default'
 
 // Lampmanオブジェクト用意
@@ -46,7 +54,7 @@ if(lampman.dir) {
         fs.accessSync(config_file, fs.constants.R_OK)
         lampman.config = require(config_file).config
     } catch(e){
-        console.log('config load error.')
+        console.log('config load error!\n'+e)
     }
 }
 
@@ -133,9 +141,13 @@ for(let key of Object.keys(lampman.config.extra)) {
     // パース実行
 commander.parse(process.argv)
 
-// 引数なし
-noargs(
-    commander.commands,
-    commander.options,
-    lampman
-)
+if(commander.args.length) {
+    libs.Message(commander.args[0]+': ご指定のコマンドはありません。', 'danger')
+} else {
+    // 引数なし
+    noargs(
+        commander.commands,
+        commander.options,
+        lampman
+    )
+}

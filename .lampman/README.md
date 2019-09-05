@@ -1,15 +1,28 @@
 
-run without Lampman
-====================
+Example commands
+================
 
-## up
+run without `lamp`
+----------------
+
+On project directory.
+
+### up
 
     docker-compose -f .lampman/docker-compose.out.yml -f .lampman/docker-compose.override.yml up -d
 
-same `lamp up`
+same `lamp up`.
 
-## down
+### down
 
     docker-compose -f .lampman/docker-compose.out.yml -f .lampman/docker-compose.override.yml down
 
 same `lamp down`
+
+`lamp` commands samples
+-----------------------
+### make merged yml file
+
+Path from project directory.
+
+    lamp yml > docker-compose.yml
