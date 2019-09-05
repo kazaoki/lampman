@@ -7,7 +7,8 @@ import libs = require('../libs');
  * バージョン情報モジュール
  */
 
-export default function version(commands: any, options: any, config: object) {
+export default function version(commands: any, options: any, lampman: object) {
+
     var json = require('../../package.json');
     process.stdout.write('\n')
     // console.log(`${json.name} ver ${json.version}`)

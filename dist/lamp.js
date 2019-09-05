@@ -5,6 +5,12 @@ var path = require("path");
 var commander = require("commander");
 var version_1 = require("./modules/version");
 var demo_1 = require("./modules/demo");
+var init_1 = require("./modules/init");
+var up_1 = require("./modules/up");
+var down_1 = require("./modules/down");
+var mysql_1 = require("./modules/mysql");
+var psql_1 = require("./modules/psql");
+var errors_1 = require("./modules/errors");
 var noargs_1 = require("./modules/noargs");
 // モードの設定
 process.argv.forEach(function (value, i) { if ('-m' === value || '--mode' === value)
@@ -46,7 +52,7 @@ lampman.yml = { version: 2 };
 // TODO: yml出力
 // 基本オプション
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）');
-// バージョン表示
+// version: バージョン表示
 commander
     .command('version')
     .description('バージョン表示')
@@ -57,7 +63,7 @@ commander
     }
     return version_1.default(args[0], args[1], lampman);
 });
-// デモ
+// demo: デモ
 commander
     .command('demo')
     .description('デモ実行')
@@ -67,6 +73,72 @@ commander
         args[_i] = arguments[_i];
     }
     return demo_1.default(args[0], args[1], lampman);
+});
+// init: 初期化
+commander
+    .command('init')
+    .description('初期化')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return init_1.default(args[0], args[1], lampman);
+});
+// up: LAMP起動
+commander
+    .command('up')
+    .description('LAMP起動')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return up_1.default(args[0], args[1], lampman);
+});
+// down: LAMP終了
+commander
+    .command('down')
+    .description('LAMP終了')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return down_1.default(args[0], args[1], lampman);
+});
+// mysql: MySQL操作
+commander
+    .command('mysql')
+    .description('MySQL操作')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return mysql_1.default(args[0], args[1], lampman);
+});
+// psql: PostgreSQL操作
+commander
+    .command('psql')
+    .description('PostgreSQL操作')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return psql_1.default(args[0], args[1], lampman);
+});
+// errors: エラーログ監視
+commander
+    .command('errors')
+    .description('エラーログ監視')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return errors_1.default(args[0], args[1], lampman);
 });
 var _loop_1 = function (key) {
     var cmd = lampman.config.extra[key].cmd;

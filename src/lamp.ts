@@ -6,9 +6,15 @@ import path      = require('path');
 import util      = require('util');
 import commander = require('commander');
 
-import version from './modules/version';
-import demo    from './modules/demo';
-import noargs  from './modules/noargs';
+import version  from './modules/version';
+import demo     from './modules/demo';
+import init     from './modules/init';
+import up       from './modules/up';
+import down     from './modules/down';
+import mysql    from './modules/mysql';
+import psql     from './modules/psql';
+import errors   from './modules/errors';
+import noargs   from './modules/noargs';
 
 // モードの設定
 process.argv.forEach((value, i)=>{if('-m'===value || '--mode'===value) process.env.LAMPMAN_MODE = process.argv[i+1]})
@@ -55,17 +61,53 @@ lampman.yml = {version: 2}
 // 基本オプション
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）')
 
-// バージョン表示
+// version: バージョン表示
 commander
     .command('version')
     .description('バージョン表示')
     .action((...args)=>version(args[0], args[1], lampman))
 
-// デモ
+// demo: デモ
 commander
     .command('demo')
     .description('デモ実行')
     .action((...args)=>demo(args[0], args[1], lampman))
+
+// init: 初期化
+commander
+    .command('init')
+    .description('初期化')
+    .action((...args)=>init(args[0], args[1], lampman))
+
+// up: LAMP起動
+commander
+    .command('up')
+    .description('LAMP起動')
+    .action((...args)=>up(args[0], args[1], lampman))
+
+// down: LAMP終了
+commander
+    .command('down')
+    .description('LAMP終了')
+    .action((...args)=>down(args[0], args[1], lampman))
+
+// mysql: MySQL操作
+commander
+    .command('mysql')
+    .description('MySQL操作')
+    .action((...args)=>mysql(args[0], args[1], lampman))
+
+// psql: PostgreSQL操作
+commander
+    .command('psql')
+    .description('PostgreSQL操作')
+    .action((...args)=>psql(args[0], args[1], lampman))
+
+// errors: エラーログ監視
+commander
+    .command('errors')
+    .description('エラーログ監視')
+    .action((...args)=>errors(args[0], args[1], lampman))
 
 // 追加コマンド
 for(let key of Object.keys(lampman.config.extra)) {

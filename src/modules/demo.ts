@@ -7,7 +7,7 @@ const prompts = require('prompts');
  * デモ
  */
 
-export default async function demo(cmd: any, options: any, config: object) {
+export default async function demo(cmd: any, options: any, lampman: object) {
 
     const response = await prompts([
         // {

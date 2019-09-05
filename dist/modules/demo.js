@@ -39,7 +39,7 @@ var prompts = require('prompts');
 /**
  * デモ
  */
-function demo(cmd, options, config) {
+function demo(cmd, options, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
