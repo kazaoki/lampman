@@ -36,25 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var prompts = require('prompts');
-/**
- * demo: デモ
- */
 function demo(cmd, options, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, prompts([
-                        // {
-                        //     type: 'text',
-                        //     name: 'twitter',
-                        //     message: `What's your twitter handle?`
-                        // },
-                        // {
-                        //     type: 'password',
-                        //     name: 'pw',
-                        //     message: `What's your pw?`
-                        // },
+                case 0: return [4, prompts([
                         {
                             type: 'select',
                             name: 'select',
@@ -81,7 +68,7 @@ function demo(cmd, options, lampman) {
                 case 1:
                     response = _a.sent();
                     console.log(response);
-                    return [2 /*return*/];
+                    return [2];
             }
         });
     });

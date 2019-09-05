@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "cli-color": "^1.4.0",
+        "cliui": "^5.0.0",
         "commander": "^3.0.0",
         "jp-wrap": "^0.2.2",
         "prompts": "^2.2.1",
