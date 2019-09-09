@@ -77,22 +77,25 @@ commander
     .description('初期化（.lampman/ ディレクトリ作成）')
     .action((...args)=>init(args[0], args[1], lampman))
 
-// update: yml更新
-commander
-    .command('update')
-    .description('.lampman/docker-compose.out.yml 更新')
-    .action((...args)=>update(args[0], args[1], lampman))
+// // update: yml更新
+// commander
+//     .command('update')
+//     .description('.lampman/docker-compose.yml 更新')
+//     .action((...args)=>update(args[0], args[1], lampman))
 
     // up: LAMP起動
 commander
     .command('up')
-    .description('LAMP起動（.lampman/docker-compose.out.yml 更新含む）')
+    .description('LAMP起動（.lampman/docker-compose.yml 自動更新）')
+    .option('-c, --clear', '起動中の他のコンテナを全て強制削除してから起動する。（ボリュームはキープ）')
+    .option('-cv, --clear-with-volumes', '起動中の他のコンテナ・ボリュームを全て強制削除してから起動する。（ロックされたボリュームはキープ）')
     .action((...args)=>up(args[0], args[1], lampman))
 
 // down: LAMP終了
 commander
     .command('down')
     .description('LAMP終了')
+    .option('-v, --volumes', '関連ボリュームも合わせて削除する。（ロックされたボリュームはキープ）')
     .action((...args)=>down(args[0], args[1], lampman))
 
 // mysql: MySQL操作
@@ -100,20 +103,24 @@ commander
     .command('mysql')
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
     .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
-    .option('-r, --restore', 'リストアします。')
+    .option('-r, --restore', 'リストアします。（ダンプ選択）')
     .option('-c, --cli', 'コンソールに入ります。')
     .action((...args)=>mysql(args[0], args[1], lampman))
 
 // psql: PostgreSQL操作
 commander
     .command('psql')
-    .description('PostgreSQL操作')
+    .description('PostgreSQL操作（オプション未指定なら mysql クライアントが実行されます）')
+    .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
+    .option('-r, --restore', 'リストアします。（ダンプ選択）')
+    .option('-c, --cli', 'コンソールに入ります。')
     .action((...args)=>psql(args[0], args[1], lampman))
 
 // errors: エラーログ監視
 commander
     .command('errors')
     .description('エラーログ監視')
+    .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
     .action((...args)=>errors(args[0], args[1], lampman))
 
 // yml: マージした最終ymlを標準出力

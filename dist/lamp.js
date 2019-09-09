@@ -6,7 +6,6 @@ var commander = require("commander");
 var libs = require("./libs");
 var version_1 = require("./modules/version");
 var init_1 = require("./modules/init");
-var update_1 = require("./modules/update");
 var up_1 = require("./modules/up");
 var down_1 = require("./modules/down");
 var mysql_1 = require("./modules/mysql");
@@ -61,18 +60,10 @@ commander
     return init_1.default(args[0], args[1], lampman);
 });
 commander
-    .command('update')
-    .description('.lampman/docker-compose.out.yml 更新')
-    .action(function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    return update_1.default(args[0], args[1], lampman);
-});
-commander
     .command('up')
-    .description('LAMP起動（.lampman/docker-compose.out.yml 更新含む）')
+    .description('LAMP起動（.lampman/docker-compose.yml 自動更新）')
+    .option('-c, --clear', '起動中の他のコンテナを全て強制削除してから起動する。（ボリュームはキープ）')
+    .option('-cv, --clear-with-volumes', '起動中の他のコンテナ・ボリュームを全て強制削除してから起動する。（ロックされたボリュームはキープ）')
     .action(function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -83,6 +74,7 @@ commander
 commander
     .command('down')
     .description('LAMP終了')
+    .option('-v, --volumes', '関連ボリュームも合わせて削除する。（ロックされたボリュームはキープ）')
     .action(function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -94,7 +86,7 @@ commander
     .command('mysql')
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
     .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
-    .option('-r, --restore', 'リストアします。')
+    .option('-r, --restore', 'リストアします。（ダンプ選択）')
     .option('-c, --cli', 'コンソールに入ります。')
     .action(function () {
     var args = [];
@@ -105,7 +97,10 @@ commander
 });
 commander
     .command('psql')
-    .description('PostgreSQL操作')
+    .description('PostgreSQL操作（オプション未指定なら mysql クライアントが実行されます）')
+    .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
+    .option('-r, --restore', 'リストアします。（ダンプ選択）')
+    .option('-c, --cli', 'コンソールに入ります。')
     .action(function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -116,6 +111,7 @@ commander
 commander
     .command('errors')
     .description('エラーログ監視')
+    .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
     .action(function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {

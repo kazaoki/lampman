@@ -10,35 +10,37 @@ const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE;
  */
 module.exports.config = {
 
-    // general
-    project: 'lampman-test',
-    image: 'kazaoki/lampman',
+    // Lampman
+    lampman: {
+        project: 'lampman-test',
+        image: 'kazaoki/lampman',
 
-    // Apache
-    apache: {
-        ports: [
-            '80:80',
-            '443:443'
-        ],
-        mounts: [
-            {'../public_html': '/var/www/html'},
-        ],
-    },
+        // Apache
+        apache: {
+            ports: [
+                '80:80',
+                '443:443'
+            ],
+            mounts: [
+                {'../public_html': '/var/www/html'},
+            ],
+        },
 
-    // PHP
-    php: {
-        image: 'kazaoki/phpenv:5.6.22', // ref: https://hub.docker.com/r/kazaoki/phpenv/tags
-        // ↑ image 未指定なら標準のPHP使用
-        error_report: __TRUE_ON_DEFAULT__,
-        xdebug_start: __TRUE_ON_DEFAULT__,
-        xdebug_host: '192.168.0.10',
-        xdebug_port: 9000,
-    },
+        // PHP
+        php: {
+            image: 'kazaoki/phpenv:5.6.22', // ref: https://hub.docker.com/r/kazaoki/phpenv/tags
+            // ↑ image 未指定なら標準のPHP使用
+            error_report: __TRUE_ON_DEFAULT__,
+            xdebug_start: __TRUE_ON_DEFAULT__,
+            xdebug_host: '192.168.0.10',
+            xdebug_port: 9000,
+        },
 
-    // maildev
-    maildev: {
-        start: __TRUE_ON_DEFAULT__,
-        ports: ['9981:9981'],
+        // maildev
+        maildev: {
+            start: __TRUE_ON_DEFAULT__,
+            ports: ['9981:9981'],
+        },
     },
 
     // MySQL
@@ -91,7 +93,7 @@ module.exports.config = {
     },
 
     // customize lampman object
-    customize: lampman=>{
-        lampman.yml.services.lampman.depends_on.push('test-alpine')
+    customize: config=>{
+        config.yml.services.lampman.depends_on.push('test-alpine')
     },
 }
