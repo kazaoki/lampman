@@ -3,9 +3,11 @@ node_modules/
 .lampman*/
 .vscode/
 public_html/
+docker-image/
 src/
 .editorconfig
 .gitignore
 .npmignore
 gulpfile.js
 tsconfig.json
+README.md
