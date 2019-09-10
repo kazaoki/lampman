@@ -10,8 +10,8 @@ var up_1 = require("./modules/up");
 var down_1 = require("./modules/down");
 var mysql_1 = require("./modules/mysql");
 var psql_1 = require("./modules/psql");
-var errors_1 = require("./modules/errors");
-var yml_1 = require("./modules/yml");
+var logs_1 = require("./modules/logs");
+var ymlout_1 = require("./modules/ymlout");
 var noargs_1 = require("./modules/noargs");
 console.log('\r');
 process.argv.forEach(function (value, i) {
@@ -83,6 +83,27 @@ commander
     return down_1.default(args[0], args[1], lampman);
 });
 commander
+    .command('rm')
+    .description('リストから選択してコンテナ・ボリュームを削除する')
+    .option('-f, --force', 'ロックされたボリュームも削除できるようになる')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return down_1.default(args[0], args[1], lampman);
+});
+commander
+    .command('rmi')
+    .description('リストから選択してイメージを削除する')
+    .action(function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return down_1.default(args[0], args[1], lampman);
+});
+commander
     .command('mysql')
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
     .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
@@ -109,7 +130,7 @@ commander
     return psql_1.default(args[0], args[1], lampman);
 });
 commander
-    .command('errors')
+    .command('logs')
     .description('エラーログ監視')
     .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
     .action(function () {
@@ -117,17 +138,17 @@ commander
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
-    return errors_1.default(args[0], args[1], lampman);
+    return logs_1.default(args[0], args[1], lampman);
 });
 commander
-    .command('yml')
-    .description('マージした最終ymlを標準出力（プロジェクトルートから相対）')
+    .command('ymlout')
+    .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action(function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
-    return yml_1.default(args[0], args[1], lampman);
+    return ymlout_1.default(args[0], args[1], lampman);
 });
 commander
     .command('version')
@@ -141,19 +162,28 @@ commander
 });
 var _loop_1 = function (key) {
     var cmd = lampman.config.extra[key].cmd;
+    var func = lampman.config.extra[key].func;
+    var desc = lampman.config.extra[key].desc;
     var side = lampman.config.extra[key].side;
     if ('object' === typeof cmd)
         cmd = cmd['win32' === process.platform ? 'win' : 'unix'];
+    if ('undefined' === typeof desc)
+        desc = 'undefined' === typeof func ? cmd : '(func)';
     commander
         .command(key)
-        .description(cmd + ' （' + (side) + ' side）')
+        .description(desc + ' (' + (side) + ' side)')
         .action(function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        console.log(key);
-        console.log(cmd);
+        if ('undefined' === typeof func) {
+            console.log('run command: ' + key);
+            console.log(cmd);
+        }
+        else {
+            console.log('run function: ' + key);
+        }
     });
 };
 for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
@@ -162,7 +192,9 @@ for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
 }
 commander.parse(process.argv);
 if (commander.args.length) {
-    libs.Message(commander.args[0] + ': ご指定のコマンドはありません。', 'danger');
+    if ('string' === typeof commander.args[0]) {
+        libs.Message(commander.args[0] + ': ご指定のコマンドはありません。');
+    }
 }
 else {
     noargs_1.default(commander.commands, commander.options, lampman);

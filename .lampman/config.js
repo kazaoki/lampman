@@ -100,6 +100,7 @@ module.exports.config = {
         // func_a
         func_a: {
             side: 'host', // host|container
+            desc: 'test func',
             func: lampman=>{
                 console.log(lampman)
                 console.log('run from extra command: func_a.')

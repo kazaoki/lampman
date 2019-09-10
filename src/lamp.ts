@@ -7,17 +7,19 @@ import util      = require('util');
 import commander = require('commander');
 import libs      = require('./libs');
 
-import version  from './modules/version';
-import demo     from './modules/demo';
-import init     from './modules/init';
-import update   from './modules/update';
-import up       from './modules/up';
-import down     from './modules/down';
-import mysql    from './modules/mysql';
-import psql     from './modules/psql';
-import errors   from './modules/errors';
-import yml      from './modules/yml';
-import noargs   from './modules/noargs';
+import version   from './modules/version';
+// import demo      from './modules/demo';
+import init      from './modules/init';
+import update    from './modules/update';
+import up        from './modules/up';
+import down      from './modules/down';
+import rm        from './modules/rm';
+import rmi       from './modules/rmi';
+import mysql     from './modules/mysql';
+import psql      from './modules/psql';
+import logs      from './modules/logs';
+import ymlout    from './modules/ymlout';
+import noargs    from './modules/noargs';
 
 // 1行改行
 console.log('\r')
@@ -77,12 +79,6 @@ commander
     .description('初期化（.lampman/ ディレクトリ作成）')
     .action((...args)=>init(args[0], args[1], lampman))
 
-// // update: yml更新
-// commander
-//     .command('update')
-//     .description('.lampman/docker-compose.yml 更新')
-//     .action((...args)=>update(args[0], args[1], lampman))
-
     // up: LAMP起動
 commander
     .command('up')
@@ -96,6 +92,19 @@ commander
     .command('down')
     .description('LAMP終了')
     .option('-v, --volumes', '関連ボリュームも合わせて削除する。（ロックされたボリュームはキープ）')
+    .action((...args)=>down(args[0], args[1], lampman))
+
+// rm: コンテナ・ボリューム削除
+commander
+    .command('rm')
+    .description('リストから選択してコンテナ・ボリュームを削除する')
+    .option('-f, --force', 'ロックされたボリュームも削除できるようになる')
+    .action((...args)=>down(args[0], args[1], lampman))
+
+// rmi: イメージ削除
+commander
+    .command('rmi')
+    .description('リストから選択してイメージを削除する')
     .action((...args)=>down(args[0], args[1], lampman))
 
 // mysql: MySQL操作
@@ -121,13 +130,13 @@ commander
     .command('logs')
     .description('エラーログ監視')
     .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
-    .action((...args)=>errors(args[0], args[1], lampman))
+    .action((...args)=>logs(args[0], args[1], lampman))
 
-// yml: マージした最終ymlを標準出力
+// ymlout: 設定データをymlとして標準出力（プロジェクトルートから相対）
 commander
     .command('ymlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
-    .action((...args)=>yml(args[0], args[1], lampman))
+    .action((...args)=>ymlout(args[0], args[1], lampman))
 
 // version: バージョン表示
 commander
@@ -144,23 +153,33 @@ commander
     // 追加コマンド
 for(let key of Object.keys(lampman.config.extra)) {
     let cmd = lampman.config.extra[key].cmd
+    let func = lampman.config.extra[key].func
+    let desc = lampman.config.extra[key].desc
     let side = lampman.config.extra[key].side
     if('object'===typeof cmd) cmd = cmd['win32'===process.platform ? 'win' : 'unix']
+    if('undefined'===typeof desc) desc = 'undefined'===typeof func ? cmd : '(func)'
     commander
         .command(key)
-        .description(cmd+' （'+(side)+' side）')
+        .description(desc+' ('+(side)+' side)')
         .action((...args)=>{
-            // TODO: コマンド実行
-            console.log(key)
-            console.log(cmd)
+            if('undefined'===typeof func) {
+                // TODO: コマンド実行
+                console.log('run command: '+key)
+                console.log(cmd)
+            } else {
+                // TODO: 関数実行
+                console.log('run function: '+key)
+            }
         })
 }
 
-    // パース実行
+// パース実行
 commander.parse(process.argv)
 
 if(commander.args.length) {
-    libs.Message(commander.args[0]+': ご指定のコマンドはありません。', 'danger')
+    if('string'===typeof commander.args[0]) {
+        libs.Message(commander.args[0]+': ご指定のコマンドはありません。')
+    }
 } else {
     // 引数なし
     noargs(
@@ -169,5 +188,3 @@ if(commander.args.length) {
         lampman
     )
 }
-
-
