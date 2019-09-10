@@ -230,7 +230,9 @@ fi
 
 # -- Apache2 start
 /usr/sbin/httpd -k start
+echo 'lampman started.'
 
+# -- Mail servers
 if [[ $LAMPMAN_MAILDEV_START ]]; then
 
   # -- Postfix config change

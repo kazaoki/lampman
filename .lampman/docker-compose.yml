@@ -44,10 +44,10 @@ services:
 
   lampman:
     # restart: always
-    depends_on:
-      - phpenv
-      - mysql-main
-      - postgresql-sub
+    # depends_on:
+    #   - phpenv
+    #   - mysql-main
+    #   - postgresql-sub
     image: kazaoki/lampman
     ports:
       - "80:80"
@@ -64,10 +64,10 @@ services:
     environment:
       LAMPMAN_PHP_PHPENV_IMAGE: kazaoki/phpenv:5.6.22
       LAMPMAN_PHP_PHPENV_VERSION: 5.6.22
-      LAMPMAN_PHP_ERROR_REPORT: 1
-      LAMPMAN_PHP_XDEBUG_START: 1
-      LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
-      LAMPMAN_PHP_XDEBUG_PORT: 9000
+      # LAMPMAN_PHP_ERROR_REPORT: 1
+      # LAMPMAN_PHP_XDEBUG_START: 1
+      # LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
+      # LAMPMAN_PHP_XDEBUG_PORT: 9000
       LAMPMAN_BIND_HOST: main.db:mysql-main, sub.db:postgresql-sub
       LAMPMAN_MAILDEV_START: 1
       LAMPMAN_MAILDEV_PORT: 9981
