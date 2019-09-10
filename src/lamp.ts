@@ -11,7 +11,6 @@ import libs      = require('./libs');
 import version   from './modules/version';
 // import demo      from './modules/demo';
 import init      from './modules/init';
-import update    from './modules/update';
 import up        from './modules/up';
 import down      from './modules/down';
 import rm        from './modules/rm';
@@ -42,23 +41,24 @@ while(1!==dirs.length) {
     let config_dir = path.join(...dirs, '.lampman'+('default'===process.env.LAMPMAN_MODE ? '' : '-'+process.env.LAMPMAN_MODE))
     try {
         fs.accessSync(config_dir, fs.constants.R_OK)
-        lampman.dir = config_dir
+        lampman.config_dir = config_dir
         break
     } catch(e){
-        console.log('Unexpected error!\n'+e)
-        process.exit();
+        libs.Message('Unexpected error!\n'+e, 'danger', 1)
+        process.exit()
     }
     dirs.pop()
 }
 
 // 設定ファイル特定
-if(lampman.dir) {
+if(lampman.config_dir) {
     try {
-        let config_file = path.join(lampman.dir, 'config.js')
+        let config_file = path.join(lampman.config_dir, 'config.js')
         fs.accessSync(config_file, fs.constants.R_OK)
         lampman.config = require(config_file).config
     } catch(e){
-        console.log('config load error!\n'+e)
+        libs.Message('config load error!\n'+e, 'danger', 1)
+        process.exit()
     }
 }
 
@@ -100,13 +100,13 @@ commander
     .command('rm')
     .description('リストから選択してコンテナ・ボリュームを削除する')
     .option('-f, --force', 'ロックされたボリュームも削除できるようになる')
-    .action((...args)=>down(args[0], args[1], lampman))
+    .action((...args)=>rm(args[0], args[1], lampman))
 
 // rmi: イメージ削除
 commander
     .command('rmi')
     .description('リストから選択してイメージを削除する')
-    .action((...args)=>down(args[0], args[1], lampman))
+    .action((...args)=>rmi(args[0], args[1], lampman))
 
 // mysql: MySQL操作
 commander

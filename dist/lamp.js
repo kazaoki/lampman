@@ -9,6 +9,8 @@ var version_1 = require("./modules/version");
 var init_1 = require("./modules/init");
 var up_1 = require("./modules/up");
 var down_1 = require("./modules/down");
+var rm_1 = require("./modules/rm");
+var rmi_1 = require("./modules/rmi");
 var mysql_1 = require("./modules/mysql");
 var psql_1 = require("./modules/psql");
 var logs_1 = require("./modules/logs");
@@ -29,23 +31,24 @@ while (1 !== dirs.length) {
     var config_dir = path.join.apply(path, dirs.concat(['.lampman' + ('default' === process.env.LAMPMAN_MODE ? '' : '-' + process.env.LAMPMAN_MODE)]));
     try {
         fs.accessSync(config_dir, fs.constants.R_OK);
-        lampman.dir = config_dir;
+        lampman.config_dir = config_dir;
         break;
     }
     catch (e) {
-        console.log('Unexpected error!\n' + e);
+        libs.Message('Unexpected error!\n' + e, 'danger', 1);
         process.exit();
     }
     dirs.pop();
 }
-if (lampman.dir) {
+if (lampman.config_dir) {
     try {
-        var config_file = path.join(lampman.dir, 'config.js');
+        var config_file = path.join(lampman.config_dir, 'config.js');
         fs.accessSync(config_file, fs.constants.R_OK);
         lampman.config = require(config_file).config;
     }
     catch (e) {
-        console.log('config load error!\n' + e);
+        libs.Message('config load error!\n' + e, 'danger', 1);
+        process.exit();
     }
 }
 lampman.yml = { version: 2 };
@@ -92,7 +95,7 @@ commander
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
-    return down_1.default(args[0], args[1], lampman);
+    return rm_1.default(args[0], args[1], lampman);
 });
 commander
     .command('rmi')
@@ -102,7 +105,7 @@ commander
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
-    return down_1.default(args[0], args[1], lampman);
+    return rmi_1.default(args[0], args[1], lampman);
 });
 commander
     .command('mysql')
