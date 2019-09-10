@@ -9,6 +9,11 @@ RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
         nginx \
         httpd \
         php \
+        php-mbstring \
+        php-mysql \
+        php-pgsql \
+        php-gd \
+        php-xdebug \
         postfix \
         libc-client \
         libtidy \

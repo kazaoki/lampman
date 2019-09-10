@@ -1,65 +1,6 @@
 #!/bin/bash
 
 # # --------------------------------------------------------------------
-# # general
-# # --------------------------------------------------------------------
-# echo ". /etc/bashrc" >> /root/.bashrc
-
-# # --------------------------------------------------------------------
-# # httpd mode
-# # --------------------------------------------------------------------
-# if [[ $GENIE_PROC == 'httpd' ]]; then
-#   /usr/sbin/httpd
-#   /loop.sh
-#   exit 0
-# fi
-
-# # --------------------------------------------------------------------
-# # mount mode is copy
-# # --------------------------------------------------------------------
-# if [[ $GENIE_CORE_DOCKER_MOUNT_MODE == 'copy' ]]; then
-#   # -- dir copy
-#   \cp -rpdfL /_/* /
-# fi
-
-# # --------------------------------------------------------------------
-# # dlsync mode
-# # --------------------------------------------------------------------
-# if [[ $GENIE_PROC == 'dlsync' ]]; then
-#   rm -f /tmp/mirror.cmd
-#   if [[ $GENIE_TRANS_DLSYNC_REMOTE_CHARSET ]]; then
-#     echo "set ftp:charset $GENIE_TRANS_DLSYNC_REMOTE_CHARSET" >> /tmp/mirror.cmd
-#   fi
-#   if [[ $GENIE_TRANS_DLSYNC_LOCAL_CHARSET ]]; then
-#     echo "set file:charset $GENIE_TRANS_DLSYNC_LOCAL_CHARSET" >> /tmp/mirror.cmd
-#   fi
-#   echo "set ftp:list-options -a" >> /tmp/mirror.cmd
-#   echo "set ssl:verify-certificate no" >> /tmp/mirror.cmd
-#   # ref: https://hacknote.jp/archives/25366/
-#   echo "set ftp:passive-mode on" >> /tmp/mirror.cmd
-#   echo "set net:timeout 60" >> /tmp/mirror.cmd
-#   echo "set net:max-retries 10" >> /tmp/mirror.cmd
-#   echo "set net:reconnect-interval-base 10" >> /tmp/mirror.cmd
-#   echo "set dns:max-retries 10" >> /tmp/mirror.cmd
-#   echo "set dns:fatal-timeout 60" >> /tmp/mirror.cmd
-#   echo "set net:limit-rate 13107200:13107200" >> /tmp/mirror.cmd
-#   echo "open -u $GENIE_TRANS_DLSYNC_REMOTE_USER,$GENIE_TRANS_DLSYNC_REMOTE_PASS $GENIE_TRANS_DLSYNC_REMOTE_HOST" >> /tmp/mirror.cmd
-#   echo "mirror $GENIE_TRANS_DLSYNC_LFTP_OPTION $GENIE_TRANS_DLSYNC_REMOTE_DIR /sync" >> /tmp/mirror.cmd
-#   echo "close" >> /tmp/mirror.cmd
-#   echo "quit" >> /tmp/mirror.cmd
-#   echo "--------------------------------------------------------------"
-#   cat /tmp/mirror.cmd
-#   echo "--------------------------------------------------------------"
-#   lftp -f /tmp/mirror.cmd
-#   exit 0;
-# fi
-
-# # --------------------------------------------------------------------
-# # entrypoint.sh started
-# # --------------------------------------------------------------------
-# echo 'entrypoint.sh setup start.' >> /var/log/entrypoint.log
-
-# # --------------------------------------------------------------------
 # # sshd setup
 # # --------------------------------------------------------------------
 # if [[ $GENIE_TRANS_SSHD_ENABLED ]]; then
