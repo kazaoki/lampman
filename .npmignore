@@ -1,7 +1,6 @@
 node_modules/
 .git/
-.lampman/
-.lampman-product/
+.lampman*/
 .vscode/
 public_html/
 src/

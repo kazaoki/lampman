@@ -2,6 +2,12 @@
 Lampman - LAMP server container Orchestration
 =============================================
 
+**Under development !**
+---------------------
+**現在、開発中です**
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
 Basic usage
 -----------
 
