@@ -35,8 +35,7 @@ while (1 !== dirs.length) {
         break;
     }
     catch (e) {
-        libs.Message('Unexpected error!\n' + e, 'danger', 1);
-        process.exit();
+        ;
     }
     dirs.pop();
 }
