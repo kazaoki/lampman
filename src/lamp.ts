@@ -118,15 +118,15 @@ commander
 
 // errors: エラーログ監視
 commander
-    .command('errors')
+    .command('logs')
     .description('エラーログ監視')
     .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
     .action((...args)=>errors(args[0], args[1], lampman))
 
 // yml: マージした最終ymlを標準出力
 commander
-    .command('yml')
-    .description('マージした最終ymlを標準出力（プロジェクトルートから相対）')
+    .command('ymlout')
+    .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action((...args)=>yml(args[0], args[1], lampman))
 
 // version: バージョン表示

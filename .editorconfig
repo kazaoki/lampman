@@ -19,3 +19,6 @@ tab_width = 2
 [gulpfile.js]
 indent_style = tab
 tab_width = 4
+
+[*.md]
+trim_trailing_whitespace = false

@@ -90,6 +90,21 @@ module.exports.config = {
                 unix: 'ls -la',
             },
         },
+
+        // // Make docker-compose.yml for production
+        // 'make-product-yml': {
+        //     side: 'host',
+        //     cmd: 'lamp ymlout -m product > $LAMPMAN_PROJECT_DIR/docker-compose.yml'
+        // },
+
+        // func_a
+        func_a: {
+            side: 'host', // host|container
+            func: lampman=>{
+                console.log(lampman)
+                console.log('run from extra command: func_a.')
+            }
+        },
     },
 
     // customize lampman object
