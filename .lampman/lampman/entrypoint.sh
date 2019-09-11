@@ -19,7 +19,6 @@ if [[ $LAMPMAN_PHP_PHPENV_IMAGE != '' ]]; then
   echo 'export PATH="$PATH:$PHPENV_ROOT/versions/${LAMPMAN_PHP_PHPENV_VERSION}/bin"' >> ~/.bashrc
   . ~/.bashrc
   phpenv global $LAMPMAN_PHP_PHPENV_VERSION
-  phpenv rehash
   \cp -f $PHPENV_ROOT/versions/$LAMPMAN_PHP_PHPENV_VERSION/httpd_modules/*.so* /etc/httpd/modules/
   \cp -f $PHPENV_ROOT/versions/$LAMPMAN_PHP_PHPENV_VERSION/lib64_modules/*.so* /usr/local/lib64/
   phpini=$PHPENV_ROOT/versions/$LAMPMAN_PHP_PHPENV_VERSION/etc/php.ini

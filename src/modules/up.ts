@@ -26,7 +26,7 @@ export default function up(cmd: any, options: any, lampman: any) {
         process.stdout.write('Lampman starting ');
         let timer = setInterval(function () {
             if(is_lampman_started(lampman)) {
-                process.stdout.write('... '+color.greenBright('OK!'));
+                process.stdout.write('... '+color.green('Ready!'));
                 clearInterval(timer);
                 console.log('');
             } else {
