@@ -106,6 +106,16 @@ export function Message (message: any, type: string='default', line: number=0): 
     )
 }
 
+/**
+ * Error
+ * -----------------------------------------------------------------------------
+ * @param {string} エラーメッセージ
+ */
+export function Error(message: string) {
+	console.log()
+	Message(`エラーが発生しました。\n${message}`, 'danger', 1)
+	process.exit()
+}
 
 /**
  * ConfigLoad
@@ -116,4 +126,13 @@ export function LoadConfig() {
     return {
         'test': 123
     }
+}
+
+/**
+ * Label
+ *
+ * @param {string} 表示するラベル文字列
+ */
+export function Label(label: string) {
+    console.log(color.bold(`<${label}>`))
 }

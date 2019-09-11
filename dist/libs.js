@@ -81,9 +81,19 @@ function Message(message, type, line) {
         line_color('╛'));
 }
 exports.Message = Message;
+function Error(message) {
+    console.log();
+    Message("\u30A8\u30E9\u30FC\u304C\u767A\u751F\u3057\u307E\u3057\u305F\u3002\n" + message, 'danger', 1);
+    process.exit();
+}
+exports.Error = Error;
 function LoadConfig() {
     return {
         'test': 123
     };
 }
 exports.LoadConfig = LoadConfig;
+function Label(label) {
+    console.log(color.bold("<" + label + ">"));
+}
+exports.Label = Label;

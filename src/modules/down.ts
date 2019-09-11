@@ -8,8 +8,8 @@ const path = require('path')
 /**
  * down: LAMP終了
  */
-
-export default function down(cmd: any, options: any, lampman: any) {
+export default function down(commands: any, lampman: any)
+{
     let proc = child.spawn('docker-compose',
     ['down'],
     {

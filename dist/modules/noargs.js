@@ -4,7 +4,7 @@ var libs = require("../libs");
 var child = require('child_process');
 var color = require('cli-color');
 var cliui = require('cliui')({ width: color.windowSize.width - 4 });
-function noargs(cmd, options, lampman) {
+function noargs(commands, lampman) {
     console.log('  [Images]');
     libs.Message(child.execFileSync('docker', ['images']).toString(), 'primary', 1);
     console.log('\n  [Volumes]');

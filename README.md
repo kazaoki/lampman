@@ -1,6 +1,6 @@
 
-Lampman - LAMP server container Orchestration
-=============================================
+Lampman - LAMP server container orchestration tool
+==================================================
 
 **Under development !**
 ---------------------

@@ -2,6 +2,7 @@
 'use strict'
 
 import libs = require('../libs');
+import docker = require('../docker');
 const child = require('child_process')
 const path  = require('path')
 const color = require('cli-color');
@@ -10,16 +11,36 @@ const color = require('cli-color');
  * up: LAMP起動
  */
 
-export default function up(cmd: any, options: any, lampman: any) {
+export default async function up(commands: any, lampman: any)
+{
+    // 引数用意
+    let args = ['up', '-d']
+
+    // -r が指定されてれば --remove-orphans セット
+    if(commands.removeOrphans) {
+        args.push('--remove-orphans')
+    }
+
+    // -o が指定されてれば追加引数セット
+    // ただし、ハイフン前になにもないとエラーになるので以下のように指定すること（commanderのバグ？
+    // ex. $lamp up -o "\-t 500"
+    //    バックスラッシュ↑
+    if(commands.dockerComposeOptions) {
+        args.push(...commands.dockerComposeOptions.replace('\\', '').split(' '))
+    }
+
+    // up実行
+    libs.Label('Upping docker-compose')
     let proc = child.spawn('docker-compose',
-    ['up', '-d'],
-    {
-        cwd: lampman.config_dir,
-        stdio: 'inherit'
-    })
+        args,
+        {
+            cwd: lampman.config_dir,
+            stdio: 'inherit'
+        }
+    )
     proc.on('close', (code: number) => {
         if(code) {
-            libs.Message(`Up process exited with code ${code}`, 'danger', 1)
+            libs.Error(`Up process exited with code ${code}`)
             process.exit()
         }
         console.log('');

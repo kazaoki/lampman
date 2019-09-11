@@ -10,9 +10,8 @@ const cliui = require('cliui')({width: color.windowSize.width-4})
 /**
  * 引数なしのとき
  */
-
-export default function noargs(cmd: any, options: any, lampman: any) {
-
+export default function noargs(commands: any, lampman: any)
+{
     // Images
     console.log('  [Images]')
     libs.Message(child.execFileSync('docker', ['images']).toString(), 'primary', 1)

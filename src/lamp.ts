@@ -13,8 +13,9 @@ import version   from './modules/version';
 import init      from './modules/init';
 import up        from './modules/up';
 import down      from './modules/down';
-import rm        from './modules/rm';
-import rmi       from './modules/rmi';
+import remove    from './modules/remove';
+import clean     from './modules/clean';
+import login     from './modules/login';
 import mysql     from './modules/mysql';
 import psql      from './modules/psql';
 import logs      from './modules/logs';
@@ -56,7 +57,7 @@ if(lampman.config_dir) {
         fs.accessSync(config_file, fs.constants.R_OK)
         lampman.config = require(config_file).config
     } catch(e){
-        libs.Message('config load error!\n'+e, 'danger', 1)
+        libs.Error('config load error!\n'+e)
         process.exit()
     }
 }
@@ -77,35 +78,45 @@ commander.option('-m, --mode <mode>', '実行モードを指定できます。�
 commander
     .command('init')
     .description('初期化（.lampman/ ディレクトリ作成）')
-    .action((...args)=>init(args[0], args[1], lampman))
+    .action(cmd=>init(cmd, lampman))
 
     // up: LAMP起動
 commander
     .command('up')
     .description('LAMP起動（.lampman/docker-compose.yml 自動更新）')
-    .option('-c, --clear', '起動中の他のコンテナを全て強制削除してから起動する。（ボリュームはキープ）')
-    .option('-cv, --clear-with-volumes', '起動中の他のコンテナ・ボリュームを全て強制削除してから起動する。（ロックされたボリュームはキープ）')
-    .action((...args)=>up(args[0], args[1], lampman))
+    .option('-r, --remove-orphans', '関係のないコンテナを削除してから起動')
+    .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
+    .action(cmd=>up(cmd, lampman))
 
 // down: LAMP終了
 commander
     .command('down')
     .description('LAMP終了')
     .option('-v, --volumes', '関連ボリュームも合わせて削除する。（ロックされたボリュームはキープ）')
-    .action((...args)=>down(args[0], args[1], lampman))
+    .action(cmd=>down(cmd, lampman))
 
-// rm: コンテナ・ボリューム削除
+// rm: リストから選択してコンテナ・ボリューム・イメージ・ネットワークを削除する
 commander
-    .command('rm')
-    .description('リストから選択してコンテナ・ボリュームを削除する')
+    .command('remove')
+    .description('リストから選択してコンテナ・ボリューム・イメージ・ネットワークを削除する')
     .option('-f, --force', 'ロックされたボリュームも削除できるようになる')
-    .action((...args)=>rm(args[0], args[1], lampman))
+    .action(cmd=>remove(cmd, lampman))
 
-// rmi: イメージ削除
+
+// clear: 起動中の全てのコンテナや未ロックなボリューム及び不要なイメージを強制削除する
 commander
-    .command('rmi')
-    .description('リストから選択してイメージを削除する')
-    .action((...args)=>rmi(args[0], args[1], lampman))
+    .command('clean')
+    .description('起動中の全てのコンテナや未ロックなボリューム及び不要なイメージを強制削除する')
+    .action(cmd=>clean(cmd, lampman))
+
+
+// login: リストから選択したコンテナのコンソールにログインします
+commander
+    .command('login')
+    .description('リストから選択したコンテナのコンソールにログインします')
+    .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
+    .action(cmd=>login(cmd, lampman))
+
 
 // mysql: MySQL操作
 commander
@@ -113,8 +124,8 @@ commander
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
     .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
     .option('-r, --restore', 'リストアします。（ダンプ選択）')
-    .option('-c, --cli', 'コンソールに入ります。')
-    .action((...args)=>mysql(args[0], args[1], lampman))
+    .action(cmd=>mysql(cmd, lampman))
+
 
 // psql: PostgreSQL操作
 commander
@@ -123,32 +134,37 @@ commander
     .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
     .option('-r, --restore', 'リストアします。（ダンプ選択）')
     .option('-c, --cli', 'コンソールに入ります。')
-    .action((...args)=>psql(args[0], args[1], lampman))
+    .action(cmd=>psql(cmd, lampman))
+
 
 // errors: エラーログ監視
 commander
     .command('logs')
     .description('エラーログ監視')
     .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
-    .action((...args)=>logs(args[0], args[1], lampman))
+    .action(cmd=>logs(cmd, lampman))
+
 
 // ymlout: 設定データをymlとして標準出力（プロジェクトルートから相対）
 commander
     .command('ymlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
-    .action((...args)=>ymlout(args[0], args[1], lampman))
+    .action(cmd=>ymlout(cmd, lampman))
+
 
 // version: バージョン表示
 commander
     .command('version')
     .description('バージョン表示')
-    .action((...args)=>version(args[0], args[1], lampman))
+    .action(cmd=>version(cmd, lampman))
+
 
 // // demo: デモ
 // commander
 //     .command('demo')
 //     .description('デモ実行')
-//     .action((...args)=>demo(args[0], args[1], lampman))
+    // .action(args=>down(cmd, lampman))
+
 
     // 追加コマンド
 for(let key of Object.keys(lampman.config.extra)) {
@@ -161,7 +177,7 @@ for(let key of Object.keys(lampman.config.extra)) {
     commander
         .command(key)
         .description(desc+' ('+(side)+' side)')
-        .action((...args)=>{
+        .action(cmd=>{
             if('undefined'===typeof func) {
                 // TODO: コマンド実行
                 console.log('run command: '+key)
@@ -178,13 +194,12 @@ commander.parse(process.argv)
 
 if(commander.args.length) {
     if('string'===typeof commander.args[0]) {
-        libs.Message(commander.args[0]+': ご指定のコマンドはありません。')
+        libs.Error(commander.args[0]+': ご指定のコマンドはありません。')
     }
 } else {
     // 引数なし
     noargs(
-        commander.commands,
-        commander.options,
+        commander,
         lampman
     )
 }
