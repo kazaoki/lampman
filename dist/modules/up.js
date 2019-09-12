@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
+var docker = require("../docker");
 var child = require('child_process');
 var path = require('path');
 var color = require('cli-color');
@@ -43,37 +44,45 @@ function up(commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var args, proc;
         return __generator(this, function (_a) {
-            args = ['up', '-d'];
-            if (commands.removeOrphans) {
-                args.push('--remove-orphans');
-            }
-            if (commands.dockerComposeOptions) {
-                args.push.apply(args, commands.dockerComposeOptions.replace('\\', '').split(' '));
-            }
-            libs.Label('Upping docker-compose');
-            proc = child.spawn('docker-compose', args, {
-                cwd: lampman.config_dir,
-                stdio: 'inherit'
-            });
-            proc.on('close', function (code) {
-                if (code) {
-                    libs.Error("Up process exited with code " + code);
-                    process.exit();
-                }
-                console.log('');
-                process.stdout.write('Lampman starting ');
-                var timer = setInterval(function () {
-                    if (is_lampman_started(lampman)) {
-                        process.stdout.write('... ' + color.green('Ready!'));
-                        clearInterval(timer);
+            switch (_a.label) {
+                case 0:
+                    args = ['up', '-d'];
+                    if (!commands.flash) return [3, 2];
+                    libs.Label('Cleaning');
+                    return [4, docker.clean()];
+                case 1:
+                    _a.sent();
+                    console.log();
+                    _a.label = 2;
+                case 2:
+                    if (commands.dockerComposeOptions) {
+                        args.push.apply(args, commands.dockerComposeOptions.replace('\\', '').split(' '));
+                    }
+                    libs.Label('Upping docker-compose');
+                    proc = child.spawn('docker-compose', args, {
+                        cwd: lampman.config_dir,
+                        stdio: 'inherit'
+                    });
+                    proc.on('close', function (code) {
+                        if (code) {
+                            libs.Error("Up process exited with code " + code);
+                            process.exit();
+                        }
                         console.log('');
-                    }
-                    else {
-                        process.stdout.write('.');
-                    }
-                }, 1000);
-            });
-            return [2];
+                        process.stdout.write('Lampman starting ');
+                        var timer = setInterval(function () {
+                            if (is_lampman_started(lampman)) {
+                                process.stdout.write('... ' + color.green('Ready!'));
+                                clearInterval(timer);
+                                console.log('');
+                            }
+                            else {
+                                process.stdout.write('.');
+                            }
+                        }, 1000);
+                    });
+                    return [2];
+            }
         });
     });
 }

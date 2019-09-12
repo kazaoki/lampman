@@ -3,6 +3,7 @@
 
 import libs = require('../libs');
 import docker = require('../docker');
+
 const child = require('child_process')
 const path  = require('path')
 const color = require('cli-color');
@@ -16,15 +17,22 @@ export default async function up(commands: any, lampman: any)
     // 引数用意
     let args = ['up', '-d']
 
-    // -r が指定されてれば --remove-orphans セット
-    if(commands.removeOrphans) {
-        args.push('--remove-orphans')
+    // // -r が指定されてれば --remove-orphans セット
+    // if(commands.removeOrphans) {
+    //     args.push('--remove-orphans')
+    // }
+
+    // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
+    if(commands.flash) {
+        libs.Label('Cleaning')
+        await docker.clean()
+        console.log()
     }
 
     // -o が指定されてれば追加引数セット
     // ただし、ハイフン前になにもないとエラーになるので以下のように指定すること（commanderのバグ？
     // ex. $lamp up -o "\-t 500"
-    //    バックスラッシュ↑
+    //    バックスラッシュ↑ 必要...
     if(commands.dockerComposeOptions) {
         args.push(...commands.dockerComposeOptions.replace('\\', '').split(' '))
     }

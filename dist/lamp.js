@@ -62,23 +62,22 @@ commander
 commander
     .command('up')
     .description('LAMP起動（.lampman/docker-compose.yml 自動更新）')
-    .option('-r, --remove-orphans', '関係のないコンテナを削除してから起動')
+    .option('-f, --flash', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
     .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
     .action(function (cmd) { return up_1.default(cmd, lampman); });
 commander
     .command('down')
     .description('LAMP終了')
-    .option('-v, --volumes', '関連ボリュームも合わせて削除する。（ロックされたボリュームはキープ）')
     .action(function (cmd) { return down_1.default(cmd, lampman); });
+commander
+    .command('clean')
+    .description('起動中の全てのコンテナや未ロックなボリューム及び不要なイメージを強制削除する')
+    .action(function (cmd) { return clean_1.default(cmd, lampman); });
 commander
     .command('remove')
     .description('リストから選択してコンテナ・ボリューム・イメージ・ネットワークを削除する')
     .option('-f, --force', 'ロックされたボリュームも削除できるようになる')
     .action(function (cmd) { return remove_1.default(cmd, lampman); });
-commander
-    .command('clean')
-    .description('起動中の全てのコンテナや未ロックなボリューム及び不要なイメージを強制削除する')
-    .action(function (cmd) { return clean_1.default(cmd, lampman); });
 commander
     .command('login')
     .description('リストから選択したコンテナのコンソールにログインします')

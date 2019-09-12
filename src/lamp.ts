@@ -86,7 +86,8 @@ commander
 commander
     .command('up')
     .description('LAMP起動（.lampman/docker-compose.yml 自動更新）')
-    .option('-r, --remove-orphans', '関係のないコンテナを削除してから起動')
+    // .option('-r, --remove-orphans', '関係のないコンテナを削除してから起動')
+    .option('-f, --flash', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
     .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
     .action(cmd=>up(cmd, lampman))
 
@@ -94,8 +95,14 @@ commander
 commander
     .command('down')
     .description('LAMP終了')
-    .option('-v, --volumes', '関連ボリュームも合わせて削除する。（ロックされたボリュームはキープ）')
+    // .option('-v, --volumes', '関連ボリュームも合わせて削除する。（ロックされたボリュームはキープ）')
     .action(cmd=>down(cmd, lampman))
+
+// clear: 起動中の全てのコンテナや未ロックなボリューム及び不要なイメージを強制削除する
+commander
+    .command('clean')
+    .description('起動中の全てのコンテナや未ロックなボリューム及び不要なイメージを強制削除する')
+    .action(cmd=>clean(cmd, lampman))
 
 // rm: リストから選択してコンテナ・ボリューム・イメージ・ネットワークを削除する
 commander
@@ -104,21 +111,12 @@ commander
     .option('-f, --force', 'ロックされたボリュームも削除できるようになる')
     .action(cmd=>remove(cmd, lampman))
 
-
-// clear: 起動中の全てのコンテナや未ロックなボリューム及び不要なイメージを強制削除する
-commander
-    .command('clean')
-    .description('起動中の全てのコンテナや未ロックなボリューム及び不要なイメージを強制削除する')
-    .action(cmd=>clean(cmd, lampman))
-
-
-// login: リストから選択したコンテナのコンソールにログインします
+    // login: リストから選択したコンテナのコンソールにログインします
 commander
     .command('login')
     .description('リストから選択したコンテナのコンソールにログインします')
     .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
     .action(cmd=>login(cmd, lampman))
-
 
 // mysql: MySQL操作
 commander
@@ -127,7 +125,6 @@ commander
     .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
     .option('-r, --restore', 'リストアします。（ダンプ選択）')
     .action(cmd=>mysql(cmd, lampman))
-
 
 // psql: PostgreSQL操作
 commander
@@ -138,7 +135,6 @@ commander
     .option('-c, --cli', 'コンソールに入ります。')
     .action(cmd=>psql(cmd, lampman))
 
-
 // errors: エラーログ監視
 commander
     .command('logs')
@@ -146,13 +142,11 @@ commander
     .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
     .action(cmd=>logs(cmd, lampman))
 
-
 // ymlout: 設定データをymlとして標準出力（プロジェクトルートから相対）
 commander
     .command('ymlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action(cmd=>ymlout(cmd, lampman))
-
 
 // version: バージョン表示
 commander
@@ -160,13 +154,11 @@ commander
     .description('バージョン表示')
     .action(cmd=>version(cmd, lampman))
 
-
 // // demo: デモ
 // commander
 //     .command('demo')
 //     .description('デモ実行')
 // .action(args=>down(cmd, lampman))
-
 
 // 追加コマンド
 if('undefined'!==typeof lampman.config) {
