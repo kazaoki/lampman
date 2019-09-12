@@ -26,10 +26,12 @@ process.argv.forEach(function (value, i) {
 });
 if (!process.env.LAMPMAN_MODE)
     process.env.LAMPMAN_MODE = 'default';
-var lampman = {};
+var lampman = {
+    mode: process.env.LAMPMAN_MODE
+};
 var dirs = process.cwd().split(path.sep);
 while (1 !== dirs.length) {
-    var config_dir = path.join.apply(path, dirs.concat(['.lampman' + ('default' === process.env.LAMPMAN_MODE ? '' : '-' + process.env.LAMPMAN_MODE)]));
+    var config_dir = path.join.apply(path, dirs.concat(['.lampman' + ('default' === lampman.mode ? '' : '-' + lampman.mode)]));
     try {
         fs.accessSync(config_dir, fs.constants.R_OK);
         lampman.config_dir = config_dir;
@@ -108,31 +110,33 @@ commander
     .command('version')
     .description('バージョン表示')
     .action(function (cmd) { return version_1.default(cmd, lampman); });
-var _loop_1 = function (key) {
-    var cmd = lampman.config.extra[key].cmd;
-    var func = lampman.config.extra[key].func;
-    var desc = lampman.config.extra[key].desc;
-    var side = lampman.config.extra[key].side;
-    if ('object' === typeof cmd)
-        cmd = cmd['win32' === process.platform ? 'win' : 'unix'];
-    if ('undefined' === typeof desc)
-        desc = 'undefined' === typeof func ? cmd : '(func)';
-    commander
-        .command(key)
-        .description(desc + ' (' + (side) + ' side)')
-        .action(function (cmd) {
-        if ('undefined' === typeof func) {
-            console.log('run command: ' + key);
-            console.log(cmd);
-        }
-        else {
-            console.log('run function: ' + key);
-        }
-    });
-};
-for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
-    var key = _a[_i];
-    _loop_1(key);
+if ('undefined' !== typeof lampman.config) {
+    var _loop_1 = function (key) {
+        var cmd = lampman.config.extra[key].cmd;
+        var func = lampman.config.extra[key].func;
+        var desc = lampman.config.extra[key].desc;
+        var side = lampman.config.extra[key].side;
+        if ('object' === typeof cmd)
+            cmd = cmd['win32' === process.platform ? 'win' : 'unix'];
+        if ('undefined' === typeof desc)
+            desc = 'undefined' === typeof func ? cmd : '(func)';
+        commander
+            .command(key)
+            .description(desc + ' (' + (side) + ' side)')
+            .action(function (cmd) {
+            if ('undefined' === typeof func) {
+                console.log('run command: ' + key);
+                console.log(cmd);
+            }
+            else {
+                console.log('run function: ' + key);
+            }
+        });
+    };
+    for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
+        var key = _a[_i];
+        _loop_1(key);
+    }
 }
 commander.parse(process.argv);
 if (commander.args.length) {

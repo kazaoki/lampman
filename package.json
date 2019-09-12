@@ -13,6 +13,7 @@
         "build": "gulp ts"
     },
     "devDependencies": {
+        "@types/fs-extra": "^8.0.0",
         "@types/node": "^12.7.2",
         "browser-sync": "^2.26.7",
         "gulp": "^4.0.2",
@@ -26,6 +27,7 @@
         "cli-color": "^1.4.0",
         "cliui": "^5.0.0",
         "commander": "^3.0.0",
+        "fs-extra": "^8.1.0",
         "jp-wrap": "^0.2.2",
         "prompts": "^2.2.1",
         "string-width": "^4.1.0"

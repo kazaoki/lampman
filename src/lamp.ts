@@ -34,12 +34,14 @@ process.argv.forEach((value, i)=>{
 if(!process.env.LAMPMAN_MODE) process.env.LAMPMAN_MODE = 'default'
 
 // Lampmanオブジェクト用意
-let lampman: any = {}
+let lampman: any = {
+    mode: process.env.LAMPMAN_MODE
+}
 
 // 設定ディレクトリ特定（見つかるまでディレクトリ遡る）
 let dirs = process.cwd().split(path.sep)
 while(1!==dirs.length) {
-    let config_dir = path.join(...dirs, '.lampman'+('default'===process.env.LAMPMAN_MODE ? '' : '-'+process.env.LAMPMAN_MODE))
+    let config_dir = path.join(...dirs, '.lampman'+('default'===lampman.mode ? '' : '-'+lampman.mode))
     try {
         fs.accessSync(config_dir, fs.constants.R_OK)
         lampman.config_dir = config_dir
@@ -163,30 +165,33 @@ commander
 // commander
 //     .command('demo')
 //     .description('デモ実行')
-    // .action(args=>down(cmd, lampman))
+// .action(args=>down(cmd, lampman))
 
 
-    // 追加コマンド
-for(let key of Object.keys(lampman.config.extra)) {
-    let cmd = lampman.config.extra[key].cmd
-    let func = lampman.config.extra[key].func
-    let desc = lampman.config.extra[key].desc
-    let side = lampman.config.extra[key].side
-    if('object'===typeof cmd) cmd = cmd['win32'===process.platform ? 'win' : 'unix']
-    if('undefined'===typeof desc) desc = 'undefined'===typeof func ? cmd : '(func)'
-    commander
-        .command(key)
-        .description(desc+' ('+(side)+' side)')
-        .action(cmd=>{
-            if('undefined'===typeof func) {
-                // TODO: コマンド実行
-                console.log('run command: '+key)
-                console.log(cmd)
-            } else {
-                // TODO: 関数実行
-                console.log('run function: '+key)
-            }
-        })
+// 追加コマンド
+if('undefined'!==typeof lampman.config) {
+    for(let key of Object.keys(lampman.config.extra)) {
+        let cmd = lampman.config.extra[key].cmd
+        let func = lampman.config.extra[key].func
+        let desc = lampman.config.extra[key].desc
+        let side = lampman.config.extra[key].side
+        if('object'===typeof cmd) cmd = cmd['win32'===process.platform ? 'win' : 'unix']
+        if('undefined'===typeof desc) desc = 'undefined'===typeof func ? cmd : '(func)'
+        commander
+            .command(key)
+            .description(desc+' ('+(side)+' side)')
+            .action(cmd=>{
+                if('undefined'===typeof func) {
+                    // TODO: コマンド実行
+                    console.log('run command: '+key)
+                    console.log(cmd)
+                } else {
+                    // TODO: 関数実行
+                    console.log('run function: '+key)
+                }
+            })
+        ;
+    }
 }
 
 // パース実行
