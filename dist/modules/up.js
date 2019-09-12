@@ -62,7 +62,7 @@ function up(commands, lampman) {
                     }
                     args = ['up', '-d'];
                     if (!commands.flash) return [3, 2];
-                    libs.Label('Cleaning');
+                    libs.Label('Flashing');
                     return [4, docker.clean()];
                 case 1:
                     _b.sent();
@@ -83,17 +83,56 @@ function up(commands, lampman) {
                             process.exit();
                         }
                         console.log('');
-                        process.stdout.write('Lampman starting ');
-                        var timer = setInterval(function () {
-                            if (is_lampman_started(lampman)) {
-                                process.stdout.write('... ' + color.green('Ready!'));
-                                clearInterval(timer);
-                                console.log('');
-                            }
-                            else {
-                                process.stdout.write('.');
-                            }
-                        }, 1000);
+                        process.stdout.write(color.magenta.bold('  [Ready]'));
+                        var procs = [];
+                        procs.push(new Promise(function (resolve) {
+                            var timer = setInterval(function () {
+                                if (libs.ContainerLogCheck('lampman', 'lampman started', lampman.config_dir)) {
+                                    process.stdout.write(color.magenta(' lampman'));
+                                    clearInterval(timer);
+                                    resolve();
+                                }
+                            }, 300);
+                        }));
+                        var _loop_1 = function (key) {
+                            if (!key.match(/^mysql/))
+                                return "continue";
+                            procs.push(new Promise(function (resolve) {
+                                var timer = setInterval(function () {
+                                    if (libs.ContainerLogCheck(key, 'Entrypoint finish.', lampman.config_dir)) {
+                                        process.stdout.write(color.magenta(" " + key));
+                                        clearInterval(timer);
+                                        resolve();
+                                    }
+                                }, 300);
+                            }));
+                        };
+                        for (var _i = 0, _a = Object.keys(lampman.config); _i < _a.length; _i++) {
+                            var key = _a[_i];
+                            _loop_1(key);
+                        }
+                        var _loop_2 = function (key) {
+                            if (!key.match(/^postgresql/))
+                                return "continue";
+                            procs.push(new Promise(function (resolve) {
+                                var timer = setInterval(function () {
+                                    if (libs.ContainerLogCheck(key, 'Entrypoint finish.', lampman.config_dir)) {
+                                        process.stdout.write(color.magenta(" " + key));
+                                        clearInterval(timer);
+                                        resolve();
+                                    }
+                                }, 300);
+                            }));
+                        };
+                        for (var _b = 0, _c = Object.keys(lampman.config); _b < _c.length; _b++) {
+                            var key = _c[_b];
+                            _loop_2(key);
+                        }
+                        Promise.all(procs)
+                            .catch(function (err) { libs.Error(err); })
+                            .then(function () {
+                            console.log();
+                        });
                     });
                     return [2];
             }
@@ -101,6 +140,3 @@ function up(commands, lampman) {
     });
 }
 exports.default = up;
-function is_lampman_started(lampman) {
-    return !!child.execFileSync('docker-compose', ['logs', 'lampman'], { cwd: lampman.config_dir }).toString().match(/lampman started\./);
-}

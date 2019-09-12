@@ -5,9 +5,7 @@ const strwidth = require('string-width');
 const color    = require('cli-color');
 const wrap     = require('jp-wrap')(color.windowSize.width-8);
 const util     = require('util');
-// const fs       = require('fs')
-// const child    = require('child_process')
-// const path     = require('path')
+const child    = require('child_process')
 
 /**
  * d
@@ -137,4 +135,20 @@ export function LoadConfig() {
  */
 export function Label(label: string) {
     console.log(color.bold(`<${label}>`))
+}
+
+
+/**
+ * ContainerLogCheck
+ * @param container コンテナ名
+ * @param check_str 探す文字列
+ * @param cwd composeファイルがあるパス（例：lampman.config_dir）
+ */
+export function ContainerLogCheck(container: string, check_str: string, cwd: string)
+{
+    return !!child.execFileSync(
+        'docker-compose',
+        ['logs', '--no-color', container],
+        {cwd: cwd}
+    ).toString().match(check_str)
 }

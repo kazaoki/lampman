@@ -39,14 +39,14 @@ export default async function up(commands: any, lampman: any)
 
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(commands.flash) {
-        libs.Label('Cleaning')
+        libs.Label('Flashing')
         await docker.clean()
         console.log()
     }
 
     // -o が指定されてれば追加引数セット
     // ただし、ハイフン前になにもないとエラーになるので以下のように指定すること（commanderのバグ？
-    // ex. $lamp up -o "\-t 500"
+    // ex. $lamp up -o "\-t 300"
     //    バックスラッシュ↑ 必要...
     if(commands.dockerComposeOptions) {
         args.push(...commands.dockerComposeOptions.replace('\\', '').split(' '))
@@ -67,24 +67,53 @@ export default async function up(commands: any, lampman: any)
             process.exit()
         }
         console.log('');
-        process.stdout.write('Lampman starting ');
-        let timer = setInterval(function () {
-            if(is_lampman_started(lampman)) {
-                process.stdout.write('... '+color.green('Ready!'));
-                clearInterval(timer);
-                console.log('');
-            } else {
-                process.stdout.write('.');
-            }
-        }, 1000);
-    })
-}
+        process.stdout.write(color.magenta.bold('  [Ready]'));
 
-function is_lampman_started(lampman: any)
-{
-    return !!child.execFileSync(
-        'docker-compose',
-        ['logs', 'lampman'],
-        {cwd: lampman.config_dir}
-    ).toString().match(/lampman started\./)
+        let procs = []
+
+        // lampman Ready
+        procs.push(new Promise(resolve=>{
+            let timer = setInterval(function () {
+                if(libs.ContainerLogCheck('lampman', 'lampman started', lampman.config_dir)) {
+                    process.stdout.write(color.magenta(' lampman'));
+                    clearInterval(timer);
+                    resolve()
+                }
+            }, 300);
+        }))
+
+        // mysql Ready
+        for(let key of Object.keys(lampman.config)) {
+            if(!key.match(/^mysql/)) continue
+            procs.push(new Promise(resolve=>{
+                let timer = setInterval(function () {
+                    if(libs.ContainerLogCheck(key, 'Entrypoint finish.', lampman.config_dir)) {
+                            process.stdout.write(color.magenta(` ${key}`));
+                        clearInterval(timer);
+                        resolve()
+                    }
+                }, 300);
+            }))
+        }
+
+        // postgresql Ready
+        for(let key of Object.keys(lampman.config)) {
+            if(!key.match(/^postgresql/)) continue
+            procs.push(new Promise(resolve=>{
+                let timer = setInterval(function () {
+                    if(libs.ContainerLogCheck(key, 'Entrypoint finish.', lampman.config_dir)) {
+                        process.stdout.write(color.magenta(` ${key}`));
+                        clearInterval(timer);
+                        resolve()
+                    }
+                }, 300);
+            }))
+        }
+
+        Promise.all(procs)
+            .catch(err=>{libs.Error(err)})
+            .then(()=>{
+                console.log()
+            })
+    })
 }

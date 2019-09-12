@@ -64,6 +64,14 @@ function clean() {
                         cid = _a[_i];
                         _loop_1(cid);
                     }
+                    if (!procs.length) return [3, 2];
+                    return [4, Promise.all(procs)
+                            .catch(function (err) { libs.Error(err); })];
+                case 1:
+                    _d.sent();
+                    _d.label = 2;
+                case 2:
+                    procs = [];
                     _loop_2 = function (vid) {
                         if (!vid || vid.match(/^locked_/))
                             return "continue";
@@ -83,13 +91,13 @@ function clean() {
                         vid = _c[_b];
                         _loop_2(vid);
                     }
-                    if (!procs.length) return [3, 2];
+                    if (!procs.length) return [3, 4];
                     return [4, Promise.all(procs)
                             .catch(function (err) { libs.Error(err); })];
-                case 1:
+                case 3:
                     _d.sent();
-                    _d.label = 2;
-                case 2: return [2, procs.length];
+                    _d.label = 4;
+                case 4: return [2, procs.length];
             }
         });
     });

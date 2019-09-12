@@ -19,4 +19,5 @@ cp /lampman/postgresql/dump.sql /docker-entrypoint-initdb.d
 
 # Pass to true shell
 # ------------------
+sed -i 's/exec "$@"/echo "Entrypoint finish."\nexec "$@"/' /docker-entrypoint.sh
 exec /docker-entrypoint.sh $@

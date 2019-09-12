@@ -4,6 +4,7 @@ var strwidth = require('string-width');
 var color = require('cli-color');
 var wrap = require('jp-wrap')(color.windowSize.width - 8);
 var util = require('util');
+var child = require('child_process');
 function d(data) {
     console.log(util.inspect(data, { colors: true, compact: false, breakLength: 10, depth: 10 }));
 }
@@ -98,3 +99,7 @@ function Label(label) {
     console.log(color.bold("<" + label + ">"));
 }
 exports.Label = Label;
+function ContainerLogCheck(container, check_str, cwd) {
+    return !!child.execFileSync('docker-compose', ['logs', '--no-color', container], { cwd: cwd }).toString().match(check_str);
+}
+exports.ContainerLogCheck = ContainerLogCheck;

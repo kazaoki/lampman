@@ -4,11 +4,12 @@ services:
 
   mysql:
     # restart: always
-    image: mysql:5.7
+    image: mysql:5.6
     ports:
       - "3306:3306"
     volumes:
       - ./:/lampman
+      - mysql_data:/var/lib/mysql
     entrypoint: /lampman/mysql/before-entrypoint.sh
     command: ["mysqld"]
     labels:
@@ -21,11 +22,13 @@ services:
 
   postgresql:
     # restart: always
-    image: postgres:9
+    # image: postgres:9
+    image: kazaoki/postgres-bigm
     ports:
       - "5432:5432"
     volumes:
       - ./:/lampman
+      - postgresql_data:/var/lib/postgresql/data
     entrypoint: /lampman/postgresql/before-entrypoint.sh
     command: ["postgres"]
     labels:
@@ -71,3 +74,9 @@ services:
       LAMPMAN_MAILDEV_PORT: 9981
       LAMPMAN_MYSQLS: mysql
       LAMPMAN_POSTGRESQLS: postgresql
+
+volumes:
+  mysql_data:
+    driver: local
+  postgresql_data:
+    driver: local

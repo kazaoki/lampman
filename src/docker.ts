@@ -33,6 +33,13 @@ export async function clean()
         )
     }
 
+    // ここまでで処理すべきものがあれば実行
+    if(procs.length) {
+        await Promise.all(procs)
+            .catch(err=>{libs.Error(err)})
+    }
+    procs = []
+
     // 未ロックで宙ぶらりんなボリューム削除
     for(let vid of child.execFileSync('docker', ['volume', 'ls', '-q', '--filter', 'dangling=true']).toString().trim().split(/\n/)) {
         if(!vid || vid.match(/^locked_/)) continue;
