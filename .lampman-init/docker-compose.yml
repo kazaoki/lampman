@@ -2,38 +2,38 @@ version: '2'
 
 services:
 
-  mysql:
-    # restart: always
-    image: mysql:5.7
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./:/lampman
-    entrypoint: /lampman/mysql/before-entrypoint.sh
-    command: ["mysqld"]
-    labels:
-      - "kazaoki-lampman"
-    environment:
-      MYSQL_ROOT_PASSWORD: test
-      MYSQL_DATABASE: test
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
+  # mysql:
+  #   # restart: always
+  #   image: mysql:5.7
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - ./:/lampman
+  #   entrypoint: /lampman/mysql/before-entrypoint.sh
+  #   command: ["mysqld"]
+  #   labels:
+  #     - "kazaoki-lampman"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: test
+  #     MYSQL_DATABASE: test
+  #     MYSQL_USER: test
+  #     MYSQL_PASSWORD: test
 
-  postgresql:
-    # restart: always
-    image: postgres:9
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./:/lampman
-    entrypoint: /lampman/postgresql/before-entrypoint.sh
-    command: ["postgres"]
-    labels:
-      - "kazaoki-lampman"
-    environment:
-      POSTGRES_PASSWORD: test
-      POSTGRES_USER: test
-      POSTGRES_DB: test
+  # postgresql:
+  #   # restart: always
+  #   image: postgres:9
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ./:/lampman
+  #   entrypoint: /lampman/postgresql/before-entrypoint.sh
+  #   command: ["postgres"]
+  #   labels:
+  #     - "kazaoki-lampman"
+  #   environment:
+  #     POSTGRES_PASSWORD: test
+  #     POSTGRES_USER: test
+  #     POSTGRES_DB: test
 
   # phpenv:
   #   image: kazaoki/phpenv:5.6.22
@@ -66,8 +66,8 @@ services:
       # LAMPMAN_PHP_XDEBUG_START: 1
       # LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
       # LAMPMAN_PHP_XDEBUG_PORT: 9000
-      LAMPMAN_BIND_HOST: main.db:mysql, sub.db:postgresql
+      # LAMPMAN_BIND_HOST: main.db:mysql, sub.db:postgresql
       LAMPMAN_MAILDEV_START: 1
       LAMPMAN_MAILDEV_PORT: 9981
-      LAMPMAN_MYSQLS: mysql
-      LAMPMAN_POSTGRESQLS: postgresql
+      # LAMPMAN_MYSQLS: mysql
+      # LAMPMAN_POSTGRESQLS: postgresql
