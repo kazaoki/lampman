@@ -112,8 +112,8 @@ export function Message (message: any, type: string='default', line: number=0): 
  * @param {string} エラーメッセージ
  */
 export function Error(message: string) {
-	console.log()
-	Message(`エラーが発生しました。\n${message}`, 'danger', 1)
+    console.log()
+    Message(color.bold('エラーが発生しました。\n')+message, 'danger', 1)
 	process.exit()
 }
 
