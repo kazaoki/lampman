@@ -1,7 +1,7 @@
 {
     "name": "lampman",
     "description": "LAMP server orchestration command tool on docker-compose (Under development...)",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "license": "MIT",
     "private": false,
     "bin": {

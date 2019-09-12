@@ -26,5 +26,5 @@ export default function init(commands: any, lampman: any)
     } catch(e) {
         libs.Error(e)
     }
-    libs.Message(`Created config dir.\n${config_dir}`, 'primary', 1)
+    libs.Message(`Lampman 設定ディレクトリを生成しました。\n${config_dir}`, 'primary', 1)
 }

@@ -44,15 +44,15 @@ module.exports.config = {
     },
 
     // MySQL
-    mysql: {
-        image: 'mysql:5.7',
-        ports: ['3306:3306'],
-        database: 'test',
-        user: 'test',
-        password: 'test', // same root password
-        // charset, collate 設定したい
-        hosts: ['mysql.db'],
-    },
+    // mysql: {
+    //     image: 'mysql:5.7',
+    //     ports: ['3306:3306'],
+    //     database: 'test',
+    //     user: 'test',
+    //     password: 'test', // same root password
+    //     // charset, collate 設定したい
+    //     hosts: ['mysql.db'],
+    // },
     // mysql_2: { // make '/mysql_2/' folder.
     //     image: 'mysql:5.7',
     //     ports: {3307: 3307},
@@ -63,15 +63,15 @@ module.exports.config = {
     // },
 
     // PostgreSQL
-    postgresql: {
-        image: 'postgres:9',
-        ports: ['5432:5432'],
-        database: 'test',
-        user: 'test',
-        password: 'test', // same root password
-        // charset, collate 設定したい
-        hosts: ['postgresql.db'],
-    },
+    // postgresql: {
+    //     image: 'postgres:9',
+    //     ports: ['5432:5432'],
+    //     database: 'test',
+    //     user: 'test',
+    //     password: 'test', // same root password
+    //     // charset, collate 設定したい
+    //     hosts: ['postgresql.db'],
+    // },
 
     // extra commands: ex. lamp ab
     extra: {

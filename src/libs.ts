@@ -52,8 +52,8 @@ export function Message (message: any, type: string='default', line: number=0): 
         line_color = color.green
         fg_color = color.greenBright
     } else if(type==='danger') {
-        line_color = color.red
-        fg_color = color.redBright
+        line_color = color.redBright
+        fg_color = color.red
     } else if(type==='warning') {
         line_color = color.yellow
         fg_color = color.yellowBright
@@ -77,7 +77,6 @@ export function Message (message: any, type: string='default', line: number=0): 
     console.log(
         indent +
         line_color('╒') +
-        // line_color(Repeat('╍', width)) +
         line_color(Repeat('═', width)) +
         line_color('╕')
     )
@@ -86,14 +85,18 @@ export function Message (message: any, type: string='default', line: number=0): 
             console.log(
                 indent +
                 line_color('├') +
-                line_color(Repeat('╌', width)) +
+                line_color(Repeat('-', width)) +
                 line_color('┤')
             )
         }
         console.log(
             indent +
             line_color('│') +
-            fg_color(' '+messages[i]+' ') +
+            (
+                (line>0 && line<=(i as unknown as number))
+                    ? fg_color(' '+messages[i]+' ')
+                    : fg_color.bold(' '+messages[i]+' ')
+            )+
             Repeat(' ', (width-2) - strwidth(messages[i])) +
             line_color('│')
         )
@@ -112,8 +115,7 @@ export function Message (message: any, type: string='default', line: number=0): 
  * @param {string} エラーメッセージ
  */
 export function Error(message: string) {
-    console.log()
-    Message(color.bold('エラーが発生しました。\n')+message, 'danger', 1)
+    Message(`エラーが発生しました。\n${message}`, 'danger', 1)
 	process.exit()
 }
 

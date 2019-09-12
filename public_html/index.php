@@ -9,13 +9,13 @@
 <body>
 
 <section>
-    <h1>MAILDEV (<a href="http://<?= getenv('HTTP_HOST') ?>:9981" target="_blank">open blank window : port 9981</a>)</h1>
+    <h1>MAILDEV (<a href="http://<?php echo getenv('HTTP_HOST') ?>:9981" target="_blank">open blank window : port 9981</a>)</h1>
     <div class="center">
         <table>
             <tbody>
                 <tr>
                     <td class="e">LAMPMAN_MAILDEV</td>
-                    <td class="v"><?= getenv('LAMPMAN_MAILDEV') ?></td>
+                    <td class="v"><?php echo getenv('LAMPMAN_MAILDEV') ?></td>
                 </tr>
                 <tr>
                     <td colspan="2">
@@ -41,8 +41,8 @@
                     if(preg_match('/^LAMPMAN/', $key)) {
                         ?>
                         <tr>
-                            <td class="e"><?= $key ?></td>
-                            <td class="v"><?= $_ENV[$key] ?></td>
+                            <td class="e"><?php echo $key ?></td>
+                            <td class="v"><?php echo $_ENV[$key] ?></td>
                         </tr>
                         <?php
                     }
@@ -53,9 +53,10 @@
     </div>
 </section>
 
+<?php if(@$_ENV['LAMPMAN_MYSQLS']) { ?>
 <section>
-    <?php $dbh = new PDO('mysql:host=main.db;dbname=test', 'test', 'test'); ?>
     <h1>MYSQL CONNECT TEST (main.db)</h1>
+    <?php $dbh = new PDO('mysql:host=main.db;dbname=test', 'test', 'test'); ?>
     <div class="center">
         <table>
             <tbody>
@@ -68,29 +69,31 @@
                 }
                 ?>
                 <tr>
-                    <td class="e"><?= $sth->queryString ?></td>
-                    <td class="v"><?= $row[0]['now'] ?></td>
+                    <td class="e"><?php echo $sth->queryString ?></td>
+                    <td class="v"><?php echo $row[0]['now'] ?></td>
                 </tr>
                 <?php
                 try {
-                    $sth = $dbh->query('SELECT COUNT(*) as count FROM managers');
+                    $sth = $dbh->query('SELECT COUNT(*) as count FROM users');
                     $row = $sth->fetchAll();
                 } catch(PDOException $e) {
                     var_dump($e->getMessage());
                 }
                 ?>
                 <tr>
-                    <td class="e"><?= $sth->queryString ?></td>
-                    <td class="v"><?= $row[0]['count'] ?></td>
+                    <td class="e"><?php echo $sth->queryString ?></td>
+                    <td class="v"><?php echo $row[0]['count'] ?></td>
                 </tr>
             </tbody>
         </table>
     </div>
 </section>
+<?php } ?>
 
+<?php if(@$_ENV['LAMPMAN_POSTGRESQLS']) { ?>
 <section>
-    <?php $pdbh = new PDO('pgsql:host=sub.db;dbname=test', 'test', 'test'); ?>
     <h1>POSTGRESQL CONNECT TEST (sub.db)</h1>
+    <?php $pdbh = new PDO('pgsql:host=sub.db;dbname=test', 'test', 'test'); ?>
     <div class="center">
         <table>
             <tbody>
@@ -103,8 +106,8 @@
                 }
                 ?>
                 <tr>
-                    <td class="e"><?= $sth->queryString ?></td>
-                    <td class="v"><?= $row[0]['now'] ?></td>
+                    <td class="e"><?php echo $sth->queryString ?></td>
+                    <td class="v"><?php echo $row[0]['now'] ?></td>
                 </tr>
                 <?php
                 try {
@@ -115,13 +118,14 @@
                 }
                 ?>
                 <tr>
-                    <td class="e"><?= $sth->queryString ?></td>
-                    <td class="v"><?= $row[0]['count'] ?></td>
+                    <td class="e"><?php echo $sth->queryString ?></td>
+                    <td class="v"><?php echo $row[0]['count'] ?></td>
                 </tr>
             </tbody>
         </table>
     </div>
 </section>
+<?php } ?>
 
 <section>
     <h1>PHP INFO</h1>

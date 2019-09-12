@@ -1,6 +1,6 @@
 node_modules/
 .git/
-.lampman*/
+.lampman/
 .vscode/
 public_html/
 docker-image/

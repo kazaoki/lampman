@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-  mysql-main:
+  mysql:
     # restart: always
     image: mysql:5.7
     ports:
@@ -18,9 +18,8 @@ services:
       MYSQL_DATABASE: test
       MYSQL_USER: test
       MYSQL_PASSWORD: test
-      LAMPMAN_MYSQL_LABEL: main
 
-  postgresql-sub:
+  postgresql:
     # restart: always
     image: postgres:9
     ports:
@@ -35,7 +34,6 @@ services:
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
       POSTGRES_DB: test
-      LAMPMAN_POSTGRES_LABEL: sub
 
   phpenv:
     image: kazaoki/phpenv:5.6.22
@@ -46,8 +44,8 @@ services:
     # restart: always
     # depends_on:
     #   - phpenv
-    #   - mysql-main
-    #   - postgresql-sub
+    #   - mysql
+    #   - postgresql
     image: kazaoki/lampman
     ports:
       - "80:80"
@@ -65,9 +63,11 @@ services:
       LAMPMAN_PHP_PHPENV_IMAGE: kazaoki/phpenv:5.6.22
       LAMPMAN_PHP_PHPENV_VERSION: 5.6.22
       LAMPMAN_PHP_ERROR_REPORT: 1
-      # LAMPMAN_PHP_XDEBUG_START: 1
-      # LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
-      # LAMPMAN_PHP_XDEBUG_PORT: 9000
-      LAMPMAN_BIND_HOST: main.db:mysql-main, sub.db:postgresql-sub
+      LAMPMAN_PHP_XDEBUG_START: 1
+      LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
+      LAMPMAN_PHP_XDEBUG_PORT: 9000
+      LAMPMAN_BIND_HOST: main.db:mysql, sub.db:postgresql
       LAMPMAN_MAILDEV_START: 1
       LAMPMAN_MAILDEV_PORT: 9981
+      LAMPMAN_MYSQLS: mysql
+      LAMPMAN_POSTGRESQLS: postgresql

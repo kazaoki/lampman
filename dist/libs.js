@@ -34,8 +34,8 @@ function Message(message, type, line) {
         fg_color = color.greenBright;
     }
     else if (type === 'danger') {
-        line_color = color.red;
-        fg_color = color.redBright;
+        line_color = color.redBright;
+        fg_color = color.red;
     }
     else if (type === 'warning') {
         line_color = color.yellow;
@@ -66,12 +66,14 @@ function Message(message, type, line) {
         if (line > 0 && line == i) {
             console.log(indent +
                 line_color('├') +
-                line_color(Repeat('╌', width)) +
+                line_color(Repeat('-', width)) +
                 line_color('┤'));
         }
         console.log(indent +
             line_color('│') +
-            fg_color(' ' + messages[i] + ' ') +
+            ((line > 0 && line <= i)
+                ? fg_color(' ' + messages[i] + ' ')
+                : fg_color.bold(' ' + messages[i] + ' ')) +
             Repeat(' ', (width - 2) - strwidth(messages[i])) +
             line_color('│'));
     }
@@ -82,8 +84,7 @@ function Message(message, type, line) {
 }
 exports.Message = Message;
 function Error(message) {
-    console.log();
-    Message(color.bold('エラーが発生しました。\n') + message, 'danger', 1);
+    Message("\u30A8\u30E9\u30FC\u304C\u767A\u751F\u3057\u307E\u3057\u305F\u3002\n" + message, 'danger', 1);
     process.exit();
 }
 exports.Error = Error;
