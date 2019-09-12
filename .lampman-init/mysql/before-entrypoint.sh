@@ -16,4 +16,5 @@ cp /lampman/mysql/dump.sql /docker-entrypoint-initdb.d
 
 # Pass to true shell
 # ------------------
+sed -i 's/exec "$@"/echo "Entrypoint finish."\nexec "$@"/' /entrypoint.sh
 exec /entrypoint.sh $@
