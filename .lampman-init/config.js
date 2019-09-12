@@ -21,8 +21,9 @@ module.exports.config = {
                 '80:80',
                 '443:443'
             ],
-            mounts: [
-                {'../public_html': '/var/www/html'},
+            mounts: [ // 公開ディレクトリに /var/www/html を割り当ててください。
+                '../public_html:/var/www/html',
+                '../public_html:/home/user_a/public_html',
             ],
         },
 

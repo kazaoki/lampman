@@ -7,6 +7,7 @@ import docker = require('../docker');
 const child = require('child_process')
 const path  = require('path')
 const color = require('cli-color');
+const fs    = require('fs');
 
 /**
  * up: LAMP起動
@@ -14,6 +15,20 @@ const color = require('cli-color');
 
 export default async function up(commands: any, lampman: any)
 {
+    // 公開Webディレクトリが指定されているかチェック
+    if(lampman.config.lampman.apache.mounts) {
+        for(let mount of lampman.config.lampman.apache.mounts) {
+            let dirs = mount.split(/\:/)
+            if(path.resolve('/var/www/html') === path.resolve(dirs[1])) {
+                let pubdir = path.join(lampman.config_dir, dirs[0])
+                if(!fs.existsSync(pubdir)) {
+                    libs.Message('最初に公開ディレクトリを作成してください ↓\n'+pubdir, 'primary', 1)
+                    process.exit();
+                }
+            }
+        }
+    }
+
     // 引数用意
     let args = ['up', '-d']
 

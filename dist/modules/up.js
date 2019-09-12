@@ -40,20 +40,34 @@ var docker = require("../docker");
 var child = require('child_process');
 var path = require('path');
 var color = require('cli-color');
+var fs = require('fs');
 function up(commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var args, proc;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var _i, _a, mount, dirs, pubdir, args, proc;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
+                    if (lampman.config.lampman.apache.mounts) {
+                        for (_i = 0, _a = lampman.config.lampman.apache.mounts; _i < _a.length; _i++) {
+                            mount = _a[_i];
+                            dirs = mount.split(/\:/);
+                            if (path.resolve('/var/www/html') === path.resolve(dirs[1])) {
+                                pubdir = path.join(lampman.config_dir, dirs[0]);
+                                if (!fs.existsSync(pubdir)) {
+                                    libs.Message('最初に公開ディレクトリを作成してください ↓\n' + pubdir, 'primary', 1);
+                                    process.exit();
+                                }
+                            }
+                        }
+                    }
                     args = ['up', '-d'];
                     if (!commands.flash) return [3, 2];
                     libs.Label('Cleaning');
                     return [4, docker.clean()];
                 case 1:
-                    _a.sent();
+                    _b.sent();
                     console.log();
-                    _a.label = 2;
+                    _b.label = 2;
                 case 2:
                     if (commands.dockerComposeOptions) {
                         args.push.apply(args, commands.dockerComposeOptions.replace('\\', '').split(' '));
