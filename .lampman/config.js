@@ -54,13 +54,21 @@ module.exports.config = {
         // charset, collate 設定したい
         hosts: ['mysql.db'],
     },
-    // mysql_2: { // make '/mysql_2/' folder.
-    //     image: 'mysql:5.7',
-    //     ports: {3307: 3307},
-    //     database: 'test',
-    //     user: 'test',
-    //     password: 'test', // same root password
-    //     hosts: ['mysql.db'],
+    mysql_2: { // make '/mysql_2/' folder.
+        image: 'mysql:5.5',
+        ports: {3307: 3306},
+        database: 'test2',
+        user: 'test2',
+        password: 'test2', // same root password
+        hosts: ['mysql55.db'],
+    },
+    // mysql_3: { // make '/mysql_2/' folder.
+    //     image: 'mysql:5.5',
+    //     ports: {3308: 3306},
+    //     database: 'test2',
+    //     user: 'test2',
+    //     password: 'test2', // same root password
+    //     hosts: ['mysql55.db'],
     // },
 
     // PostgreSQL

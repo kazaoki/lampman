@@ -120,19 +120,18 @@ commander
 
 // mysql: MySQL操作
 commander
-    .command('mysql')
+    .command('mysql [container-name]')
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
-    .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
-    .option('-r, --restore', 'リストアします。（ダンプ選択）')
-    .action(cmd=>mysql(cmd, lampman))
+    .option('-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。')
+    .option('-r, --restore [file_path]', 'リストアします。ダンプファイルのパス指定可能。')
+    .action((cname, cmd)=>mysql(cname, cmd, lampman))
 
 // psql: PostgreSQL操作
 commander
     .command('psql')
     .description('PostgreSQL操作（オプション未指定なら mysql クライアントが実行されます）')
-    .option('-d, --dump <to>', 'ダンプします。（toで出力先指定可能）')
-    .option('-r, --restore', 'リストアします。（ダンプ選択）')
-    .option('-c, --cli', 'コンソールに入ります。')
+    .option('-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。')
+    .option('-r, --restore [file_path]', 'リストアします。ダンプファイルのパス指定可能。')
     .action(cmd=>psql(cmd, lampman))
 
 // errors: エラーログ監視
@@ -190,9 +189,10 @@ if('undefined'!==typeof lampman.config) {
 commander.parse(process.argv)
 
 if(commander.args.length) {
-    if('string'===typeof commander.args[0]) {
-        libs.Error(commander.args[0]+': ご指定のコマンドはありません。')
-    }
+    // if('string'===typeof commander.args[0]) {
+    //     libs.Error(commander.args[0]+': ご指定のコマンドはありません。')
+    // }
+    ;
 } else {
     // 引数なし
     noargs(

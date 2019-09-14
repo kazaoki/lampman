@@ -53,10 +53,47 @@
     </div>
 </section>
 
-<?php if(@$_ENV['LAMPMAN_MYSQLS']) { ?>
+<?php if(@$_ENV['LAMPMAN_MYSQLS'] && in_array('mysql', explode(', ', $_ENV['LAMPMAN_MYSQLS']))) { ?>
 <section>
     <h1>MYSQL CONNECT TEST (main.db)</h1>
     <?php $dbh = new PDO('mysql:host=main.db;dbname=test', 'test', 'test'); ?>
+    <div class="center">
+        <table>
+            <tbody>
+                <?php
+                try {
+                    $sth = $dbh->query('SELECT NOW() as now');
+                    $row = $sth->fetchAll();
+                } catch(PDOException $e) {
+                    var_dump($e->getMessage());
+                }
+                ?>
+                <tr>
+                    <td class="e"><?php echo $sth->queryString ?></td>
+                    <td class="v"><?php echo $row[0]['now'] ?></td>
+                </tr>
+                <?php
+                try {
+                    $sth = $dbh->query('SELECT COUNT(*) as count FROM users');
+                    $row = $sth->fetchAll();
+                } catch(PDOException $e) {
+                    var_dump($e->getMessage());
+                }
+                ?>
+                <tr>
+                    <td class="e"><?php echo $sth->queryString ?></td>
+                    <td class="v"><?php echo $row[0]['count'] ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<?php } ?>
+
+<?php if(@$_ENV['LAMPMAN_MYSQLS'] && in_array('mysql_2', explode(', ', $_ENV['LAMPMAN_MYSQLS']))) { ?>
+<section>
+    <h1>MYSQL CONNECT TEST (main-2.db)</h1>
+    <?php $dbh = new PDO('mysql:host=main-2.db;dbname=test2', 'test2', 'test2'); ?>
     <div class="center">
         <table>
             <tbody>

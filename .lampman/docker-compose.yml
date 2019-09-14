@@ -4,13 +4,13 @@ services:
 
   mysql:
     # restart: always
-    image: mysql:5.6
-    ports:
-      - "3306:3306"
+    image: mysql:5.7
+    # ports:
+    #   - "3306:3306"
     volumes:
-      - ./:/lampman
+      - ./mysql:/mysql
       - mysql_data:/var/lib/mysql
-    entrypoint: /lampman/mysql/before-entrypoint.sh
+    entrypoint: /mysql/before-entrypoint.sh
     command: ["mysqld"]
     labels:
       - "kazaoki-lampman"
@@ -20,6 +20,24 @@ services:
       MYSQL_USER: test
       MYSQL_PASSWORD: test
 
+  mysql_2:
+    # restart: always
+    image: mysql:5.7
+    # ports:
+    #   - "3307:3306"
+    volumes:
+      - ./mysql_2:/mysql
+      - mysql_2_data:/var/lib/mysql
+    entrypoint: /mysql/before-entrypoint.sh
+    command: ["mysqld"]
+    labels:
+      - "kazaoki-lampman"
+    environment:
+      MYSQL_ROOT_PASSWORD: test2
+      MYSQL_DATABASE: test2
+      MYSQL_USER: test2
+      MYSQL_PASSWORD: test2
+
   postgresql:
     # restart: always
     # image: postgres:9
@@ -27,9 +45,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./:/lampman
+      - ./postgresql:/postgresql
       - postgresql_data:/var/lib/postgresql/data
-    entrypoint: /lampman/postgresql/before-entrypoint.sh
+    entrypoint: /postgresql/before-entrypoint.sh
     command: ["postgres"]
     labels:
       - "kazaoki-lampman"
@@ -48,6 +66,7 @@ services:
     # depends_on:
     #   - phpenv
     #   - mysql
+    #   - mysql_2
     #   - postgresql
     image: kazaoki/lampman
     ports:
@@ -69,14 +88,16 @@ services:
       LAMPMAN_PHP_XDEBUG_START: 1
       LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
       LAMPMAN_PHP_XDEBUG_PORT: 9000
-      LAMPMAN_BIND_HOSTS: main.db:mysql, sub.db:postgresql
+      LAMPMAN_BIND_HOSTS: main.db:mysql, main-2.db:mysql_2, sub.db:postgresql
       LAMPMAN_MAILDEV_START: 1
       LAMPMAN_MAILDEV_PORT: 9981
-      LAMPMAN_MYSQLS: mysql
+      LAMPMAN_MYSQLS: mysql, mysql_2
       LAMPMAN_POSTGRESQLS: postgresql
 
 volumes:
   mysql_data:
+    driver: local
+  mysql_2_data:
     driver: local
   postgresql_data:
     driver: local

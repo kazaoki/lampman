@@ -62,7 +62,7 @@ function up(commands, lampman) {
                     }
                     args = ['up', '-d'];
                     if (!commands.flash) return [3, 2];
-                    libs.Label('Flashing');
+                    libs.Label('Flash cleaning');
                     return [4, docker.clean()];
                 case 1:
                     _b.sent();

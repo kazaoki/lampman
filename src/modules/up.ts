@@ -32,14 +32,9 @@ export default async function up(commands: any, lampman: any)
     // 引数用意
     let args = ['up', '-d']
 
-    // // -r が指定されてれば --remove-orphans セット
-    // if(commands.removeOrphans) {
-    //     args.push('--remove-orphans')
-    // }
-
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(commands.flash) {
-        libs.Label('Flashing')
+        libs.Label('Flash cleaning')
         await docker.clean()
         console.log()
     }
