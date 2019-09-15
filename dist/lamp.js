@@ -62,7 +62,7 @@ commander
 commander
     .command('up')
     .description('LAMP起動（.lampman/docker-compose.yml 自動更新）')
-    .option('-f, --flash', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
+    .option('-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
     .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
     .action(function (cmd) { return up_1.default(cmd, lampman); });
 commander

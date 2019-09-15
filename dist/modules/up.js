@@ -61,8 +61,8 @@ function up(commands, lampman) {
                         }
                     }
                     args = ['up', '-d'];
-                    if (!commands.flash) return [3, 2];
-                    libs.Label('Flash cleaning');
+                    if (!commands.flush) return [3, 2];
+                    libs.Label('Flush cleaning');
                     return [4, docker.clean()];
                 case 1:
                     _b.sent();

@@ -33,8 +33,8 @@ export default async function up(commands: any, lampman: any)
     let args = ['up', '-d']
 
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
-    if(commands.flash) {
-        libs.Label('Flash cleaning')
+    if(commands.flush) {
+        libs.Label('Flush cleaning')
         await docker.clean()
         console.log()
     }

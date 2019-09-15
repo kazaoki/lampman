@@ -87,7 +87,7 @@ commander
     .command('up')
     .description('LAMP起動（.lampman/docker-compose.yml 自動更新）')
     // .option('-r, --remove-orphans', '関係のないコンテナを削除してから起動')
-    .option('-f, --flash', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
+    .option('-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
     .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
     .action(cmd=>up(cmd, lampman))
 
