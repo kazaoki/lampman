@@ -4,6 +4,8 @@
 import libs = require('../libs')
 const prompts = require('prompts')
 const child   = require('child_process')
+const fs      = require('fs');
+const path    = require('path');
 
 /**
  * mysql: MySQL操作
@@ -63,9 +65,42 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
     }
 
     // ダンプ
-    // TODO
     if(commands.dump) {
-        console.log('DUMP IT!')
+
+        // ダンプファイルの特定
+        let dumpfile = commands.dump
+        if(true===dumpfile) {
+            dumpfile = path.join(lampman.config_dir, mysql.cname ,'dump.sql')
+        } else if(!path.isAbsolute(dumpfile)) {
+            dumpfile = path.join(lampman.config_dir, mysql.cname, dumpfile)
+        }
+
+        // ダンプファイルローテーション
+        if(commands.rotate && mysql.dump_rotations>0)
+            libs.RotateFile(dumpfile, mysql.dump_rotations)
+
+        // ダンプ開始
+        child.spawnSync(
+            'docker-compose',
+            [
+                'exec',
+                '-T',
+                mysql.cname,
+                'mysqldump',
+                mysql.database,
+                '-u'+mysql.user,
+                '-p'+mysql.password,
+            ],
+            {
+                cwd: lampman.config_dir,
+                stdio: [
+                    'ignore',
+                    fs.openSync(dumpfile, 'w'),
+                    'ignore',
+                ]
+            }
+        )
+
         return;
     }
 

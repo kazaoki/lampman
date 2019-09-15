@@ -49,9 +49,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var prompts = require('prompts');
 var child = require('child_process');
+var fs = require('fs');
+var path = require('path');
 function mysql(cname, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var mysql, list, _i, _a, key, _b, list_1, item, response;
+        var mysql, list, _i, _a, key, _b, list_1, item, response, dumpfile;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -103,7 +105,31 @@ function mysql(cname, commands, lampman) {
                         libs.Error(e);
                     }
                     if (commands.dump) {
-                        console.log('DUMP IT!');
+                        dumpfile = commands.dump;
+                        if (true === dumpfile) {
+                            dumpfile = path.join(lampman.config_dir, mysql.cname, 'dump.sql');
+                        }
+                        else if (!path.isAbsolute(dumpfile)) {
+                            dumpfile = path.join(lampman.config_dir, mysql.cname, dumpfile);
+                        }
+                        if (commands.rotate && mysql.dump_rotations > 0)
+                            libs.RotateFile(dumpfile, mysql.dump_rotations);
+                        child.spawnSync('docker-compose', [
+                            'exec',
+                            '-T',
+                            mysql.cname,
+                            'mysqldump',
+                            mysql.database,
+                            '-u' + mysql.user,
+                            '-p' + mysql.password,
+                        ], {
+                            cwd: lampman.config_dir,
+                            stdio: [
+                                'ignore',
+                                fs.openSync(dumpfile, 'w'),
+                                'ignore',
+                            ]
+                        });
                         return [2];
                     }
                     if (commands.restore) {

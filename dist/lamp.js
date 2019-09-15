@@ -87,6 +87,7 @@ commander
     .command('mysql [container-name]')
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
     .option('-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。')
+    .option('-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ')
     .option('-r, --restore [file_path]', 'リストアします。ダンプファイルのパス指定可能。')
     .action(function (cname, cmd) { return mysql_1.default(cname, cmd, lampman); });
 commander

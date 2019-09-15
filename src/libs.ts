@@ -6,6 +6,8 @@ const color    = require('cli-color');
 const wrap     = require('jp-wrap')(color.windowSize.width-8);
 const util     = require('util');
 const child    = require('child_process')
+const path     = require('path')
+const fs       = require('fs')
 
 /**
  * d
@@ -137,7 +139,6 @@ export function Label(label: string) {
     console.log(color.bold(`<${label}>`))
 }
 
-
 /**
  * ContainerLogCheck
  * @param container コンテナ名
@@ -151,4 +152,52 @@ export function ContainerLogCheck(container: string, check_str: string, cwd: str
         ['logs', '--no-color', container],
         {cwd: cwd}
     ).toString().match(check_str)
+}
+
+/**
+ * RotateFile
+ * 指定ファイルを１つローテートする
+ *
+ * @param filepath ファイルのフルパス
+ * @param max_number 最大数
+ */
+export function RotateFile(filepath: string, max_number: number)
+{
+    let dirname  = path.dirname(filepath)
+    let basename = path.basename(filepath)
+
+    // フルパスじゃなかったら無視
+    if(!path.isAbsolute(filepath)) return false
+
+    // max_numberが1以上じゃなかったら無視
+    if(!(max_number>0)) return false
+
+    // 指定ファイルが存在していなければローテート不要
+    if(!fs.existsSync(filepath)) return false
+
+    // 指定最大値以上のファイルがあれば削除
+    let regex = new RegExp(`^${basename.replace('.','\\.')}\\.(\\d+)$`)
+    for(let file of fs.readdirSync(dirname)) {
+        let matched;
+        if(matched = file.match(regex)) {
+            if(matched[1]>=max_number)
+                fs.unlinkSync(path.join(dirname, file))
+            }
+    }
+
+    // 既存ファイルのローテート
+    try {
+        for(let num=max_number; num>0; num--) {
+            let from = 1===num
+                ? path.join(dirname, basename)
+                : path.join(dirname, `${basename}.${num-1}`)
+            let to = path.join(dirname, `${basename}.${num}`)
+            if(!fs.existsSync(from)) continue
+            fs.renameSync(from, to)
+        }
+    } catch(e) {
+        throw e
+    }
+
+    return
 }

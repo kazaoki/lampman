@@ -53,6 +53,8 @@ module.exports.config = {
         password: 'test', // same root password
         // charset, collate 設定したい
         hosts: ['mysql.db'],
+        dump_rotations: 3,
+        is_locked: false,
     },
     mysql_2: { // make '/mysql_2/' folder.
         image: 'mysql:5.5',
@@ -61,6 +63,8 @@ module.exports.config = {
         user: 'test2',
         password: 'test2', // same root password
         hosts: ['mysql55.db'],
+        dump_rotations: 3,
+        is_locked: false,
     },
     // mysql_3: { // make '/mysql_2/' folder.
     //     image: 'mysql:5.5',

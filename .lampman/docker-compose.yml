@@ -19,6 +19,8 @@ services:
       MYSQL_DATABASE: test
       MYSQL_USER: test
       MYSQL_PASSWORD: test
+      DUMP_ROTATIONS: 3
+      IS_LOCKED: 0
 
   mysql_2:
     # restart: always
@@ -37,6 +39,8 @@ services:
       MYSQL_DATABASE: test2
       MYSQL_USER: test2
       MYSQL_PASSWORD: test2
+      DUMP_ROTATIONS: 3
+      IS_LOCKED: 0
 
   postgresql:
     # restart: always

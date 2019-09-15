@@ -5,6 +5,8 @@ var color = require('cli-color');
 var wrap = require('jp-wrap')(color.windowSize.width - 8);
 var util = require('util');
 var child = require('child_process');
+var path = require('path');
+var fs = require('fs');
 function d(data) {
     console.log(util.inspect(data, { colors: true, compact: false, breakLength: 10, depth: 10 }));
 }
@@ -103,3 +105,38 @@ function ContainerLogCheck(container, check_str, cwd) {
     return !!child.execFileSync('docker-compose', ['logs', '--no-color', container], { cwd: cwd }).toString().match(check_str);
 }
 exports.ContainerLogCheck = ContainerLogCheck;
+function RotateFile(filepath, max_number) {
+    var dirname = path.dirname(filepath);
+    var basename = path.basename(filepath);
+    if (!path.isAbsolute(filepath))
+        return false;
+    if (!(max_number > 0))
+        return false;
+    if (!fs.existsSync(filepath))
+        return false;
+    var regex = new RegExp("^" + basename.replace('.', '\\.') + "\\.(\\d+)$");
+    for (var _i = 0, _a = fs.readdirSync(dirname); _i < _a.length; _i++) {
+        var file = _a[_i];
+        var matched = void 0;
+        if (matched = file.match(regex)) {
+            if (matched[1] >= max_number)
+                fs.unlinkSync(path.join(dirname, file));
+        }
+    }
+    try {
+        for (var num = max_number; num > 0; num--) {
+            var from = 1 === num
+                ? path.join(dirname, basename)
+                : path.join(dirname, basename + "." + (num - 1));
+            var to = path.join(dirname, basename + "." + num);
+            if (!fs.existsSync(from))
+                continue;
+            fs.renameSync(from, to);
+        }
+    }
+    catch (e) {
+        throw e;
+    }
+    return;
+}
+exports.RotateFile = RotateFile;
