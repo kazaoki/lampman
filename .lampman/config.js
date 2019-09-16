@@ -66,14 +66,6 @@ module.exports.config = {
         dump_rotations: 3,
         is_locked: false,
     },
-    // mysql_3: { // make '/mysql_2/' folder.
-    //     image: 'mysql:5.5',
-    //     ports: {3308: 3306},
-    //     database: 'test2',
-    //     user: 'test2',
-    //     password: 'test2', // same root password
-    //     hosts: ['mysql55.db'],
-    // },
 
     // PostgreSQL
     postgresql: {
@@ -124,5 +116,10 @@ module.exports.config = {
     // customize lampman object
     customize: config=>{
         config.yml.services.lampman.depends_on.push('test-alpine')
+    },
+
+    // network
+    network: {
+        name: 'internals'
     },
 }
