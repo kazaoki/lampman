@@ -3,6 +3,7 @@ version: '2'
 services:
 
   mysql:
+    container_name: lampman-test-mysql
     # restart: always
     image: mysql:5.7
     # ports:
@@ -21,8 +22,11 @@ services:
       MYSQL_PASSWORD: test
       DUMP_ROTATIONS: 3
       IS_LOCKED: 0
+    networks:
+      - lampman-test-internals
 
   mysql_2:
+    container_name: lampman-test-mysql_2
     # restart: always
     image: mysql:5.7
     # ports:
@@ -41,8 +45,11 @@ services:
       MYSQL_PASSWORD: test2
       DUMP_ROTATIONS: 3
       IS_LOCKED: 0
+    networks:
+      - lampman-test-internals
 
   postgresql:
+    container_name: lampman-test-postgresql
     # restart: always
     # image: postgres:9
     image: kazaoki/postgres-bigm
@@ -59,13 +66,17 @@ services:
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
       POSTGRES_DB: test
+    networks:
+      - lampman-test-internals
 
   phpenv:
+    container_name: lampman-test-phpenv
     image: kazaoki/phpenv:5.6.22
     labels:
       - "kazaoki-lampman"
 
   lampman:
+    container_name: lampman-test-lampman
     # restart: always
     # depends_on:
     #   - phpenv
@@ -97,6 +108,8 @@ services:
       LAMPMAN_MAILDEV_PORT: 9981
       LAMPMAN_MYSQLS: mysql, mysql_2
       LAMPMAN_POSTGRESQLS: postgresql
+    networks:
+      - lampman-test-internals
 
 volumes:
   mysql_data:
@@ -105,3 +118,8 @@ volumes:
     driver: local
   postgresql_data:
     driver: local
+
+# 以下、必要なのか要検証
+networks:
+  lampman-test-internals:
+    driver: bridge
