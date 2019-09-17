@@ -78,11 +78,11 @@ function clean() {
                         procs.push(new Promise(function (resolve, reject) {
                             child.execFile('docker', ['volume', 'rm', '-f', vid])
                                 .stderr.on('data', function (data) {
-                                console.log("Deleting Volume " + vid + " ... " + color.red('ng'));
+                                console.log("Removing volume " + vid + " ... " + color.red('ng'));
                                 reject(data);
                             })
                                 .on('close', function (code) {
-                                console.log("Deleting Volume " + vid + " ... " + color.green('done'));
+                                console.log("Removing volume " + vid + " ... " + color.green('done'));
                                 resolve();
                             });
                         }));

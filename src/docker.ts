@@ -47,11 +47,11 @@ export async function clean()
             new Promise((resolve, reject)=>{
                 child.execFile('docker',['volume', 'rm', '-f', vid])
                     .stderr.on('data', (data: string)=>{
-                        console.log(`Deleting Volume ${vid} ... ${color.red('ng')}`)
+                        console.log(`Removing volume ${vid} ... ${color.red('ng')}`)
                         reject(data)
                     })
                     .on('close', (code: any)=>{
-                        console.log(`Deleting Volume ${vid} ... ${color.green('done')}`)
+                        console.log(`Removing volume ${vid} ... ${color.green('done')}`)
                         resolve()
                     })
                 ;

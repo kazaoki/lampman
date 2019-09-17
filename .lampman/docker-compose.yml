@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 
 services:
 
@@ -114,10 +114,13 @@ services:
 volumes:
   mysql_data:
     driver: local
+    name: lampman-test-mysql_data
   mysql_2_data:
     driver: local
+    name: lampman-test-mysql_2_data
   postgresql_data:
     driver: local
+    name: lampman-test-postgresql_data
 
 # 以下、必要なのか要検証
 networks:

@@ -51,9 +51,10 @@ var prompts = require('prompts');
 var child = require('child_process');
 var fs = require('fs');
 var path = require('path');
+var color = require('cli-color');
 function mysql(cname, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var mysql, list, _i, _a, key, _b, list_1, item, response, dumpfile;
+        var mysql, list, _i, _a, key, _b, list_1, item, before_str, response, dumpfile;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -82,16 +83,25 @@ function mysql(cname, commands, lampman) {
                     return [3, 4];
                 case 1:
                     if (!(list.length > 1)) return [3, 3];
+                    before_str = '';
+                    if (commands.dump)
+                        before_str = 'ダンプを生成する';
+                    else if (commands.restore)
+                        before_str = 'リストアする';
+                    else
+                        before_str = 'MySQL接続する';
                     return [4, prompts([
                             {
                                 type: 'select',
                                 name: 'cname',
-                                message: '対象のmysqlコンテナを選択してください。',
+                                message: before_str + 'mysqlコンテナを選択してください。',
                                 choices: list,
                             }
                         ])];
                 case 2:
                     response = _c.sent();
+                    if ('undefined' === typeof response.cname)
+                        return [2];
                     mysql = response.cname;
                     return [3, 4];
                 case 3:
@@ -105,6 +115,8 @@ function mysql(cname, commands, lampman) {
                         libs.Error(e);
                     }
                     if (commands.dump) {
+                        console.log();
+                        libs.Label('Dump MySQL');
                         dumpfile = commands.dump;
                         if (true === dumpfile) {
                             dumpfile = path.join(lampman.config_dir, mysql.cname, 'dump.sql');
@@ -112,8 +124,12 @@ function mysql(cname, commands, lampman) {
                         else if (!path.isAbsolute(dumpfile)) {
                             dumpfile = path.join(lampman.config_dir, mysql.cname, dumpfile);
                         }
-                        if (commands.rotate && mysql.dump_rotations > 0)
+                        if (commands.rotate && mysql.dump_rotations > 0) {
+                            process.stdout.write('Dumpfile rotate ... ');
                             libs.RotateFile(dumpfile, mysql.dump_rotations);
+                            console.log(color.green('done'));
+                        }
+                        process.stdout.write('Dump to ' + dumpfile + ' ... ');
                         child.spawnSync('docker-compose', [
                             'exec',
                             '-T',
@@ -130,10 +146,51 @@ function mysql(cname, commands, lampman) {
                                 'ignore',
                             ]
                         });
+                        console.log(color.green('done'));
                         return [2];
                     }
                     if (commands.restore) {
-                        console.log('RESOTRE!');
+                        console.log();
+                        libs.Label('Restore MySQL');
+                        process.stdout.write("Stopping " + mysql.cname + " ... ");
+                        try {
+                            child.spawnSync('docker-compose', ['rm', '-sf', mysql.cname], { cwd: lampman.config_dir });
+                        }
+                        catch (e) {
+                            libs.Error(e);
+                        }
+                        console.log(color.green('done'));
+                        mysql.vname = lampman.config.lampman.project + "-" + mysql.cname + "_data";
+                        process.stdout.write("Removing volume " + mysql.vname + " ... ");
+                        try {
+                            child.spawnSync('docker', ['volume', 'rm', mysql.vname, '-f']);
+                        }
+                        catch (e) {
+                            libs.Error(e);
+                        }
+                        console.log(color.green('done'));
+                        process.stdout.write("Reupping " + mysql.cname + " ... ");
+                        try {
+                            child.spawnSync('docker-compose', ['up', '-d', mysql.cname], { cwd: lampman.config_dir });
+                        }
+                        catch (e) {
+                            libs.Error(e);
+                        }
+                        console.log(color.green('done'));
+                        console.log('');
+                        process.stdout.write(color.magenta.bold('  [Ready]'));
+                        (new Promise(function (resolve) {
+                            var timer = setInterval(function () {
+                                if (libs.ContainerLogCheck(mysql.cname, 'Entrypoint finish.', lampman.config_dir)) {
+                                    process.stdout.write(color.magenta(" " + mysql.cname));
+                                    clearInterval(timer);
+                                    resolve();
+                                }
+                            }, 300);
+                        })).catch(function (err) { libs.Error(err); })
+                            .then(function () {
+                            console.log();
+                        });
                         return [2];
                     }
                     return [4, child.spawn('docker-compose', [

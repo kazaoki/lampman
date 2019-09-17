@@ -6,6 +6,7 @@ const prompts = require('prompts')
 const child   = require('child_process')
 const fs      = require('fs');
 const path    = require('path');
+const color = require('cli-color');
 
 /**
  * mysql: MySQL操作
@@ -41,15 +42,21 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
     } else {
         // 引数未指定の場合
         if(list.length>1) {
+            // 接頭辞
+            let before_str = ''
+            if(commands.dump) before_str = 'ダンプを生成する'
+            else if(commands.restore) before_str = 'リストアする'
+            else before_str = 'MySQL接続する'
             // mysql設定が複数ある場合は選択させる
             const response = await prompts([
                 {
                     type: 'select',
                     name: 'cname',
-                    message: '対象のmysqlコンテナを選択してください。',
+                    message: before_str+'mysqlコンテナを選択してください。',
                     choices: list,
                 }
             ]);
+            if('undefined'===typeof response.cname) return
             mysql = response.cname
         } else {
             // mysql設定が１つのみならそれセット
@@ -67,6 +74,10 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
     // ダンプ
     if(commands.dump) {
 
+        // ラベル表示
+        console.log()
+        libs.Label('Dump MySQL')
+
         // ダンプファイルの特定
         let dumpfile = commands.dump
         if(true===dumpfile) {
@@ -76,10 +87,14 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
         }
 
         // ダンプファイルローテーション
-        if(commands.rotate && mysql.dump_rotations>0)
+        if(commands.rotate && mysql.dump_rotations>0) {
+            process.stdout.write('Dumpfile rotate ... ')
             libs.RotateFile(dumpfile, mysql.dump_rotations)
+            console.log(color.green('done'))
+        }
 
         // ダンプ開始
+        process.stdout.write('Dump to '+dumpfile+' ... ')
         child.spawnSync(
             'docker-compose',
             [
@@ -101,14 +116,63 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
             }
         )
 
-        return;
+        // 完了表示
+        console.log(color.green('done'))
+
+        return
     }
 
     // リストア
     // TODO
     if(commands.restore) {
-        console.log('RESOTRE!')
-        return;
+
+        // ラベル表示
+        console.log()
+        libs.Label('Restore MySQL')
+
+        // 対象のmysqlコンテナを強制終了
+        process.stdout.write(`Stopping ${mysql.cname} ... `)
+        try {
+            child.spawnSync('docker-compose', ['rm', '-sf', mysql.cname], {cwd: lampman.config_dir})
+        } catch(e) {
+            libs.Error(e)
+        }
+        console.log(color.green('done'))
+
+        // 対象のボリュームを強制削除
+        mysql.vname = `${lampman.config.lampman.project}-${mysql.cname}_data`
+        process.stdout.write(`Removing volume ${mysql.vname} ... `)
+        try {
+            child.spawnSync('docker', ['volume', 'rm', mysql.vname, '-f'])
+        } catch(e) {
+            libs.Error(e)
+        }
+        console.log(color.green('done'))
+
+        // 対象のmysqlコンテナのみ起動
+        process.stdout.write(`Reupping ${mysql.cname} ... `)
+        try {
+            child.spawnSync('docker-compose', ['up', '-d', mysql.cname], {cwd: lampman.config_dir})
+        } catch(e) {
+            libs.Error(e)
+        }
+        console.log(color.green('done'))
+        console.log('');
+        process.stdout.write(color.magenta.bold('  [Ready]'));
+        (new Promise(resolve=>{
+            let timer = setInterval(function () {
+                if(libs.ContainerLogCheck(mysql.cname, 'Entrypoint finish.', lampman.config_dir)) {
+                        process.stdout.write(color.magenta(` ${mysql.cname}`));
+                    clearInterval(timer);
+                    resolve()
+                }
+            }, 300);
+        })).catch(err=>{libs.Error(err)})
+            .then(()=>{
+                console.log()
+            })
+
+        return
     }
 
     // MySQLクライアントに入る
