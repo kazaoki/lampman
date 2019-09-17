@@ -140,18 +140,32 @@ export function Label(label: string) {
 }
 
 /**
- * ContainerLogCheck
+ * ContainerLogAppear
  * @param container コンテナ名
  * @param check_str 探す文字列
  * @param cwd composeファイルがあるパス（例：lampman.config_dir）
  */
-export function ContainerLogCheck(container: string, check_str: string, cwd: string)
+export function ContainerLogAppear(container: string, check_str: string, cwd: string)
 {
-    return !!child.execFileSync(
-        'docker-compose',
-        ['logs', '--no-color', container],
-        {cwd: cwd}
-    ).toString().match(check_str)
+    return new Promise((resolve, reject)=>{
+        let sp = child.spawn('docker-compose', ['logs', '-f', '--no-color', container], {cwd: cwd})
+        sp.stdout.on('data', (data: any) => {
+            if(data.toString().match(check_str)) {
+                if('win32'===process.platform) {
+                    child.spawn('taskkill', ['/pid', sp.pid, '/f', '/t']);
+                } else {
+                    sp.kill()
+                }
+                resolve()
+            }
+        })
+        sp.on('error', (e: any)=>{
+            throw(e)
+        })
+        sp.on('close', (code:any)=>{
+            resolve()
+        })
+    })
 }
 
 /**
@@ -293,7 +307,7 @@ export function ConfigToYaml(config: any)
                     }
                 }
             }
-            yaml.services.lampman.depends_on.push(key)
+            // yaml.services.lampman.depends_on.push(key)
             if ('LAMPMAN_MYSQLS' in yaml.services.lampman.environment) {
                 yaml.services.lampman.environment.LAMPMAN_MYSQLS += `, ${key}`
             } else {
@@ -335,7 +349,7 @@ export function ConfigToYaml(config: any)
                     }
                 }
             }
-            yaml.services.lampman.depends_on.push(key)
+            // yaml.services.lampman.depends_on.push(key)
             if ('LAMPMAN_POSTGRESQLS' in yaml.services.lampman.environment) {
                 yaml.services.lampman.environment.LAMPMAN_POSTGRESQLS += `, ${key}`
             } else {

@@ -101,10 +101,29 @@ function Label(label) {
     console.log(color.bold("<" + label + ">"));
 }
 exports.Label = Label;
-function ContainerLogCheck(container, check_str, cwd) {
-    return !!child.execFileSync('docker-compose', ['logs', '--no-color', container], { cwd: cwd }).toString().match(check_str);
+function ContainerLogAppear(container, check_str, cwd) {
+    return new Promise(function (resolve, reject) {
+        var sp = child.spawn('docker-compose', ['logs', '-f', '--no-color', container], { cwd: cwd });
+        sp.stdout.on('data', function (data) {
+            if (data.toString().match(check_str)) {
+                if ('win32' === process.platform) {
+                    child.spawn('taskkill', ['/pid', sp.pid, '/f', '/t']);
+                }
+                else {
+                    sp.kill();
+                }
+                resolve();
+            }
+        });
+        sp.on('error', function (e) {
+            throw (e);
+        });
+        sp.on('close', function (code) {
+            resolve();
+        });
+    });
 }
-exports.ContainerLogCheck = ContainerLogCheck;
+exports.ContainerLogAppear = ContainerLogAppear;
 function RotateFile(filepath, max_number) {
     var dirname = path.dirname(filepath);
     var basename = path.basename(filepath);
@@ -231,7 +250,6 @@ function ConfigToYaml(config) {
                     }
                 }
             }
-            yaml.services.lampman.depends_on.push(key);
             if ('LAMPMAN_MYSQLS' in yaml.services.lampman.environment) {
                 yaml.services.lampman.environment.LAMPMAN_MYSQLS += ", " + key;
             }
@@ -276,7 +294,6 @@ function ConfigToYaml(config) {
                     }
                 }
             }
-            yaml.services.lampman.depends_on.push(key);
             if ('LAMPMAN_POSTGRESQLS' in yaml.services.lampman.environment) {
                 yaml.services.lampman.environment.LAMPMAN_POSTGRESQLS += ", " + key;
             }

@@ -158,18 +158,16 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
         console.log(color.green('done'))
         console.log('');
         process.stdout.write(color.magenta.bold('  [Ready]'));
-        (new Promise(resolve=>{
-            let timer = setInterval(function () {
-                if(libs.ContainerLogCheck(mysql.cname, 'Entrypoint finish.', lampman.config_dir)) {
-                        process.stdout.write(color.magenta(` ${mysql.cname}`));
-                    clearInterval(timer);
-                    resolve()
-                }
-            }, 300);
-        })).catch(err=>{libs.Error(err)})
+        libs.ContainerLogAppear(
+            mysql.cname,
+            'Entrypoint finish.',
+            lampman.config_dir,
+        ).catch(err=>{libs.Error(err)})
             .then(()=>{
+                process.stdout.write(color.magenta(` ${mysql.cname}`))
                 console.log()
-            })
+            }
+        )
 
         return
     }

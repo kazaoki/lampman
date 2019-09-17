@@ -163,18 +163,16 @@ export default async function psql(cname: string|null, commands: any, lampman: a
         console.log(color.green('done'))
         console.log('');
         process.stdout.write(color.magenta.bold('  [Ready]'));
-        (new Promise(resolve=>{
-            let timer = setInterval(function () {
-                if(libs.ContainerLogCheck(postgresql.cname, 'Entrypoint finish.', lampman.config_dir)) {
-                        process.stdout.write(color.magenta(` ${postgresql.cname}`));
-                    clearInterval(timer);
-                    resolve()
-                }
-            }, 300);
-        })).catch(err=>{libs.Error(err)})
+        libs.ContainerLogAppear(
+            postgresql.cname,
+            'Entrypoint finish.',
+            lampman.config_dir,
+        ).catch(err=>{libs.Error(err)})
             .then(()=>{
+                process.stdout.write(color.magenta(` ${postgresql.cname}`))
                 console.log()
-            })
+            }
+        )
 
         return
     }

@@ -56,59 +56,42 @@ export default async function up(commands: any, lampman: any)
             stdio: 'inherit'
         }
     )
-    proc.on('close', (code: number) => {
+    proc.on('close', async (code: number) => {
         if(code) {
             libs.Error(`Up process exited with code ${code}`)
             process.exit()
         }
         console.log('');
         process.stdout.write(color.magenta.bold('  [Ready]'));
-
         let procs = []
 
         // lampman Ready
-        procs.push(new Promise(resolve=>{
-            let timer = setInterval(function () {
-                if(libs.ContainerLogCheck('lampman', 'lampman started', lampman.config_dir)) {
-                    process.stdout.write(color.magenta(' lampman'));
-                    clearInterval(timer);
-                    resolve()
-                }
-            }, 300);
-        }))
+        procs.push(
+            libs.ContainerLogAppear(
+                'lampman',
+                'lampman started',
+                lampman.config_dir,
+            ).then(()=>process.stdout.write(color.magenta(' lampman')))
+        )
 
-        // mysql Ready
+        // mysql|postgresql Ready
         for(let key of Object.keys(lampman.config)) {
-            if(!key.match(/^mysql/)) continue
-            procs.push(new Promise(resolve=>{
-                let timer = setInterval(function () {
-                    if(libs.ContainerLogCheck(key, 'Entrypoint finish.', lampman.config_dir)) {
-                            process.stdout.write(color.magenta(` ${key}`));
-                        clearInterval(timer);
-                        resolve()
-                    }
-                }, 300);
-            }))
+            if(!key.match(/^(mysql|postgresql)/)) continue
+            procs.push(
+                libs.ContainerLogAppear(
+                    key,
+                    'Entrypoint finish.',
+                    lampman.config_dir,
+                ).then(()=>process.stdout.write(color.magenta(` ${key}`)))
+            )
         }
 
-        // postgresql Ready
-        for(let key of Object.keys(lampman.config)) {
-            if(!key.match(/^postgresql/)) continue
-            procs.push(new Promise(resolve=>{
-                let timer = setInterval(function () {
-                    if(libs.ContainerLogCheck(key, 'Entrypoint finish.', lampman.config_dir)) {
-                        process.stdout.write(color.magenta(` ${key}`));
-                        clearInterval(timer);
-                        resolve()
-                    }
-                }, 300);
-            }))
-        }
-
+        // Parallel processing
         Promise.all(procs)
-            .catch(err=>{libs.Error(err)})
+            .catch(e=>libs.Error(e))
             .then(()=>{
                 console.log()
             })
+        return
     })
 }

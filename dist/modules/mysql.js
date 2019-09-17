@@ -179,16 +179,9 @@ function mysql(cname, commands, lampman) {
                         console.log(color.green('done'));
                         console.log('');
                         process.stdout.write(color.magenta.bold('  [Ready]'));
-                        (new Promise(function (resolve) {
-                            var timer = setInterval(function () {
-                                if (libs.ContainerLogCheck(mysql.cname, 'Entrypoint finish.', lampman.config_dir)) {
-                                    process.stdout.write(color.magenta(" " + mysql.cname));
-                                    clearInterval(timer);
-                                    resolve();
-                                }
-                            }, 300);
-                        })).catch(function (err) { libs.Error(err); })
+                        libs.ContainerLogAppear(mysql.cname, 'Entrypoint finish.', lampman.config_dir).catch(function (err) { libs.Error(err); })
                             .then(function () {
+                            process.stdout.write(color.magenta(" " + mysql.cname));
                             console.log();
                         });
                         return [2];

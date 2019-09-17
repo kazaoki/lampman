@@ -184,16 +184,9 @@ function psql(cname, commands, lampman) {
                         console.log(color.green('done'));
                         console.log('');
                         process.stdout.write(color.magenta.bold('  [Ready]'));
-                        (new Promise(function (resolve) {
-                            var timer = setInterval(function () {
-                                if (libs.ContainerLogCheck(postgresql.cname, 'Entrypoint finish.', lampman.config_dir)) {
-                                    process.stdout.write(color.magenta(" " + postgresql.cname));
-                                    clearInterval(timer);
-                                    resolve();
-                                }
-                            }, 300);
-                        })).catch(function (err) { libs.Error(err); })
+                        libs.ContainerLogAppear(postgresql.cname, 'Entrypoint finish.', lampman.config_dir).catch(function (err) { libs.Error(err); })
                             .then(function () {
+                            process.stdout.write(color.magenta(" " + postgresql.cname));
                             console.log();
                         });
                         return [2];

@@ -44,6 +44,7 @@ var fs = require('fs');
 function up(commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var _i, _a, mount, dirs, pubdir, args, proc;
+        var _this = this;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -77,63 +78,34 @@ function up(commands, lampman) {
                         cwd: lampman.config_dir,
                         stdio: 'inherit'
                     });
-                    proc.on('close', function (code) {
-                        if (code) {
-                            libs.Error("Up process exited with code " + code);
-                            process.exit();
-                        }
-                        console.log('');
-                        process.stdout.write(color.magenta.bold('  [Ready]'));
-                        var procs = [];
-                        procs.push(new Promise(function (resolve) {
-                            var timer = setInterval(function () {
-                                if (libs.ContainerLogCheck('lampman', 'lampman started', lampman.config_dir)) {
-                                    process.stdout.write(color.magenta(' lampman'));
-                                    clearInterval(timer);
-                                    resolve();
-                                }
-                            }, 300);
-                        }));
-                        var _loop_1 = function (key) {
-                            if (!key.match(/^mysql/))
-                                return "continue";
-                            procs.push(new Promise(function (resolve) {
-                                var timer = setInterval(function () {
-                                    if (libs.ContainerLogCheck(key, 'Entrypoint finish.', lampman.config_dir)) {
-                                        process.stdout.write(color.magenta(" " + key));
-                                        clearInterval(timer);
-                                        resolve();
-                                    }
-                                }, 300);
-                            }));
-                        };
-                        for (var _i = 0, _a = Object.keys(lampman.config); _i < _a.length; _i++) {
-                            var key = _a[_i];
-                            _loop_1(key);
-                        }
-                        var _loop_2 = function (key) {
-                            if (!key.match(/^postgresql/))
-                                return "continue";
-                            procs.push(new Promise(function (resolve) {
-                                var timer = setInterval(function () {
-                                    if (libs.ContainerLogCheck(key, 'Entrypoint finish.', lampman.config_dir)) {
-                                        process.stdout.write(color.magenta(" " + key));
-                                        clearInterval(timer);
-                                        resolve();
-                                    }
-                                }, 300);
-                            }));
-                        };
-                        for (var _b = 0, _c = Object.keys(lampman.config); _b < _c.length; _b++) {
-                            var key = _c[_b];
-                            _loop_2(key);
-                        }
-                        Promise.all(procs)
-                            .catch(function (err) { libs.Error(err); })
-                            .then(function () {
-                            console.log();
+                    proc.on('close', function (code) { return __awaiter(_this, void 0, void 0, function () {
+                        var procs, _loop_1, _i, _a, key;
+                        return __generator(this, function (_b) {
+                            if (code) {
+                                libs.Error("Up process exited with code " + code);
+                                process.exit();
+                            }
+                            console.log('');
+                            process.stdout.write(color.magenta.bold('  [Ready]'));
+                            procs = [];
+                            procs.push(libs.ContainerLogAppear('lampman', 'lampman started', lampman.config_dir).then(function () { return process.stdout.write(color.magenta(' lampman')); }));
+                            _loop_1 = function (key) {
+                                if (!key.match(/^(mysql|postgresql)/))
+                                    return "continue";
+                                procs.push(libs.ContainerLogAppear(key, 'Entrypoint finish.', lampman.config_dir).then(function () { return process.stdout.write(color.magenta(" " + key)); }));
+                            };
+                            for (_i = 0, _a = Object.keys(lampman.config); _i < _a.length; _i++) {
+                                key = _a[_i];
+                                _loop_1(key);
+                            }
+                            Promise.all(procs)
+                                .catch(function (e) { return libs.Error(e); })
+                                .then(function () {
+                                console.log();
+                            });
+                            return [2];
                         });
-                    });
+                    }); });
                     return [2];
             }
         });
