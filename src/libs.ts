@@ -46,8 +46,8 @@ export function Message (message: any, type: string='default', line: number=0): 
     let line_color = color.white;
     let fg_color = color.white;
     if(type==='primary') {
-        line_color = color.xterm(26)
-        fg_color = color.xterm(39)
+        line_color = color.blue
+        fg_color = color.white
     } else if(type==='success') {
         line_color = color.green
         fg_color = color.greenBright

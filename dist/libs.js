@@ -29,8 +29,8 @@ function Message(message, type, line) {
     var line_color = color.white;
     var fg_color = color.white;
     if (type === 'primary') {
-        line_color = color.xterm(26);
-        fg_color = color.xterm(39);
+        line_color = color.blue;
+        fg_color = color.white;
     }
     else if (type === 'success') {
         line_color = color.green;
