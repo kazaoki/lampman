@@ -124,7 +124,7 @@ commander
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
     .option('-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。')
     .option('-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ')
-    .option('-r, --restore [file_path]', 'リストアします。ダンプファイルのパス指定可能。')
+    .option('-r, --restore', '最新のダンプファイルをリストアします。')
     .action((cname, cmd)=>mysql(cname, cmd, lampman))
 
 // psql: PostgreSQL操作

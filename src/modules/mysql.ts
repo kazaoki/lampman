@@ -6,7 +6,7 @@ const prompts = require('prompts')
 const child   = require('child_process')
 const fs      = require('fs');
 const path    = require('path');
-const color = require('cli-color');
+const color   = require('cli-color');
 
 /**
  * mysql: MySQL操作
