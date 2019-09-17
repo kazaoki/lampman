@@ -52,7 +52,7 @@ module.exports.config = {
         user: 'test',
         password: 'test', // same root password
         // charset, collate 設定したい
-        hosts: ['mysql.db'],
+        hosts: ['main.db'],
         dump_rotations: 3,
         is_locked: false,
     },
@@ -62,7 +62,7 @@ module.exports.config = {
         database: 'test2',
         user: 'test2',
         password: 'test2', // same root password
-        hosts: ['mysql55.db'],
+        hosts: ['main-2.db'],
         dump_rotations: 3,
         is_locked: false,
     },
@@ -75,7 +75,16 @@ module.exports.config = {
         user: 'test',
         password: 'test', // same root password
         // charset, collate 設定したい
-        hosts: ['postgresql.db'],
+        hosts: ['sub.db'],
+    },
+    postgresql_b: {
+        image: 'kazaoki/postgres-bigm',
+        ports: ['5433:5432'],
+        database: 'testb',
+        user: 'testb',
+        password: 'testb', // same root password
+        // charset, collate 設定したい
+        hosts: ['sub-b.db'],
     },
 
     // extra commands: ex. lamp ab

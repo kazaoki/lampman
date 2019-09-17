@@ -127,10 +127,47 @@
 </section>
 <?php } ?>
 
-<?php if(@$_ENV['LAMPMAN_POSTGRESQLS']) { ?>
+<?php if(@$_ENV['LAMPMAN_POSTGRESQLS'] && in_array('postgresql', explode(', ', $_ENV['LAMPMAN_POSTGRESQLS']))) { ?>
 <section>
     <h1>POSTGRESQL CONNECT TEST (sub.db)</h1>
     <?php $pdbh = new PDO('pgsql:host=sub.db;dbname=test', 'test', 'test'); ?>
+    <div class="center">
+        <table>
+            <tbody>
+                <?php
+                try {
+                    $sth = $pdbh->query('SELECT NOW() as now');
+                    $row = $sth->fetchAll();
+                } catch(PDOException $e) {
+                    var_dump($e->getMessage());
+                }
+                ?>
+                <tr>
+                    <td class="e"><?php echo $sth->queryString ?></td>
+                    <td class="v"><?php echo $row[0]['now'] ?></td>
+                </tr>
+                <?php
+                try {
+                    $sth = $pdbh->query('SELECT COUNT(*) as count FROM users');
+                    $row = $sth->fetchAll();
+                } catch(PDOException $e) {
+                    var_dump($e->getMessage());
+                }
+                ?>
+                <tr>
+                    <td class="e"><?php echo $sth->queryString ?></td>
+                    <td class="v"><?php echo $row[0]['count'] ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<?php } ?>
+
+<?php if(@$_ENV['LAMPMAN_POSTGRESQLS'] && in_array('postgresql_b', explode(', ', $_ENV['LAMPMAN_POSTGRESQLS']))) { ?>
+<section>
+    <h1>POSTGRESQL CONNECT TEST (sub-b.db)</h1>
+    <?php $pdbh = new PDO('pgsql:host=sub-b.db;dbname=testb', 'testb', 'testb'); ?>
     <div class="center">
         <table>
             <tbody>

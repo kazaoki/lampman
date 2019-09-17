@@ -129,11 +129,12 @@ commander
 
 // psql: PostgreSQL操作
 commander
-    .command('psql')
-    .description('PostgreSQL操作（オプション未指定なら mysql クライアントが実行されます）')
+    .command('psql [container-name]')
+    .description('PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）')
     .option('-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。')
-    .option('-r, --restore [file_path]', 'リストアします。ダンプファイルのパス指定可能。')
-    .action(cmd=>psql(cmd, lampman))
+    .option('-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ')
+    .option('-r, --restore', '最新のダンプファイルをリストアします。')
+    .action((cname, cmd)=>psql(cname, cmd, lampman))
 
 // errors: エラーログ監視
 commander

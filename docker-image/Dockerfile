@@ -34,3 +34,6 @@ RUN git clone https://github.com/riywo/anyenv ~/.anyenv \
 
 # -- maildev setup
 RUN npm install maildev iconv -g --unsafe-perm
+
+# -- Add utf-8 locle
+RUN localedef -f UTF-8 -i ja_JP ja_JP

@@ -195,6 +195,11 @@ function mysql(cname, commands, lampman) {
                     }
                     return [4, child.spawn('docker-compose', [
                             'exec',
+                            '-e', 'TERM=xterm-256color',
+                            '-e', 'LANGUAGE=ja_JP.UTF-8',
+                            '-e', 'LC_ALL=ja_JP.UTF-8',
+                            '-e', 'LANG=ja_JP.UTF-8',
+                            '-e', 'LC_TYPE=ja_JP.UTF-8',
                             mysql.cname,
                             'mysql',
                             mysql.database,

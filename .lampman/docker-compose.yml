@@ -1,4 +1,4 @@
-version: '2.1'
+version: '2.2'
 
 services:
 
@@ -51,8 +51,7 @@ services:
   postgresql:
     container_name: lampman-test-postgresql
     # restart: always
-    # image: postgres:9
-    image: kazaoki/postgres-bigm
+    image: postgres:9
     ports:
       - "5432:5432"
     volumes:
@@ -66,6 +65,26 @@ services:
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
       POSTGRES_DB: test
+    networks:
+      - lampman-test-internals
+
+  postgresql_b:
+    container_name: lampman-test-postgresql_b
+    # restart: always
+    image: kazaoki/postgres-bigm
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./postgresql_b:/postgresql
+      - postgresql_b_data:/var/lib/postgresql/data
+    entrypoint: /postgresql/before-entrypoint.sh
+    command: ["postgres"]
+    labels:
+      - "kazaoki-lampman"
+    environment:
+      POSTGRES_PASSWORD: testb
+      POSTGRES_USER: testb
+      POSTGRES_DB: testb
     networks:
       - lampman-test-internals
 
@@ -103,11 +122,11 @@ services:
       LAMPMAN_PHP_XDEBUG_START: 1
       LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
       LAMPMAN_PHP_XDEBUG_PORT: 9000
-      LAMPMAN_BIND_HOSTS: main.db:mysql, main-2.db:mysql_2, sub.db:postgresql
+      LAMPMAN_BIND_HOSTS: main.db:mysql, main-2.db:mysql_2, sub.db:postgresql, sub-b.db:postgresql_b
       LAMPMAN_MAILDEV_START: 1
       LAMPMAN_MAILDEV_PORT: 9981
       LAMPMAN_MYSQLS: mysql, mysql_2
-      LAMPMAN_POSTGRESQLS: postgresql
+      LAMPMAN_POSTGRESQLS: postgresql, postgresql_b
     networks:
       - lampman-test-internals
 
@@ -121,6 +140,9 @@ volumes:
   postgresql_data:
     driver: local
     name: lampman-test-postgresql_data
+  postgresql_b_data:
+    driver: local
+    name: lampman-test-postgresql_b_data
 
 # 以下、必要なのか要検証
 networks:

@@ -75,12 +75,17 @@ function login(commands, lampman) {
                     if (!response.cname) return [3, 3];
                     console.log();
                     console.log(color.white.bold("<" + response.cname + ">"));
-                    return [4, child.spawn('docker', ['exec', '-it', response.cname, commands.shell ? commands.shell : 'bash'], {
+                    return [4, child.spawn('docker', [
+                            'exec',
+                            '-e', 'TERM=xterm-256color',
+                            '-e', 'LANGUAGE=ja_JP.UTF-8',
+                            '-e', 'LANG=ja_JP.UTF-8',
+                            '-e', 'LC_TYPE=ja_JP.UTF-8',
+                            '-it',
+                            response.cname,
+                            commands.shell ? commands.shell : 'bash'
+                        ], {
                             stdio: 'inherit',
-                            env: {
-                                TERM: 'xterm-256color',
-                                LC_ALL: 'C',
-                            }
                         })];
                 case 2:
                     _b.sent();
