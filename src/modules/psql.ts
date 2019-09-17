@@ -127,58 +127,57 @@ export default async function psql(cname: string|null, commands: any, lampman: a
         return
     }
 
-    // // リストア
-    // // TODO
-    // if(commands.restore) {
+    // リストア
+    if(commands.restore) {
 
-    //     // ラベル表示
-    //     console.log()
-    //     libs.Label('Restore PostgreSQL')
+        // ラベル表示
+        console.log()
+        libs.Label('Restore PostgreSQL')
 
-    //     // 対象のpostgresqlコンテナを強制終了
-    //     process.stdout.write(`Stopping ${postgresql.cname} ... `)
-    //     try {
-    //         child.spawnSync('docker-compose', ['rm', '-sf', postgresql.cname], {cwd: lampman.config_dir})
-    //     } catch(e) {
-    //         libs.Error(e)
-    //     }
-    //     console.log(color.green('done'))
+        // 対象のpostgresqlコンテナを強制終了
+        process.stdout.write(`Stopping ${postgresql.cname} ... `)
+        try {
+            child.spawnSync('docker-compose', ['rm', '-sf', postgresql.cname], {cwd: lampman.config_dir})
+        } catch(e) {
+            libs.Error(e)
+        }
+        console.log(color.green('done'))
 
-    //     // 対象のボリュームを強制削除
-    //     postgresql.vname = `${lampman.config.lampman.project}-${postgresql.cname}_data`
-    //     process.stdout.write(`Removing volume ${postgresql.vname} ... `)
-    //     try {
-    //         child.spawnSync('docker', ['volume', 'rm', postgresql.vname, '-f'])
-    //     } catch(e) {
-    //         libs.Error(e)
-    //     }
-    //     console.log(color.green('done'))
+        // 対象のボリュームを強制削除
+        postgresql.vname = `${lampman.config.lampman.project}-${postgresql.cname}_data`
+        process.stdout.write(`Removing volume ${postgresql.vname} ... `)
+        try {
+            child.spawnSync('docker', ['volume', 'rm', postgresql.vname, '-f'])
+        } catch(e) {
+            libs.Error(e)
+        }
+        console.log(color.green('done'))
 
-    //     // 対象のpostgresqlコンテナのみ起動
-    //     process.stdout.write(`Reupping ${postgresql.cname} ... `)
-    //     try {
-    //         child.spawnSync('docker-compose', ['up', '-d', postgresql.cname], {cwd: lampman.config_dir})
-    //     } catch(e) {
-    //         libs.Error(e)
-    //     }
-    //     console.log(color.green('done'))
-    //     console.log('');
-    //     process.stdout.write(color.magenta.bold('  [Ready]'));
-    //     (new Promise(resolve=>{
-    //         let timer = setInterval(function () {
-    //             if(libs.ContainerLogCheck(postgresql.cname, 'Entrypoint finish.', lampman.config_dir)) {
-    //                     process.stdout.write(color.magenta(` ${postgresql.cname}`));
-    //                 clearInterval(timer);
-    //                 resolve()
-    //             }
-    //         }, 300);
-    //     })).catch(err=>{libs.Error(err)})
-    //         .then(()=>{
-    //             console.log()
-    //         })
+        // 対象のpostgresqlコンテナのみ起動
+        process.stdout.write(`Reupping ${postgresql.cname} ... `)
+        try {
+            child.spawnSync('docker-compose', ['up', '-d', postgresql.cname], {cwd: lampman.config_dir})
+        } catch(e) {
+            libs.Error(e)
+        }
+        console.log(color.green('done'))
+        console.log('');
+        process.stdout.write(color.magenta.bold('  [Ready]'));
+        (new Promise(resolve=>{
+            let timer = setInterval(function () {
+                if(libs.ContainerLogCheck(postgresql.cname, 'Entrypoint finish.', lampman.config_dir)) {
+                        process.stdout.write(color.magenta(` ${postgresql.cname}`));
+                    clearInterval(timer);
+                    resolve()
+                }
+            }, 300);
+        })).catch(err=>{libs.Error(err)})
+            .then(()=>{
+                console.log()
+            })
 
-    //     return
-    // }
+        return
+    }
 
     // psqlクライアントに入る
     await child.spawn(

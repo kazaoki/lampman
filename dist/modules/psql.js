@@ -154,6 +154,50 @@ function psql(cname, commands, lampman) {
                         console.log(color.green('done'));
                         return [2];
                     }
+                    if (commands.restore) {
+                        console.log();
+                        libs.Label('Restore PostgreSQL');
+                        process.stdout.write("Stopping " + postgresql.cname + " ... ");
+                        try {
+                            child.spawnSync('docker-compose', ['rm', '-sf', postgresql.cname], { cwd: lampman.config_dir });
+                        }
+                        catch (e) {
+                            libs.Error(e);
+                        }
+                        console.log(color.green('done'));
+                        postgresql.vname = lampman.config.lampman.project + "-" + postgresql.cname + "_data";
+                        process.stdout.write("Removing volume " + postgresql.vname + " ... ");
+                        try {
+                            child.spawnSync('docker', ['volume', 'rm', postgresql.vname, '-f']);
+                        }
+                        catch (e) {
+                            libs.Error(e);
+                        }
+                        console.log(color.green('done'));
+                        process.stdout.write("Reupping " + postgresql.cname + " ... ");
+                        try {
+                            child.spawnSync('docker-compose', ['up', '-d', postgresql.cname], { cwd: lampman.config_dir });
+                        }
+                        catch (e) {
+                            libs.Error(e);
+                        }
+                        console.log(color.green('done'));
+                        console.log('');
+                        process.stdout.write(color.magenta.bold('  [Ready]'));
+                        (new Promise(function (resolve) {
+                            var timer = setInterval(function () {
+                                if (libs.ContainerLogCheck(postgresql.cname, 'Entrypoint finish.', lampman.config_dir)) {
+                                    process.stdout.write(color.magenta(" " + postgresql.cname));
+                                    clearInterval(timer);
+                                    resolve();
+                                }
+                            }, 300);
+                        })).catch(function (err) { libs.Error(err); })
+                            .then(function () {
+                            console.log();
+                        });
+                        return [2];
+                    }
                     return [4, child.spawn('docker-compose', [
                             'exec',
                             '-e', 'TERM=xterm-256color',

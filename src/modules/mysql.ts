@@ -123,7 +123,6 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
     }
 
     // リストア
-    // TODO
     if(commands.restore) {
 
         // ラベル表示
