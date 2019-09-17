@@ -10,6 +10,9 @@ const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE;
  */
 module.exports.config = {
 
+    // docker-compose file version
+    version: '2.2',
+
     // Lampman
     lampman: {
         project: 'lampman-test',
@@ -40,7 +43,7 @@ module.exports.config = {
         // maildev
         maildev: {
             start: __TRUE_ON_DEFAULT__,
-            ports: ['9981:9981'],
+            port: 9981,
         },
     },
 
@@ -58,7 +61,7 @@ module.exports.config = {
     },
     mysql_2: { // make '/mysql_2/' folder.
         image: 'mysql:5.5',
-        ports: {3307: 3306},
+        ports: ['3307:3306'],
         database: 'test2',
         user: 'test2',
         password: 'test2', // same root password

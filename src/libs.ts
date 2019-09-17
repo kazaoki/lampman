@@ -201,3 +201,159 @@ export function RotateFile(filepath: string, max_number: number)
 
     return
 }
+
+/**
+* ConfigToYaml
+* 設定データをYaml用に整形する
+*
+* @param object
+*/
+export function ConfigToYaml(config: any)
+{
+    let yaml = {
+        version:  config.version,
+        services: <any>{},
+        volumes:  <any>{},
+        networks: <any>{},
+    }
+    let proj = config.lampman.project
+
+    // lampman設定
+    yaml.services.lampman = {
+        container_name: `${proj}-lampman`,
+        image: config.lampman.image,
+        ports: [],
+        depends_on: [],
+        environment: {},
+        volumes_from: [],
+        volumes: ['./:/lampman'],
+        entrypoint: '/lampman/lampman/entrypoint.sh',
+        networks: [`${proj}-${config.network.name}`],
+    }
+    if('ports' in config.lampman.apache && config.lampman.apache.ports.length) {
+        yaml.services.lampman.ports.push(...config.lampman.apache.ports)
+    }
+    if('mounts' in config.lampman.apache && config.lampman.apache.mounts.length) {
+        yaml.services.lampman.volumes.push(...config.lampman.apache.mounts)
+    }
+    if('php' in config.lampman) {
+        if('image' in config.lampman.php) {
+            yaml.services.phpenv = {
+                container_name: `${proj}-phpenv`,
+                image: config.lampman.php.image,
+                labels: [proj]
+            }
+            yaml.services.lampman.depends_on.push('phpenv')
+            yaml.services.lampman.environment.LAMPMAN_PHP_PHPENV_IMAGE = config.lampman.php.image
+            const matches = config.lampman.php.image.match(/\:(.*)$/)
+            yaml.services.lampman.environment.LAMPMAN_PHP_PHPENV_VERSION = matches[1]
+            yaml.services.lampman.volumes_from.push('phpenv')
+        }
+        if('error_report' in config.lampman.php) yaml.services.lampman.environment.LAMPMAN_PHP_ERROR_REPORT = config.lampman.php.error_report ? 1 : 0
+        if('xdebug_start' in config.lampman.php) yaml.services.lampman.environment.LAMPMAN_PHP_XDEBUG_START = config.lampman.php.xdebug_start ? 1 : 0
+        if('xdebug_host'  in config.lampman.php) yaml.services.lampman.environment.LAMPMAN_PHP_XDEBUG_HOST = config.lampman.php.xdebug_host
+        if('xdebug_port'  in config.lampman.php) yaml.services.lampman.environment.LAMPMAN_PHP_XDEBUG_PORT = config.lampman.php.xdebug_port
+    }
+    if('maildev' in config.lampman) {
+        if('start' in config.lampman.maildev) yaml.services.lampman.environment.LAMPMAN_MAILDEV_START = config.lampman.maildev.start ? 1 : 0
+        if('port'  in config.lampman.maildev) yaml.services.lampman.environment.LAMPMAN_MAILDEV_PORT = config.lampman.maildev.port
+        yaml.services.lampman.ports.push(config.lampman.maildev.port+':9981')
+    }
+
+    for(let key of Object.keys(config)) {
+
+        // mysql設定
+        if(key.match(/^mysql/)) {
+            yaml.services[key] = {
+                container_name: `${proj}-${key}`,
+                image: config[key].image,
+                ports: config[key].ports,
+                volumes: [
+                    `./${key}:/mysql`,
+                    `${key}_data:/var/lib/mysql`,
+                ],
+                entrypoint: '/mysql/before-entrypoint.sh',
+                command: 'mysqld',
+                labels: [proj],
+                environment: {},
+                networks: [`${proj}-${config.network.name}`],
+            }
+            yaml.services[key].environment.MYSQL_ROOT_PASSWORD = config[key].password
+            yaml.services[key].environment.MYSQL_DATABASE = config[key].database
+            yaml.services[key].environment.MYSQL_USER = config[key].user
+            yaml.services[key].environment.MYSQL_PASSWORD = config[key].password
+            if('dump_rotations' in config[key]) yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump_rotations
+            if('is_locked' in config[key]) yaml.services[key].environment.IS_LOCKED = config[key].is_locked ? 1 : 0
+            if('hosts' in config[key] && config[key].hosts.length) {
+                for(let host of config[key].hosts) {
+                    if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += `, ${host}:${key}`
+                    } else {
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = `${host}:${key}`
+                    }
+                }
+            }
+            yaml.services.lampman.depends_on.push(key)
+            if ('LAMPMAN_MYSQLS' in yaml.services.lampman.environment) {
+                yaml.services.lampman.environment.LAMPMAN_MYSQLS += `, ${key}`
+            } else {
+                yaml.services.lampman.environment.LAMPMAN_MYSQLS = key
+            }
+            yaml.volumes[`${key}_data`] = {
+                driver: 'local',
+                name: `${proj}-${key}_data`
+            }
+        }
+
+        // postgresql設定
+        if(key.match(/^postgresql/)) {
+            yaml.services[key] = {
+                container_name: `${proj}-${key}`,
+                image: config[key].image,
+                ports: config[key].ports,
+                volumes: [
+                    `./${key}:/postgresql`,
+                    `${key}_data:/var/lib/postgresql/data`,
+                ],
+                entrypoint: '/postgresql/before-entrypoint.sh',
+                command: 'postgres',
+                labels: [proj],
+                environment: {},
+                networks: [`${proj}-${config.network.name}`],
+            }
+            yaml.services[key].environment.POSTGRES_PASSWORD = config[key].password
+            yaml.services[key].environment.POSTGRES_USER = config[key].user
+            yaml.services[key].environment.POSTGRES_DB = config[key].database
+            if('dump_rotations' in config[key]) yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump_rotations
+            if('is_locked' in config[key]) yaml.services[key].environment.IS_LOCKED = config[key].is_locked ? 1 : 0
+            if('hosts' in config[key] && config[key].hosts.length) {
+                for(let host of config[key].hosts) {
+                    if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += `, ${host}:${key}`
+                    } else {
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = `${host}:${key}`
+                    }
+                }
+            }
+            yaml.services.lampman.depends_on.push(key)
+            if ('LAMPMAN_POSTGRESQLS' in yaml.services.lampman.environment) {
+                yaml.services.lampman.environment.LAMPMAN_POSTGRESQLS += `, ${key}`
+            } else {
+                yaml.services.lampman.environment.LAMPMAN_POSTGRESQLS = key
+            }
+            yaml.volumes[`${key}_data`] = {
+                driver: 'local',
+                name: `${proj}-${key}_data`
+            }
+        }
+    }
+
+    // ネットワーク追加
+    if(config.network) {
+        yaml.networks[`${proj}-${config.network.name}`] = {
+            driver: 'bridge'
+        }
+    }
+
+    return yaml;
+}
