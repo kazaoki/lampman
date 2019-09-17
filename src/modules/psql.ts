@@ -71,56 +71,61 @@ export default async function psql(cname: string|null, commands: any, lampman: a
         libs.Error(e)
     }
 
-    // // ダンプ
-    // if(commands.dump) {
+    // ダンプ
+    if(commands.dump) {
 
-    //     // ラベル表示
-    //     console.log()
-    //     libs.Label('Dump PostgreSQL')
+        // ラベル表示
+        console.log()
+        libs.Label('Dump PostgreSQL')
 
-    //     // ダンプファイルの特定
-    //     let dumpfile = commands.dump
-    //     if(true===dumpfile) {
-    //         dumpfile = path.join(lampman.config_dir, postgresql.cname ,'dump.sql')
-    //     } else if(!path.isAbsolute(dumpfile)) {
-    //         dumpfile = path.join(lampman.config_dir, postgresql.cname, dumpfile)
-    //     }
+        // ダンプファイルの特定
+        let dumpfile = commands.dump
+        if(true===dumpfile) {
+            dumpfile = path.join(lampman.config_dir, postgresql.cname ,'dump.sql')
+        } else if(!path.isAbsolute(dumpfile)) {
+            dumpfile = path.join(lampman.config_dir, postgresql.cname, dumpfile)
+        }
 
-    //     // ダンプファイルローテーション
-    //     if(commands.rotate && postgresql.dump_rotations>0) {
-    //         process.stdout.write('Dumpfile rotate ... ')
-    //         libs.RotateFile(dumpfile, postgresql.dump_rotations)
-    //         console.log(color.green('done'))
-    //     }
+        // ダンプファイルローテーション
+        if(commands.rotate && postgresql.dump_rotations>0) {
+            process.stdout.write('Dumpfile rotate ... ')
+            libs.RotateFile(dumpfile, postgresql.dump_rotations)
+            console.log(color.green('done'))
+        }
 
-    //     // ダンプ開始
-    //     process.stdout.write('Dump to '+dumpfile+' ... ')
-    //     child.spawnSync(
-    //         'docker-compose',
-    //         [
-    //             'exec',
-    //             '-T',
-    //             postgresql.cname,
-    //             'mysqldump',
-    //             postgresql.database,
-    //             '-u'+postgresql.user,
-    //             '-p'+postgresql.password,
-    //         ],
-    //         {
-    //             cwd: lampman.config_dir,
-    //             stdio: [
-    //                 'ignore',
-    //                 fs.openSync(dumpfile, 'w'),
-    //                 'ignore',
-    //             ]
-    //         }
-    //     )
+        // ダンプ開始
+        process.stdout.write('Dump to '+dumpfile+' ... ')
+        child.spawnSync(
+            'docker-compose',
+            [
+                'exec',
+                '-T',
+                '-e', 'TERM=xterm-256color',
+                '-e', 'LANGUAGE=ja_JP.UTF-8',
+                '-e', 'LC_ALL=ja_JP.UTF-8',
+                '-e', 'LANG=ja_JP.UTF-8',
+                '-e', 'LC_TYPE=ja_JP.UTF-8',
+                postgresql.cname,
+                'pg_dump',
+                postgresql.database,
+                '-U',
+                postgresql.user,
+            ],
+            {
+                cwd: lampman.config_dir,
+                stdio: [
+                    'ignore',
+                    fs.openSync(dumpfile, 'w'),
+                    'ignore',
+                ]
+            }
+        )
 
-    //     // 完了表示
-    //     console.log(color.green('done'))
+        // 完了表示
+        console.log(color.green('done'))
 
-    //     return
-    // }
+        return
+    }
 
     // // リストア
     // // TODO

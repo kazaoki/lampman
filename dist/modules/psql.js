@@ -54,7 +54,7 @@ var path = require('path');
 var color = require('cli-color');
 function psql(cname, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var postgresql, list, _i, _a, key, _b, list_1, item, before_str, response;
+        var postgresql, list, _i, _a, key, _b, list_1, item, before_str, response, dumpfile;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -113,6 +113,46 @@ function psql(cname, commands, lampman) {
                     }
                     catch (e) {
                         libs.Error(e);
+                    }
+                    if (commands.dump) {
+                        console.log();
+                        libs.Label('Dump PostgreSQL');
+                        dumpfile = commands.dump;
+                        if (true === dumpfile) {
+                            dumpfile = path.join(lampman.config_dir, postgresql.cname, 'dump.sql');
+                        }
+                        else if (!path.isAbsolute(dumpfile)) {
+                            dumpfile = path.join(lampman.config_dir, postgresql.cname, dumpfile);
+                        }
+                        if (commands.rotate && postgresql.dump_rotations > 0) {
+                            process.stdout.write('Dumpfile rotate ... ');
+                            libs.RotateFile(dumpfile, postgresql.dump_rotations);
+                            console.log(color.green('done'));
+                        }
+                        process.stdout.write('Dump to ' + dumpfile + ' ... ');
+                        child.spawnSync('docker-compose', [
+                            'exec',
+                            '-T',
+                            '-e', 'TERM=xterm-256color',
+                            '-e', 'LANGUAGE=ja_JP.UTF-8',
+                            '-e', 'LC_ALL=ja_JP.UTF-8',
+                            '-e', 'LANG=ja_JP.UTF-8',
+                            '-e', 'LC_TYPE=ja_JP.UTF-8',
+                            postgresql.cname,
+                            'pg_dump',
+                            postgresql.database,
+                            '-U',
+                            postgresql.user,
+                        ], {
+                            cwd: lampman.config_dir,
+                            stdio: [
+                                'ignore',
+                                fs.openSync(dumpfile, 'w'),
+                                'ignore',
+                            ]
+                        });
+                        console.log(color.green('done'));
+                        return [2];
                     }
                     return [4, child.spawn('docker-compose', [
                             'exec',

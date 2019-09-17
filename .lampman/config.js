@@ -76,6 +76,8 @@ module.exports.config = {
         password: 'test', // same root password
         // charset, collate 設定したい
         hosts: ['sub.db'],
+        dump_rotations: 3,
+        is_locked: false,
     },
     postgresql_b: {
         image: 'kazaoki/postgres-bigm',
@@ -85,6 +87,8 @@ module.exports.config = {
         password: 'testb', // same root password
         // charset, collate 設定したい
         hosts: ['sub-b.db'],
+        dump_rotations: 3,
+        is_locked: false,
     },
 
     // extra commands: ex. lamp ab
