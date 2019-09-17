@@ -12,7 +12,7 @@ module.exports.config = {
 
     // Lampman
     lampman: {
-        project: 'lampman-test',
+        project: 'lampman-proj',
         image: 'kazaoki/lampman',
 
         // Apache
@@ -23,13 +23,12 @@ module.exports.config = {
             ],
             mounts: [ // 公開ディレクトリに /var/www/html を割り当ててください。
                 '../public_html:/var/www/html',
-                '../public_html:/home/user_a/public_html',
             ],
         },
 
         // PHP
         php: {
-            image: 'kazaoki/phpenv:5.6.22', // ref: https://hub.docker.com/r/kazaoki/phpenv/tags
+            // image: 'kazaoki/phpenv:5.6.22', // ref: https://hub.docker.com/r/kazaoki/phpenv/tags
             // ↑ image 未指定なら標準のPHP使用
             error_report: __TRUE_ON_DEFAULT__,
             xdebug_start: __TRUE_ON_DEFAULT__,
@@ -44,7 +43,7 @@ module.exports.config = {
         },
     },
 
-    // MySQL
+    // // MySQL
     // mysql: {
     //     image: 'mysql:5.7',
     //     ports: ['3306:3306'],
@@ -53,17 +52,21 @@ module.exports.config = {
     //     password: 'test', // same root password
     //     // charset, collate 設定したい
     //     hosts: ['mysql.db'],
+    //     dump_rotations: 3,
+    //     is_locked: false,
     // },
     // mysql_2: { // make '/mysql_2/' folder.
-    //     image: 'mysql:5.7',
-    //     ports: {3307: 3307},
-    //     database: 'test',
-    //     user: 'test',
-    //     password: 'test', // same root password
-    //     hosts: ['mysql.db'],
+    //     image: 'mysql:5.5',
+    //     ports: {3307: 3306},
+    //     database: 'test2',
+    //     user: 'test2',
+    //     password: 'test2', // same root password
+    //     hosts: ['mysql55.db'],
+    //     dump_rotations: 3,
+    //     is_locked: false,
     // },
 
-    // PostgreSQL
+    // // PostgreSQL
     // postgresql: {
     //     image: 'postgres:9',
     //     ports: ['5432:5432'],
@@ -113,4 +116,9 @@ module.exports.config = {
     customize: config=>{
         config.yml.services.lampman.depends_on.push('test-alpine')
     },
+
+    // // network
+    // network: {
+    //     name: 'internals'
+    // },
 }

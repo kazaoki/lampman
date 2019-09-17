@@ -15,7 +15,7 @@ export LANG=ja_JP.UTF-8
 
 # Copy dump file
 # --------------
-cp /lampman/postgresql/dump.sql /docker-entrypoint-initdb.d
+cp /postgresql/dump.sql /docker-entrypoint-initdb.d
 
 # Pass to true shell
 # ------------------
