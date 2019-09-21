@@ -1,4 +1,15 @@
 'use strict';
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var strwidth = require('string-width');
 var color = require('cli-color');
@@ -160,7 +171,7 @@ function RotateFile(filepath, max_number) {
 }
 exports.RotateFile = RotateFile;
 function ConfigToYaml(config) {
-    var _a, _b;
+    var _a, _b, _c;
     var yaml = {
         version: config.version,
         services: {},
@@ -168,17 +179,11 @@ function ConfigToYaml(config) {
         networks: {},
     };
     var proj = config.lampman.project;
-    yaml.services.lampman = {
-        container_name: proj + "-lampman",
-        image: config.lampman.image,
-        ports: [],
-        depends_on: [],
-        environment: {},
-        volumes_from: [],
-        volumes: ['./:/lampman'],
-        entrypoint: '/lampman/lampman/entrypoint.sh',
-        networks: [proj + "-" + config.network.name],
-    };
+    var networks;
+    if (config.network && 'name' in config.network) {
+        networks = { networks: [proj + "-" + config.network.name] };
+    }
+    yaml.services.lampman = __assign({ container_name: proj + "-lampman", image: config.lampman.image, ports: [], depends_on: [], environment: {}, volumes_from: [], volumes: ['./:/lampman'], entrypoint: '/lampman/lampman/entrypoint.sh' }, networks);
     if ('ports' in config.lampman.apache && config.lampman.apache.ports.length) {
         (_a = yaml.services.lampman.ports).push.apply(_a, config.lampman.apache.ports);
     }
@@ -210,27 +215,18 @@ function ConfigToYaml(config) {
     if ('maildev' in config.lampman) {
         if ('start' in config.lampman.maildev)
             yaml.services.lampman.environment.LAMPMAN_MAILDEV_START = config.lampman.maildev.start ? 1 : 0;
-        if ('port' in config.lampman.maildev)
-            yaml.services.lampman.environment.LAMPMAN_MAILDEV_PORT = config.lampman.maildev.port;
-        yaml.services.lampman.ports.push(config.lampman.maildev.port + ':9981');
+        if ('ports' in config.lampman.maildev) {
+            yaml.services.lampman.environment.LAMPMAN_MAILDEV_PORTS = config.lampman.maildev.ports.join(', ');
+            (_c = yaml.services.lampman.ports).push.apply(_c, config.lampman.maildev.ports);
+        }
     }
-    for (var _i = 0, _c = Object.keys(config); _i < _c.length; _i++) {
-        var key = _c[_i];
+    for (var _i = 0, _d = Object.keys(config); _i < _d.length; _i++) {
+        var key = _d[_i];
         if (key.match(/^mysql/)) {
-            yaml.services[key] = {
-                container_name: proj + "-" + key,
-                image: config[key].image,
-                ports: config[key].ports,
-                volumes: [
+            yaml.services[key] = __assign({ container_name: proj + "-" + key, image: config[key].image, ports: config[key].ports, volumes: [
                     "./" + key + ":/mysql",
                     key + "_data:/var/lib/mysql",
-                ],
-                entrypoint: '/mysql/before-entrypoint.sh',
-                command: 'mysqld',
-                labels: [proj],
-                environment: {},
-                networks: [proj + "-" + config.network.name],
-            };
+                ], entrypoint: '/mysql/before-entrypoint.sh', command: 'mysqld', labels: [proj], environment: {} }, networks);
             yaml.services[key].environment.MYSQL_ROOT_PASSWORD = config[key].password;
             yaml.services[key].environment.MYSQL_DATABASE = config[key].database;
             yaml.services[key].environment.MYSQL_USER = config[key].user;
@@ -240,8 +236,8 @@ function ConfigToYaml(config) {
             if ('is_locked' in config[key])
                 yaml.services[key].environment.IS_LOCKED = config[key].is_locked ? 1 : 0;
             if ('hosts' in config[key] && config[key].hosts.length) {
-                for (var _d = 0, _e = config[key].hosts; _d < _e.length; _d++) {
-                    var host = _e[_d];
+                for (var _e = 0, _f = config[key].hosts; _e < _f.length; _e++) {
+                    var host = _f[_e];
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
                         yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += ", " + host + ":" + key;
                     }
@@ -262,20 +258,10 @@ function ConfigToYaml(config) {
             };
         }
         if (key.match(/^postgresql/)) {
-            yaml.services[key] = {
-                container_name: proj + "-" + key,
-                image: config[key].image,
-                ports: config[key].ports,
-                volumes: [
+            yaml.services[key] = __assign({ container_name: proj + "-" + key, image: config[key].image, ports: config[key].ports, volumes: [
                     "./" + key + ":/postgresql",
                     key + "_data:/var/lib/postgresql/data",
-                ],
-                entrypoint: '/postgresql/before-entrypoint.sh',
-                command: 'postgres',
-                labels: [proj],
-                environment: {},
-                networks: [proj + "-" + config.network.name],
-            };
+                ], entrypoint: '/postgresql/before-entrypoint.sh', command: 'postgres', labels: [proj], environment: {} }, networks);
             yaml.services[key].environment.POSTGRES_PASSWORD = config[key].password;
             yaml.services[key].environment.POSTGRES_USER = config[key].user;
             yaml.services[key].environment.POSTGRES_DB = config[key].database;
@@ -284,8 +270,8 @@ function ConfigToYaml(config) {
             if ('is_locked' in config[key])
                 yaml.services[key].environment.IS_LOCKED = config[key].is_locked ? 1 : 0;
             if ('hosts' in config[key] && config[key].hosts.length) {
-                for (var _f = 0, _g = config[key].hosts; _f < _g.length; _f++) {
-                    var host = _g[_f];
+                for (var _g = 0, _h = config[key].hosts; _g < _h.length; _g++) {
+                    var host = _h[_g];
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
                         yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += ", " + host + ":" + key;
                     }
@@ -306,7 +292,7 @@ function ConfigToYaml(config) {
             };
         }
     }
-    if (config.network) {
+    if (config.network && 'name' in config.network) {
         yaml.networks[proj + "-" + config.network.name] = {
             driver: 'bridge'
         };

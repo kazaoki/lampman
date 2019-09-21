@@ -232,6 +232,12 @@ export function ConfigToYaml(config: any)
     }
     let proj = config.lampman.project
 
+    // 共通network設定
+    let networks
+    if(config.network && 'name' in config.network) {
+        networks = {networks: [`${proj}-${config.network.name}`]}
+    }
+
     // lampman設定
     yaml.services.lampman = {
         container_name: `${proj}-lampman`,
@@ -242,7 +248,7 @@ export function ConfigToYaml(config: any)
         volumes_from: [],
         volumes: ['./:/lampman'],
         entrypoint: '/lampman/lampman/entrypoint.sh',
-        networks: [`${proj}-${config.network.name}`],
+        ...networks
     }
     if('ports' in config.lampman.apache && config.lampman.apache.ports.length) {
         yaml.services.lampman.ports.push(...config.lampman.apache.ports)
@@ -270,8 +276,10 @@ export function ConfigToYaml(config: any)
     }
     if('maildev' in config.lampman) {
         if('start' in config.lampman.maildev) yaml.services.lampman.environment.LAMPMAN_MAILDEV_START = config.lampman.maildev.start ? 1 : 0
-        if('port'  in config.lampman.maildev) yaml.services.lampman.environment.LAMPMAN_MAILDEV_PORT = config.lampman.maildev.port
-        yaml.services.lampman.ports.push(config.lampman.maildev.port+':9981')
+        if('ports'  in config.lampman.maildev) {
+            yaml.services.lampman.environment.LAMPMAN_MAILDEV_PORTS = config.lampman.maildev.ports.join(', ')
+            yaml.services.lampman.ports.push(...config.lampman.maildev.ports)
+        }
     }
 
     for(let key of Object.keys(config)) {
@@ -290,7 +298,7 @@ export function ConfigToYaml(config: any)
                 command: 'mysqld',
                 labels: [proj],
                 environment: {},
-                networks: [`${proj}-${config.network.name}`],
+                ...networks
             }
             yaml.services[key].environment.MYSQL_ROOT_PASSWORD = config[key].password
             yaml.services[key].environment.MYSQL_DATABASE = config[key].database
@@ -333,7 +341,7 @@ export function ConfigToYaml(config: any)
                 command: 'postgres',
                 labels: [proj],
                 environment: {},
-                networks: [`${proj}-${config.network.name}`],
+                ...networks
             }
             yaml.services[key].environment.POSTGRES_PASSWORD = config[key].password
             yaml.services[key].environment.POSTGRES_USER = config[key].user
@@ -363,7 +371,7 @@ export function ConfigToYaml(config: any)
     }
 
     // ネットワーク追加
-    if(config.network) {
+    if(config.network && 'name' in config.network) {
         yaml.networks[`${proj}-${config.network.name}`] = {
             driver: 'bridge'
         }

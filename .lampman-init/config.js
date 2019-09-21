@@ -10,6 +10,9 @@ const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE;
  */
 module.exports.config = {
 
+    // docker-compose file version
+    version: '2.2',
+
     // Lampman
     lampman: {
         project: 'lampman-proj',
@@ -17,10 +20,10 @@ module.exports.config = {
 
         // Apache
         apache: {
-            ports: [
-                '80:80',
-                '443:443'
-            ],
+            // ports: [
+            //     '80', // or '80:80' like a docker args.
+            //     '443' // or '443:443' like a docker args.
+            // ],
             mounts: [ // 公開ディレクトリに /var/www/html を割り当ててください。
                 '../public_html:/var/www/html',
             ],
@@ -28,7 +31,7 @@ module.exports.config = {
 
         // PHP
         php: {
-            // image: 'kazaoki/phpenv:5.6.22', // ref: https://hub.docker.com/r/kazaoki/phpenv/tags
+            image: 'kazaoki/phpenv:5.6.22', // ref: https://hub.docker.com/r/kazaoki/phpenv/tags
             // ↑ image 未指定なら標準のPHP使用
             error_report: __TRUE_ON_DEFAULT__,
             xdebug_start: __TRUE_ON_DEFAULT__,
@@ -39,7 +42,7 @@ module.exports.config = {
         // maildev
         maildev: {
             start: __TRUE_ON_DEFAULT__,
-            ports: ['9981:9981'],
+            ports: ['9981'], // or '9981:9981' like a docker args.
         },
     },
 
@@ -51,20 +54,11 @@ module.exports.config = {
     //     user: 'test',
     //     password: 'test', // same root password
     //     // charset, collate 設定したい
-    //     hosts: ['mysql.db'],
+    //     hosts: ['main.db'],
     //     dump_rotations: 3,
     //     is_locked: false,
     // },
-    // mysql_2: { // make '/mysql_2/' folder.
-    //     image: 'mysql:5.5',
-    //     ports: {3307: 3306},
-    //     database: 'test2',
-    //     user: 'test2',
-    //     password: 'test2', // same root password
-    //     hosts: ['mysql55.db'],
-    //     dump_rotations: 3,
-    //     is_locked: false,
-    // },
+    // ※設定を増やしたい場合は「mysql_2: {」などして複製し、mysqlフォルダも同様に複製してください。
 
     // // PostgreSQL
     // postgresql: {
@@ -74,8 +68,11 @@ module.exports.config = {
     //     user: 'test',
     //     password: 'test', // same root password
     //     // charset, collate 設定したい
-    //     hosts: ['postgresql.db'],
+    //     hosts: ['sub.db'],
+    //     dump_rotations: 3,
+    //     is_locked: false,
     // },
+    // ※設定を増やしたい場合は「postgresql_2: {」などして複製し、postgresqlフォルダも同様に複製してください。
 
     // extra commands: ex. lamp ab
     extra: {
@@ -117,8 +114,8 @@ module.exports.config = {
         config.yml.services.lampman.depends_on.push('test-alpine')
     },
 
-    // // network
-    // network: {
-    //     name: 'internals'
-    // },
+    // network
+    network: {
+        name: 'internals'
+    },
 }

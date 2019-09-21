@@ -7,7 +7,6 @@ services:
     ports:
       - '80:80'
       - '443:443'
-      - '9981:9981'
     depends_on:
       - phpenv
     environment:
@@ -18,7 +17,6 @@ services:
       LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
       LAMPMAN_PHP_XDEBUG_PORT: 9000
       LAMPMAN_MAILDEV_START: 1
-      LAMPMAN_MAILDEV_PORT: 9981
       LAMPMAN_BIND_HOSTS: >-
         main.db:mysql, main-2.db:mysql_2, sub.db:postgresql,
         sub-b.db:postgresql_b
@@ -31,7 +29,7 @@ services:
       - '../public_html:/var/www/html'
       - '../public_html:/home/user_a/public_html'
     entrypoint: /lampman/lampman/entrypoint.sh
-    networks:
+    networks: &ref_0
       - lampman-test-internals
   phpenv:
     container_name: lampman-test-phpenv
@@ -57,8 +55,7 @@ services:
       MYSQL_PASSWORD: test
       DUMP_ROTATIONS: 3
       IS_LOCKED: 0
-    networks:
-      - lampman-test-internals
+    networks: *ref_0
   mysql_2:
     container_name: lampman-test-mysql_2
     image: 'mysql:5.5'
@@ -78,8 +75,7 @@ services:
       MYSQL_PASSWORD: test2
       DUMP_ROTATIONS: 3
       IS_LOCKED: 0
-    networks:
-      - lampman-test-internals
+    networks: *ref_0
   postgresql:
     container_name: lampman-test-postgresql
     image: 'postgres:9'
@@ -98,8 +94,7 @@ services:
       POSTGRES_DB: test
       DUMP_ROTATIONS: 3
       IS_LOCKED: 0
-    networks:
-      - lampman-test-internals
+    networks: *ref_0
   postgresql_b:
     container_name: lampman-test-postgresql_b
     image: kazaoki/postgres-bigm
@@ -118,8 +113,7 @@ services:
       POSTGRES_DB: testb
       DUMP_ROTATIONS: 3
       IS_LOCKED: 0
-    networks:
-      - lampman-test-internals
+    networks: *ref_0
 volumes:
   mysql_data:
     driver: local

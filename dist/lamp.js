@@ -16,7 +16,7 @@ var login_1 = require("./modules/login");
 var mysql_1 = require("./modules/mysql");
 var psql_1 = require("./modules/psql");
 var logs_1 = require("./modules/logs");
-var ymlout_1 = require("./modules/ymlout");
+var yamlout_1 = require("./modules/yamlout");
 var noargs_1 = require("./modules/noargs");
 console.log('\r');
 process.argv.forEach(function (value, i) {
@@ -107,9 +107,9 @@ commander
     .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
     .action(function (cmd) { return logs_1.default(cmd, lampman); });
 commander
-    .command('ymlout')
+    .command('yamlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
-    .action(function (cmd) { return ymlout_1.default(cmd, lampman); });
+    .action(function (cmd) { return yamlout_1.default(cmd, lampman); });
 commander
     .command('version')
     .description('バージョン表示')

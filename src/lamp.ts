@@ -4,7 +4,6 @@
 
 import fs        = require('fs');
 import path      = require('path');
-// import util      = require('util');
 import commander = require('commander');
 import yaml      = require('js-yaml');
 import libs      = require('./libs');
@@ -19,7 +18,7 @@ import login     from './modules/login';
 import mysql     from './modules/mysql';
 import psql      from './modules/psql';
 import logs      from './modules/logs';
-import ymlout    from './modules/ymlout';
+import yamlout   from './modules/yamlout';
 import noargs    from './modules/noargs';
 
 // 1行改行
@@ -143,11 +142,11 @@ commander
     .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
     .action(cmd=>logs(cmd, lampman))
 
-// ymlout: 設定データをymlとして標準出力（プロジェクトルートから相対）
+// yamlout: 設定データをymlとして標準出力（プロジェクトルートから相対）
 commander
-    .command('ymlout')
+    .command('yamlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
-    .action(cmd=>ymlout(cmd, lampman))
+    .action(cmd=>yamlout(cmd, lampman))
 
 // version: バージョン表示
 commander

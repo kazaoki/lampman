@@ -11,9 +11,9 @@ const path = require('path')
 export default function down(commands: any, lampman: any)
 {
     let proc = child.spawn('docker-compose',
-    ['down'],
-    {
-        cwd: lampman.config_dir,
-        stdio: 'inherit'
-    })
+        ['down'],
+        {
+            cwd: lampman.config_dir,
+            stdio: 'inherit'
+        })
 }

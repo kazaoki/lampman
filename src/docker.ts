@@ -2,10 +2,8 @@
 'use strict'
 
 import libs = require('./libs');
-import { resolve } from 'path';
 const child = require('child_process')
 const color = require('cli-color');
-
 
 /**
  * clear
