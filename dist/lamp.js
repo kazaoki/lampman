@@ -105,7 +105,7 @@ commander
 commander
     .command('reject')
     .description('コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）')
-    .option('-a, --all', 'ロック中のボリュームもリストする')
+    .option('-a, --all', 'ロック中のボリュームも選択できるようにする')
     .option('-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）')
     .action(function (cmd) { return reject_1.default(cmd, lampman); });
 commander
