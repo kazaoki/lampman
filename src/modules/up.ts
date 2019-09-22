@@ -2,7 +2,7 @@
 'use strict'
 
 import libs = require('../libs');
-import docker = require('../docker');
+import reject    from './reject';
 
 const child = require('child_process')
 const path  = require('path')
@@ -35,7 +35,7 @@ export default async function up(commands: any, lampman: any)
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(commands.flush) {
         libs.Label('Flush cleaning')
-        await docker.clean()
+        await reject({force:true}, lampman)
         console.log()
     }
 

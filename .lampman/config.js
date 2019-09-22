@@ -110,20 +110,26 @@ module.exports.config = {
     // extra commands: ex. lamp ab
     extra: {
 
-        // ab
-        ab: {
-            side: 'container', // host|container
-            cmd: 'ab localhost',
+        // lamp clean
+        clean: {
+            side: 'host', // host|container
+            cmd: 'lamp reject --force && lamp rmi --prune'
         },
 
-        // dir
-        dir: {
-            side: 'host', // host|container
-            cmd: {
-                win: 'dir',
-                unix: 'ls -la',
-            },
-        },
+        // // ab
+        // ab: {
+        //     side: 'container', // host|container
+        //     cmd: 'ab localhost',
+        // },
+
+        // // dir
+        // dir: {
+        //     side: 'host', // host|container
+        //     cmd: {
+        //         win: 'dir',
+        //         unix: 'ls -la',
+        //     },
+        // },
 
         // // Make docker-compose.yml for production
         // 'make-product-yml': {
@@ -131,15 +137,15 @@ module.exports.config = {
         //     cmd: 'lamp ymlout -m product > $LAMPMAN_PROJECT_DIR/docker-compose.yml'
         // },
 
-        // func_a
-        func_a: {
-            side: 'host', // host|container
-            desc: 'test func',
-            func: lampman=>{
-                console.log(lampman)
-                console.log('run from extra command: func_a.')
-            }
-        },
+        // // func_a
+        // func_a: {
+        //     side: 'host', // host|container
+        //     desc: 'test func',
+        //     func: lampman=>{
+        //         console.log(lampman)
+        //         console.log('run from extra command: func_a.')
+        //     }
+        // },
     },
 
     // customize lampman object

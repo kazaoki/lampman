@@ -11,14 +11,13 @@ var version_1 = require("./modules/version");
 var init_1 = require("./modules/init");
 var up_1 = require("./modules/up");
 var down_1 = require("./modules/down");
-var remove_1 = require("./modules/remove");
-var clean_1 = require("./modules/clean");
 var login_1 = require("./modules/login");
 var mysql_1 = require("./modules/mysql");
 var psql_1 = require("./modules/psql");
 var logs_1 = require("./modules/logs");
 var yamlout_1 = require("./modules/yamlout");
 var noargs_1 = require("./modules/noargs");
+var reject_1 = require("./modules/reject");
 console.log('\r');
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
@@ -75,15 +74,6 @@ commander
     .description('LAMP終了')
     .action(function (cmd) { return down_1.default(cmd, lampman); });
 commander
-    .command('clean')
-    .description('起動中の全てのコンテナや未ロックなボリューム及び不要なイメージを強制削除する')
-    .action(function (cmd) { return clean_1.default(cmd, lampman); });
-commander
-    .command('remove')
-    .description('リストから選択してコンテナ・ボリューム・イメージ・ネットワークを削除する')
-    .option('-f, --force', 'ロックされたボリュームも削除できるようになる')
-    .action(function (cmd) { return remove_1.default(cmd, lampman); });
-commander
     .command('login')
     .description('リストから選択したコンテナのコンソールにログインします')
     .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
@@ -111,6 +101,12 @@ commander
     .command('yamlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action(function (cmd) { return yamlout_1.default(cmd, lampman); });
+commander
+    .command('reject')
+    .description('コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）')
+    .option('-a, --all', 'ロック中のボリュームもリストする')
+    .option('-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）')
+    .action(function (cmd) { return reject_1.default(cmd, lampman); });
 commander
     .command('version')
     .description('バージョン表示')

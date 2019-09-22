@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
-var docker = require("../docker");
+var reject_1 = require("./reject");
 var child = require('child_process');
 var path = require('path');
 var color = require('cli-color');
@@ -64,7 +64,7 @@ function up(commands, lampman) {
                     args = ['up', '-d'];
                     if (!commands.flush) return [3, 2];
                     libs.Label('Flush cleaning');
-                    return [4, docker.clean()];
+                    return [4, reject_1.default({ force: true }, lampman)];
                 case 1:
                     _b.sent();
                     console.log();
