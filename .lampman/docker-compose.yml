@@ -134,10 +134,10 @@ volumes:
     name: lampman-test-mysql_data
   mysql_2_data:
     driver: local
-    name: lampman-test-mysql_2_data
+    name: locked_lampman-test-mysql_2_data
   postgresql_data:
     driver: local
-    name: lampman-test-postgresql_data
+    name: locked_lampman-test-postgresql_data
   postgresql_b_data:
     driver: local
     name: lampman-test-postgresql_b_data
