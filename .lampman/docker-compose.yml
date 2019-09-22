@@ -44,8 +44,12 @@ services:
     volumes:
       - './mysql:/mysql'
       - 'mysql_data:/var/lib/mysql'
+      - './mysql/dump.sql:/docker-entrypoint-initdb.d/import.sql'
     entrypoint: /mysql/before-entrypoint.sh
-    command: mysqld
+    command:
+      - mysqld
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
     labels:
       - lampman-test
     environment:
@@ -53,8 +57,9 @@ services:
       MYSQL_DATABASE: test
       MYSQL_USER: test
       MYSQL_PASSWORD: test
+      VOLUME_LOCKED: 0
       DUMP_ROTATIONS: 3
-      IS_LOCKED: 0
+      DUMP_FILENAME: dump.sql
     networks: *ref_0
   mysql_2:
     container_name: lampman-test-mysql_2
@@ -64,8 +69,12 @@ services:
     volumes:
       - './mysql_2:/mysql'
       - 'mysql_2_data:/var/lib/mysql'
+      - './mysql_2/dump.sql:/docker-entrypoint-initdb.d/import.sql'
     entrypoint: /mysql/before-entrypoint.sh
-    command: mysqld
+    command:
+      - mysqld
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
     labels:
       - lampman-test
     environment:
@@ -73,8 +82,9 @@ services:
       MYSQL_DATABASE: test2
       MYSQL_USER: test2
       MYSQL_PASSWORD: test2
-      DUMP_ROTATIONS: 3
-      IS_LOCKED: 0
+      VOLUME_LOCKED: 1
+      DUMP_ROTATIONS: 5
+      DUMP_FILENAME: dump.sql
     networks: *ref_0
   postgresql:
     container_name: lampman-test-postgresql
@@ -84,6 +94,7 @@ services:
     volumes:
       - './postgresql:/postgresql'
       - 'postgresql_data:/var/lib/postgresql/data'
+      - './postgresql/dump.sql:/docker-entrypoint-initdb.d/import.sql'
     entrypoint: /postgresql/before-entrypoint.sh
     command: postgres
     labels:
@@ -92,8 +103,9 @@ services:
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
       POSTGRES_DB: test
-      DUMP_ROTATIONS: 3
-      IS_LOCKED: 0
+      VOLUME_LOCKED: 1
+      DUMP_ROTATIONS: 5
+      DUMP_FILENAME: dump.sql
     networks: *ref_0
   postgresql_b:
     container_name: lampman-test-postgresql_b
@@ -103,6 +115,7 @@ services:
     volumes:
       - './postgresql_b:/postgresql'
       - 'postgresql_b_data:/var/lib/postgresql/data'
+      - './postgresql_b/dump.sql:/docker-entrypoint-initdb.d/import.sql'
     entrypoint: /postgresql/before-entrypoint.sh
     command: postgres
     labels:
@@ -111,8 +124,9 @@ services:
       POSTGRES_PASSWORD: testb
       POSTGRES_USER: testb
       POSTGRES_DB: testb
+      VOLUME_LOCKED: 0
       DUMP_ROTATIONS: 3
-      IS_LOCKED: 0
+      DUMP_FILENAME: dump.sql
     networks: *ref_0
 volumes:
   mysql_data:

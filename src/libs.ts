@@ -295,7 +295,7 @@ export function ConfigToYaml(config: any)
                     `${key}_data:/var/lib/mysql`,
                 ],
                 entrypoint: '/mysql/before-entrypoint.sh',
-                command: 'mysqld',
+                command: ['mysqld'],
                 labels: [proj],
                 environment: {},
                 ...networks
@@ -304,8 +304,10 @@ export function ConfigToYaml(config: any)
             yaml.services[key].environment.MYSQL_DATABASE = config[key].database
             yaml.services[key].environment.MYSQL_USER = config[key].user
             yaml.services[key].environment.MYSQL_PASSWORD = config[key].password
-            if('dump_rotations' in config[key]) yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump_rotations
-            if('is_locked' in config[key]) yaml.services[key].environment.IS_LOCKED = config[key].is_locked ? 1 : 0
+            if('charset' in config[key] && config[key].charset.length)
+                yaml.services[key].command.push(`--character-set-server=${config[key].charset}`)
+            if('collation' in config[key] && config[key].collation.length)
+                yaml.services[key].command.push(`--collation-server=${config[key].collation}`)
             if('hosts' in config[key] && config[key].hosts.length) {
                 for(let host of config[key].hosts) {
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
@@ -315,7 +317,16 @@ export function ConfigToYaml(config: any)
                     }
                 }
             }
-            // yaml.services.lampman.depends_on.push(key)
+            if('volume_locked' in config[key]) yaml.services[key].environment.VOLUME_LOCKED = config[key].volume_locked ? 1 : 0
+            if('dump' in config[key]) {
+                if('rotations' in config[key].dump) {
+                    yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump.rotations
+                }
+                if('filename' in config[key].dump) {
+                    yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename
+                    yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/import.sql`)
+                }
+            }
             if ('LAMPMAN_MYSQLS' in yaml.services.lampman.environment) {
                 yaml.services.lampman.environment.LAMPMAN_MYSQLS += `, ${key}`
             } else {
@@ -346,8 +357,17 @@ export function ConfigToYaml(config: any)
             yaml.services[key].environment.POSTGRES_PASSWORD = config[key].password
             yaml.services[key].environment.POSTGRES_USER = config[key].user
             yaml.services[key].environment.POSTGRES_DB = config[key].database
-            if('dump_rotations' in config[key]) yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump_rotations
-            if('is_locked' in config[key]) yaml.services[key].environment.IS_LOCKED = config[key].is_locked ? 1 : 0
+
+            if('volume_locked' in config[key]) yaml.services[key].environment.VOLUME_LOCKED = config[key].volume_locked ? 1 : 0
+            if('dump' in config[key]) {
+                if('rotations' in config[key].dump) {
+                    yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump.rotations
+                }
+                if('filename' in config[key].dump) {
+                    yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename
+                    yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/import.sql`)
+                }
+            }
             if('hosts' in config[key] && config[key].hosts.length) {
                 for(let host of config[key].hosts) {
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
@@ -357,7 +377,6 @@ export function ConfigToYaml(config: any)
                     }
                 }
             }
-            // yaml.services.lampman.depends_on.push(key)
             if ('LAMPMAN_POSTGRESQLS' in yaml.services.lampman.environment) {
                 yaml.services.lampman.environment.LAMPMAN_POSTGRESQLS += `, ${key}`
             } else {

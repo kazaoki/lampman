@@ -226,15 +226,15 @@ function ConfigToYaml(config) {
             yaml.services[key] = __assign({ container_name: proj + "-" + key, image: config[key].image, ports: config[key].ports, volumes: [
                     "./" + key + ":/mysql",
                     key + "_data:/var/lib/mysql",
-                ], entrypoint: '/mysql/before-entrypoint.sh', command: 'mysqld', labels: [proj], environment: {} }, networks);
+                ], entrypoint: '/mysql/before-entrypoint.sh', command: ['mysqld'], labels: [proj], environment: {} }, networks);
             yaml.services[key].environment.MYSQL_ROOT_PASSWORD = config[key].password;
             yaml.services[key].environment.MYSQL_DATABASE = config[key].database;
             yaml.services[key].environment.MYSQL_USER = config[key].user;
             yaml.services[key].environment.MYSQL_PASSWORD = config[key].password;
-            if ('dump_rotations' in config[key])
-                yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump_rotations;
-            if ('is_locked' in config[key])
-                yaml.services[key].environment.IS_LOCKED = config[key].is_locked ? 1 : 0;
+            if ('charset' in config[key] && config[key].charset.length)
+                yaml.services[key].command.push("--character-set-server=" + config[key].charset);
+            if ('collation' in config[key] && config[key].collation.length)
+                yaml.services[key].command.push("--collation-server=" + config[key].collation);
             if ('hosts' in config[key] && config[key].hosts.length) {
                 for (var _e = 0, _f = config[key].hosts; _e < _f.length; _e++) {
                     var host = _f[_e];
@@ -244,6 +244,17 @@ function ConfigToYaml(config) {
                     else {
                         yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = host + ":" + key;
                     }
+                }
+            }
+            if ('volume_locked' in config[key])
+                yaml.services[key].environment.VOLUME_LOCKED = config[key].volume_locked ? 1 : 0;
+            if ('dump' in config[key]) {
+                if ('rotations' in config[key].dump) {
+                    yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump.rotations;
+                }
+                if ('filename' in config[key].dump) {
+                    yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename;
+                    yaml.services[key].volumes.push("./" + key + "/" + config[key].dump.filename + ":/docker-entrypoint-initdb.d/import.sql");
                 }
             }
             if ('LAMPMAN_MYSQLS' in yaml.services.lampman.environment) {
@@ -265,10 +276,17 @@ function ConfigToYaml(config) {
             yaml.services[key].environment.POSTGRES_PASSWORD = config[key].password;
             yaml.services[key].environment.POSTGRES_USER = config[key].user;
             yaml.services[key].environment.POSTGRES_DB = config[key].database;
-            if ('dump_rotations' in config[key])
-                yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump_rotations;
-            if ('is_locked' in config[key])
-                yaml.services[key].environment.IS_LOCKED = config[key].is_locked ? 1 : 0;
+            if ('volume_locked' in config[key])
+                yaml.services[key].environment.VOLUME_LOCKED = config[key].volume_locked ? 1 : 0;
+            if ('dump' in config[key]) {
+                if ('rotations' in config[key].dump) {
+                    yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump.rotations;
+                }
+                if ('filename' in config[key].dump) {
+                    yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename;
+                    yaml.services[key].volumes.push("./" + key + "/" + config[key].dump.filename + ":/docker-entrypoint-initdb.d/import.sql");
+                }
+            }
             if ('hosts' in config[key] && config[key].hosts.length) {
                 for (var _g = 0, _h = config[key].hosts; _g < _h.length; _g++) {
                     var host = _h[_g];
