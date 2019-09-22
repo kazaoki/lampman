@@ -19,9 +19,10 @@ import logs      from './modules/logs';
 import yamlout   from './modules/yamlout';
 import noargs    from './modules/noargs';
 import reject    from './modules/reject';
+import rmi       from './modules/rmi';
 
 // 1行改行
-console.log('\r')
+console.log()
 
 // モードの設定
 process.argv.forEach((value, i)=>{
@@ -141,6 +142,13 @@ commander
     .option('-a, --all', 'ロック中のボリュームもリストする')
     .option('-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）')
     .action(cmd=>reject(cmd, lampman))
+
+// rmi: イメージを選択して削除
+commander
+    .command('rmi')
+    .description('イメージを選択して削除')
+    .option('-p, --prune', '選択を出さず <none> のみ全て削除')
+    .action(cmd=>rmi(cmd, lampman))
 
 // version: バージョン表示
 commander

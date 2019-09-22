@@ -18,7 +18,8 @@ var logs_1 = require("./modules/logs");
 var yamlout_1 = require("./modules/yamlout");
 var noargs_1 = require("./modules/noargs");
 var reject_1 = require("./modules/reject");
-console.log('\r');
+var rmi_1 = require("./modules/rmi");
+console.log();
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
         if (process.argv[i + 1])
@@ -107,6 +108,11 @@ commander
     .option('-a, --all', 'ロック中のボリュームもリストする')
     .option('-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）')
     .action(function (cmd) { return reject_1.default(cmd, lampman); });
+commander
+    .command('rmi')
+    .description('イメージを選択して削除')
+    .option('-p, --prune', '選択を出さず <none> のみ全て削除')
+    .action(function (cmd) { return rmi_1.default(cmd, lampman); });
 commander
     .command('version')
     .description('バージョン表示')
