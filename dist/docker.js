@@ -1,15 +1,4 @@
 'use strict';
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var child = require('child_process');
 var color = require('cli-color');
@@ -22,11 +11,19 @@ function ConfigToYaml(config) {
         networks: {},
     };
     var proj = config.lampman.project;
-    var networks;
+    yaml.services.lampman = {
+        container_name: proj + "-lampman",
+        image: config.lampman.image,
+        ports: [],
+        depends_on: [],
+        environment: {},
+        volumes_from: [],
+        volumes: ['./:/lampman'],
+        entrypoint: '/lampman/lampman/entrypoint.sh',
+    };
     if (config.network && 'name' in config.network) {
-        networks = { networks: [proj + "-" + config.network.name] };
+        yaml.services.lampman.networks = [proj + "-" + config.network.name];
     }
-    yaml.services.lampman = __assign({ container_name: proj + "-lampman", image: config.lampman.image, ports: [], depends_on: [], environment: {}, volumes_from: [], volumes: ['./:/lampman'], entrypoint: '/lampman/lampman/entrypoint.sh' }, networks);
     if ('ports' in config.lampman.apache && config.lampman.apache.ports.length) {
         (_a = yaml.services.lampman.ports).push.apply(_a, config.lampman.apache.ports);
     }
@@ -66,10 +63,22 @@ function ConfigToYaml(config) {
     for (var _i = 0, _d = Object.keys(config); _i < _d.length; _i++) {
         var key = _d[_i];
         if (key.match(/^mysql/)) {
-            yaml.services[key] = __assign({ container_name: proj + "-" + key, image: config[key].image, ports: config[key].ports, volumes: [
+            yaml.services[key] = {
+                container_name: proj + "-" + key,
+                image: config[key].image,
+                ports: config[key].ports,
+                volumes: [
                     "./" + key + ":/mysql",
                     key + "_data:/var/lib/mysql",
-                ], entrypoint: '/mysql/before-entrypoint.sh', command: ['mysqld'], labels: [proj], environment: {} }, networks);
+                ],
+                entrypoint: '/mysql/before-entrypoint.sh',
+                command: ['mysqld'],
+                labels: [proj],
+                environment: {},
+            };
+            if (config.network && 'name' in config.network) {
+                yaml.services[key].networks = [proj + "-" + config.network.name];
+            }
             yaml.services[key].environment.MYSQL_ROOT_PASSWORD = config[key].password;
             yaml.services[key].environment.MYSQL_DATABASE = config[key].database;
             yaml.services[key].environment.MYSQL_USER = config[key].user;
@@ -112,10 +121,22 @@ function ConfigToYaml(config) {
             };
         }
         if (key.match(/^postgresql/)) {
-            yaml.services[key] = __assign({ container_name: proj + "-" + key, image: config[key].image, ports: config[key].ports, volumes: [
+            yaml.services[key] = {
+                container_name: proj + "-" + key,
+                image: config[key].image,
+                ports: config[key].ports,
+                volumes: [
                     "./" + key + ":/postgresql",
                     key + "_data:/var/lib/postgresql/data",
-                ], entrypoint: '/postgresql/before-entrypoint.sh', command: 'postgres', labels: [proj], environment: {} }, networks);
+                ],
+                entrypoint: '/postgresql/before-entrypoint.sh',
+                command: 'postgres',
+                labels: [proj],
+                environment: {},
+            };
+            if (config.network && 'name' in config.network) {
+                yaml.services[key].networks = [proj + "-" + config.network.name];
+            }
             yaml.services[key].environment.POSTGRES_PASSWORD = config[key].password;
             yaml.services[key].environment.POSTGRES_USER = config[key].user;
             yaml.services[key].environment.POSTGRES_DB = config[key].database;

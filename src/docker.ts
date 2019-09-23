@@ -21,12 +21,6 @@ export function ConfigToYaml(config: any)
     }
     let proj = config.lampman.project
 
-    // 共通network設定
-    let networks
-    if(config.network && 'name' in config.network) {
-        networks = {networks: [`${proj}-${config.network.name}`]}
-    }
-
     // lampman設定
     yaml.services.lampman = {
         container_name: `${proj}-lampman`,
@@ -37,7 +31,9 @@ export function ConfigToYaml(config: any)
         volumes_from: [],
         volumes: ['./:/lampman'],
         entrypoint: '/lampman/lampman/entrypoint.sh',
-        ...networks
+    }
+    if(config.network && 'name' in config.network) {
+        yaml.services.lampman.networks = [`${proj}-${config.network.name}`]
     }
     if('ports' in config.lampman.apache && config.lampman.apache.ports.length) {
         yaml.services.lampman.ports.push(...config.lampman.apache.ports)
@@ -87,7 +83,9 @@ export function ConfigToYaml(config: any)
                 command: ['mysqld'],
                 labels: [proj],
                 environment: {},
-                ...networks
+            }
+            if(config.network && 'name' in config.network) {
+                yaml.services[key].networks = [`${proj}-${config.network.name}`]
             }
             yaml.services[key].environment.MYSQL_ROOT_PASSWORD = config[key].password
             yaml.services[key].environment.MYSQL_DATABASE = config[key].database
@@ -141,7 +139,9 @@ export function ConfigToYaml(config: any)
                 command: 'postgres',
                 labels: [proj],
                 environment: {},
-                ...networks
+            }
+            if(config.network && 'name' in config.network) {
+                yaml.services[key].networks = [`${proj}-${config.network.name}`]
             }
             yaml.services[key].environment.POSTGRES_PASSWORD = config[key].password
             yaml.services[key].environment.POSTGRES_USER = config[key].user

@@ -29,7 +29,7 @@ services:
       - '../public_html:/var/www/html'
       - '../public_html:/home/user_a/public_html'
     entrypoint: /lampman/lampman/entrypoint.sh
-    networks: &ref_0
+    networks:
       - lampman-test-internals
   phpenv:
     container_name: lampman-test-phpenv
@@ -60,7 +60,8 @@ services:
       VOLUME_LOCKED: 0
       DUMP_ROTATIONS: 3
       DUMP_FILENAME: dump.sql
-    networks: *ref_0
+    networks:
+      - lampman-test-internals
   mysql_2:
     container_name: lampman-test-mysql_2
     image: 'mysql:5.5'
@@ -85,7 +86,8 @@ services:
       VOLUME_LOCKED: 1
       DUMP_ROTATIONS: 5
       DUMP_FILENAME: dump.sql
-    networks: *ref_0
+    networks:
+      - lampman-test-internals
   postgresql:
     container_name: lampman-test-postgresql
     image: 'postgres:9'
@@ -106,7 +108,8 @@ services:
       VOLUME_LOCKED: 1
       DUMP_ROTATIONS: 5
       DUMP_FILENAME: dump.sql
-    networks: *ref_0
+    networks:
+      - lampman-test-internals
   postgresql_b:
     container_name: lampman-test-postgresql_b
     image: kazaoki/postgres-bigm
@@ -127,7 +130,8 @@ services:
       VOLUME_LOCKED: 0
       DUMP_ROTATIONS: 3
       DUMP_FILENAME: dump.sql
-    networks: *ref_0
+    networks:
+      - lampman-test-internals
 volumes:
   mysql_data:
     driver: local
