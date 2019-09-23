@@ -5,7 +5,7 @@ services:
     container_name: lampman-proj-lampman
     image: kazaoki/lampman
     ports:
-      - 'undefined:9981'
+      - '9981'
     depends_on:
       - phpenv
     environment:
@@ -16,6 +16,7 @@ services:
       LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
       LAMPMAN_PHP_XDEBUG_PORT: 9000
       LAMPMAN_MAILDEV_START: 0
+      LAMPMAN_MAILDEV_PORTS: '9981'
     volumes_from:
       - phpenv
     volumes:

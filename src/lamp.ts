@@ -2,6 +2,8 @@
 
 'use strict'
 
+require('dotenv').config()
+
 import fs        = require('fs');
 import path      = require('path');
 import child     = require('child_process');

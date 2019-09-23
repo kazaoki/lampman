@@ -22,7 +22,15 @@ export default function init(commands: any, lampman: any)
                 overwrite: false,
                 errorOnExist: true
             }
-        );
+        )
+        fs.copySync(
+            path.join(__dirname, '../../.env-sample'),
+            path.join(config_dir, '/../.env-sample'),
+            {
+                overwrite: false,
+                errorOnExist: true
+            }
+        )
     } catch(e) {
         libs.Error(e)
     }
