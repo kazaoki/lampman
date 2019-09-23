@@ -128,10 +128,9 @@ commander
 
 // errors: エラーログ監視
 commander
-    .command('logs')
-    .description('エラーログ監視')
-    .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
-    .action(cmd=>logs(cmd, lampman))
+    .command('logs [group]')
+    .description('ログファイル監視（グループ未指定ならsplitして全て表示）')
+    .action((cname, cmd)=>logs(cname, cmd, lampman))
 
 // yamlout: 設定データをymlとして標準出力（プロジェクトルートから相対）
 commander
@@ -191,14 +190,5 @@ if('undefined'!==typeof lampman.config) {
 // パース実行
 commander.parse(process.argv)
 
-if(commander.args.length) {
-    if('string'===typeof commander.args[0]) {
-        libs.Error(commander.args[0]+': ご指定のコマンドはありません。')
-    }
-} else {
-    // 引数なし
-    noargs(
-        commander,
-        lampman
-    )
-}
+// 引数なしの場合は noargs を実行
+if(!commander.args.length) noargs(commander, lampman)

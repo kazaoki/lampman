@@ -107,6 +107,11 @@ module.exports.config = {
         }
     },
 
+    // network
+    network: {
+        name: 'internals'
+    },
+
     // extra commands: ex. lamp ab
     extra: {
 
@@ -135,8 +140,18 @@ module.exports.config = {
         },
     },
 
-    // network
-    network: {
-        name: 'internals'
-    },
+    // logs
+    logs: {
+        apache: [
+            ['/var/log/httpd/access_log', 'white'],
+            ['/var/log/httpd/error_log', 'red'],
+            // ['/var/log/httpd/ssl_access_log', 'white'],
+            // ['/var/log/httpd/ssl_request_log', 'white'],
+            // ['/var/log/httpd/ssl_error_log', 'red'],
+        ],
+        app: [
+            ['/var/www/html/app.log', 'white'],
+        ],
+    }
+
 }

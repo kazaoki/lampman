@@ -97,10 +97,9 @@ commander
     .option('-r, --restore', '最新のダンプファイルをリストアします。')
     .action(function (cname, cmd) { return psql_1.default(cname, cmd, lampman); });
 commander
-    .command('logs')
-    .description('エラーログ監視')
-    .option('-g, --group <name>', 'ロググループ名を指定できます。未指定なら最初のやつ')
-    .action(function (cmd) { return logs_1.default(cmd, lampman); });
+    .command('logs [group]')
+    .description('ログファイル監視（グループ未指定ならsplitして全て表示）')
+    .action(function (cname, cmd) { return logs_1.default(cname, cmd, lampman); });
 commander
     .command('yamlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
@@ -150,11 +149,5 @@ if ('undefined' !== typeof lampman.config) {
     }
 }
 commander.parse(process.argv);
-if (commander.args.length) {
-    if ('string' === typeof commander.args[0]) {
-        libs.Error(commander.args[0] + ': ご指定のコマンドはありません。');
-    }
-}
-else {
+if (!commander.args.length)
     noargs_1.default(commander, lampman);
-}
