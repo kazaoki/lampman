@@ -128,11 +128,11 @@ module.exports.config = {
         clean: {
             command: 'lamp reject --force && lamp rmi --prune',
         },
-    },
 
-    // customize lampman object
-    customize: config=>{
-        config.yml.services.lampman.depends_on.push('test-alpine')
+        // プロジェクトパスに本番用 docker-compose.yml を生成する（ .lampman-product/ を参照します）
+        product_compose: {
+            command: `cd ${__dirname}/../ && lamp yamlout -m product > docker-compose.yml`
+        },
     },
 
     // network
