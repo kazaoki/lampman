@@ -3,6 +3,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
 var path = require("path");
+var child = require("child_process");
+var color = require("cli-color");
 var commander = require("commander");
 var yaml = require("js-yaml");
 var libs = require("./libs");
@@ -119,24 +121,25 @@ commander
     .action(function (cmd) { return version_1.default(cmd, lampman); });
 if ('undefined' !== typeof lampman.config) {
     var _loop_1 = function (key) {
-        var cmd = lampman.config.extra[key].cmd;
-        var func = lampman.config.extra[key].func;
-        var desc = lampman.config.extra[key].desc;
-        var side = lampman.config.extra[key].side;
-        if ('object' === typeof cmd)
-            cmd = cmd['win32' === process.platform ? 'win' : 'unix'];
-        if ('undefined' === typeof desc)
-            desc = 'undefined' === typeof func ? cmd : '(func)';
+        var extra = lampman.config.extra[key];
+        if ('object' === typeof extra.command)
+            extra.command = extra.command['win32' === process.platform ? 'win' : 'unix'];
+        if ('undefined' === typeof extra.desc)
+            extra.desc = extra.command;
         commander
             .command(key)
-            .description(desc + ' (' + (side) + ' side)')
+            .description(extra.desc + (extra.container ? color.blackBright(" on " + extra.container) : ''))
             .action(function (cmd) {
-            if ('undefined' === typeof func) {
-                console.log('run command: ' + key);
-                console.log(cmd);
+            libs.Message("Execute the following command on " + (extra.container ? extra.container : 'host OS') + "\n" + extra.desc, 'primary', 1);
+            console.log();
+            if ('container' in extra) {
+                child.spawnSync('docker-compose', ['exec', 'lampman', 'sh', '-c', extra.command], {
+                    stdio: 'inherit',
+                    cwd: lampman.config_dir
+                });
             }
             else {
-                console.log('run function: ' + key);
+                child.exec(extra.command).stdout.on('data', function (data) { return process.stdout.write(data); });
             }
         });
     };
@@ -147,7 +150,9 @@ if ('undefined' !== typeof lampman.config) {
 }
 commander.parse(process.argv);
 if (commander.args.length) {
-    ;
+    if ('string' === typeof commander.args[0]) {
+        libs.Error(commander.args[0] + ': ご指定のコマンドはありません。');
+    }
 }
 else {
     noargs_1.default(commander, lampman);

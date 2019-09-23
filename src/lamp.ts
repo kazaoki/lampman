@@ -4,6 +4,8 @@
 
 import fs        = require('fs');
 import path      = require('path');
+import child     = require('child_process');
+import color     = require('cli-color');
 import commander = require('commander');
 import yaml      = require('js-yaml');
 import libs      = require('./libs');
@@ -159,23 +161,25 @@ commander
 // 追加コマンド
 if('undefined'!==typeof lampman.config) {
     for(let key of Object.keys(lampman.config.extra)) {
-        let cmd = lampman.config.extra[key].cmd
-        let func = lampman.config.extra[key].func
-        let desc = lampman.config.extra[key].desc
-        let side = lampman.config.extra[key].side
-        if('object'===typeof cmd) cmd = cmd['win32'===process.platform ? 'win' : 'unix']
-        if('undefined'===typeof desc) desc = 'undefined'===typeof func ? cmd : '(func)'
+        let extra = lampman.config.extra[key]
+        if('object'===typeof extra.command) extra.command = extra.command['win32'===process.platform ? 'win' : 'unix']
+        if('undefined'===typeof extra.desc) extra.desc = extra.command
         commander
             .command(key)
-            .description(desc+' ('+(side)+' side)')
+            .description(extra.desc+(extra.container ? color.blackBright(` on ${extra.container}`): ''))
             .action(cmd=>{
-                if('undefined'===typeof func) {
-                    // TODO: コマンド実行
-                    console.log('run command: '+key)
-                    console.log(cmd)
+                libs.Message(`Execute the following command on ${extra.container ? extra.container: 'host OS'}\n${extra.desc}`, 'primary', 1)
+                console.log()
+                // コマンド実行
+                if('container' in extra) {
+                    // 指定コンテナにて実行
+                    child.spawnSync('docker-compose', ['exec', 'lampman', 'sh', '-c', extra.command], {
+                        stdio: 'inherit',
+                        cwd: lampman.config_dir
+                    })
                 } else {
-                    // TODO: 関数実行
-                    console.log('run function: '+key)
+                    // ホストOSにて実行
+                    child.exec(extra.command).stdout.on('data', data=>process.stdout.write(data))
                 }
             })
         ;
@@ -186,10 +190,9 @@ if('undefined'!==typeof lampman.config) {
 commander.parse(process.argv)
 
 if(commander.args.length) {
-    // if('string'===typeof commander.args[0]) {
-    //     libs.Error(commander.args[0]+': ご指定のコマンドはありません。')
-    // }
-    ;
+    if('string'===typeof commander.args[0]) {
+        libs.Error(commander.args[0]+': ご指定のコマンドはありません。')
+    }
 } else {
     // 引数なし
     noargs(

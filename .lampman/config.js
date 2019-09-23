@@ -1,11 +1,11 @@
 
-const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE;
+const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE
 
 /**
  * load modules
  */
 
- /**
+/**
  * export configs
  */
 module.exports.config = {
@@ -110,42 +110,24 @@ module.exports.config = {
     // extra commands: ex. lamp ab
     extra: {
 
-        // lamp clean
-        clean: {
-            side: 'host', // host|container
-            cmd: 'lamp reject --force && lamp rmi --prune'
+        // ファイル一覧
+        filelist: {
+            command: {
+                win: 'dir',
+                unix: 'ls -la',
+            },
         },
 
-        // // ab
-        // ab: {
-        //     side: 'container', // host|container
-        //     cmd: 'ab localhost',
-        // },
+        // LampmanコンテナでApacheベンチ実行
+        ab: {
+            command: 'ab -n1000 -c100 http://localhost/',
+            container: 'lampman',
+        },
 
-        // // dir
-        // dir: {
-        //     side: 'host', // host|container
-        //     cmd: {
-        //         win: 'dir',
-        //         unix: 'ls -la',
-        //     },
-        // },
-
-        // // Make docker-compose.yml for production
-        // 'make-product-yml': {
-        //     side: 'host',
-        //     cmd: 'lamp ymlout -m product > $LAMPMAN_PROJECT_DIR/docker-compose.yml'
-        // },
-
-        // // func_a
-        // func_a: {
-        //     side: 'host', // host|container
-        //     desc: 'test func',
-        //     func: lampman=>{
-        //         console.log(lampman)
-        //         console.log('run from extra command: func_a.')
-        //     }
-        // },
+        // 起動中の全てのコンテナ・未ロックボリューム・<none>イメージを強制削除する
+        clean: {
+            command: 'lamp reject --force && lamp rmi --prune',
+        },
     },
 
     // customize lampman object

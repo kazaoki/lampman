@@ -1,7 +1,7 @@
 {
     "name": "lampman",
     "description": "LAMP server orchestration tool on docker-compose (Under development...)",
-    "version": "0.1.19",
+    "version": "0.1.20",
     "license": "MIT",
     "private": false,
     "bin": {
@@ -13,6 +13,7 @@
         "build": "gulp ts"
     },
     "devDependencies": {
+        "@types/cli-color": "^0.3.29",
         "@types/fs-extra": "^8.0.0",
         "@types/js-yaml": "^3.12.1",
         "@types/node": "^12.7.2",
