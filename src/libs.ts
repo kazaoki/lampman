@@ -18,6 +18,33 @@ export function d(data: any) {
 }
 
 /**
+ * isWindows
+ * -----------------------------------------------------------------------------
+ * @return {boolean} Windowsかどうか
+ */
+export function isWindows() {
+    return 'win32'===process.platform
+}
+
+/**
+ * isMac
+ * -----------------------------------------------------------------------------
+ * @return {boolean} MacOSかどうか
+ */
+export function isMac() {
+    return 'darwin'===process.platform
+}
+
+/**
+ * isLinux
+ * -----------------------------------------------------------------------------
+ * @return {boolean} Linuxかどうか
+ */
+export function isLinux() {
+    return 'linux'===process.platform
+}
+
+/**
  * Repeat
  *
  * @param {string} string 繰り返したい文字
@@ -80,8 +107,8 @@ export function Message (message: any, type: string='default', line: number=0): 
         line_color(Repeat('═', width)) +
         line_color('╕')
     )
-    for(let i in messages) {
-        if(line>0 && line==(i as unknown as number)) {
+    for(let i=0; i<messages.length; i++) {
+        if(line>0 && line===i) {
             console.log(
                 indent +
                 line_color('├') +
@@ -93,9 +120,9 @@ export function Message (message: any, type: string='default', line: number=0): 
             indent +
             line_color('│') +
             (
-                (line>0 && line<=(i as unknown as number))
-                    ? fg_color(' '+messages[i]+' ')
-                    : fg_color.bold(' '+messages[i]+' ')
+                (line>0 && i<line)
+                    ? fg_color.bold(' '+messages[i]+' ')
+                    : fg_color(' '+messages[i]+' ')
             )+
             Repeat(' ', (width-2) - strwidth(messages[i])) +
             line_color('│')

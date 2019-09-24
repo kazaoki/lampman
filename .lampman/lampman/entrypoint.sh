@@ -93,14 +93,6 @@ sed -i "s/#ServerName www\.example\.com\:80/ServerName lampman\.localhost/" /etc
 # fi
 
 # # --------------------------------------------------------------------
-# # MailDev
-# # --------------------------------------------------------------------
-# if [[ $GENIE_MAIL_MAILDEV_ENABLED ]]; then
-#   echo 'relayhost = 127.0.0.1:1025' >> /etc/postfix/main.cf
-#   maildev -s 1025 -w 9981 $GENIE_MAIL_MAILDEV_OPTION_STRING &
-# fi
-
-# # --------------------------------------------------------------------
 # # Postfix
 # # --------------------------------------------------------------------
 # if [[ $GENIE_MAIL_POSTFIX_ENABLED ]]; then
@@ -121,27 +113,21 @@ sed -i "s/#ServerName www\.example\.com\:80/ServerName lampman\.localhost/" /etc
 #   td-agent --config=$GENIE_LOG_FLUENTD_CONFIG_FILE &
 # fi
 
-# # --------------------------------------------------------------------
-# # Copy directories other than /opt/
-# # --------------------------------------------------------------------
-# rsync -rltD --exclude /opt /genie/* /
-# if [[ -d /genie/etc/httpd ]]; then
-#   if [[ $GENIE_HTTP_APACHE_ENABLED ]]; then
-#     /usr/sbin/httpd -k restart
-#   fi
-# fi
-# if [[ -d /genie/etc/postfix ]]; then
-#   if [[ $GENIE_MAIL_POSTFIX_ENABLED ]]; then
-#     /usr/sbin/postfix reload
-#   fi
-# fi
-# if [[ -d /genie/etc/nginx ]]; then
-#   if [[ $GENIE_HTTP_NGINX_ENABLED ]]; then
-#     /usr/sbin/nginx -s reload
-#   fi
-# fi
-
-
+# --------------------------------------------------------------------
+# Add multitail config
+# --------------------------------------------------------------------
+cat <<EOL >> /etc/multitail.conf
+### Apache Error log custom scheme
+colorscheme:apache_errors
+cs_re:magenta:line [0-9]+
+cs_re:green:\[|\]
+cs_re:yellow:^\[.+\]
+cs_re:blue:in .*
+cs_re:green:PHP [a-zA-Z ]*\:?
+cs_re:blue:, referer.*
+cs_re:green:\] [a-zA-Z0-9]+:
+cs_re:red:.*
+EOL
 
 # --------------------------------------------------------------------
 # Add host set to hosts file

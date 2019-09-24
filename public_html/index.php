@@ -1,3 +1,7 @@
+<?php
+file_put_contents('app.log', date('Y-m-d H:i:s')."\n", FILE_APPEND);
+error_log('error-log-test');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

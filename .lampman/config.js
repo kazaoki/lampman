@@ -143,15 +143,15 @@ module.exports.config = {
     // logs
     logs: {
         apache: [
-            ['/var/log/httpd/access_log', 'white'],
-            ['/var/log/httpd/error_log', 'red'],
-            // ['/var/log/httpd/ssl_access_log', 'white'],
-            // ['/var/log/httpd/ssl_request_log', 'white'],
-            // ['/var/log/httpd/ssl_error_log', 'red'],
+            ['/var/log/httpd/access_log', ['-cS', 'apache']],
+            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
+            // ['/var/log/httpd/ssl_access_log', ['-cS', 'apache']],
+            // ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
+            // ['/var/log/httpd/ssl_error_log', ['-ci', 'red']],
         ],
-        app: [
-            ['/var/www/html/app.log', 'white'],
-        ],
+        // app: [
+        //     ['/var/www/html/app.log', ['-ci', 'green']],
+        // ],
     }
 
 }

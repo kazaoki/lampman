@@ -11,6 +11,18 @@ function d(data) {
     console.log(util.inspect(data, { colors: true, compact: false, breakLength: 10, depth: 10 }));
 }
 exports.d = d;
+function isWindows() {
+    return 'win32' === process.platform;
+}
+exports.isWindows = isWindows;
+function isMac() {
+    return 'darwin' === process.platform;
+}
+exports.isMac = isMac;
+function isLinux() {
+    return 'linux' === process.platform;
+}
+exports.isLinux = isLinux;
 function Repeat(string, times) {
     if (times === void 0) { times = 1; }
     if (!(times > 0))
@@ -65,8 +77,8 @@ function Message(message, type, line) {
         line_color('╒') +
         line_color(Repeat('═', width)) +
         line_color('╕'));
-    for (var i in messages) {
-        if (line > 0 && line == i) {
+    for (var i = 0; i < messages.length; i++) {
+        if (line > 0 && line === i) {
             console.log(indent +
                 line_color('├') +
                 line_color(Repeat('-', width)) +
@@ -74,9 +86,9 @@ function Message(message, type, line) {
         }
         console.log(indent +
             line_color('│') +
-            ((line > 0 && line <= i)
-                ? fg_color(' ' + messages[i] + ' ')
-                : fg_color.bold(' ' + messages[i] + ' ')) +
+            ((line > 0 && i < line)
+                ? fg_color.bold(' ' + messages[i] + ' ')
+                : fg_color(' ' + messages[i] + ' ')) +
             Repeat(' ', (width - 2) - strwidth(messages[i])) +
             line_color('│'));
     }
