@@ -43,7 +43,7 @@ module.exports.config = {
         // maildev
         maildev: {
             start: __TRUE_ON_DEFAULT__,
-            port: 9981,
+            ports: ['9981:1080'],
         },
     },
 

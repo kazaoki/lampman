@@ -166,7 +166,7 @@ if [[ $LAMPMAN_MAILDEV_START ]]; then
   sed -i 's/inet_protocols = all/inet_protocols = ipv4/g' /etc/postfix/main.cf
 
   # -- MailDev start
-  maildev -s 1025 -w $LAMPMAN_MAILDEV_PORT &
+  maildev -s 1025 -w 1080 &
 fi
 
 # -- Postfix start
