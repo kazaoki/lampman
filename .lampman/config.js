@@ -119,20 +119,26 @@ module.exports.config = {
         name: 'internals'
     },
 
-    // extra commands: ex. lamp ab
+    // logs
+    logs: {
+        http: [
+            ['/var/log/httpd/access_log', ['-cS', 'apache']],
+            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
+        ],
+        https: [
+            ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
+            ['/var/log/httpd/ssl_error_log', ['-cS', 'apache_errors']],
+        ],
+        // app: [
+        //     ['/var/www/html/app.log', ['-ci', 'green']],
+        // ],
+    },
+
+    // extra commands
     extra: {
-
-        // ファイル一覧
-        filelist: {
-            command: {
-                win: 'dir',
-                unix: 'ls -la',
-            },
-        },
-
-        // LampmanコンテナでApacheベンチ実行
+        // Lampmanコンテナ上でApacheベンチ実行
         ab: {
-            command: 'ab -n1000 -c100 http://localhost/',
+            command: 'ab -n1000 -c100 https://localhost/',
             container: 'lampman',
         },
 
@@ -141,24 +147,31 @@ module.exports.config = {
             command: 'lamp reject --force && lamp rmi --prune',
         },
 
-        // プロジェクトパスに本番用 docker-compose.yml を生成する（ .lampman-product/ を参照します）
-        product_compose: {
-            command: `cd ${__dirname}/../ && lamp yamlout -m product > docker-compose.yml`
+        // PHP Xdebug の有効/無効切り替え
+        xon: {
+            command: '/lampman/lampman/php-xdebug-on.sh',
+            container: 'lampman',
         },
+        xoff: {
+            command: '/lampman/lampman/php-xdebug-off.sh',
+            container: 'lampman',
+        },
+
+        // プロジェクトパスに本番用 docker-compose.yml を生成する（ productモードにするので .lampman-product/ が必要です）
+        product_compose: {
+            command: `cd ${__dirname}/../ && lamp yamlout --mode product > docker-compose.yml`,
+            desc: '本番用の docker-compose.yml をプロジェクトパスに生成'
+        },
+
+        // extraサンプル：`lamp sample`
+        // sample: {
+        //     command: '(command for all os)',
+        //     command: {
+        //         win: '(command for windows)',
+        //         unix: '(command for mac|linux)',
+        //     },
+        //     container: 'lampman', // if specified, run on container.
+        //     desc: '(description)', // if specified, show desc on `lamp --help`
+        // },
     },
-
-    // logs
-    logs: {
-        apache: [
-            ['/var/log/httpd/access_log', ['-cS', 'apache']],
-            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
-            // ['/var/log/httpd/ssl_access_log', ['-cS', 'apache']],
-            // ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
-            // ['/var/log/httpd/ssl_error_log', ['-ci', 'red']],
-        ],
-        // app: [
-        //     ['/var/www/html/app.log', ['-ci', 'green']],
-        // ],
-    }
-
 }

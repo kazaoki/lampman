@@ -50,6 +50,7 @@ else
   echo 'xdebug.var_display_max_depth = -1' >> $phpini
 fi
 sed -i "s/^variables_order .*$/variables_order = \"EGPCS\"/" $phpini
+echo $phpini > /phpinipath
 
 # --------------------------------------------------------------------
 # Apache
