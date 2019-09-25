@@ -8,6 +8,7 @@ RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
         git \
         nginx \
         httpd \
+        mod_ssl \
         php \
         php-mbstring \
         php-mysql \

@@ -11,6 +11,7 @@ services:
     depends_on:
       - phpenv
     environment:
+      LAMPMAN_APACHE_START: 1
       LAMPMAN_PHP_PHPENV_IMAGE: 'kazaoki/phpenv:5.6.22'
       LAMPMAN_PHP_PHPENV_VERSION: 5.6.22
       LAMPMAN_PHP_ERROR_REPORT: 1
@@ -19,6 +20,7 @@ services:
       LAMPMAN_PHP_XDEBUG_PORT: 9000
       LAMPMAN_MAILDEV_START: 1
       LAMPMAN_MAILDEV_PORTS: '9981:1080'
+      LAMPMAN_POSTFIX_START: 1
       LAMPMAN_BIND_HOSTS: >-
         main.db:mysql, main-2.db:mysql_2, sub.db:postgresql,
         sub-b.db:postgresql_b

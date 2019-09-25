@@ -10,7 +10,6 @@
 #   /usr/sbin/sshd -D -f /etc/ssh/sshd_config &
 # fi
 
-
 # --------------------------------------------------------------------
 # php version container setup
 # --------------------------------------------------------------------
@@ -52,59 +51,27 @@ else
 fi
 sed -i "s/^variables_order .*$/variables_order = \"EGPCS\"/" $phpini
 
-
 # --------------------------------------------------------------------
 # Apache
 # --------------------------------------------------------------------
-# if [[ $GENIE_HTTP_APACHE_ENABLED ]]; then
-# #   passenv_string=`set | grep -i '^GENIE_' | perl -pe 'while(<>){ chomp; $_=~ /([^\=]+)/; print "$1 "; }'`
-# #   sed -i "/<__PASSENV__>/,/<\/__PASSENV__>/c\
-# # \ \ # <__PASSENV__>\n\
-# #   PassEnv $passenv_string\n\
-# #   # </__PASSENV__>" /etc/httpd/conf/httpd.conf
-# #   sed -i "s/DocumentRoot \"\/var\/www\/localhost\/htdocs\"/DocumentRoot \"\/var\/www\/html\"/" /etc/httpd/conf/httpd.conf
-# #   sed -i "s/ScriptAlias \/cgi\-bin\//#ScriptAlias \/cgi\-bin\//" /etc/httpd/conf/httpd.conf
-#   if [[ $GENIE_HTTP_APACHE_NO_LOG_REGEX ]]; then
-#     sed -i "s/CustomLog \"logs\/access_log\" combined$/CustomLog \"logs\/access_log\" combined env\=\!nolog/" /etc/httpd/conf/httpd.conf
-#     echo "SetEnvIfNoCase Request_URI \"$GENIE_HTTP_APACHE_NO_LOG_REGEX\" nolog" >> /etc/httpd/conf/httpd.conf
-#     sed -i "s/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\"/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\" env\=\!nolog/" /etc/httpd/conf.d/ssl.conf
-#   fi
-#   if [[ $GENIE_HTTP_APACHE_REAL_IP_LOG_ENABLED ]]; then
-#     sed -i "s/\%h /\%\{X-Forwarded-For\}i /g" /etc/httpd/conf/httpd.conf
-#     sed -i "s/\%h /\%\{X-Forwarded-For\}i /g" /etc/httpd/conf.d/ssl.conf
-#   fi
-#   /usr/sbin/httpd
-#   echo 'Apache setup done.' >> /var/log/entrypoint.log
-# fi
+if [[ $LAMPMAN_APACHE_START ]]; then
+  sed -i "s/ScriptAlias \/cgi\-bin\//#ScriptAlias \/cgi\-bin\//" /etc/httpd/conf/httpd.conf
+  sed -i "s/CustomLog \"logs\/access_log\" combined$/CustomLog \"logs\/access_log\" combined env\=\!nolog/" /etc/httpd/conf/httpd.conf
+  echo "SetEnvIfNoCase Request_URI \"\.(gif|jpg|jpeg|jpe|png|css|js|ico|woff|woff2|map)$\" nolog" >> /etc/httpd/conf/httpd.conf
+  sed -i "s/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\"/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\" env\=\!nolog/" /etc/httpd/conf.d/ssl.conf
+  # sed -i "s/\%h /\%\{X-Forwarded-For\}i /g" /etc/httpd/conf/httpd.conf
+  # sed -i "s/\%h /\%\{X-Forwarded-For\}i /g" /etc/httpd/conf.d/ssl.conf
+  sed -i "s/#ServerName www\.example\.com\:80/ServerName lampman\.localhost/" /etc/httpd/conf/httpd.conf
+  sed -i "s/#AddHandler cgi-script \.cgi/AddHandler cgi-script .cgi/" /etc/httpd/conf/httpd.conf
+  cat <<EOL >> /etc/httpd/conf/httpd.conf
 
-sed -i "s/#ServerName www\.example\.com\:80/ServerName lampman\.localhost/" /etc/httpd/conf/httpd.conf
-
-
-
-# # --------------------------------------------------------------------
-# # Nginx
-# # --------------------------------------------------------------------
-# if [[ $GENIE_HTTP_NGINX_ENABLED ]]; then
-#   if [[ $GENIE_HTTP_NGINX_HTTP_PORT ]]; then
-#     sed -i "s/80 default_server/$GENIE_HTTP_NGINX_HTTP_PORT default_server/" /etc/nginx/nginx.conf
-#   fi
-#   /usr/sbin/nginx
-#   echo 'Nginx setup done.' >> /var/log/entrypoint.log
-# fi
-
-# # --------------------------------------------------------------------
-# # Postfix
-# # --------------------------------------------------------------------
-# if [[ $GENIE_MAIL_POSTFIX_ENABLED ]]; then
-#   sed -i 's/inet_protocols = all/inet_protocols = ipv4/g' /etc/postfix/main.cf
-#   if [[ $GENIE_MAIL_POSTFIX_FORCE_ENVELOPE != '' ]]; then
-#     echo "canonical_classes = envelope_sender, envelope_recipient" >> /etc/postfix/main.cf
-#     echo "canonical_maps = regexp:/etc/postfix/canonical.regexp" >> /etc/postfix/main.cf
-#     echo "/^.+$/ $GENIE_POSTFIX_FORCE_ENVELOPE" >> /etc/postfix/canonical.regexp
-#   fi
-#   /usr/sbin/postfix start
-#   echo 'Postfix setup done.' >> /var/log/entrypoint.log
-# fi
+<Directory "/var/www/html">
+  Options FollowSymLinks ExecCGI
+  AllowOverride All
+  Require all granted
+</Directory>
+EOL
+fi
 
 # # --------------------------------------------------------------------
 # # Fluentd
@@ -155,8 +122,10 @@ fi
 # --------------------------------------------------------------------
 
 # -- Apache2 start
-/usr/sbin/httpd -k start
-echo 'lampman started.'
+if [[ $LAMPMAN_APACHE_START ]]; then
+  /usr/sbin/httpd -k start
+  echo 'lampman started.'
+fi
 
 # -- Mail servers
 if [[ $LAMPMAN_MAILDEV_START ]]; then
@@ -170,7 +139,11 @@ if [[ $LAMPMAN_MAILDEV_START ]]; then
 fi
 
 # -- Postfix start
-/usr/sbin/postfix start
+if [[ $LAMPMAN_POSTFIX_START ]]; then
+  /usr/sbin/postfix start
+fi
+
+echo 'lampman started.'
 
 # --------------------------------------------------------------------
 # daemon loop start

@@ -20,6 +20,7 @@ module.exports.config = {
 
         // Apache
         apache: {
+            start: true,
             ports: [
                 '80:80',
                 '443:443'
@@ -45,6 +46,12 @@ module.exports.config = {
             start: __TRUE_ON_DEFAULT__,
             ports: ['9981:1080'],
         },
+
+        // postfix
+        postfix: {
+            start: __TRUE_ON_DEFAULT__,
+            // ports: [],
+        }
     },
 
     // MySQL

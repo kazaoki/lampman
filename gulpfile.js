@@ -21,7 +21,7 @@ gulp.task('server', ()=>{
 		// server: {baseDir: 'html'} // static
 		// proxy: 'localhost:8000', // connect php
 		proxy: {
-			target: 'http://localhost', // lampman run
+			target: 'https://localhost', // lampman run
 			proxyReq: [
 				proxyReq=>proxyReq.setHeader('X-BrowserSync-Proxy-Port', '3000')
 			]

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var child = require('child_process');
 var color = require('cli-color');
 function ConfigToYaml(config) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     var yaml = {
         version: config.version,
         services: {},
@@ -24,11 +24,15 @@ function ConfigToYaml(config) {
     if (config.network && 'name' in config.network) {
         yaml.services.lampman.networks = [proj + "-" + config.network.name];
     }
-    if ('ports' in config.lampman.apache && config.lampman.apache.ports.length) {
-        (_a = yaml.services.lampman.ports).push.apply(_a, config.lampman.apache.ports);
-    }
-    if ('mounts' in config.lampman.apache && config.lampman.apache.mounts.length) {
-        (_b = yaml.services.lampman.volumes).push.apply(_b, config.lampman.apache.mounts);
+    if ('apache' in config.lampman) {
+        if ('start' in config.lampman.apache)
+            yaml.services.lampman.environment.LAMPMAN_APACHE_START = 1;
+        if ('ports' in config.lampman.apache && config.lampman.apache.ports.length) {
+            (_a = yaml.services.lampman.ports).push.apply(_a, config.lampman.apache.ports);
+        }
+        if ('mounts' in config.lampman.apache && config.lampman.apache.mounts.length) {
+            (_b = yaml.services.lampman.volumes).push.apply(_b, config.lampman.apache.mounts);
+        }
     }
     if ('php' in config.lampman) {
         if ('image' in config.lampman.php) {
@@ -60,8 +64,16 @@ function ConfigToYaml(config) {
             (_c = yaml.services.lampman.ports).push.apply(_c, config.lampman.maildev.ports);
         }
     }
-    for (var _i = 0, _d = Object.keys(config); _i < _d.length; _i++) {
-        var key = _d[_i];
+    if ('postfix' in config.lampman) {
+        if ('start' in config.lampman.postfix)
+            yaml.services.lampman.environment.LAMPMAN_POSTFIX_START = config.lampman.postfix.start ? 1 : 0;
+        if ('ports' in config.lampman.postfix) {
+            yaml.services.lampman.environment.LAMPMAN_MAILDEV_PORTS = config.lampman.postfix.ports.join(', ');
+            (_d = yaml.services.lampman.ports).push.apply(_d, config.lampman.postfix.ports);
+        }
+    }
+    for (var _i = 0, _e = Object.keys(config); _i < _e.length; _i++) {
+        var key = _e[_i];
         if (key.match(/^mysql/)) {
             yaml.services[key] = {
                 container_name: proj + "-" + key,
@@ -88,8 +100,8 @@ function ConfigToYaml(config) {
             if ('collation' in config[key] && config[key].collation.length)
                 yaml.services[key].command.push("--collation-server=" + config[key].collation);
             if ('hosts' in config[key] && config[key].hosts.length) {
-                for (var _e = 0, _f = config[key].hosts; _e < _f.length; _e++) {
-                    var host = _f[_e];
+                for (var _f = 0, _g = config[key].hosts; _f < _g.length; _f++) {
+                    var host = _g[_f];
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
                         yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += ", " + host + ":" + key;
                     }
@@ -152,8 +164,8 @@ function ConfigToYaml(config) {
                 }
             }
             if ('hosts' in config[key] && config[key].hosts.length) {
-                for (var _g = 0, _h = config[key].hosts; _g < _h.length; _g++) {
-                    var host = _h[_g];
+                for (var _h = 0, _j = config[key].hosts; _h < _j.length; _h++) {
+                    var host = _j[_h];
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
                         yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += ", " + host + ":" + key;
                     }

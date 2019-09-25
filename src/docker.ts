@@ -35,11 +35,14 @@ export function ConfigToYaml(config: any)
     if(config.network && 'name' in config.network) {
         yaml.services.lampman.networks = [`${proj}-${config.network.name}`]
     }
-    if('ports' in config.lampman.apache && config.lampman.apache.ports.length) {
-        yaml.services.lampman.ports.push(...config.lampman.apache.ports)
-    }
-    if('mounts' in config.lampman.apache && config.lampman.apache.mounts.length) {
-        yaml.services.lampman.volumes.push(...config.lampman.apache.mounts)
+    if('apache' in config.lampman) {
+        if('start' in config.lampman.apache) yaml.services.lampman.environment.LAMPMAN_APACHE_START = 1
+        if('ports' in config.lampman.apache && config.lampman.apache.ports.length) {
+            yaml.services.lampman.ports.push(...config.lampman.apache.ports)
+        }
+        if('mounts' in config.lampman.apache && config.lampman.apache.mounts.length) {
+            yaml.services.lampman.volumes.push(...config.lampman.apache.mounts)
+        }
     }
     if('php' in config.lampman) {
         if('image' in config.lampman.php) {
@@ -64,6 +67,13 @@ export function ConfigToYaml(config: any)
         if('ports'  in config.lampman.maildev) {
             yaml.services.lampman.environment.LAMPMAN_MAILDEV_PORTS = config.lampman.maildev.ports.join(', ')
             yaml.services.lampman.ports.push(...config.lampman.maildev.ports)
+        }
+    }
+    if('postfix' in config.lampman) {
+        if('start' in config.lampman.postfix) yaml.services.lampman.environment.LAMPMAN_POSTFIX_START = config.lampman.postfix.start ? 1 : 0
+        if('ports'  in config.lampman.postfix) {
+            yaml.services.lampman.environment.LAMPMAN_MAILDEV_PORTS = config.lampman.postfix.ports.join(', ')
+            yaml.services.lampman.ports.push(...config.lampman.postfix.ports)
         }
     }
 
