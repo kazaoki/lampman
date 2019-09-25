@@ -101,7 +101,20 @@ function up(commands, lampman) {
                             Promise.all(procs)
                                 .catch(function (e) { return libs.Error(e); })
                                 .then(function () {
-                                console.log();
+                                if ('open_on_upped' in lampman.config) {
+                                    var opencmd = '';
+                                    if (libs.isWindows())
+                                        opencmd = 'start';
+                                    else if (libs.isMac())
+                                        opencmd = 'open';
+                                    if (opencmd) {
+                                        child.execSync(opencmd + " " + lampman.config.open_on_upped.schema + "://localhost" + lampman.config.open_on_upped.path);
+                                    }
+                                }
+                                if ('message_on_upped' in lampman.config) {
+                                    console.log('\n');
+                                    libs.Message(lampman.config.message_on_upped.message, lampman.config.message_on_upped.style);
+                                }
                             });
                             return [2];
                         });

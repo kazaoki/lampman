@@ -90,7 +90,26 @@ export default async function up(commands: any, lampman: any)
         Promise.all(procs)
             .catch(e=>libs.Error(e))
             .then(()=>{
-                console.log()
+
+                // open browser on upped
+                if('open_on_upped' in lampman.config) {
+                    let opencmd = ''
+                    if(libs.isWindows()) opencmd = 'start'
+                    else if(libs.isMac()) opencmd = 'open'
+                    if(opencmd) {
+                        // console.log(`${opencmd} ${lampman.config.open_on_upped.schema}://localhost${lampman.config.open_on_upped.path}`)
+                        child.execSync(`${opencmd} ${lampman.config.open_on_upped.schema}://localhost${lampman.config.open_on_upped.path}`)
+                    }
+                }
+
+                // show upped message
+                if('message_on_upped' in lampman.config) {
+                    console.log('\n')
+                    libs.Message(
+                        lampman.config.message_on_upped.message,
+                        lampman.config.message_on_upped.style
+                    )
+                }
             })
         return
     })

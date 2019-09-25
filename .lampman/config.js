@@ -13,6 +13,18 @@ module.exports.config = {
     // docker-compose file version
     version: '2.2',
 
+    // open browser on upped (win&mac only)
+    open_on_upped: {
+        schema: 'https',
+        path: '/',
+    },
+
+    // show message on upped
+    message_on_upped: {
+        message: '開発中です！',
+        style: 'primary', // primary|success|danger|warning|info|default
+    },
+
     // Lampman
     lampman: {
         project: 'lampman-test',
