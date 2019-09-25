@@ -160,7 +160,7 @@ commander
     .action(cmd=>version(cmd, lampman))
 
 // 追加コマンド
-if('undefined'!==typeof lampman.config) {
+if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
     for(let key of Object.keys(lampman.config.extra)) {
         let extra = lampman.config.extra[key]
         if('object'===typeof extra.command) extra.command = extra.command['win32'===process.platform ? 'win' : 'unix']

@@ -119,7 +119,7 @@ commander
     .command('version')
     .description('バージョン表示')
     .action(function (cmd) { return version_1.default(cmd, lampman); });
-if ('undefined' !== typeof lampman.config) {
+if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
     var _loop_1 = function (key) {
         var extra = lampman.config.extra[key];
         if ('object' === typeof extra.command)
