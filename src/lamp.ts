@@ -103,10 +103,10 @@ commander
 
     // login: リストから選択したコンテナのコンソールにログインします
 commander
-    .command('login')
+    .command('login [container-name]')
     .description('リストから選択したコンテナのコンソールにログインします')
     .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
-    .action(cmd=>login(cmd, lampman))
+    .action((cname, cmd)=>login(cname, cmd, lampman))
 
 // mysql: MySQL操作
 commander

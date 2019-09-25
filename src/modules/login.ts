@@ -9,9 +9,12 @@ const color   = require('cli-color');
 /**
  * login: リストから選択したコンテナのコンソールにログインします
  */
-export default async function login(commands: any, lampman: any)
+export default async function login(cname: string|null, commands: any, lampman: any)
 {
+    let target_cname
+
     // コンテナリスト取得
+    let cnames = []
     let list = []
     let out = child.execFileSync('docker', ['ps', '--format', '{{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}'])
     for(let line of out.toString().split(/\n/)) {
@@ -22,42 +25,65 @@ export default async function login(commands: any, lampman: any)
             description: `${column[3]} @ ${column[2]}`,
             value: column[1]
         })
+        cnames.push(column[1])
     }
-    if(!list.length) {
+    if(!cnames.length) {
         libs.Message('選択できるコンテナがありません。', 'info')
         return
     }
 
-    // コンテナ選択
-    const response = await prompts([
-        {
-            type: 'select',
-            name: 'cname',
-            message: 'コンソールにログインするコンテナを選択してください。',
-            choices: list,
-        }
-    ]);
-
-    // ログイン
-    if(response.cname) {
-        console.log()
-        console.log(color.white.bold(`<${response.cname}>`))
-        await child.spawn(
-            'docker',
-            [
-                'exec',
-                '-e', 'TERM=xterm-256color',
-                '-e', 'LANGUAGE=ja_JP.UTF-8',
-                // '-e', 'LC_ALL=ja_JP.UTF-8',
-                '-e', 'LANG=ja_JP.UTF-8',
-                '-e', 'LC_TYPE=ja_JP.UTF-8',
-                '-it',
-                response.cname,
-                commands.shell ? commands.shell : 'bash'
-            ],
+    // コンテナ名未入力の場合はリストから選択
+    if(!cname) {
+        // コンテナ選択
+        const response = await prompts([
             {
-                stdio: 'inherit',
+                type: 'select',
+                name: 'cname',
+                message: 'コンソールにログインするコンテナを選択してください。',
+                choices: list,
             }
-        )
+        ]);
+        if(response.cname) target_cname = response.cname
+        console.log()
+    } else {
+        // コンテナ名入力した場合は、リストにあるかチェック
+        if(cnames.includes(cname)) {
+            target_cname = cname
+        } else {
+            // リストになければサービス名として docker-compose に渡して実際のコンテナ名を取得
+            try {
+                let cid = child.execFileSync('docker-compose', ['ps', '-qa', cname], {cwd: lampman.config_dir}).toString()
+                let res = child.execFileSync('docker', ['ps', '-f', `id=${cid.trim()}`, '--format', '{{.Names}}']).toString()
+                if(res) target_cname = res.trim()
+            } catch(e) {
+                libs.Error(e)
+            }
+        }
     }
+
+    // ここまで来てもコンテナ名が取得できない場合は終了。
+    if(!target_cname) {
+        libs.Message('ご指定のコンテナが見つかりませんでした。\n${}', 'warning', 1)
+        return
+    }
+
+    // いざログイン
+    console.log(color.white.bold(`<${target_cname}>`))
+    await child.spawn(
+        'docker',
+        [
+            'exec',
+            '-e', 'TERM=xterm-256color',
+            '-e', 'LANGUAGE=ja_JP.UTF-8',
+            // '-e', 'LC_ALL=ja_JP.UTF-8',
+            '-e', 'LANG=ja_JP.UTF-8',
+            '-e', 'LC_TYPE=ja_JP.UTF-8',
+            '-it',
+            target_cname,
+            commands.shell ? commands.shell : 'bash'
+        ],
+        {
+            stdio: 'inherit',
+        }
+    )
 }

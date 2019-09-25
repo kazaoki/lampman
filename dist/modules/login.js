@@ -39,12 +39,13 @@ var libs = require("../libs");
 var prompts = require('prompts');
 var child = require('child_process');
 var color = require('cli-color');
-function login(commands, lampman) {
+function login(cname, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var list, out, _i, _a, line, column, response;
+        var target_cname, cnames, list, out, _i, _a, line, column, response, cid, res;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    cnames = [];
                     list = [];
                     out = child.execFileSync('docker', ['ps', '--format', '{{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}']);
                     for (_i = 0, _a = out.toString().split(/\n/); _i < _a.length; _i++) {
@@ -57,11 +58,13 @@ function login(commands, lampman) {
                             description: column[3] + " @ " + column[2],
                             value: column[1]
                         });
+                        cnames.push(column[1]);
                     }
-                    if (!list.length) {
+                    if (!cnames.length) {
                         libs.Message('選択できるコンテナがありません。', 'info');
                         return [2];
                     }
+                    if (!!cname) return [3, 2];
                     return [4, prompts([
                             {
                                 type: 'select',
@@ -72,9 +75,32 @@ function login(commands, lampman) {
                         ])];
                 case 1:
                     response = _b.sent();
-                    if (!response.cname) return [3, 3];
+                    if (response.cname)
+                        target_cname = response.cname;
                     console.log();
-                    console.log(color.white.bold("<" + response.cname + ">"));
+                    return [3, 3];
+                case 2:
+                    if (cnames.includes(cname)) {
+                        target_cname = cname;
+                    }
+                    else {
+                        try {
+                            cid = child.execFileSync('docker-compose', ['ps', '-qa', cname], { cwd: lampman.config_dir }).toString();
+                            res = child.execFileSync('docker', ['ps', '-f', "id=" + cid.trim(), '--format', '{{.Names}}']).toString();
+                            if (res)
+                                target_cname = res.trim();
+                        }
+                        catch (e) {
+                            libs.Error(e);
+                        }
+                    }
+                    _b.label = 3;
+                case 3:
+                    if (!target_cname) {
+                        libs.Message('ご指定のコンテナが見つかりませんでした。\n${}', 'warning', 1);
+                        return [2];
+                    }
+                    console.log(color.white.bold("<" + target_cname + ">"));
                     return [4, child.spawn('docker', [
                             'exec',
                             '-e', 'TERM=xterm-256color',
@@ -82,15 +108,14 @@ function login(commands, lampman) {
                             '-e', 'LANG=ja_JP.UTF-8',
                             '-e', 'LC_TYPE=ja_JP.UTF-8',
                             '-it',
-                            response.cname,
+                            target_cname,
                             commands.shell ? commands.shell : 'bash'
                         ], {
                             stdio: 'inherit',
                         })];
-                case 2:
+                case 4:
                     _b.sent();
-                    _b.label = 3;
-                case 3: return [2];
+                    return [2];
             }
         });
     });

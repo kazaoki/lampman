@@ -78,10 +78,10 @@ commander
     .description('LAMP終了')
     .action(function (cmd) { return down_1.default(cmd, lampman); });
 commander
-    .command('login')
+    .command('login [container-name]')
     .description('リストから選択したコンテナのコンソールにログインします')
     .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
-    .action(function (cmd) { return login_1.default(cmd, lampman); });
+    .action(function (cname, cmd) { return login_1.default(cname, cmd, lampman); });
 commander
     .command('mysql [container-name]')
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
