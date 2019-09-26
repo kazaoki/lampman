@@ -64,6 +64,8 @@ function login(cname, commands, lampman) {
                         libs.Message('選択できるコンテナがありません。', 'info');
                         return [2];
                     }
+                    if (1 === list.length)
+                        cname = cnames[0];
                     if (!!cname) return [3, 2];
                     return [4, prompts([
                             {

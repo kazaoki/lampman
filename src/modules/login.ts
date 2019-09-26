@@ -31,6 +31,7 @@ export default async function login(cname: string|null, commands: any, lampman: 
         libs.Message('選択できるコンテナがありません。', 'info')
         return
     }
+    if(1===list.length) cname = cnames[0]
 
     // コンテナ名未入力の場合はリストから選択
     if(!cname) {
