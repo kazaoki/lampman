@@ -35,7 +35,7 @@ sed -i "/xdebug\.remote_enable/d" $phpini
 sed -i "/xdebug\.remote_autostart/d" $phpini
 sed -i "/xdebug\.remote_host/d" $phpini
 sed -i "/xdebug\.remote_port/d" $phpini
-if [[ $LAMPMAN_PHP_XDEBUG_HOST != '' ]]; then
+if [[ $LAMPMAN_PHP_XDEBUG_START == '1' ]]; then
   echo 'xdebug.remote_enable = On' >> $phpini
   echo 'xdebug.remote_autostart = On' >> $phpini
   echo "xdebug.remote_host=$LAMPMAN_PHP_XDEBUG_HOST" >> $phpini
