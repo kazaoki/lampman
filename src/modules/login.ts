@@ -68,6 +68,22 @@ export default async function login(cname: string|null, commands: any, lampman: 
         return
     }
 
+    // docker-composeのコンテナならサービス名を取得しておく
+    let sname
+    try {
+        let ret = child.execFileSync('docker', ['inspect', '--format', '{{ index .Config.Labels "com.docker.compose.service"}}', target_cname]).toString().trim()
+        if(ret) sname = ret
+    } catch(e){}
+
+    // ログインパス指定
+    let login_path = '/'
+    if(sname in lampman.config && 'login_path' in lampman.config[sname]) {
+        login_path = lampman.config[sname].login_path
+    }
+    if(commands.path) {
+        login_path = commands.path
+    }
+
     // いざログイン
     console.log(color.white.bold(`<${target_cname}>`))
     await child.spawn(
@@ -81,7 +97,8 @@ export default async function login(cname: string|null, commands: any, lampman: 
             '-e', 'LC_TYPE=ja_JP.UTF-8',
             '-it',
             target_cname,
-            commands.shell ? commands.shell : 'bash'
+            commands.shell ? commands.shell : 'bash',
+            '-c', `cd ${login_path} && bash`,
         ],
         {
             stdio: 'inherit',

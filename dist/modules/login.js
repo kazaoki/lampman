@@ -41,7 +41,7 @@ var child = require('child_process');
 var color = require('cli-color');
 function login(cname, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var target_cname, cnames, list, out, _i, _a, line, column, response, cid, res;
+        var target_cname, cnames, list, out, _i, _a, line, column, response, cid, res, sname, ret, login_path;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -102,6 +102,19 @@ function login(cname, commands, lampman) {
                         libs.Message('ご指定のコンテナが見つかりませんでした。\n${}', 'warning', 1);
                         return [2];
                     }
+                    try {
+                        ret = child.execFileSync('docker', ['inspect', '--format', '{{ index .Config.Labels "com.docker.compose.service"}}', target_cname]).toString().trim();
+                        if (ret)
+                            sname = ret;
+                    }
+                    catch (e) { }
+                    login_path = '/';
+                    if (sname in lampman.config && 'login_path' in lampman.config[sname]) {
+                        login_path = lampman.config[sname].login_path;
+                    }
+                    if (commands.path) {
+                        login_path = commands.path;
+                    }
                     console.log(color.white.bold("<" + target_cname + ">"));
                     return [4, child.spawn('docker', [
                             'exec',
@@ -111,7 +124,8 @@ function login(cname, commands, lampman) {
                             '-e', 'LC_TYPE=ja_JP.UTF-8',
                             '-it',
                             target_cname,
-                            commands.shell ? commands.shell : 'bash'
+                            commands.shell ? commands.shell : 'bash',
+                            '-c', "cd " + login_path + " && bash",
                         ], {
                             stdio: 'inherit',
                         })];

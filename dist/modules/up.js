@@ -111,7 +111,7 @@ function up(commands, lampman) {
                                         child.execSync(opencmd + " " + lampman.config.open_on_upped.schema + "://localhost" + lampman.config.open_on_upped.path);
                                     }
                                 }
-                                if ('message_on_upped' in lampman.config) {
+                                if ('message_on_upped' in lampman.config && lampman.config.message_on_upped.message) {
                                     console.log('\n');
                                     libs.Message(lampman.config.message_on_upped.message, lampman.config.message_on_upped.style);
                                 }

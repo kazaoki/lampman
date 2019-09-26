@@ -21,7 +21,7 @@ module.exports.config = {
 
     // show message on upped
     message_on_upped: {
-        message: '開発中です！',
+        message: '',
         style: 'primary', // primary|success|danger|warning|info|default
     },
 
@@ -29,6 +29,7 @@ module.exports.config = {
     lampman: {
         project: 'lampman-test',
         image: 'kazaoki/lampman',
+        login_path: '/var/www/html',
 
         // Apache
         apache: {

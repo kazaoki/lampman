@@ -97,13 +97,12 @@ export default async function up(commands: any, lampman: any)
                     if(libs.isWindows()) opencmd = 'start'
                     else if(libs.isMac()) opencmd = 'open'
                     if(opencmd) {
-                        // console.log(`${opencmd} ${lampman.config.open_on_upped.schema}://localhost${lampman.config.open_on_upped.path}`)
                         child.execSync(`${opencmd} ${lampman.config.open_on_upped.schema}://localhost${lampman.config.open_on_upped.path}`)
                     }
                 }
 
                 // show upped message
-                if('message_on_upped' in lampman.config) {
+                if('message_on_upped' in lampman.config && lampman.config.message_on_upped.message) {
                     console.log('\n')
                     libs.Message(
                         lampman.config.message_on_upped.message,

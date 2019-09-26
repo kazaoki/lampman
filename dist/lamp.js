@@ -71,6 +71,7 @@ commander
 commander
     .command('up')
     .description('LAMP起動（.lampman/docker-compose.yml 自動更新）')
+    .option('-r, --force-recreate', 'コンテナを強制再生成')
     .option('-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
     .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
     .action(function (cmd) { return up_1.default(cmd, lampman); });
@@ -82,6 +83,7 @@ commander
     .command('login [container-name]')
     .description('リストから選択したコンテナのコンソールにログインします')
     .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
+    .option('-p, --path <path>', 'ログインパスを指定。Default: /')
     .action(function (cname, cmd) { return login_1.default(cname, cmd, lampman); });
 commander
     .command('mysql [container-name]')
