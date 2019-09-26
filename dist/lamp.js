@@ -22,6 +22,7 @@ var yamlout_1 = require("./modules/yamlout");
 var noargs_1 = require("./modules/noargs");
 var reject_1 = require("./modules/reject");
 var rmi_1 = require("./modules/rmi");
+var config_1 = require("./modules/config");
 console.log();
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
@@ -115,6 +116,10 @@ commander
     .description('イメージを選択して削除')
     .option('-p, --prune', '選択を出さず <none> のみ全て削除')
     .action(function (cmd) { return rmi_1.default(cmd, lampman); });
+commander
+    .command('config')
+    .description('設定ファイル(config.js)をエディタで開く')
+    .action(function (cmd) { return config_1.default(cmd, lampman); });
 commander
     .command('version')
     .description('バージョン表示')

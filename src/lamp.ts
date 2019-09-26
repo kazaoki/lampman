@@ -24,6 +24,7 @@ import yamlout   from './modules/yamlout';
 import noargs    from './modules/noargs';
 import reject    from './modules/reject';
 import rmi       from './modules/rmi';
+import config    from './modules/config';
 
 // 1行改行
 console.log()
@@ -152,6 +153,12 @@ commander
     .description('イメージを選択して削除')
     .option('-p, --prune', '選択を出さず <none> のみ全て削除')
     .action(cmd=>rmi(cmd, lampman))
+
+// config: 設定ファイル(config.js)をエディタで開く
+commander
+    .command('config')
+    .description('設定ファイル(config.js)をエディタで開く')
+    .action(cmd=>config(cmd, lampman))
 
 // version: バージョン表示
 commander
