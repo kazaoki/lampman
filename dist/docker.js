@@ -216,3 +216,13 @@ function ConfigToYaml(config) {
     return yaml;
 }
 exports.ConfigToYaml = ConfigToYaml;
+function getDockerLocalhost() {
+    var host = 'localhost';
+    try {
+        var res = child.execFileSync('docker-machine', ['ip']).toString();
+        if (res)
+            return res.trim();
+    }
+    catch (e) { }
+}
+exports.getDockerLocalhost = getDockerLocalhost;

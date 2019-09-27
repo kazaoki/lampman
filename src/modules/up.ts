@@ -2,6 +2,7 @@
 'use strict'
 
 import libs = require('../libs');
+import docker = require('../docker');
 import reject    from './reject';
 
 const child = require('child_process')
@@ -91,14 +92,15 @@ export default async function up(commands: any, lampman: any)
             .catch(e=>libs.Error(e))
             .then(()=>{
 
+                // start url
+                let start_url = `${lampman.config.open_on_upped.schema}://${docker.getDockerLocalhost()}${lampman.config.open_on_upped.path}`
+
                 // open browser on upped
                 if('open_on_upped' in lampman.config) {
                     let opencmd = ''
                     if(libs.isWindows()) opencmd = 'start'
                     else if(libs.isMac()) opencmd = 'open'
-                    if(opencmd) {
-                        child.execSync(`${opencmd} ${lampman.config.open_on_upped.schema}://localhost${lampman.config.open_on_upped.path}`)
-                    }
+                    if(opencmd) child.execSync(`${opencmd} ${start_url}`)
                 }
 
                 // show upped message

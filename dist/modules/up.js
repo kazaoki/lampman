@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
+var docker = require("../docker");
 var reject_1 = require("./reject");
 var child = require('child_process');
 var path = require('path');
@@ -101,15 +102,15 @@ function up(commands, lampman) {
                             Promise.all(procs)
                                 .catch(function (e) { return libs.Error(e); })
                                 .then(function () {
+                                var start_url = lampman.config.open_on_upped.schema + "://" + docker.getDockerLocalhost() + lampman.config.open_on_upped.path;
                                 if ('open_on_upped' in lampman.config) {
                                     var opencmd = '';
                                     if (libs.isWindows())
                                         opencmd = 'start';
                                     else if (libs.isMac())
                                         opencmd = 'open';
-                                    if (opencmd) {
-                                        child.execSync(opencmd + " " + lampman.config.open_on_upped.schema + "://localhost" + lampman.config.open_on_upped.path);
-                                    }
+                                    if (opencmd)
+                                        child.execSync(opencmd + " " + start_url);
                                 }
                                 if ('message_on_upped' in lampman.config && lampman.config.message_on_upped.message) {
                                     console.log('\n');

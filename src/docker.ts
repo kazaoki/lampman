@@ -217,3 +217,18 @@ export function ConfigToYaml(config: any)
 
     return yaml;
 }
+
+/**
+* getDockerLocalhost
+* 'localhost' または docker-machine ip の値を返す
+*
+* @param object
+*/
+export function getDockerLocalhost()
+{
+    let host = 'localhost'
+    try {
+        let res: string = child.execFileSync('docker-machine', ['ip']).toString()
+        if(res) return res.trim()
+    } catch(e) {}
+}

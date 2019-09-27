@@ -8,6 +8,7 @@ services:
       - '80:80'
       - '443:443'
       - '9981:1080'
+      - '2222:22'
     depends_on:
       - phpenv
     environment:
@@ -21,6 +22,11 @@ services:
       LAMPMAN_MAILDEV_START: 1
       LAMPMAN_MAILDEV_PORTS: '9981:1080'
       LAMPMAN_POSTFIX_START: 1
+      LAMPMAN_SSHD_START: 1
+      LAMPMAN_SSHD_PORTS: '2222:22'
+      LAMPMAN_SSHD_USER: sshuser
+      LAMPMAN_SSHD_PASS: '123456'
+      LAMPMAN_SSHD_PATH: /var/www/html
       LAMPMAN_BIND_HOSTS: >-
         main.db:mysql, main-2.db:mysql_2, sub.db:postgresql,
         sub-b.db:postgresql_b
@@ -34,7 +40,7 @@ services:
       - '../public_html:/home/user_a/public_html'
     entrypoint: /lampman/lampman/entrypoint.sh
     networks:
-      - lampman-test-default
+      - default
   phpenv:
     container_name: lampman-test-phpenv
     image: 'kazaoki/phpenv:5.6.22'
@@ -65,7 +71,7 @@ services:
       DUMP_ROTATIONS: 3
       DUMP_FILENAME: dump.sql
     networks:
-      - lampman-test-default
+      - default
   mysql_2:
     container_name: lampman-test-mysql_2
     image: 'mysql:5.5'
@@ -91,7 +97,7 @@ services:
       DUMP_ROTATIONS: 5
       DUMP_FILENAME: dump.sql
     networks:
-      - lampman-test-default
+      - default
   postgresql:
     container_name: lampman-test-postgresql
     image: 'postgres:9'
@@ -113,7 +119,7 @@ services:
       DUMP_ROTATIONS: 5
       DUMP_FILENAME: dump.sql
     networks:
-      - lampman-test-default
+      - default
   postgresql_b:
     container_name: lampman-test-postgresql_b
     image: kazaoki/postgres-bigm
@@ -135,7 +141,7 @@ services:
       DUMP_ROTATIONS: 3
       DUMP_FILENAME: dump.sql
     networks:
-      - lampman-test-default
+      - default
 volumes:
   mysql_data:
     driver: local
@@ -150,5 +156,5 @@ volumes:
     driver: local
     name: lampman-test-postgresql_b_data
 networks:
-  lampman-test-default:
+  default:
     driver: bridge
