@@ -24,6 +24,7 @@ RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
         bind-utils \
         gcc-c++ \
         multitail \
+        sudo \
     && rm -rf /var/cache/yum/* \
     && yum clean all
 
