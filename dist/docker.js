@@ -219,10 +219,11 @@ exports.ConfigToYaml = ConfigToYaml;
 function getDockerLocalhost() {
     var host = 'localhost';
     try {
-        var res = child.execFileSync('docker-machine', ['ip']).toString();
+        var res = child.execFileSync('docker-machine', ['ip']);
         if (res)
-            return res.trim();
+            host = res.toString().trim();
     }
     catch (e) { }
+    return host;
 }
 exports.getDockerLocalhost = getDockerLocalhost;
