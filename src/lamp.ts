@@ -23,6 +23,7 @@ import logs      from './modules/logs';
 import yamlout   from './modules/yamlout';
 import noargs    from './modules/noargs';
 import reject    from './modules/reject';
+import sweep     from './modules/sweep';
 import rmi       from './modules/rmi';
 import config    from './modules/config';
 
@@ -147,6 +148,13 @@ commander
     .option('-a, --all', 'ロック中のボリュームも選択できるようにする')
     .option('-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）')
     .action(cmd=>reject(cmd, lampman))
+
+// sweep: 全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃
+commander
+    .command('sweep')
+    .description('全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃')
+    .option('-f, --force', '確認なしで実行する')
+    .action(cmd=>sweep(cmd, lampman))
 
 // rmi: イメージを選択して削除
 commander

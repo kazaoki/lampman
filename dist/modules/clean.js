@@ -36,21 +36,152 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
-var docker = require("../docker");
-var child = require('child_process');
-function clean(commands, lampman) {
+var child = require("child_process");
+var color = require('cli-color');
+var prompts = require('prompts');
+function reject(commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var containers, volumes, list, _i, containers_1, name_1, _a, volumes_1, name_2, response, targets, _b, containers_2, name_3, _c, volumes_2, name_4, response, procs, _loop_1, _d, _e, item, _loop_2, _f, _g, item;
+        return __generator(this, function (_h) {
+            switch (_h.label) {
                 case 0:
-                    libs.Label('Cleaning');
-                    return [4, docker.clean()];
+                    containers = child.execFileSync('docker', ['ps', '-a', '--format={{.Names}}']).toString().split(/\r?\n/);
+                    volumes = child.execFileSync('docker', ['volume', 'ls', '-q']).toString().split(/\r?\n/);
+                    list = [];
+                    for (_i = 0, containers_1 = containers; _i < containers_1.length; _i++) {
+                        name_1 = containers_1[_i];
+                        if (name_1.length) {
+                            list.push({
+                                title: "[CONTAINER] " + name_1,
+                                value: {
+                                    type: 'container',
+                                    name: name_1
+                                },
+                            });
+                        }
+                    }
+                    for (_a = 0, volumes_1 = volumes; _a < volumes_1.length; _a++) {
+                        name_2 = volumes_1[_a];
+                        if (name_2.length) {
+                            list.push({
+                                title: "[VOLUME] " + name_2,
+                                value: {
+                                    type: 'volume',
+                                    name: name_2
+                                },
+                                disabled: !commands.all && name_2.match(/^locked_/),
+                            });
+                        }
+                    }
+                    if (!(commands.all && commands.force)) return [3, 2];
+                    return [4, prompts([
+                            {
+                                type: 'toggle',
+                                name: 'value',
+                                message: 'ロックボリュームも含めて全てのコンテナ・ボリュームを強制削除しますが本当によろしいですか？',
+                                initial: false,
+                                active: 'yes',
+                                inactive: 'no'
+                            }
+                        ])];
                 case 1:
-                    _a.sent();
-                    child.execFileSync('docker', ['image', 'prune', '-f'], { stdio: 'inherit' });
-                    return [2];
+                    response = _h.sent();
+                    if (!response.value)
+                        return [2];
+                    _h.label = 2;
+                case 2:
+                    targets = [];
+                    if (!commands.force) return [3, 3];
+                    for (_b = 0, containers_2 = containers; _b < containers_2.length; _b++) {
+                        name_3 = containers_2[_b];
+                        if (name_3.length) {
+                            targets.push({
+                                type: 'container',
+                                name: name_3
+                            });
+                        }
+                    }
+                    for (_c = 0, volumes_2 = volumes; _c < volumes_2.length; _c++) {
+                        name_4 = volumes_2[_c];
+                        if (name_4.length) {
+                            if (!commands.all && name_4.match(/^locked_/))
+                                continue;
+                            targets.push({
+                                type: 'volume',
+                                name: name_4
+                            });
+                        }
+                    }
+                    return [3, 5];
+                case 3: return [4, prompts([
+                        {
+                            type: 'multiselect',
+                            name: 'targets',
+                            message: '削除するコンテナ・ボリュームを選択してください。（複数可）',
+                            choices: list,
+                        }
+                    ])];
+                case 4:
+                    response = _h.sent();
+                    targets = response.targets;
+                    _h.label = 5;
+                case 5:
+                    if (!targets.length) return [3, 10];
+                    procs = [];
+                    _loop_1 = function (item) {
+                        var cid = item.name;
+                        if (!cid)
+                            return "continue";
+                        procs.push(new Promise(function (resolve, reject) {
+                            child.execFile('docker', ['rm', '-f', cid])
+                                .stderr.on('data', function (data) {
+                                console.log("Removing " + cid + " ... " + color.red('ng'));
+                                reject(data);
+                            })
+                                .on('close', function (code) {
+                                console.log("Removing " + cid + " ... " + color.green('done'));
+                                resolve();
+                            });
+                        }));
+                    };
+                    for (_d = 0, _e = targets.filter(function (item) { return 'container' === item.type; }); _d < _e.length; _d++) {
+                        item = _e[_d];
+                        _loop_1(item);
+                    }
+                    if (!procs.length) return [3, 7];
+                    return [4, Promise.all(procs).catch(function (err) { libs.Error(err); })];
+                case 6:
+                    _h.sent();
+                    _h.label = 7;
+                case 7:
+                    procs = [];
+                    _loop_2 = function (item) {
+                        var vid = item.name;
+                        procs.push(new Promise(function (resolve, reject) {
+                            child.execFile('docker', ['volume', 'rm', '-f', vid])
+                                .stderr.on('data', function (data) {
+                                console.log("Removing volume " + vid + " ... " + color.red('ng'));
+                                reject(data);
+                            })
+                                .on('close', function (code) {
+                                console.log("Removing volume " + vid + " ... " + color.green('done'));
+                                resolve();
+                            });
+                        }));
+                    };
+                    for (_f = 0, _g = targets.filter(function (item) { return 'volume' === item.type; }); _f < _g.length; _f++) {
+                        item = _g[_f];
+                        _loop_2(item);
+                    }
+                    if (!procs.length) return [3, 9];
+                    return [4, Promise.all(procs).catch(function (err) { libs.Error(err); })];
+                case 8:
+                    _h.sent();
+                    _h.label = 9;
+                case 9: return [2];
+                case 10: return [2];
             }
         });
     });
 }
-exports.default = clean;
+exports.default = reject;

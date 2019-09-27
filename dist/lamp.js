@@ -21,6 +21,7 @@ var logs_1 = require("./modules/logs");
 var yamlout_1 = require("./modules/yamlout");
 var noargs_1 = require("./modules/noargs");
 var reject_1 = require("./modules/reject");
+var sweep_1 = require("./modules/sweep");
 var rmi_1 = require("./modules/rmi");
 var config_1 = require("./modules/config");
 console.log();
@@ -113,6 +114,11 @@ commander
     .option('-a, --all', 'ロック中のボリュームも選択できるようにする')
     .option('-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）')
     .action(function (cmd) { return reject_1.default(cmd, lampman); });
+commander
+    .command('sweep')
+    .description('全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃')
+    .option('-f, --force', '確認なしで実行する')
+    .action(function (cmd) { return sweep_1.default(cmd, lampman); });
 commander
     .command('rmi')
     .description('イメージを選択して削除')
