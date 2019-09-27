@@ -1,16 +1,21 @@
 
+// DEFAULT BOOL
 const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE
 
-/**
- * load modules
- */
+// Requires
+require('dotenv').config()
 
-/**
- * export configs
- */
+// Exprot config
 module.exports.config = {
 
+    /**
+     * ---------------------------------------------------------------
+     * General settings
+     * ---------------------------------------------------------------
+     */
+
     // docker-compose file version
+    // * docker-compose.override.ymlがあればそのversionと合わせる必要あり
     version: '2.2',
 
     // open browser on upped (win&mac only)
@@ -25,7 +30,17 @@ module.exports.config = {
         style: 'primary', // primary|success|danger|warning|info|default
     },
 
-    // Lampman
+    // network
+    network: {
+        name: 'default', // ネットワークを作成する場合。自動で頭にプロジェクト名が付く
+        // external: 'lampman_default', // 既存ネットワークを指定する場合は実際の名前（頭にプロジェクト名が付いた状態）のものを指定
+    },
+
+    /**
+     * ---------------------------------------------------------------
+     * Lampman base container settings
+     * ---------------------------------------------------------------
+     */
     lampman: {
         project: 'lampman-test',
         image: 'kazaoki/lampman',
@@ -64,10 +79,23 @@ module.exports.config = {
         postfix: {
             start: __TRUE_ON_DEFAULT__,
             // ports: [],
-        }
+        },
+
+        // sshd
+        sshd: {
+            start: true,
+            ports: ['2222:22'],
+            user: 'sshuser',
+            pass: '123456', // or process.env.LAMPMAN_SSHD_PASS
+            path: '/var/www/html',
+        },
     },
 
-    // MySQL
+    /**
+     * ---------------------------------------------------------------
+     * MySQL container(s) settings
+     * ---------------------------------------------------------------
+     */
     mysql: {
         image:          'mysql:5.7',
         ports:          ['3306:3306'],
@@ -99,7 +127,11 @@ module.exports.config = {
         }
     },
 
-    // PostgreSQL
+    /**
+     * ---------------------------------------------------------------
+     * PostgreSQL container(s) settings
+     * ---------------------------------------------------------------
+     */
     postgresql: {
         image:         'postgres:9',
         ports:         ['5432:5432'],
@@ -127,12 +159,11 @@ module.exports.config = {
         }
     },
 
-    // network
-    network: {
-        name: 'internals'
-    },
-
-    // logs
+    /**
+     * ---------------------------------------------------------------
+     * Logs command settings
+     * ---------------------------------------------------------------
+     */
     logs: {
         http: [
             ['/var/log/httpd/access_log', ['-cS', 'apache']],
@@ -147,7 +178,11 @@ module.exports.config = {
         // ],
     },
 
-    // extra commands
+    /**
+     * ---------------------------------------------------------------
+     * Extra command settings
+     * ---------------------------------------------------------------
+     */
     extra: {
         // Lampmanコンテナ上でApacheベンチ実行
         ab: {

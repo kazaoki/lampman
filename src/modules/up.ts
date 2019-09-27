@@ -16,7 +16,7 @@ const fs    = require('fs');
 export default async function up(commands: any, lampman: any)
 {
     // 公開Webディレクトリが指定されているかチェック
-    if(lampman.config.lampman.apache.mounts) {
+    if('apache' in lampman.config.lampman && 'mounts' in lampman.config.lampman.apache) {
         for(let mount of lampman.config.lampman.apache.mounts) {
             let dirs = mount.split(/\:/)
             if(path.resolve('/var/www/html') === path.resolve(dirs[1])) {
@@ -30,7 +30,7 @@ export default async function up(commands: any, lampman: any)
     }
 
     // 引数用意
-    let args = ['up', '-d']
+    let args = ['up', '-d', '--force-recreate']
 
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(commands.flush) {
@@ -109,6 +109,8 @@ export default async function up(commands: any, lampman: any)
                         lampman.config.message_on_upped.style
                     )
                 }
+
+                console.log()
             })
         return
     })

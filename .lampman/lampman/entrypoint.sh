@@ -1,14 +1,13 @@
 #!/bin/bash
 
-# # --------------------------------------------------------------------
-# # sshd setup
-# # --------------------------------------------------------------------
-# if [[ $GENIE_TRANS_SSHD_ENABLED ]]; then
-#   genie_pass=`echo $GENIE_TRANS_SSHD_LOGIN_PASS | openssl passwd -1 -stdin`
-#   useradd $GENIE_TRANS_SSHD_LOGIN_USER -d $GENIE_TRANS_SSHD_LOGIN_PATH -M -l -R / -G docker -p $genie_pass
-#   ssh-keygen -A
-#   /usr/sbin/sshd -D -f /etc/ssh/sshd_config &
-# fi
+# --------------------------------------------------------------------
+# sshd setup
+# --------------------------------------------------------------------
+if [[ $LAMPMAN_SSHD_START == '1' ]]; then
+  useradd $LAMPMAN_SSHD_USER -d $LAMPMAN_SSHD_PATH -M -l -R / -G root -p `echo $LAMPMAN_SSHD_PASS | openssl passwd -1 -stdin`
+  ssh-keygen -A
+  /usr/sbin/sshd -D -f /etc/ssh/sshd_config &
+fi
 
 # --------------------------------------------------------------------
 # php version container setup

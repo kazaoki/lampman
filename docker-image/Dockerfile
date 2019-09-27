@@ -25,6 +25,9 @@ RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
         gcc-c++ \
         multitail \
         sudo \
+        cronie \
+        logrotate \
+        openssh-server \
     && rm -rf /var/cache/yum/* \
     && yum clean all
 

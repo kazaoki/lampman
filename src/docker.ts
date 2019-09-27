@@ -33,7 +33,7 @@ export function ConfigToYaml(config: any)
         entrypoint: '/lampman/lampman/entrypoint.sh',
     }
     if(config.network && 'name' in config.network) {
-        yaml.services.lampman.networks = [`${proj}-${config.network.name}`]
+        yaml.services.lampman.networks = [config.network.name]
     }
     if('apache' in config.lampman) {
         if('start' in config.lampman.apache) yaml.services.lampman.environment.LAMPMAN_APACHE_START = 1
@@ -72,9 +72,19 @@ export function ConfigToYaml(config: any)
     if('postfix' in config.lampman) {
         if('start' in config.lampman.postfix) yaml.services.lampman.environment.LAMPMAN_POSTFIX_START = config.lampman.postfix.start ? 1 : 0
         if('ports'  in config.lampman.postfix) {
-            yaml.services.lampman.environment.LAMPMAN_MAILDEV_PORTS = config.lampman.postfix.ports.join(', ')
+            yaml.services.lampman.environment.LAMPMAN_POSTFIX_PORTS = config.lampman.postfix.ports.join(', ')
             yaml.services.lampman.ports.push(...config.lampman.postfix.ports)
         }
+    }
+    if('sshd' in config.lampman) {
+        if('start' in config.lampman.sshd) yaml.services.lampman.environment.LAMPMAN_SSHD_START = config.lampman.sshd.start ? 1 : 0
+        if('ports'  in config.lampman.sshd) {
+            yaml.services.lampman.environment.LAMPMAN_SSHD_PORTS = config.lampman.sshd.ports.join(', ')
+            yaml.services.lampman.ports.push(...config.lampman.sshd.ports)
+        }
+        if('user' in config.lampman.sshd) yaml.services.lampman.environment.LAMPMAN_SSHD_USER = config.lampman.sshd.user
+        if('pass' in config.lampman.sshd) yaml.services.lampman.environment.LAMPMAN_SSHD_PASS = config.lampman.sshd.pass
+        if('path' in config.lampman.sshd) yaml.services.lampman.environment.LAMPMAN_SSHD_PATH = config.lampman.sshd.path
     }
 
     for(let key of Object.keys(config)) {
@@ -95,7 +105,7 @@ export function ConfigToYaml(config: any)
                 environment: {},
             }
             if(config.network && 'name' in config.network) {
-                yaml.services[key].networks = [`${proj}-${config.network.name}`]
+                yaml.services[key].networks = [config.network.name]
             }
             yaml.services[key].environment.MYSQL_ROOT_PASSWORD = config[key].password
             yaml.services[key].environment.MYSQL_DATABASE = config[key].database
@@ -151,7 +161,7 @@ export function ConfigToYaml(config: any)
                 environment: {},
             }
             if(config.network && 'name' in config.network) {
-                yaml.services[key].networks = [`${proj}-${config.network.name}`]
+                yaml.services[key].networks = [config.network.name]
             }
             yaml.services[key].environment.POSTGRES_PASSWORD = config[key].password
             yaml.services[key].environment.POSTGRES_USER = config[key].user
@@ -189,9 +199,19 @@ export function ConfigToYaml(config: any)
     }
 
     // ネットワーク追加
-    if(config.network && 'name' in config.network) {
-        yaml.networks[`${proj}-${config.network.name}`] = {
-            driver: 'bridge'
+    if('network' in config) {
+        // ネットワーク作成
+        if('name' in config.network) {
+            yaml.networks[config.network.name] = {
+                driver: 'bridge'
+            }
+        }
+        // 既存ネットワークに接続
+        else if('external' in config.network) {
+            yaml.networks['default'] = {
+                driver: 'bridge',
+                external: {name: config.network.external}
+            }
         }
     }
 

@@ -48,7 +48,7 @@ function up(commands, lampman) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    if (lampman.config.lampman.apache.mounts) {
+                    if ('apache' in lampman.config.lampman && 'mounts' in lampman.config.lampman.apache) {
                         for (_i = 0, _a = lampman.config.lampman.apache.mounts; _i < _a.length; _i++) {
                             mount = _a[_i];
                             dirs = mount.split(/\:/);
@@ -61,7 +61,7 @@ function up(commands, lampman) {
                             }
                         }
                     }
-                    args = ['up', '-d'];
+                    args = ['up', '-d', '--force-recreate'];
                     if (!commands.flush) return [3, 2];
                     libs.Label('Flush cleaning');
                     return [4, reject_1.default({ force: true }, lampman)];
@@ -115,6 +115,7 @@ function up(commands, lampman) {
                                     console.log('\n');
                                     libs.Message(lampman.config.message_on_upped.message, lampman.config.message_on_upped.style);
                                 }
+                                console.log();
                             });
                             return [2];
                         });

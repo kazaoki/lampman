@@ -1,37 +1,67 @@
 
-const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE;
+// DEFAULT BOOL
+const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE
 
-/**
- * load modules
- */
+// Requires
+require('dotenv').config()
 
- /**
- * export configs
- */
+// Exprot config
 module.exports.config = {
 
+    /**
+     * ---------------------------------------------------------------
+     * General settings
+     * ---------------------------------------------------------------
+     */
+
     // docker-compose file version
+    // * docker-compose.override.ymlがあればそのversionと合わせる必要あり
     version: '2.2',
 
-    // Lampman
+    // open browser on upped (win&mac only)
+    open_on_upped: {
+        schema: 'https',
+        path: '/',
+    },
+
+    // show message on upped
+    message_on_upped: {
+        message: '',
+        style: 'primary', // primary|success|danger|warning|info|default
+    },
+
+    // network
+    network: {
+        name: 'default', // ネットワークを作成する場合。自動で頭にプロジェクト名が付く
+        // external: 'lampman_default', // 既存ネットワークを指定する場合は実際の名前（頭にプロジェクト名が付いた状態）のものを指定
+    },
+
+    /**
+     * ---------------------------------------------------------------
+     * Lampman base container settings
+     * ---------------------------------------------------------------
+     */
     lampman: {
         project: 'lampman-proj',
         image: 'kazaoki/lampman',
+        login_path: '/var/www/html',
 
         // Apache
         apache: {
-            // ports: [
-            //     '80', // or '80:80' like a docker args.
-            //     '443' // or '443:443' like a docker args.
-            // ],
+            start: true,
+            ports: [
+                '80:80',
+                '443:443'
+            ],
             mounts: [ // 公開ディレクトリに /var/www/html を割り当ててください。
                 '../public_html:/var/www/html',
+                // '../public_html:/home/user_a/public_html',
             ],
         },
 
         // PHP
         php: {
-            image: 'kazaoki/phpenv:5.6.22', // ref: https://hub.docker.com/r/kazaoki/phpenv/tags
+            image: 'kazaoki/phpenv:7.2.5', // ref: https://hub.docker.com/r/kazaoki/phpenv/tags
             // ↑ image 未指定なら標準のPHP使用
             error_report: __TRUE_ON_DEFAULT__,
             xdebug_start: __TRUE_ON_DEFAULT__,
@@ -42,80 +72,126 @@ module.exports.config = {
         // maildev
         maildev: {
             start: __TRUE_ON_DEFAULT__,
-            ports: ['9981'], // or '9981:9981' like a docker args.
-        },
-    },
-
-    // // MySQL
-    // mysql: {
-    //     image: 'mysql:5.7',
-    //     ports: ['3306:3306'],
-    //     database: 'test',
-    //     user: 'test',
-    //     password: 'test', // same root password
-    //     // charset, collate 設定したい
-    //     hosts: ['main.db'],
-    //     dump_rotations: 3,
-    //     is_locked: false,
-    // },
-    // ※設定を増やしたい場合は「mysql_2: {」などして複製し、mysqlフォルダも同様に複製してください。
-
-    // // PostgreSQL
-    // postgresql: {
-    //     image: 'postgres:9',
-    //     ports: ['5432:5432'],
-    //     database: 'test',
-    //     user: 'test',
-    //     password: 'test', // same root password
-    //     // charset, collate 設定したい
-    //     hosts: ['sub.db'],
-    //     dump_rotations: 3,
-    //     is_locked: false,
-    // },
-    // ※設定を増やしたい場合は「postgresql_2: {」などして複製し、postgresqlフォルダも同様に複製してください。
-
-    // extra commands: ex. lamp ab
-    extra: {
-
-        // ab
-        ab: {
-            side: 'container', // host|container
-            cmd: 'ab localhost',
+            ports: ['9981:1080'],
         },
 
-        // dir
-        dir: {
-            side: 'host', // host|container
-            cmd: {
-                win: 'dir',
-                unix: 'ls -la',
-            },
+        // postfix
+        postfix: {
+            start: __TRUE_ON_DEFAULT__,
+            // ports: [],
         },
 
-        // // Make docker-compose.yml for production
-        // 'make-product-yml': {
-        //     side: 'host',
-        //     cmd: 'lamp ymlout -m product > $LAMPMAN_PROJECT_DIR/docker-compose.yml'
+        // // sshd
+        // sshd: {
+        //     start: true,
+        //     ports: ['2222:22'],
+        //     user: 'sshuser',
+        //     pass: '123456', // or process.env.LAMPMAN_SSHD_PASS
+        //     path: '/var/www/html',
         // },
+    },
 
-        // func_a
-        func_a: {
-            side: 'host', // host|container
-            desc: 'test func',
-            func: lampman=>{
-                console.log(lampman)
-                console.log('run from extra command: func_a.')
-            }
+    /**
+     * ---------------------------------------------------------------
+     * MySQL container(s) settings
+     * ---------------------------------------------------------------
+     */
+    // mysql: {
+    //     image:          'mysql:5.7',
+    //     ports:          ['3306:3306'],
+    //     database:       'test',
+    //     user:           'test',
+    //     password:       'test', // same root password
+    //     charset:        'utf8mb4',
+    //     collation:      'utf8mb4_unicode_ci',
+    //     hosts:          ['main.db'],
+    //     volume_locked:  false,
+    //     dump: {
+    //         rotations:  3,
+    //         filename:   'dump.sql',
+    //     }
+    // },
+
+    /**
+     * ---------------------------------------------------------------
+     * PostgreSQL container(s) settings
+     * ---------------------------------------------------------------
+     */
+    // postgresql: {
+    //     image:         'postgres:9',
+    //     ports:         ['5432:5432'],
+    //     database:      'test',
+    //     user:          'test',
+    //     password:      'test', // same root password
+    //     hosts:         ['sub.db'],
+    //     volume_locked: true,
+    //     dump: {
+    //         rotations: 5,
+    //         filename:  'dump.sql',
+    //     }
+    // },
+
+    /**
+     * ---------------------------------------------------------------
+     * Logs command settings
+     * ---------------------------------------------------------------
+     */
+    logs: {
+        http: [
+            ['/var/log/httpd/access_log', ['-cS', 'apache']],
+            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
+        ],
+        https: [
+            ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
+            ['/var/log/httpd/ssl_error_log', ['-cS', 'apache_errors']],
+        ],
+        // app: [
+        //     ['/var/www/html/app.log', ['-ci', 'green']],
+        // ],
+    },
+
+    /**
+     * ---------------------------------------------------------------
+     * Extra command settings
+     * ---------------------------------------------------------------
+     */
+    extra: {
+        // Lampmanコンテナ上でApacheベンチ実行
+        ab: {
+            command: 'ab -n1000 -c100 https://localhost/',
+            container: 'lampman',
         },
-    },
 
-    // customize lampman object
-    customize: config=>{
-        config.yml.services.lampman.depends_on.push('test-alpine')
-    },
+        // 起動中の全てのコンテナ・未ロックボリューム・<none>イメージを強制削除する
+        clean: {
+            command: 'lamp reject --force && lamp rmi --prune',
+        },
 
-    // network
-    network: {
-        name: 'internals'
+        // PHP Xdebug の有効/無効切り替え
+        xon: {
+            command: '/lampman/lampman/php-xdebug-on.sh',
+            container: 'lampman',
+        },
+        xoff: {
+            command: '/lampman/lampman/php-xdebug-off.sh',
+            container: 'lampman',
+        },
+
+        // プロジェクトパスに本番用 docker-compose.yml を生成する（ productモードにするので .lampman-product/ が必要です）
+        product_compose: {
+            command: `cd ${__dirname}/../ && lamp yamlout --mode product > docker-compose.yml`,
+            desc: '本番用の docker-compose.yml をプロジェクトパスに生成'
+        },
+
+        // extraサンプル：`lamp sample`
+        // sample: {
+        //     command: '(command for all os)',
+        //     command: {
+        //         win: '(command for windows)',
+        //         unix: '(command for mac|linux)',
+        //     },
+        //     container: 'lampman', // if specified, run on container.
+        //     desc: '(description)', // if specified, show desc on `lamp --help`
+        // },
     },
 }
