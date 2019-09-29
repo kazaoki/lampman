@@ -85,8 +85,9 @@ export default async function reject(commands: any, lampman: any)
             {
                 type: 'multiselect',
                 name: 'targets',
-                message: '削除するコンテナ・ボリュームを選択してください。（複数可）',
+                message: '削除するコンテナ・ボリュームを選択してください。（スペースキーで複数選択可）',
                 choices: list,
+                instructions: false
             }
         ]);
         targets = response.targets
