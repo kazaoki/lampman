@@ -227,3 +227,18 @@ function getDockerLocalhost() {
     return host;
 }
 exports.getDockerLocalhost = getDockerLocalhost;
+function exchangePort(private_port, cname, lampman) {
+    if (cname === void 0) { cname = 'lampman'; }
+    var result = child.execFileSync('docker-compose', ['port', cname, private_port], { cwd: lampman.config_dir }).toString().trim();
+    var ports = result.split(/\:/);
+    return ports[1] ? ports[1] : private_port;
+}
+exports.exchangePort = exchangePort;
+function exchangePortFromSchema(schema, cname, lampman) {
+    if (cname === void 0) { cname = 'lampman'; }
+    if ('http' === schema)
+        return exchangePort('80', cname, lampman);
+    else if ('https' === schema)
+        return exchangePort('443', cname, lampman);
+}
+exports.exchangePortFromSchema = exchangePortFromSchema;

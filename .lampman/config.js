@@ -38,8 +38,8 @@ module.exports.config = {
         apache: {
             start: true,
             ports: [
-                '80:80',
-                '443:443'
+                '80',
+                '443'
             ],
             mounts: [ // 公開ディレクトリに /var/www/html を割り当ててください。
                 '../public_html:/var/www/html',
@@ -60,7 +60,7 @@ module.exports.config = {
         // maildev
         maildev: {
             start: __TRUE_ON_DEFAULT__,
-            ports: ['9981:1080'],
+            ports: ['1080'],
         },
 
         // postfix
@@ -72,7 +72,7 @@ module.exports.config = {
         // sshd
         sshd: {
             start: true,
-            ports: ['2222:22'],
+            ports: ['22'],
             user: 'sshuser',
             pass: '123456', // or process.env.LAMPMAN_SSHD_PASS
             path: '/var/www/html',
@@ -220,14 +220,14 @@ module.exports.config = {
             schema: 'https',
             path: '/',
             // port: '',
-            // url: '',
+            // container: 'lampman',
+            // url: 'http://localhost:9981',
         },
-        // {
-        //     // open browser on upped (win&mac only)
-        //     type: 'open_browser',
-        //     url: 'http://localhost:9981',
-        // },
-        // {
+        {
+            // MAILDEV
+            type: 'open_browser',
+            port: '1080',
+        },
         //     // show message on upped
         //     type: 'show_message',
         //     message: 'hogehoge',

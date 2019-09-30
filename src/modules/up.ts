@@ -102,9 +102,12 @@ export default async function up(commands: any, lampman: any)
                     let url = action.url
                         ? new URL(action.url)
                         : new URL('http://' + docker.getDockerLocalhost())
-                    if(action.schema) url.protocol = action.schema
+                    if(action.schema) {
+                        url.protocol = action.schema
+                        url.port = docker.exchangePortFromSchema(action.schema, action.container, lampman)
+                    }
                     if(action.path) url.pathname = action.path
-                    if(action.port) url.port = action.port
+                    if(action.port) url.port = docker.exchangePort(action.port, action.container, lampman)
                     let opencmd = libs.isWindows()
                         ? 'start'
                         : libs.isMac()

@@ -233,3 +233,29 @@ export function getDockerLocalhost()
     } catch(e) {}
     return host
 }
+
+/**
+* exchangePort
+* 指定の内部ポートから外部ポートを探す
+*
+* @param private_port: string
+*/
+export function exchangePort(private_port: string, cname: string='lampman', lampman: any)
+{
+    let result = child.execFileSync('docker-compose', ['port', cname, private_port], {cwd: lampman.config_dir}).toString().trim()
+    let ports = result.split(/\:/)
+    return ports[1] ? ports[1] : private_port
+}
+
+/**
+* exchangePortFromSchema
+* 指定のスキーマから外部ポートを探す
+* http, httpsのみ
+*
+* @param schema: string
+*/
+export function exchangePortFromSchema(schema: string, cname: string='lampman', lampman: any)
+{
+    if('http'===schema) return exchangePort('80', cname, lampman)
+    else if('https'===schema) return exchangePort('443', cname, lampman)
+}
