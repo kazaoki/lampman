@@ -228,7 +228,7 @@ export function getDockerLocalhost()
 {
     let host = 'localhost'
     try {
-        let res: string = child.execFileSync('docker-machine', ['ip'])
+        let res: string = child.execFileSync('docker-machine', ['ip'], {stdio :['pipe', 'pipe', 'ignore']})
         if(res) host = res.toString().trim()
     } catch(e) {}
     return host
