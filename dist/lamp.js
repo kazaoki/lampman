@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 var fs = require("fs");
 var path = require("path");
-var child = require("child_process");
 var color = require("cli-color");
 var commander = require("commander");
 var libs = require("./libs");
@@ -22,6 +21,7 @@ var reject_1 = require("./modules/reject");
 var sweep_1 = require("./modules/sweep");
 var rmi_1 = require("./modules/rmi");
 var config_1 = require("./modules/config");
+var extra_1 = require("./modules/extra");
 console.log();
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
@@ -121,26 +121,20 @@ commander
     .action(function (cmd) { return version_1.default(cmd, lampman); });
 if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
     var _loop_1 = function (key) {
-        var extra = lampman.config.extra[key];
-        if ('object' === typeof extra.command)
-            extra.command = extra.command['win32' === process.platform ? 'win' : 'unix'];
-        if ('undefined' === typeof extra.desc)
-            extra.desc = extra.command;
+        var extraopt = lampman.config.extra[key];
+        if ('object' === typeof extraopt.command)
+            extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
+        if ('undefined' === typeof extraopt.desc)
+            extraopt.desc = extraopt.command;
         commander
             .command(key)
-            .description(extra.desc + (extra.container ? color.blackBright(" on " + extra.container) : ''))
-            .action(function (cmd) {
-            libs.Message("Execute the following command on " + (extra.container ? extra.container : 'host OS') + "\n" + extra.desc, 'primary', 1);
-            console.log();
-            if ('container' in extra) {
-                child.spawnSync('docker-compose', ['exec', 'lampman', 'sh', '-c', extra.command], {
-                    stdio: 'inherit',
-                    cwd: lampman.config_dir
-                });
+            .description(extraopt.desc + (extraopt.container ? color.blackBright(" on " + extraopt.container) : ''))
+            .action(function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
             }
-            else {
-                child.exec(extra.command).stdout.on('data', function (data) { return process.stdout.write(data); });
-            }
+            return extra_1.default(extraopt, args, lampman);
         });
     };
     for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {

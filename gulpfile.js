@@ -51,7 +51,7 @@ gulp.task('default',
 	gulp.series(
 		gulp.parallel(
 			'lampmants',
-			'server',
+			// 'server',
 			'watch',
 		)
 	)

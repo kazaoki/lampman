@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var docker = require("../docker");
 var reject_1 = require("./reject");
+var extra_1 = require("./extra");
 var child = require('child_process');
 var path = require('path');
 var color = require('cli-color');
@@ -80,45 +81,74 @@ function up(commands, lampman) {
                         stdio: 'inherit'
                     });
                     proc.on('close', function (code) { return __awaiter(_this, void 0, void 0, function () {
-                        var procs, _loop_1, _i, _a, key;
-                        return __generator(this, function (_b) {
-                            if (code) {
-                                libs.Error("Up process exited with code " + code);
-                                process.exit();
+                        var procs, _loop_1, _i, _a, key, count, _b, _c, action, url, opencmd, extraopt;
+                        return __generator(this, function (_d) {
+                            switch (_d.label) {
+                                case 0:
+                                    if (code) {
+                                        libs.Error("Up process exited with code " + code);
+                                        process.exit();
+                                    }
+                                    console.log('');
+                                    process.stdout.write(color.magenta.bold('  [Ready]'));
+                                    procs = [];
+                                    procs.push(libs.ContainerLogAppear('lampman', 'lampman started', lampman.config_dir).then(function () { return process.stdout.write(color.magenta(' lampman')); }));
+                                    _loop_1 = function (key) {
+                                        if (!key.match(/^(mysql|postgresql)/))
+                                            return "continue";
+                                        procs.push(libs.ContainerLogAppear(key, 'Entrypoint finish.', lampman.config_dir).then(function () { return process.stdout.write(color.magenta(" " + key)); }));
+                                    };
+                                    for (_i = 0, _a = Object.keys(lampman.config); _i < _a.length; _i++) {
+                                        key = _a[_i];
+                                        _loop_1(key);
+                                    }
+                                    return [4, Promise.all(procs).catch(function (e) { return libs.Error(e); })];
+                                case 1:
+                                    _d.sent();
+                                    console.log();
+                                    if ('on_upped' in lampman.config && lampman.config.on_upped.length) {
+                                        count = 0;
+                                        for (_b = 0, _c = lampman.config.on_upped; _b < _c.length; _b++) {
+                                            action = _c[_b];
+                                            if ('open_browser' === action.type) {
+                                                url = action.url
+                                                    ? new URL(action.url)
+                                                    : new URL('http://' + docker.getDockerLocalhost());
+                                                if (action.schema)
+                                                    url.protocol = action.schema;
+                                                if (action.path)
+                                                    url.pathname = action.path;
+                                                if (action.port)
+                                                    url.port = action.port;
+                                                opencmd = libs.isWindows()
+                                                    ? 'start'
+                                                    : libs.isMac()
+                                                        ? 'open'
+                                                        : '';
+                                                if (opencmd)
+                                                    child.execSync(opencmd + " " + url.href);
+                                            }
+                                            if ('show_message' === action.type && action.message.length) {
+                                                libs.Message(action.message, action.style);
+                                                count++;
+                                            }
+                                            if ('run_command' === action.type) {
+                                                extraopt = action;
+                                                if ('object' === typeof extraopt.command)
+                                                    extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
+                                                extra_1.default(extraopt, extraopt.args, lampman);
+                                                count++;
+                                            }
+                                            if ('run_extra_command' === action.type && action.name in lampman.config.extra) {
+                                                extra_1.default(lampman.config.extra[action.name], action.args, lampman);
+                                                count++;
+                                            }
+                                        }
+                                        if (count)
+                                            console.log();
+                                    }
+                                    return [2];
                             }
-                            console.log('');
-                            process.stdout.write(color.magenta.bold('  [Ready]'));
-                            procs = [];
-                            procs.push(libs.ContainerLogAppear('lampman', 'lampman started', lampman.config_dir).then(function () { return process.stdout.write(color.magenta(' lampman')); }));
-                            _loop_1 = function (key) {
-                                if (!key.match(/^(mysql|postgresql)/))
-                                    return "continue";
-                                procs.push(libs.ContainerLogAppear(key, 'Entrypoint finish.', lampman.config_dir).then(function () { return process.stdout.write(color.magenta(" " + key)); }));
-                            };
-                            for (_i = 0, _a = Object.keys(lampman.config); _i < _a.length; _i++) {
-                                key = _a[_i];
-                                _loop_1(key);
-                            }
-                            Promise.all(procs)
-                                .catch(function (e) { return libs.Error(e); })
-                                .then(function () {
-                                var start_url = lampman.config.open_on_upped.schema + "://" + docker.getDockerLocalhost() + lampman.config.open_on_upped.path;
-                                if ('open_on_upped' in lampman.config) {
-                                    var opencmd = '';
-                                    if (libs.isWindows())
-                                        opencmd = 'start';
-                                    else if (libs.isMac())
-                                        opencmd = 'open';
-                                    if (opencmd)
-                                        child.execSync(opencmd + " " + start_url);
-                                }
-                                if ('message_on_upped' in lampman.config && lampman.config.message_on_upped.message) {
-                                    console.log('\n');
-                                    libs.Message(lampman.config.message_on_upped.message, lampman.config.message_on_upped.style);
-                                }
-                                console.log();
-                            });
-                            return [2];
                         });
                     }); });
                     return [2];

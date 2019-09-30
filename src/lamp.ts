@@ -25,6 +25,7 @@ import reject    from './modules/reject';
 import sweep     from './modules/sweep';
 import rmi       from './modules/rmi';
 import config    from './modules/config';
+import extra     from './modules/extra';
 
 // 1行改行
 console.log()
@@ -165,27 +166,13 @@ commander
 // 追加コマンド
 if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
     for(let key of Object.keys(lampman.config.extra)) {
-        let extra = lampman.config.extra[key]
-        if('object'===typeof extra.command) extra.command = extra.command['win32'===process.platform ? 'win' : 'unix']
-        if('undefined'===typeof extra.desc) extra.desc = extra.command
+        let extraopt = lampman.config.extra[key]
+        if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
+        if('undefined'===typeof extraopt.desc) extraopt.desc = extraopt.command
         commander
             .command(key)
-            .description(extra.desc+(extra.container ? color.blackBright(` on ${extra.container}`): ''))
-            .action(cmd=>{
-                libs.Message(`Execute the following command on ${extra.container ? extra.container: 'host OS'}\n${extra.desc}`, 'primary', 1)
-                console.log()
-                // コマンド実行
-                if('container' in extra) {
-                    // 指定コンテナにて実行
-                    child.spawnSync('docker-compose', ['exec', 'lampman', 'sh', '-c', extra.command], {
-                        stdio: 'inherit',
-                        cwd: lampman.config_dir
-                    })
-                } else {
-                    // ホストOSにて実行
-                    child.exec(extra.command).stdout.on('data', data=>process.stdout.write(data))
-                }
-            })
+            .description(extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''))
+            .action((...args)=>extra(extraopt, args, lampman))
         ;
     }
 }

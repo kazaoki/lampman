@@ -18,23 +18,11 @@ module.exports.config = {
     // * docker-compose.override.ymlがあればそのversionと合わせる必要あり
     version: '2.2',
 
-    // open browser on upped (win&mac only)
-    open_on_upped: {
-        schema: 'https',
-        path: '/',
-    },
-
-    // show message on upped
-    message_on_upped: {
-        message: '',
-        style: 'primary', // primary|success|danger|warning|info|default
-    },
-
-    // network
-    network: {
-        name: 'default', // ネットワークを作成する場合。自動で頭にプロジェクト名が付く
-        // external: 'lampman_default', // 既存ネットワークを指定する場合は実際の名前（頭にプロジェクト名が付いた状態）のものを指定
-    },
+    // // network
+    // network: {
+    //     name: 'default', // ネットワークを作成する場合。自動で頭にプロジェクト名が付く
+    //     // external: 'lampman_default', // 既存ネットワークを指定する場合は実際の名前（頭にプロジェクト名が付いた状態）のものを指定
+    // },
 
     /**
      * ---------------------------------------------------------------
@@ -190,19 +178,16 @@ module.exports.config = {
             container: 'lampman',
         },
 
-        // 起動中の全てのコンテナ・未ロックボリューム・<none>イメージを強制削除する
-        clean: {
-            command: 'lamp reject --force && lamp rmi --prune',
-        },
-
         // PHP Xdebug の有効/無効切り替え
         xon: {
             command: '/lampman/lampman/php-xdebug-on.sh',
             container: 'lampman',
+            desc: 'Xdebugを開始する'
         },
         xoff: {
             command: '/lampman/lampman/php-xdebug-off.sh',
             container: 'lampman',
+            desc: 'Xdebugを終了する'
         },
 
         // プロジェクトパスに本番用 docker-compose.yml を生成する（ productモードにするので .lampman-product/ が必要です）
@@ -222,4 +207,45 @@ module.exports.config = {
         //     desc: '(description)', // if specified, show desc on `lamp --help`
         // },
     },
+
+    /**
+     * ---------------------------------------------------------------
+     * Add action on upped lampman
+     * ---------------------------------------------------------------
+     */
+    on_upped: [
+        {
+            // open browser on upped (win&mac only)
+            type: 'open_browser',
+            schema: 'https',
+            path: '/',
+            // port: '',
+            // url: '',
+        },
+        // {
+        //     // open browser on upped (win&mac only)
+        //     type: 'open_browser',
+        //     url: 'http://localhost:9981',
+        // },
+        // {
+        //     // show message on upped
+        //     type: 'show_message',
+        //     message: 'hogehoge',
+        //     style: 'primary', // primary|success|danger|warning|info|default
+        // },
+        // {
+        //     // run extra command on upped
+        //     type: 'run_extra_command',
+        //     name: 'ab',
+        //     // args: [],
+        // },
+        // {
+        //     // run command on upped
+        //     type: 'run_command',
+        //     command: {
+        //         win: 'dir',
+        //         unix: 'ls -la',
+        //     },
+        // },
+    ],
 }

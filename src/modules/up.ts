@@ -4,6 +4,7 @@
 import libs = require('../libs');
 import docker = require('../docker');
 import reject    from './reject';
+import extra     from './extra';
 
 const child = require('child_process')
 const path  = require('path')
@@ -88,32 +89,53 @@ export default async function up(commands: any, lampman: any)
         }
 
         // Parallel processing
-        Promise.all(procs)
-            .catch(e=>libs.Error(e))
-            .then(()=>{
+        await Promise.all(procs).catch(e=>libs.Error(e))
 
-                // start url
-                let start_url = `${lampman.config.open_on_upped.schema}://${docker.getDockerLocalhost()}${lampman.config.open_on_upped.path}`
+        // Actions on upped
+        console.log()
+        if('on_upped' in lampman.config && lampman.config.on_upped.length) {
+            let count = 0;
+            for(let action of lampman.config.on_upped) {
 
-                // open browser on upped
-                if('open_on_upped' in lampman.config) {
-                    let opencmd = ''
-                    if(libs.isWindows()) opencmd = 'start'
-                    else if(libs.isMac()) opencmd = 'open'
-                    if(opencmd) child.execSync(`${opencmd} ${start_url}`)
+                // ブラウザで開く
+                if('open_browser'===action.type) {
+                    let url = action.url
+                        ? new URL(action.url)
+                        : new URL('http://' + docker.getDockerLocalhost())
+                    if(action.schema) url.protocol = action.schema
+                    if(action.path) url.pathname = action.path
+                    if(action.port) url.port = action.port
+                    let opencmd = libs.isWindows()
+                        ? 'start'
+                        : libs.isMac()
+                            ? 'open'
+                            :''
+                    if(opencmd) child.execSync(`${opencmd} ${url.href}`)
                 }
 
-                // show upped message
-                if('message_on_upped' in lampman.config && lampman.config.message_on_upped.message) {
-                    console.log('\n')
-                    libs.Message(
-                        lampman.config.message_on_upped.message,
-                        lampman.config.message_on_upped.style
-                    )
+                // メッセージを表示する
+                if('show_message'===action.type && action.message.length) {
+                    libs.Message(action.message, action.style)
+                    count ++
                 }
 
-                console.log()
-            })
+                // コマンドを実行する
+                if('run_command'===action.type) {
+                    let extraopt = action
+                    if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
+                    extra(extraopt, extraopt.args, lampman)
+                    count ++
+                }
+
+                // extraコマンドを実行する
+                if('run_extra_command'===action.type && action.name in lampman.config.extra) {
+                    extra(lampman.config.extra[action.name], action.args, lampman)
+                    count ++
+                }
+            }
+            if(count) console.log()
+        }
+
         return
     })
 }
