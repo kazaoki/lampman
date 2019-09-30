@@ -2,8 +2,8 @@
 // DEFAULT BOOL
 const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE
 
-// Requires
-require('dotenv').config()
+// load dotenv
+require(module.parent.path+'/../node_modules/dotenv').config()
 
 // Exprot config
 module.exports.config = {
