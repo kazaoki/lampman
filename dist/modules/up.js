@@ -81,7 +81,7 @@ function up(commands, lampman) {
                         stdio: 'inherit'
                     });
                     proc.on('close', function (code) { return __awaiter(_this, void 0, void 0, function () {
-                        var procs, _loop_1, _i, _a, key, count, _b, _c, action, url, opencmd, extraopt;
+                        var procs, _loop_1, _i, _a, key, docker_host, http_port, https_port, count, _b, _c, action, url, opencmd, extraopt;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
                                 case 0:
@@ -105,7 +105,15 @@ function up(commands, lampman) {
                                     return [4, Promise.all(procs).catch(function (e) { return libs.Error(e); })];
                                 case 1:
                                     _d.sent();
+                                    docker_host = docker.getDockerLocalhost();
                                     console.log();
+                                    http_port = docker.exchangePort('80', 'lampman', lampman);
+                                    console.log(color.magenta.bold('  [Http] ') + color.magenta("http://" + docker_host + ('80' === http_port ? '' : ':' + http_port)));
+                                    https_port = docker.exchangePort('443', 'lampman', lampman);
+                                    console.log(color.magenta.bold('  [Https] ') +
+                                        color.magenta("https://" + docker_host + ('443' === https_port ? '' : ':' + https_port)));
+                                    console.log(color.magenta.bold('  [Maildev] ') +
+                                        color.magenta("http://" + docker_host + ":" + docker.exchangePort('1080', 'lampman', lampman)));
                                     if ('on_upped' in lampman.config && lampman.config.on_upped.length) {
                                         count = 0;
                                         for (_b = 0, _c = lampman.config.on_upped; _b < _c.length; _b++) {
@@ -113,7 +121,7 @@ function up(commands, lampman) {
                                             if ('open_browser' === action.type) {
                                                 url = action.url
                                                     ? new URL(action.url)
-                                                    : new URL('http://' + docker.getDockerLocalhost());
+                                                    : new URL('http://' + docker_host);
                                                 if (action.schema) {
                                                     url.protocol = action.schema;
                                                     url.port = docker.exchangePortFromSchema(action.schema, action.container, lampman);

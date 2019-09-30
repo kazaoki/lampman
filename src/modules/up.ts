@@ -91,8 +91,22 @@ export default async function up(commands: any, lampman: any)
         // Parallel processing
         await Promise.all(procs).catch(e=>libs.Error(e))
 
-        // Actions on upped
+        // Show links
+        let docker_host = docker.getDockerLocalhost()
         console.log()
+        let http_port = docker.exchangePort('80', 'lampman', lampman);
+        console.log(color.magenta.bold('  [Http] ')+color.magenta(`http://${docker_host}${'80'===http_port?'':':'+http_port}`))
+        let https_port = docker.exchangePort('443', 'lampman', lampman);
+        console.log(
+            color.magenta.bold('  [Https] ')+
+            color.magenta(`https://${docker_host}${'443'===https_port?'':':'+https_port}`)
+        )
+        console.log(
+            color.magenta.bold('  [Maildev] ')+
+            color.magenta(`http://${docker_host}:${docker.exchangePort('1080', 'lampman', lampman)}`)
+        )
+
+        // Actions on upped
         if('on_upped' in lampman.config && lampman.config.on_upped.length) {
             let count = 0;
             for(let action of lampman.config.on_upped) {
@@ -101,7 +115,7 @@ export default async function up(commands: any, lampman: any)
                 if('open_browser'===action.type) {
                     let url = action.url
                         ? new URL(action.url)
-                        : new URL('http://' + docker.getDockerLocalhost())
+                        : new URL('http://' + docker_host)
                     if(action.schema) {
                         url.protocol = action.schema
                         url.port = docker.exchangePortFromSchema(action.schema, action.container, lampman)

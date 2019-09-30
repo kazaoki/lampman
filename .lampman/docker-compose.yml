@@ -5,8 +5,8 @@ services:
     container_name: lampman-test-lampman
     image: kazaoki/lampman
     ports:
-      - '80'
-      - '443'
+      - '80:80'
+      - '443:443'
       - '9981:1080'
       - '2222:22'
     depends_on:
