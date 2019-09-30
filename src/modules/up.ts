@@ -63,9 +63,23 @@ export default async function up(commands: any, lampman: any)
             libs.Error(`Up process exited with code ${code}`)
             process.exit()
         }
+
+        let procs = []
+
+        // lampmanのみポート関係の情報を環境変数にセット
+        let lampman_id = child.execFileSync('docker-compose', ['ps', '-q', 'lampman'], {cwd: lampman.config_dir}).toString().trim()
+        let sp = child.execFile('docker', ['port', lampman_id])
+        sp.stdout.on('data', (data: any)=>{
+            for(let line of data.toString().trim().split(/\n/)) {
+                let matches = line.match(/^(\d+).+?(\d+)$/)
+                process.env[`LAMPMAN_EXPORT_LAMPMAN_${matches[1]}`] = matches[2]
+            }
+        })
+        procs.push(sp)
+
+        // Ready before
         console.log('');
         process.stdout.write(color.magenta.bold('  [Ready]'));
-        let procs = []
 
         // lampman Ready
         procs.push(
@@ -94,16 +108,16 @@ export default async function up(commands: any, lampman: any)
         // Show links
         let docker_host = docker.getDockerLocalhost()
         console.log()
-        let http_port = docker.exchangePort('80', 'lampman', lampman);
+        let http_port = process.env.LAMPMAN_EXPORT_LAMPMAN_80
         console.log(color.magenta.bold('  [Http] ')+color.magenta(`http://${docker_host}${'80'===http_port?'':':'+http_port}`))
-        let https_port = docker.exchangePort('443', 'lampman', lampman);
+        let https_port = process.env.LAMPMAN_EXPORT_LAMPMAN_443
         console.log(
             color.magenta.bold('  [Https] ')+
             color.magenta(`https://${docker_host}${'443'===https_port?'':':'+https_port}`)
         )
         console.log(
             color.magenta.bold('  [Maildev] ')+
-            color.magenta(`http://${docker_host}:${docker.exchangePort('1080', 'lampman', lampman)}`)
+            color.magenta(`http://${docker_host}:${process.env.LAMPMAN_EXPORT_LAMPMAN_1080}`)
         )
 
         // Actions on upped

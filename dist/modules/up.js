@@ -81,7 +81,7 @@ function up(commands, lampman) {
                         stdio: 'inherit'
                     });
                     proc.on('close', function (code) { return __awaiter(_this, void 0, void 0, function () {
-                        var procs, _loop_1, _i, _a, key, docker_host, http_port, https_port, count, _b, _c, action, url, opencmd, extraopt;
+                        var procs, lampman_id, sp, _loop_1, _i, _a, key, docker_host, http_port, https_port, count, _b, _c, action, url, opencmd, extraopt;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
                                 case 0:
@@ -89,9 +89,19 @@ function up(commands, lampman) {
                                         libs.Error("Up process exited with code " + code);
                                         process.exit();
                                     }
+                                    procs = [];
+                                    lampman_id = child.execFileSync('docker-compose', ['ps', '-q', 'lampman'], { cwd: lampman.config_dir }).toString().trim();
+                                    sp = child.execFile('docker', ['port', lampman_id]);
+                                    sp.stdout.on('data', function (data) {
+                                        for (var _i = 0, _a = data.toString().trim().split(/\n/); _i < _a.length; _i++) {
+                                            var line = _a[_i];
+                                            var matches = line.match(/^(\d+).+?(\d+)$/);
+                                            process.env["LAMPMAN_EXPORT_LAMPMAN_" + matches[1]] = matches[2];
+                                        }
+                                    });
+                                    procs.push(sp);
                                     console.log('');
                                     process.stdout.write(color.magenta.bold('  [Ready]'));
-                                    procs = [];
                                     procs.push(libs.ContainerLogAppear('lampman', 'lampman started', lampman.config_dir).then(function () { return process.stdout.write(color.magenta(' lampman')); }));
                                     _loop_1 = function (key) {
                                         if (!key.match(/^(mysql|postgresql)/))
@@ -107,13 +117,13 @@ function up(commands, lampman) {
                                     _d.sent();
                                     docker_host = docker.getDockerLocalhost();
                                     console.log();
-                                    http_port = docker.exchangePort('80', 'lampman', lampman);
+                                    http_port = process.env.LAMPMAN_EXPORT_LAMPMAN_80;
                                     console.log(color.magenta.bold('  [Http] ') + color.magenta("http://" + docker_host + ('80' === http_port ? '' : ':' + http_port)));
-                                    https_port = docker.exchangePort('443', 'lampman', lampman);
+                                    https_port = process.env.LAMPMAN_EXPORT_LAMPMAN_443;
                                     console.log(color.magenta.bold('  [Https] ') +
                                         color.magenta("https://" + docker_host + ('443' === https_port ? '' : ':' + https_port)));
                                     console.log(color.magenta.bold('  [Maildev] ') +
-                                        color.magenta("http://" + docker_host + ":" + docker.exchangePort('1080', 'lampman', lampman)));
+                                        color.magenta("http://" + docker_host + ":" + process.env.LAMPMAN_EXPORT_LAMPMAN_1080));
                                     if ('on_upped' in lampman.config && lampman.config.on_upped.length) {
                                         count = 0;
                                         for (_b = 0, _c = lampman.config.on_upped; _b < _c.length; _b++) {
