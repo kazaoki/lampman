@@ -26,6 +26,7 @@ import sweep     from './modules/sweep';
 import rmi       from './modules/rmi';
 import config    from './modules/config';
 import extra     from './modules/extra';
+import web       from './modules/web';
 
 // 1行改行
 console.log()
@@ -156,6 +157,13 @@ commander
     .command('config')
     .description('設定ファイル(config.js)をエディタで開く')
     .action(cmd=>config(cmd, lampman))
+
+// web: カレントでapacheサーバのみ起動（configいらず
+commander
+    .command('web')
+    .description('設定無しで現在のパスでビルトインPHPウェブサーバを一時的に起動します。')
+    .option('-p, --port <port>', 'ポートを指定します。未指定なら自動で付きます')
+    .action(cmd=>web(cmd, lampman))
 
 // version: バージョン表示
 commander

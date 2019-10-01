@@ -22,6 +22,7 @@ var sweep_1 = require("./modules/sweep");
 var rmi_1 = require("./modules/rmi");
 var config_1 = require("./modules/config");
 var extra_1 = require("./modules/extra");
+var web_1 = require("./modules/web");
 console.log();
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
@@ -115,6 +116,11 @@ commander
     .command('config')
     .description('設定ファイル(config.js)をエディタで開く')
     .action(function (cmd) { return config_1.default(cmd, lampman); });
+commander
+    .command('web')
+    .description('設定無しで現在のパスでビルトインPHPウェブサーバを一時的に起動します。')
+    .option('-p, --port <port>', 'ポートを指定します。未指定なら自動で付きます')
+    .action(function (cmd) { return web_1.default(cmd, lampman); });
 commander
     .command('version')
     .description('バージョン表示')
