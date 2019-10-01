@@ -198,7 +198,7 @@ function mysql(cname, commands, lampman) {
                             mysql.cname,
                             'mysql',
                             mysql.database,
-                            '-u' + mysql.user,
+                            '-uroot',
                             '-p' + mysql.password
                         ], {
                             cwd: lampman.config_dir,

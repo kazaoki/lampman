@@ -94,6 +94,8 @@ module.exports.config = {
         collation:      'utf8mb4_unicode_ci',
         hosts:          ['main.db'],
         volume_locked:  false,
+        query_log:      true,
+        query_cache:    true,
         dump: {
             rotations:  3,
             filename:   'dump.sql',
@@ -108,7 +110,9 @@ module.exports.config = {
         charset:        'utf8mb4',
         collation:      'utf8mb4_unicode_ci',
         hosts:          ['main-2.db'],
-        volume_locked:  true,
+        volume_locked:  false,
+        query_log:      true,
+        query_cache:    true,
         dump:           {
             rotations:  5,
             filename:   'dump.sql',
@@ -153,10 +157,10 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     logs: {
-        http: [
-            ['/var/log/httpd/access_log', ['-cS', 'apache']],
-            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
-        ],
+        // http: [
+        //     ['/var/log/httpd/access_log', ['-cS', 'apache']],
+        //     ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
+        // ],
         https: [
             ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
             ['/var/log/httpd/ssl_error_log', ['-cS', 'apache_errors']],
@@ -164,6 +168,10 @@ module.exports.config = {
         // app: [
         //     ['/var/www/html/app.log', ['-ci', 'green']],
         // ],
+        db: [
+            ['/var/log/mysql/query.log', ['-ci', 'green']],
+            ['/var/log/mysql_2/query.log', ['-ci', 'blue']],
+        ],
     },
 
     /**

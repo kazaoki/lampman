@@ -125,6 +125,19 @@ export function ConfigToYaml(config: any)
                 }
             }
             if('volume_locked' in config[key]) yaml.services[key].environment.VOLUME_LOCKED = config[key].volume_locked ? 1 : 0
+            if('query_log' in config[key] && config[key].query_log) {
+                yaml.services[key].volumes.push(`${key}_querylogs:/var/log/${key}`)
+                yaml.volumes[`${key}_querylogs`] = {
+                    driver: 'local',
+                    name: `${proj}-${key}_querylogs`
+                }
+                yaml.services.lampman.volumes_from.push(key)
+                yaml.services[key].environment.QUERY_LOGS = 1
+                yaml.services[key].environment.LAMPMAN_SERVICE = key
+            }
+            if('query_cache' in config[key] && config[key].query_cache) {
+                yaml.services[key].environment.QUERY_CACHE = 1
+            }
             if('dump' in config[key]) {
                 if('rotations' in config[key].dump) {
                     yaml.services[key].environment.DUMP_ROTATIONS = config[key].dump.rotations

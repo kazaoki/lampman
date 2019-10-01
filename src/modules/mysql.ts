@@ -187,7 +187,8 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
             mysql.cname,
             'mysql',
             mysql.database,
-            '-u'+mysql.user,
+            // '-u'+mysql.user,
+            '-uroot',
             '-p'+mysql.password
         ],
         {
