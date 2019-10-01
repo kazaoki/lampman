@@ -66,7 +66,7 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
 
     // 現在有効に起動しているコンテナが指定されているのかをチェック
     try {
-        child.execFileSync('docker-compose', ['ps', '-qa', mysql.cname], {cwd: lampman.config_dir})
+        child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'ps', '-qa', mysql.cname], {cwd: lampman.config_dir})
     } catch(e) {
         libs.Error(e)
     }
@@ -98,6 +98,7 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
         child.spawnSync(
             'docker-compose',
             [
+                '--project-name', lampman.config.lampman.project,
                 'exec',
                 '-T',
                 mysql.cname,
@@ -132,7 +133,7 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
         // 対象のmysqlコンテナを強制終了
         process.stdout.write(`Stopping ${mysql.cname} ... `)
         try {
-            child.spawnSync('docker-compose', ['rm', '-sf', mysql.cname], {cwd: lampman.config_dir})
+            child.spawnSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'rm', '-sf', mysql.cname], {cwd: lampman.config_dir})
         } catch(e) {
             libs.Error(e)
         }
@@ -151,7 +152,7 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
         // 対象のmysqlコンテナのみ起動
         process.stdout.write(`Reupping ${mysql.cname} ... `)
         try {
-            child.spawnSync('docker-compose', ['up', '-d', mysql.cname], {cwd: lampman.config_dir})
+            child.spawnSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'up', '-d', mysql.cname], {cwd: lampman.config_dir})
         } catch(e) {
             libs.Error(e)
         }
@@ -161,7 +162,7 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
         libs.ContainerLogAppear(
             mysql.cname,
             'Entrypoint finish.',
-            lampman.config_dir,
+            lampman,
         ).catch(err=>{libs.Error(err)})
             .then(()=>{
                 process.stdout.write(color.magenta(` ${mysql.cname}`))
@@ -176,6 +177,7 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
     await child.spawn(
         'docker-compose',
         [
+            '--project-name', lampman.config.lampman.project,
             'exec',
             '-e', 'TERM=xterm-256color',
             '-e', 'LANGUAGE=ja_JP.UTF-8',

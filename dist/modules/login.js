@@ -87,7 +87,7 @@ function login(cname, commands, lampman) {
                     }
                     else {
                         try {
-                            cid = child.execFileSync('docker-compose', ['ps', '-qa', cname], { cwd: lampman.config_dir }).toString();
+                            cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'ps', '-qa', cname], { cwd: lampman.config_dir }).toString();
                             res = child.execFileSync('docker', ['ps', '-f', "id=" + cid.trim(), '--format', '{{.Names}}']).toString();
                             if (res)
                                 target_cname = res.trim();

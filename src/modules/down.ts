@@ -11,7 +11,10 @@ const path = require('path')
 export default function down(commands: any, lampman: any)
 {
     let proc = child.spawn('docker-compose',
-        ['down'],
+        [
+            '--project-name', lampman.config.lampman.project,
+            'down'
+        ],
         {
             cwd: lampman.config_dir,
             stdio: 'inherit'

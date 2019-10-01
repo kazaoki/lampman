@@ -94,7 +94,7 @@ function up(commands, lampman) {
                                         process.exit();
                                     }
                                     procs = [];
-                                    lampman_id = child.execFileSync('docker-compose', ['ps', '-q', 'lampman'], { cwd: lampman.config_dir }).toString().trim();
+                                    lampman_id = child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'ps', '-q', 'lampman'], { cwd: lampman.config_dir }).toString().trim();
                                     sp = child.execFile('docker', ['port', lampman_id]);
                                     sp.stdout.on('data', function (data) {
                                         for (var _i = 0, _a = data.toString().trim().split(/\n/); _i < _a.length; _i++) {
@@ -106,11 +106,11 @@ function up(commands, lampman) {
                                     procs.push(sp);
                                     console.log('');
                                     process.stdout.write(color.magenta.bold('  [Ready]'));
-                                    procs.push(libs.ContainerLogAppear('lampman', 'lampman started', lampman.config_dir).then(function () { return process.stdout.write(color.magenta(' lampman')); }));
+                                    procs.push(libs.ContainerLogAppear('lampman', 'lampman started', lampman).then(function () { return process.stdout.write(color.magenta(' lampman')); }));
                                     _loop_1 = function (key) {
                                         if (!key.match(/^(mysql|postgresql)/))
                                             return "continue";
-                                        procs.push(libs.ContainerLogAppear(key, 'Entrypoint finish.', lampman.config_dir).then(function () { return process.stdout.write(color.magenta(" " + key)); }));
+                                        procs.push(libs.ContainerLogAppear(key, 'Entrypoint finish.', lampman).then(function () { return process.stdout.write(color.magenta(" " + key)); }));
                                     };
                                     for (_i = 0, _a = Object.keys(lampman.config); _i < _a.length; _i++) {
                                         key = _a[_i];

@@ -71,7 +71,7 @@ export default async function up(commands: any, lampman: any)
         let procs = []
 
         // lampmanのみポート関係の情報を環境変数にセット
-        let lampman_id = child.execFileSync('docker-compose', ['ps', '-q', 'lampman'], {cwd: lampman.config_dir}).toString().trim()
+        let lampman_id = child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'ps', '-q', 'lampman'], {cwd: lampman.config_dir}).toString().trim()
         let sp = child.execFile('docker', ['port', lampman_id])
         sp.stdout.on('data', (data: any)=>{
             for(let line of data.toString().trim().split(/\n/)) {
@@ -90,7 +90,7 @@ export default async function up(commands: any, lampman: any)
             libs.ContainerLogAppear(
                 'lampman',
                 'lampman started',
-                lampman.config_dir,
+                lampman,
             ).then(()=>process.stdout.write(color.magenta(' lampman')))
         )
 
@@ -101,7 +101,7 @@ export default async function up(commands: any, lampman: any)
                 libs.ContainerLogAppear(
                     key,
                     'Entrypoint finish.',
-                    lampman.config_dir,
+                    lampman,
                 ).then(()=>process.stdout.write(color.magenta(` ${key}`)))
             )
         }

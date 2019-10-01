@@ -13,7 +13,7 @@ export default function yamlout(commands: any, lampman: any)
 {
     // docker-compose が認識しているYAML情報を取得する
     let yaml = jsYaml.load(
-        child.execFileSync('docker-compose', ['config'], {cwd: lampman.config_dir}).toString()
+        child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'config'], {cwd: lampman.config_dir}).toString()
     )
 
     // out timestamp
@@ -50,11 +50,11 @@ export default function yamlout(commands: any, lampman: any)
             yaml.services[key].volumes = new_volumes
         }
     }
-    console.log(toYaml({services: yaml.services}))
+    if(yaml.services) console.log(toYaml({services: yaml.services}))
 
     // networks
-    console.log(toYaml({networks: yaml.networks}))
+    if(yaml.networks) console.log(toYaml({networks: yaml.networks}))
 
     // volumes
-    console.log(toYaml({volumes: yaml.volumes}))
+    if(yaml.volumes) console.log(toYaml({volumes: yaml.volumes}))
 }

@@ -5,7 +5,7 @@ var jsYaml = require("js-yaml");
 var path = require("path");
 var toYaml = function (inData) { return jsYaml.dump(inData, { lineWidth: -1 }); };
 function yamlout(commands, lampman) {
-    var yaml = jsYaml.load(child.execFileSync('docker-compose', ['config'], { cwd: lampman.config_dir }).toString());
+    var yaml = jsYaml.load(child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'config'], { cwd: lampman.config_dir }).toString());
     var date = new Date();
     console.log("# Built at " + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
     console.log();
@@ -35,8 +35,11 @@ function yamlout(commands, lampman) {
             yaml.services[key].volumes = new_volumes;
         }
     }
-    console.log(toYaml({ services: yaml.services }));
-    console.log(toYaml({ networks: yaml.networks }));
-    console.log(toYaml({ volumes: yaml.volumes }));
+    if (yaml.services)
+        console.log(toYaml({ services: yaml.services }));
+    if (yaml.networks)
+        console.log(toYaml({ networks: yaml.networks }));
+    if (yaml.volumes)
+        console.log(toYaml({ volumes: yaml.volumes }));
 }
 exports.default = yamlout;
