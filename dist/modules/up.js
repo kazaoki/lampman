@@ -63,7 +63,11 @@ function up(commands, lampman) {
                             }
                         }
                     }
-                    args = ['up', '-d', '--force-recreate'];
+                    args = [
+                        '--project-name', lampman.config.lampman.project,
+                        'up', '-d',
+                        '--force-recreate',
+                    ];
                     if (!commands.flush) return [3, 2];
                     libs.Label('Flush cleaning');
                     return [4, reject_1.default({ force: true }, lampman)];

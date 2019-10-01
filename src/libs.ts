@@ -1,9 +1,9 @@
 
 'use strict'
 
-const strwidth = require('string-width');
-const color    = require('cli-color');
-const wrap     = require('jp-wrap')(color.windowSize.width-8);
+const strwidth = require('string-width')
+const color    = require('cli-color')
+const jpwrap   = require('jp-wrap')(color.windowSize.width-8)
 const util     = require('util');
 const child    = require('child_process')
 const path     = require('path')
@@ -69,32 +69,18 @@ export function Repeat (string: string, times: number=1): string {
  * @param {string} type タイプ。primary|success|danger|warning|info|default
  * @param {number} line タイトル線を引く位置。
  */
-// const Message = (message: { replace: (arg0: RegExp, arg1: string) => void; split: (arg0: RegExp) => void; }, type='default', line=0)=>{
-export function Message (message: any, type: string='default', line: number=0): void {
+export function Message (message: any, type: string='default', line: number=0, opt: any={}): void {
     let indent = '  ';
     let line_color = color.white;
     let fg_color = color.white;
-    if(type==='primary') {
-        line_color = color.blue
-        fg_color = color.white
-    } else if(type==='success') {
-        line_color = color.green
-        fg_color = color.greenBright
-    } else if(type==='danger') {
-        line_color = color.redBright
-        fg_color = color.red
-    } else if(type==='warning') {
-        line_color = color.yellow
-        fg_color = color.yellowBright
-    } else if(type==='info') {
-        line_color = color.whiteBright
-        fg_color = color.whiteBright
-    } else if(type==='whisper') {
-        line_color = color.blackBright
-        fg_color = color.blackBright
-    }
-
-    message = wrap(message.replace(/[\r\n]+$/, ''))
+    if     (type==='primary') { line_color = color.blue;        fg_color = color.white }
+    else if(type==='success') { line_color = color.green;       fg_color = color.greenBright }
+    else if(type==='danger')  { line_color = color.redBright;   fg_color = color.red }
+    else if(type==='warning') { line_color = color.yellow;      fg_color = color.yellowBright }
+    else if(type==='info')    { line_color = color.whiteBright; fg_color = color.whiteBright }
+    else if(type==='whisper') { line_color = color.blackBright; fg_color = color.blackBright }
+    message = message.trim()
+    if(!opt.for_container) message = jpwrap(message)
     let messages = message.split(/[\r\n]+/)
     let width = 0;
     for(let i in messages) {
@@ -102,7 +88,6 @@ export function Message (message: any, type: string='default', line: number=0): 
         if(width < len) width = len;
     }
     width += 2;
-
     console.log(
         indent +
         line_color('╒') +

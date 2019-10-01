@@ -32,7 +32,11 @@ export default async function up(commands: any, lampman: any)
     }
 
     // 引数用意
-    let args = ['up', '-d', '--force-recreate']
+    let args = [
+        '--project-name', lampman.config.lampman.project,
+        'up', '-d',
+        '--force-recreate',
+    ]
 
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(commands.flush) {

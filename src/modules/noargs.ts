@@ -22,18 +22,37 @@ export default function noargs(commands: any, lampman: any)
 
     // Containers
     console.log('\n  [Containers]')
-    let lines = child.execFileSync('docker', ['ps', '-a', '--format', '{{.Names}}\t{{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}']).toString().trim().split('\n')
-    lines.unshift(['NAMES', 'ID', 'IMAGE', 'STATUS', 'PORTS'].join('\t'))
-    for(let i in lines) {
-        let column = lines[i].split(/\t/)
+    let groups = []
+    let lines = <any>[]
+    for(let line of child.execFileSync('docker', ['ps', '-a', '--format', '{{.Names}}\t{{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}\t{{.Labels}}']).toString().split('\n')) {
+        let columns = line.split(/\t/)
+        let label = columns.pop()
+        lines.push({
+            columns: columns,
+            label: label
+        })
+    }
+    lines.unshift({columns: ['NAMES', 'ID', 'IMAGE', 'STATUS', 'PORTS']})
+    for(let line of lines) {
         let set = []
-        for(let j in column) {
+        for(let column of line.columns) {
+            let text = column
+            let is_group = line.label && line.label.split(/,/).includes(`com.docker.compose.project=${lampman.config.lampman.project}`)
+            let texts = []
+            for(let item of text.split(/, ?/)) {
+                texts.push(is_group
+                    ? item
+                    : 'label' in line
+                        ? color.blue(item)
+                        : item
+                )
+            }
             set.push({
-                text: column[j].replace(/, ?/g, '\n'),
+                text: texts.join('\n'),
                 padding: [0, 1, 0, 1],
             })
         }
         cliui.div(...set)
     }
-    libs.Message(cliui.toString(), 'primary', 1)
+    libs.Message(cliui.toString(), 'primary', 1, {for_container: true})
 }

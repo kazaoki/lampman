@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var strwidth = require('string-width');
 var color = require('cli-color');
-var wrap = require('jp-wrap')(color.windowSize.width - 8);
+var jpwrap = require('jp-wrap')(color.windowSize.width - 8);
 var util = require('util');
 var child = require('child_process');
 var path = require('path');
@@ -36,9 +36,10 @@ function Repeat(string, times) {
     return lump;
 }
 exports.Repeat = Repeat;
-function Message(message, type, line) {
+function Message(message, type, line, opt) {
     if (type === void 0) { type = 'default'; }
     if (line === void 0) { line = 0; }
+    if (opt === void 0) { opt = {}; }
     var indent = '  ';
     var line_color = color.white;
     var fg_color = color.white;
@@ -66,7 +67,9 @@ function Message(message, type, line) {
         line_color = color.blackBright;
         fg_color = color.blackBright;
     }
-    message = wrap(message.replace(/[\r\n]+$/, ''));
+    message = message.trim();
+    if (!opt.for_container)
+        message = jpwrap(message);
     var messages = message.split(/[\r\n]+/);
     var width = 0;
     for (var i in messages) {
