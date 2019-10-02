@@ -24,7 +24,7 @@ function logs(group, commands, lampman) {
             args.push(file);
         }
     }
-    child.spawn('docker-compose', ['--project-name', lampman.config.lampman.project, 'exec', 'lampman', 'multitail', '-cS', 'apache'].concat(args), {
+    child.spawn('docker-compose', ['--project-name', lampman.config.project, 'exec', 'lampman', 'multitail', '-cS', 'apache'].concat(args), {
         stdio: 'inherit',
         cwd: lampman.config_dir
     });

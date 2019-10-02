@@ -30,7 +30,7 @@ export default function logs(group: string|null, commands: any, lampman: any)
             args.push(file)
         }
     }
-    child.spawn('docker-compose', ['--project-name', lampman.config.lampman.project, 'exec', 'lampman', 'multitail', '-cS', 'apache', ...args], {
+    child.spawn('docker-compose', ['--project-name', lampman.config.project, 'exec', 'lampman', 'multitail', '-cS', 'apache', ...args], {
         stdio: 'inherit',
         cwd: lampman.config_dir
     })

@@ -66,7 +66,7 @@ export default async function psql(cname: string|null, commands: any, lampman: a
 
     // 現在有効に起動しているコンテナが指定されているのかをチェック
     try {
-        child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'ps', '-qa', postgresql.cname], {cwd: lampman.config_dir})
+        child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', postgresql.cname], {cwd: lampman.config_dir})
     } catch(e) {
         libs.Error(e)
     }
@@ -98,7 +98,7 @@ export default async function psql(cname: string|null, commands: any, lampman: a
         child.spawnSync(
             'docker-compose',
             [
-                '--project-name', lampman.config.lampman.project,
+                '--project-name', lampman.config.project,
                 'exec',
                 '-T',
                 '-e', 'TERM=xterm-256color',
@@ -138,14 +138,14 @@ export default async function psql(cname: string|null, commands: any, lampman: a
         // 対象のpostgresqlコンテナを強制終了
         process.stdout.write(`Stopping ${postgresql.cname} ... `)
         try {
-            child.spawnSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'rm', '-sf', postgresql.cname], {cwd: lampman.config_dir})
+            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'rm', '-sf', postgresql.cname], {cwd: lampman.config_dir})
         } catch(e) {
             libs.Error(e)
         }
         console.log(color.green('done'))
 
         // 対象のボリュームを強制削除
-        postgresql.vname = `${lampman.config.lampman.project}-${postgresql.cname}_data`
+        postgresql.vname = `${lampman.config.project}-${postgresql.cname}_data`
         process.stdout.write(`Removing volume ${postgresql.vname} ... `)
         try {
             child.spawnSync('docker', ['volume', 'rm', postgresql.vname, '-f'])
@@ -157,7 +157,7 @@ export default async function psql(cname: string|null, commands: any, lampman: a
         // 対象のpostgresqlコンテナのみ起動
         process.stdout.write(`Reupping ${postgresql.cname} ... `)
         try {
-            child.spawnSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'up', '-d', postgresql.cname], {cwd: lampman.config_dir})
+            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'up', '-d', postgresql.cname], {cwd: lampman.config_dir})
         } catch(e) {
             libs.Error(e)
         }
@@ -182,7 +182,7 @@ export default async function psql(cname: string|null, commands: any, lampman: a
     await child.spawn(
         'docker-compose',
         [
-            '--project-name', lampman.config.lampman.project,
+            '--project-name', lampman.config.project,
             'exec',
             '-e', 'TERM=xterm-256color',
             '-e', 'LANGUAGE=ja_JP.UTF-8',

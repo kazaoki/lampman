@@ -53,7 +53,7 @@ export default async function login(cname: string|null, commands: any, lampman: 
         } else {
             // リストになければサービス名として docker-compose に渡して実際のコンテナ名を取得
             try {
-                let cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'ps', '-qa', cname], {cwd: lampman.config_dir}).toString()
+                let cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', cname], {cwd: lampman.config_dir}).toString()
                 let res = child.execFileSync('docker', ['ps', '-f', `id=${cid.trim()}`, '--format', '{{.Names}}']).toString()
                 if(res) target_cname = res.trim()
             } catch(e) {

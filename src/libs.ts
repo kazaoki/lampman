@@ -152,7 +152,7 @@ export function ContainerLogAppear(container: string, check_str: string, lampman
 {
     let cwd = lampman.config_dir
     return new Promise((resolve, reject)=>{
-        let sp = child.spawn('docker-compose', ['--project-name', lampman.config.lampman.project, 'logs', '-f', '--no-color', container], {cwd: cwd})
+        let sp = child.spawn('docker-compose', ['--project-name', lampman.config.project, 'logs', '-f', '--no-color', container], {cwd: cwd})
         sp.stdout.on('data', (data: any) => {
             if(data.toString().match(check_str)) {
                 if('win32'===process.platform) {

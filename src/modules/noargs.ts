@@ -37,7 +37,7 @@ export default function noargs(commands: any, lampman: any)
         let set = []
         for(let column of line.columns) {
             let text = column
-            let is_group = 'config' in lampman && line.label && line.label.split(/,/).includes(`com.docker.compose.project=${lampman.config.lampman.project}`)
+            let is_group = 'config' in lampman && line.label && line.label.split(/,/).includes(`com.docker.compose.project=${lampman.config.project}`)
             let texts = []
             for(let item of text.split(/, ?/)) {
                 texts.push(is_group

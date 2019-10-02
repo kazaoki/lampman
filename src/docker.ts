@@ -19,7 +19,7 @@ export function ConfigToYaml(config: any)
         volumes:  <any>{},
         networks: <any>{},
     }
-    let proj = config.lampman.project
+    let proj = config.project
 
     // lampman設定
     yaml.services.lampman = {
@@ -255,7 +255,7 @@ export function getDockerLocalhost()
 */
 export function exchangePort(private_port: string, cname: string='lampman', lampman: any)
 {
-    let result = child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'port', cname, private_port], {cwd: lampman.config_dir}).toString().trim()
+    let result = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'port', cname, private_port], {cwd: lampman.config_dir}).toString().trim()
     let ports = result.split(/\:/)
     return ports[1] ? ports[1] : private_port
 }

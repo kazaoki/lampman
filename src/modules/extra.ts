@@ -19,7 +19,7 @@ export default function extra(extraopt: any, args: any, lampman: any)
     // コマンド実行
     if('container' in extraopt) {
         // 指定コンテナにてコマンド実行
-        child.spawnSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'exec', extraopt.container, 'sh', '-c', extraopt.command], {
+        child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'exec', extraopt.container, 'sh', '-c', extraopt.command], {
             stdio: 'inherit',
             cwd: lampman.config_dir
         })

@@ -28,7 +28,7 @@ function noargs(commands, lampman) {
         for (var _c = 0, _d = line.columns; _c < _d.length; _c++) {
             var column = _d[_c];
             var text = column;
-            var is_group = 'config' in lampman && line.label && line.label.split(/,/).includes("com.docker.compose.project=" + lampman.config.lampman.project);
+            var is_group = 'config' in lampman && line.label && line.label.split(/,/).includes("com.docker.compose.project=" + lampman.config.project);
             var texts = [];
             for (var _e = 0, _f = text.split(/, ?/); _e < _f.length; _e++) {
                 var item = _f[_e];

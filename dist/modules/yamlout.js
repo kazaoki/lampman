@@ -5,7 +5,7 @@ var jsYaml = require("js-yaml");
 var path = require("path");
 var toYaml = function (inData) { return jsYaml.dump(inData, { lineWidth: -1 }); };
 function yamlout(commands, lampman) {
-    var yaml = jsYaml.load(child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'config'], { cwd: lampman.config_dir }).toString());
+    var yaml = jsYaml.load(child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config'], { cwd: lampman.config_dir }).toString());
     var date = new Date();
     console.log("# Built at " + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
     console.log();

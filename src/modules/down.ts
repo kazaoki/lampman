@@ -12,7 +12,7 @@ export default function down(commands: any, lampman: any)
 {
     let proc = child.spawn('docker-compose',
         [
-            '--project-name', lampman.config.lampman.project,
+            '--project-name', lampman.config.project,
             'down'
         ],
         {

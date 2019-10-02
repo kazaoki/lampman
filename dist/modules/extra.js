@@ -8,7 +8,7 @@ function extra(extraopt, args, lampman) {
         console.log();
     }
     if ('container' in extraopt) {
-        child.spawnSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'exec', extraopt.container, 'sh', '-c', extraopt.command], {
+        child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'exec', extraopt.container, 'sh', '-c', extraopt.command], {
             stdio: 'inherit',
             cwd: lampman.config_dir
         });

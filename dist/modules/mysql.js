@@ -109,7 +109,7 @@ function mysql(cname, commands, lampman) {
                     _c.label = 4;
                 case 4:
                     try {
-                        child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'ps', '-qa', mysql.cname], { cwd: lampman.config_dir });
+                        child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', mysql.cname], { cwd: lampman.config_dir });
                     }
                     catch (e) {
                         libs.Error(e);
@@ -131,7 +131,7 @@ function mysql(cname, commands, lampman) {
                         }
                         process.stdout.write('Dump to ' + dumpfile + ' ... ');
                         child.spawnSync('docker-compose', [
-                            '--project-name', lampman.config.lampman.project,
+                            '--project-name', lampman.config.project,
                             'exec',
                             '-T',
                             mysql.cname,
@@ -155,13 +155,13 @@ function mysql(cname, commands, lampman) {
                         libs.Label('Restore MySQL');
                         process.stdout.write("Stopping " + mysql.cname + " ... ");
                         try {
-                            child.spawnSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'rm', '-sf', mysql.cname], { cwd: lampman.config_dir });
+                            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'rm', '-sf', mysql.cname], { cwd: lampman.config_dir });
                         }
                         catch (e) {
                             libs.Error(e);
                         }
                         console.log(color.green('done'));
-                        mysql.vname = lampman.config.lampman.project + "-" + mysql.cname + "_data";
+                        mysql.vname = lampman.config.project + "-" + mysql.cname + "_data";
                         process.stdout.write("Removing volume " + mysql.vname + " ... ");
                         try {
                             child.spawnSync('docker', ['volume', 'rm', mysql.vname, '-f']);
@@ -172,7 +172,7 @@ function mysql(cname, commands, lampman) {
                         console.log(color.green('done'));
                         process.stdout.write("Reupping " + mysql.cname + " ... ");
                         try {
-                            child.spawnSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'up', '-d', mysql.cname], { cwd: lampman.config_dir });
+                            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'up', '-d', mysql.cname], { cwd: lampman.config_dir });
                         }
                         catch (e) {
                             libs.Error(e);
@@ -188,7 +188,7 @@ function mysql(cname, commands, lampman) {
                         return [2];
                     }
                     return [4, child.spawn('docker-compose', [
-                            '--project-name', lampman.config.lampman.project,
+                            '--project-name', lampman.config.project,
                             'exec',
                             '-e', 'TERM=xterm-256color',
                             '-e', 'LANGUAGE=ja_JP.UTF-8',

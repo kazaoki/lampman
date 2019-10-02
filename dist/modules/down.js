@@ -4,7 +4,7 @@ var child = require('child_process');
 var path = require('path');
 function down(commands, lampman) {
     var proc = child.spawn('docker-compose', [
-        '--project-name', lampman.config.lampman.project,
+        '--project-name', lampman.config.project,
         'down'
     ], {
         cwd: lampman.config_dir,

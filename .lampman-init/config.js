@@ -14,6 +14,9 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
 
+     // project name
+    project: 'lampman-proj',
+
     // docker-compose file version
     // * docker-compose.override.ymlがあればそのversionと合わせる必要あり
     version: '2.2',
@@ -30,7 +33,6 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     lampman: {
-        project: 'lampman-proj',
         image: 'kazaoki/lampman',
         login_path: '/var/www/html',
 

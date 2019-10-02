@@ -115,7 +115,7 @@ exports.Label = Label;
 function ContainerLogAppear(container, check_str, lampman) {
     var cwd = lampman.config_dir;
     return new Promise(function (resolve, reject) {
-        var sp = child.spawn('docker-compose', ['--project-name', lampman.config.lampman.project, 'logs', '-f', '--no-color', container], { cwd: cwd });
+        var sp = child.spawn('docker-compose', ['--project-name', lampman.config.project, 'logs', '-f', '--no-color', container], { cwd: cwd });
         sp.stdout.on('data', function (data) {
             if (data.toString().match(check_str)) {
                 if ('win32' === process.platform) {

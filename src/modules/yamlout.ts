@@ -13,7 +13,7 @@ export default function yamlout(commands: any, lampman: any)
 {
     // docker-compose が認識しているYAML情報を取得する
     let yaml = jsYaml.load(
-        child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'config'], {cwd: lampman.config_dir}).toString()
+        child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config'], {cwd: lampman.config_dir}).toString()
     )
 
     // out timestamp

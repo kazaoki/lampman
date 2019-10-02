@@ -10,7 +10,7 @@ function ConfigToYaml(config) {
         volumes: {},
         networks: {},
     };
-    var proj = config.lampman.project;
+    var proj = config.project;
     yaml.services.lampman = {
         container_name: proj + "-lampman",
         image: config.lampman.image,
@@ -242,7 +242,7 @@ function getDockerLocalhost() {
 exports.getDockerLocalhost = getDockerLocalhost;
 function exchangePort(private_port, cname, lampman) {
     if (cname === void 0) { cname = 'lampman'; }
-    var result = child.execFileSync('docker-compose', ['--project-name', lampman.config.lampman.project, 'port', cname, private_port], { cwd: lampman.config_dir }).toString().trim();
+    var result = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'port', cname, private_port], { cwd: lampman.config_dir }).toString().trim();
     var ports = result.split(/\:/);
     return ports[1] ? ports[1] : private_port;
 }
