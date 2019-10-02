@@ -113,13 +113,13 @@ export default async function up(commands: any, lampman: any)
         let docker_host = docker.getDockerLocalhost()
         console.log()
         let http_port = process.env.LAMPMAN_EXPORT_LAMPMAN_80
-        console.log(color.magenta.bold('  [Http] ')+color.magenta(`http://${docker_host}${'80'===http_port?'':':'+http_port}`))
+        if(http_port) console.log(color.magenta.bold('  [Http] ')+color.magenta(`http://${docker_host}${'80'===http_port?'':':'+http_port}`))
         let https_port = process.env.LAMPMAN_EXPORT_LAMPMAN_443
-        console.log(
+        if(https_port) console.log(
             color.magenta.bold('  [Https] ')+
             color.magenta(`https://${docker_host}${'443'===https_port?'':':'+https_port}`)
         )
-        console.log(
+        if(process.env.LAMPMAN_EXPORT_LAMPMAN_1080) console.log(
             color.magenta.bold('  [Maildev] ')+
             color.magenta(`http://${docker_host}:${process.env.LAMPMAN_EXPORT_LAMPMAN_1080}`)
         )

@@ -122,12 +122,15 @@ function up(commands, lampman) {
                                     docker_host = docker.getDockerLocalhost();
                                     console.log();
                                     http_port = process.env.LAMPMAN_EXPORT_LAMPMAN_80;
-                                    console.log(color.magenta.bold('  [Http] ') + color.magenta("http://" + docker_host + ('80' === http_port ? '' : ':' + http_port)));
+                                    if (http_port)
+                                        console.log(color.magenta.bold('  [Http] ') + color.magenta("http://" + docker_host + ('80' === http_port ? '' : ':' + http_port)));
                                     https_port = process.env.LAMPMAN_EXPORT_LAMPMAN_443;
-                                    console.log(color.magenta.bold('  [Https] ') +
-                                        color.magenta("https://" + docker_host + ('443' === https_port ? '' : ':' + https_port)));
-                                    console.log(color.magenta.bold('  [Maildev] ') +
-                                        color.magenta("http://" + docker_host + ":" + process.env.LAMPMAN_EXPORT_LAMPMAN_1080));
+                                    if (https_port)
+                                        console.log(color.magenta.bold('  [Https] ') +
+                                            color.magenta("https://" + docker_host + ('443' === https_port ? '' : ':' + https_port)));
+                                    if (process.env.LAMPMAN_EXPORT_LAMPMAN_1080)
+                                        console.log(color.magenta.bold('  [Maildev] ') +
+                                            color.magenta("http://" + docker_host + ":" + process.env.LAMPMAN_EXPORT_LAMPMAN_1080));
                                     if ('on_upped' in lampman.config && lampman.config.on_upped.length) {
                                         count = 0;
                                         for (_b = 0, _c = lampman.config.on_upped; _b < _c.length; _b++) {
