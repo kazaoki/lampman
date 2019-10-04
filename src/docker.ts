@@ -32,6 +32,7 @@ export function ConfigToYaml(config: any)
         volumes: ['./:/lampman'],
         entrypoint: '/lampman/lampman/entrypoint.sh',
     }
+    yaml.services.lampman.environment.LAMPMAN_MODE = process.env.LAMPMAN_MODE
     if(config.network && 'name' in config.network) {
         yaml.services.lampman.networks = [config.network.name]
     }
