@@ -14,7 +14,7 @@ function extra(extraopt, args, lampman) {
         });
     }
     else {
-        child.exec(extraopt.command).stdout.on('data', function (data) { return process.stdout.write(data); });
+        child.execSync(extraopt.command, { stdio: 'inherit' });
     }
     return;
 }

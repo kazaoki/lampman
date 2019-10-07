@@ -44,9 +44,6 @@ if [[ $LAMPMAN_PHP_XDEBUG_START == '1' ]]; then
 else
   echo 'xdebug.remote_enable = Off' >> $phpini
   echo 'xdebug.remote_autostart = Off' >> $phpini
-  echo 'xdebug.var_display_max_children = -1' >> $phpini
-  echo 'xdebug.var_display_max_data = -1' >> $phpini
-  echo 'xdebug.var_display_max_depth = -1' >> $phpini
 fi
 sed -i "s/^variables_order .*$/variables_order = \"EGPCS\"/" $phpini
 echo $phpini > /phpinipath

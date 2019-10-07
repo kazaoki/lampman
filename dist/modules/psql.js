@@ -119,14 +119,14 @@ function psql(cname, commands, lampman) {
                         libs.Label('Dump PostgreSQL');
                         dumpfile = commands.dump;
                         if (true === dumpfile) {
-                            dumpfile = path.join(lampman.config_dir, postgresql.cname, 'dump.sql');
+                            dumpfile = path.join(lampman.config_dir, postgresql.cname, postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql');
                         }
                         else if (!path.isAbsolute(dumpfile)) {
                             dumpfile = path.join(lampman.config_dir, postgresql.cname, dumpfile);
                         }
-                        if (commands.rotate && postgresql.dump_rotations > 0) {
+                        if (commands.rotate && postgresql.dump.rotations > 0) {
                             process.stdout.write('Dumpfile rotate ... ');
-                            libs.RotateFile(dumpfile, postgresql.dump_rotations);
+                            libs.RotateFile(dumpfile, postgresql.dump.rotations);
                             console.log(color.green('done'));
                         }
                         process.stdout.write('Dump to ' + dumpfile + ' ... ');

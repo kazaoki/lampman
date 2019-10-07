@@ -24,7 +24,7 @@ export default async function up(commands: any, lampman: any)
             if(path.resolve('/var/www/html') === path.resolve(dirs[1])) {
                 let pubdir = path.join(lampman.config_dir, dirs[0])
                 if(!fs.existsSync(pubdir)) {
-                    libs.Message('最初に公開ディレクトリを作成してください ↓\n'+pubdir, 'primary', 1)
+                    libs.Message('最初に公開ディレクトリを作成してください ↓\n'+pubdir, 'warning', 1)
                     process.exit();
                 }
             }
@@ -35,7 +35,6 @@ export default async function up(commands: any, lampman: any)
     let args = [
         '--project-name', lampman.config.project,
         'up', '-d',
-        '--force-recreate',
     ]
 
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除

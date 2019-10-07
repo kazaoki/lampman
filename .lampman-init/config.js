@@ -14,7 +14,7 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
 
-     // project name
+    // project name
     project: 'lampman-proj',
 
     // docker-compose file version
@@ -96,6 +96,8 @@ module.exports.config = {
     //     collation:      'utf8mb4_unicode_ci',
     //     hosts:          ['main.db'],
     //     volume_locked:  false,
+    //     query_log:      true,
+    //     query_cache:    true,
     //     dump: {
     //         rotations:  3,
     //         filename:   'dump.sql',
@@ -116,7 +118,7 @@ module.exports.config = {
     //     hosts:         ['sub.db'],
     //     volume_locked: true,
     //     dump: {
-    //         rotations: 5,
+    //         rotations: 3,
     //         filename:  'dump.sql',
     //     }
     // },
@@ -127,17 +129,18 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     logs: {
-        http: [
-            ['/var/log/httpd/access_log', ['-cS', 'apache']],
-            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
-        ],
+        // http: [
+        //     ['/var/log/httpd/access_log', ['-cS', 'apache']],
+        //     ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
+        // ],
         https: [
             ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
             ['/var/log/httpd/ssl_error_log', ['-cS', 'apache_errors']],
         ],
-        // app: [
-        //     ['/var/www/html/app.log', ['-ci', 'green']],
-        // ],
+        db: [
+            ['/var/log/mysql/query.log', ['-ci', 'green']],
+            // ['/var/log/mysql_2/query.log', ['-ci', 'blue']],
+        ],
     },
 
     /**
@@ -202,6 +205,10 @@ module.exports.config = {
             type: 'open_browser',
             port: '1080',
         },
+        // {
+        //     type: 'run_command',
+        //     command: 'gulp',
+        // },
         //     // show message on upped
         //     type: 'show_message',
         //     message: 'hogehoge',

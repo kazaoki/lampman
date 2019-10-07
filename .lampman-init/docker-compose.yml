@@ -5,32 +5,33 @@ services:
     container_name: lampman-proj-lampman
     image: kazaoki/lampman
     ports:
-      - '9981'
+      - '80:80'
+      - '443:443'
+      - '9981:1080'
     depends_on:
       - phpenv
     environment:
-      LAMPMAN_PHP_PHPENV_IMAGE: 'kazaoki/phpenv:5.6.22'
-      LAMPMAN_PHP_PHPENV_VERSION: 5.6.22
+      LAMPMAN_MODE: init
+      LAMPMAN_APACHE_START: 1
+      LAMPMAN_PHP_PHPENV_IMAGE: 'kazaoki/phpenv:7.2.5'
+      LAMPMAN_PHP_PHPENV_VERSION: 7.2.5
       LAMPMAN_PHP_ERROR_REPORT: 0
       LAMPMAN_PHP_XDEBUG_START: 0
       LAMPMAN_PHP_XDEBUG_HOST: 192.168.0.10
       LAMPMAN_PHP_XDEBUG_PORT: 9000
       LAMPMAN_MAILDEV_START: 0
-      LAMPMAN_MAILDEV_PORTS: '9981'
+      LAMPMAN_MAILDEV_PORTS: '9981:1080'
+      LAMPMAN_POSTFIX_START: 0
     volumes_from:
       - phpenv
     volumes:
       - './:/lampman'
       - '../public_html:/var/www/html'
     entrypoint: /lampman/lampman/entrypoint.sh
-    networks:
-      - lampman-proj-internals
   phpenv:
     container_name: lampman-proj-phpenv
-    image: 'kazaoki/phpenv:5.6.22'
+    image: 'kazaoki/phpenv:7.2.5'
     labels:
       - lampman-proj
 volumes: {}
-networks:
-  lampman-proj-internals:
-    driver: bridge
+networks: {}

@@ -57,7 +57,7 @@ function up(commands, lampman) {
                             if (path.resolve('/var/www/html') === path.resolve(dirs[1])) {
                                 pubdir = path.join(lampman.config_dir, dirs[0]);
                                 if (!fs.existsSync(pubdir)) {
-                                    libs.Message('最初に公開ディレクトリを作成してください ↓\n' + pubdir, 'primary', 1);
+                                    libs.Message('最初に公開ディレクトリを作成してください ↓\n' + pubdir, 'warning', 1);
                                     process.exit();
                                 }
                             }
@@ -66,7 +66,6 @@ function up(commands, lampman) {
                     args = [
                         '--project-name', lampman.config.project,
                         'up', '-d',
-                        '--force-recreate',
                     ];
                     if (!commands.flush) return [3, 2];
                     libs.Label('Flush cleaning');

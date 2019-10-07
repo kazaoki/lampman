@@ -10,9 +10,28 @@ echo 'Asia/Tokyo' > /etc/timezone
 echo '\n[mysqld]' >> /etc/mysql/my.cnf
 echo 'sql_mode=STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' >> /etc/mysql/my.cnf
 
-# Copy dump file
-# --------------
-cp /mysql/dump.sql /docker-entrypoint-initdb.d
+# Set query log
+# -------------------------
+if [ $QUERY_LOGS = '1' ]; then
+  echo 'general_log=ON' >> /etc/mysql/my.cnf
+  echo "general_log_file=/var/log/$LAMPMAN_SERVICE/query.log" >> /etc/mysql/my.cnf
+  touch /var/log/$LAMPMAN_SERVICE/query.log
+  chown mysql:mysql /var/log/$LAMPMAN_SERVICE/query.log
+fi
+
+# Set query cache
+# ---------------------------
+if [ $QUERY_CACHE = '1' ]; then
+  echo 'query_cache_limit=2M' >> /etc/mysql/my.cnf
+  echo 'query_cache_size=64M' >> /etc/mysql/my.cnf
+  echo 'query_cache_type=1' >> /etc/mysql/my.cnf
+  echo 'event-scheduler=1' >> /etc/mysql/my.cnf
+  echo "CREATE EVENT flush_query_cache ON SCHEDULE EVERY 1 DAY STARTS '2019-05-24 05:00:00' ENABLE DO FLUSH QUERY CACHE;" > /docker-entrypoint-initdb.d/flush-query-cache.sql
+fi
+
+# Set Max connections
+# -------------------
+echo 'max_connections=1000' >> /etc/mysql/my.cnf
 
 # Pass to true shell
 # ------------------
