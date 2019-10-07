@@ -57,7 +57,7 @@ function up(commands, lampman) {
                             if (path.resolve('/var/www/html') === path.resolve(dirs[1])) {
                                 pubdir = path.join(lampman.config_dir, dirs[0]);
                                 if (!fs.existsSync(pubdir)) {
-                                    libs.Message('最初に公開ディレクトリを作成してください ↓\n' + pubdir, 'primary', 1);
+                                    libs.Message('最初に公開ディレクトリを作成してください ↓\n' + pubdir, 'warning', 1);
                                     process.exit();
                                 }
                             }
