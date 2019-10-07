@@ -99,7 +99,7 @@ function login(cname, commands, lampman) {
                     _b.label = 3;
                 case 3:
                     if (!target_cname) {
-                        libs.Message('ご指定のコンテナが見つかりませんでした。\n${}', 'warning', 1);
+                        libs.Message("\u3054\u6307\u5B9A\u306E\u30B3\u30F3\u30C6\u30CA\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3067\u3057\u305F\u3002\n" + target_cname, 'warning', 1);
                         return [2];
                     }
                     try {
@@ -125,7 +125,7 @@ function login(cname, commands, lampman) {
                             '-it',
                             target_cname,
                             commands.shell ? commands.shell : 'bash',
-                            '-c', "cd " + login_path + " && bash",
+                            '-c', "cd " + login_path + " && " + (commands.shell ? commands.shell : 'bash'),
                         ], {
                             stdio: 'inherit',
                         })];

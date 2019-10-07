@@ -64,7 +64,7 @@ export default async function login(cname: string|null, commands: any, lampman: 
 
     // ここまで来てもコンテナ名が取得できない場合は終了。
     if(!target_cname) {
-        libs.Message('ご指定のコンテナが見つかりませんでした。\n${}', 'warning', 1)
+        libs.Message(`ご指定のコンテナが見つかりませんでした。\n${target_cname}`, 'warning', 1)
         return
     }
 
@@ -98,7 +98,7 @@ export default async function login(cname: string|null, commands: any, lampman: 
             '-it',
             target_cname,
             commands.shell ? commands.shell : 'bash',
-            '-c', `cd ${login_path} && bash`,
+            '-c', `cd ${login_path} && ${commands.shell ? commands.shell : 'bash'}`,
         ],
         {
             stdio: 'inherit',
