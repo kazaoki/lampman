@@ -66,7 +66,6 @@ function up(commands, lampman) {
                     args = [
                         '--project-name', lampman.config.project,
                         'up', '-d',
-                        '--force-recreate',
                     ];
                     if (!commands.flush) return [3, 2];
                     libs.Label('Flush cleaning');
