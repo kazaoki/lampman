@@ -81,15 +81,15 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
         // ダンプファイルの特定
         let dumpfile = commands.dump
         if(true===dumpfile) {
-            dumpfile = path.join(lampman.config_dir, mysql.cname ,'dump.sql')
+            dumpfile = path.join(lampman.config_dir, mysql.cname, mysql.dump.filename ? mysql.dump.filename : 'dump.sql')
         } else if(!path.isAbsolute(dumpfile)) {
             dumpfile = path.join(lampman.config_dir, mysql.cname, dumpfile)
         }
 
         // ダンプファイルローテーション
-        if(commands.rotate && mysql.dump_rotations>0) {
+        if(commands.rotate && mysql.dump.rotations>0) {
             process.stdout.write('Dumpfile rotate ... ')
-            libs.RotateFile(dumpfile, mysql.dump_rotations)
+            libs.RotateFile(dumpfile, mysql.dump.rotations)
             console.log(color.green('done'))
         }
 
