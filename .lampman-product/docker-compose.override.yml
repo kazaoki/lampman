@@ -1,0 +1,12 @@
+version: '2.2'
+
+services:
+
+  alpine:
+    image: fluentd
+    volumes:
+      - ./:/lampman
+    volumes_from:
+      - phpenv
+      - mysql
+      - lampman
