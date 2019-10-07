@@ -257,5 +257,9 @@ module.exports.config = {
         //         unix: 'ls -la',
         //     },
         // },
+        {
+            type: 'run_command',
+            command: 'gulp',
+        },
     ],
 }

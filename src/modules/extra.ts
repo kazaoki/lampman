@@ -25,7 +25,7 @@ export default function extra(extraopt: any, args: any, lampman: any)
         })
     } else {
         // ホストOSにてコマンド実行
-        child.exec(extraopt.command).stdout.on('data', (data: any)=>process.stdout.write(data))
+        child.execSync(extraopt.command, {stdio: 'inherit'})
     }
 
     return
