@@ -162,10 +162,12 @@ function up(commands, lampman) {
                                                 extraopt = action;
                                                 if ('object' === typeof extraopt.command)
                                                     extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
+                                                console.log();
                                                 extra_1.default(extraopt, extraopt.args, lampman);
                                                 count++;
                                             }
                                             if ('run_extra_command' === action.type && action.name in lampman.config.extra) {
+                                                console.log();
                                                 extra_1.default(lampman.config.extra[action.name], action.args, lampman);
                                                 count++;
                                             }

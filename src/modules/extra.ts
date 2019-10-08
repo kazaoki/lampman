@@ -25,7 +25,10 @@ export default function extra(extraopt: any, args: any, lampman: any)
         })
     } else {
         // ホストOSにてコマンド実行
-        child.execSync(extraopt.command, {stdio: 'inherit'})
+        child.execSync(extraopt.command, {
+            stdio: 'inherit',
+            cwd: lampman.project_dir
+        })
     }
 
     return

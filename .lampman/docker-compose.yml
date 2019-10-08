@@ -36,7 +36,6 @@ services:
     volumes_from:
       - phpenv
       - mysql
-      - mysql_2
     volumes:
       - './:/lampman'
       - '../public_html:/var/www/html'
@@ -83,7 +82,6 @@ services:
     volumes:
       - './mysql_2:/mysql'
       - 'mysql_2_data:/var/lib/mysql'
-      - 'mysql_2_querylogs:/var/log/mysql_2'
       - './mysql_2/dump.sql:/docker-entrypoint-initdb.d/import.sql'
     entrypoint: /mysql/before-entrypoint.sh
     command:
@@ -98,9 +96,6 @@ services:
       MYSQL_USER: test2
       MYSQL_PASSWORD: test2
       VOLUME_LOCKED: 0
-      QUERY_LOGS: 1
-      LAMPMAN_SERVICE: mysql_2
-      QUERY_CACHE: 1
       DUMP_ROTATIONS: 5
       DUMP_FILENAME: dump.sql
   postgresql:
@@ -150,9 +145,6 @@ volumes:
   mysql_data:
     driver: local
     name: lampman-test-mysql_data
-  mysql_2_querylogs:
-    driver: local
-    name: lampman-test-mysql_2_querylogs
   mysql_2_data:
     driver: local
     name: lampman-test-mysql_2_data

@@ -54,7 +54,7 @@ var path = require('path');
 var color = require('cli-color');
 function psql(cname, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var postgresql, list, _i, _a, key, _b, list_1, item, before_str, response, dumpfile;
+        var postgresql, list, _i, _a, key, _b, list_1, item, before_str, response, dumpfile, conts, procs;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -64,9 +64,11 @@ function psql(cname, commands, lampman) {
                         key = _a[_i];
                         if (key.match(/^postgresql/)) {
                             list.push({
-                                title: key,
+                                title: key + (commands.restore && lampman.config[key].volume_locked ? ' - [locked]' : ''),
+                                description: (lampman.config[key].volume_locked ? '[locked]' : ''),
                                 value: __assign({ cname: key }, lampman.config[key]),
                                 cname: key,
+                                disabled: commands.restore && lampman.config[key].volume_locked
                             });
                         }
                     }
@@ -155,61 +157,74 @@ function psql(cname, commands, lampman) {
                         console.log(color.green('done'));
                         return [2];
                     }
-                    if (commands.restore) {
-                        console.log();
-                        libs.Label('Restore PostgreSQL');
-                        process.stdout.write("Stopping " + postgresql.cname + " ... ");
-                        try {
-                            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'rm', '-sf', postgresql.cname], { cwd: lampman.config_dir });
-                        }
-                        catch (e) {
-                            libs.Error(e);
-                        }
-                        console.log(color.green('done'));
-                        postgresql.vname = lampman.config.project + "-" + postgresql.cname + "_data";
-                        process.stdout.write("Removing volume " + postgresql.vname + " ... ");
-                        try {
-                            child.spawnSync('docker', ['volume', 'rm', postgresql.vname, '-f']);
-                        }
-                        catch (e) {
-                            libs.Error(e);
-                        }
-                        console.log(color.green('done'));
-                        process.stdout.write("Reupping " + postgresql.cname + " ... ");
-                        try {
-                            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'up', '-d', postgresql.cname], { cwd: lampman.config_dir });
-                        }
-                        catch (e) {
-                            libs.Error(e);
-                        }
-                        console.log(color.green('done'));
-                        console.log('');
-                        process.stdout.write(color.magenta.bold('  [Ready]'));
-                        libs.ContainerLogAppear(postgresql.cname, 'Entrypoint finish.', lampman).catch(function (err) { libs.Error(err); })
-                            .then(function () {
-                            process.stdout.write(color.magenta(" " + postgresql.cname));
-                            console.log();
-                        });
-                        return [2];
-                    }
-                    return [4, child.spawn('docker-compose', [
+                    if (!commands.restore) return [3, 6];
+                    if (postgresql.volume_locked)
+                        libs.Error(postgresql.cname + " \u306F\u30ED\u30C3\u30AF\u6E08\u307F\u30DC\u30EA\u30E5\u30FC\u30E0\u306E\u305F\u3081\u30EA\u30B9\u30C8\u30A2\u3067\u304D\u307E\u305B\u3093\u3002");
+                    console.log();
+                    libs.Label('Restore PostgreSQL');
+                    conts = [postgresql.cname];
+                    try {
+                        child.spawnSync('docker-compose', [
                             '--project-name', lampman.config.project,
-                            'exec',
-                            '-e', 'TERM=xterm-256color',
-                            '-e', 'LANGUAGE=ja_JP.UTF-8',
-                            '-e', 'LC_ALL=ja_JP.UTF-8',
-                            '-e', 'LANG=ja_JP.UTF-8',
-                            '-e', 'LC_TYPE=ja_JP.UTF-8',
-                            postgresql.cname,
-                            'psql',
-                            postgresql.database,
-                            '-U',
-                            postgresql.user,
-                        ], {
+                            'rm', '-sf'
+                        ].concat(conts), {
                             cwd: lampman.config_dir,
                             stdio: 'inherit'
-                        })];
+                        });
+                    }
+                    catch (e) {
+                        libs.Error(e);
+                    }
+                    postgresql.vname = lampman.config.project + "-" + postgresql.cname + "_data";
+                    process.stdout.write("Removing volume " + postgresql.vname + " ... ");
+                    try {
+                        child.spawnSync('docker', ['volume', 'rm', postgresql.vname, '-f']);
+                    }
+                    catch (e) {
+                        libs.Error(e);
+                    }
+                    console.log(color.green('done'));
+                    try {
+                        child.spawnSync('docker-compose', [
+                            '--project-name', lampman.config.project,
+                            'up', '-d'
+                        ].concat(conts), {
+                            cwd: lampman.config_dir,
+                            stdio: 'inherit'
+                        });
+                    }
+                    catch (e) {
+                        libs.Error(e);
+                    }
+                    console.log('');
+                    procs = [];
+                    process.stdout.write(color.magenta.bold('  [Ready]'));
+                    procs.push(libs.ContainerLogAppear(postgresql.cname, 'Entrypoint finish.', lampman)
+                        .catch(function (err) { libs.Error(err); })
+                        .then(function () { return process.stdout.write(color.magenta(" " + postgresql.cname)); }));
+                    return [4, Promise.all(procs).catch(function (e) { return libs.Error(e); })];
                 case 5:
+                    _c.sent();
+                    console.log();
+                    return [2];
+                case 6: return [4, child.spawn('docker-compose', [
+                        '--project-name', lampman.config.project,
+                        'exec',
+                        '-e', 'TERM=xterm-256color',
+                        '-e', 'LANGUAGE=ja_JP.UTF-8',
+                        '-e', 'LC_ALL=ja_JP.UTF-8',
+                        '-e', 'LANG=ja_JP.UTF-8',
+                        '-e', 'LC_TYPE=ja_JP.UTF-8',
+                        postgresql.cname,
+                        'psql',
+                        postgresql.database,
+                        '-U',
+                        postgresql.user,
+                    ], {
+                        cwd: lampman.config_dir,
+                        stdio: 'inherit'
+                    })];
+                case 7:
                     _c.sent();
                     return [2];
             }

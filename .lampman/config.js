@@ -113,8 +113,8 @@ module.exports.config = {
         collation:      'utf8mb4_unicode_ci',
         hosts:          ['main-2.db'],
         volume_locked:  false,
-        query_log:      true,
-        query_cache:    true,
+        query_log:      false,
+        query_cache:    false,
         dump:           {
             rotations:  5,
             filename:   'dump.sql',
@@ -159,21 +159,21 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     logs: {
-        // http: [
-        //     ['/var/log/httpd/access_log', ['-cS', 'apache']],
-        //     ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
-        // ],
+        http: [
+            ['/var/log/httpd/access_log', ['-cS', 'apache']],
+            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
+        ],
         https: [
             ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
             ['/var/log/httpd/ssl_error_log', ['-cS', 'apache_errors']],
         ],
-        // app: [
-        //     ['/var/www/html/app.log', ['-ci', 'green']],
-        // ],
         db: [
             ['/var/log/mysql/query.log', ['-ci', 'green']],
-            ['/var/log/mysql_2/query.log', ['-ci', 'blue']],
+            // ['/var/log/mysql_2/query.log', ['-ci', 'blue']],
         ],
+        // app: [
+        //     ['/var/www/html/slime/logs/app.log', ['-ci', 'green']],
+        // ],
     },
 
     /**

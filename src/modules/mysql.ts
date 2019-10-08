@@ -22,10 +22,11 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
     for(let key of Object.keys(lampman.config)) {
         if(key.match(/^mysql/)) {
             list.push({
-                title: key,
-                // description: key,
+                title: key+(commands.restore && lampman.config[key].volume_locked ? ' - [locked]' : ''),
+                description: (lampman.config[key].volume_locked ? '[locked]' : ''),
                 value: {cname:key, ...lampman.config[key]} ,
                 cname: key,
+                disabled: commands.restore && lampman.config[key].volume_locked
             })
         }
     }
@@ -126,18 +127,30 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
     // リストア
     if(commands.restore) {
 
+        // ロック中のボリュームはリストアしない。
+        if(mysql.volume_locked) libs.Error(`${mysql.cname} はロック済みボリュームのためリストアできません。`)
+
         // ラベル表示
         console.log()
         libs.Label('Restore MySQL')
 
+        // 再起動対象のコンテナ
+        let conts = [mysql.cname]
+        if(mysql.query_log) conts.push('lampman') // クエリログを有効にしている場合、lampmanも一旦終了させないとボリュームが削除できないため
+
         // 対象のmysqlコンテナを強制終了
-        process.stdout.write(`Stopping ${mysql.cname} ... `)
         try {
-            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'rm', '-sf', mysql.cname], {cwd: lampman.config_dir})
+            child.spawnSync('docker-compose', [
+                '--project-name', lampman.config.project,
+                'rm', '-sf',
+                ...conts
+            ], {
+                cwd: lampman.config_dir,
+                stdio: 'inherit'
+            })
         } catch(e) {
             libs.Error(e)
         }
-        console.log(color.green('done'))
 
         // 対象のボリュームを強制削除
         mysql.vname = `${lampman.config.project}-${mysql.cname}_data`
@@ -150,25 +163,48 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
         console.log(color.green('done'))
 
         // 対象のmysqlコンテナのみ起動
-        process.stdout.write(`Reupping ${mysql.cname} ... `)
         try {
-            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'up', '-d', mysql.cname], {cwd: lampman.config_dir})
+            child.spawnSync('docker-compose', [
+                '--project-name', lampman.config.project,
+                'up', '-d',
+                ...conts
+            ], {
+                cwd: lampman.config_dir,
+                stdio: 'inherit'
+            })
         } catch(e) {
             libs.Error(e)
         }
-        console.log(color.green('done'))
         console.log('');
+        let procs = [];
         process.stdout.write(color.magenta.bold('  [Ready]'));
-        libs.ContainerLogAppear(
+
+        // mysql Ready
+        procs.push(libs.ContainerLogAppear(
             mysql.cname,
             'Entrypoint finish.',
             lampman,
-        ).catch(err=>{libs.Error(err)})
-            .then(()=>{
-                process.stdout.write(color.magenta(` ${mysql.cname}`))
-                console.log()
-            }
         )
+            .catch(err=>{libs.Error(err)})
+            .then(()=>process.stdout.write(color.magenta(` ${mysql.cname}`)))
+        )
+
+        // lampman Ready
+        if(mysql.query_log) {
+            procs.push(
+                libs.ContainerLogAppear(
+                    'lampman',
+                    'lampman started',
+                    lampman,
+            )
+                .catch(err=>{libs.Error(err)})
+                .then(()=>process.stdout.write(color.magenta(' lampman')))
+            )
+        }
+
+        // Parallel processing
+        await Promise.all(procs).catch(e=>libs.Error(e))
+        console.log()
 
         return
     }
