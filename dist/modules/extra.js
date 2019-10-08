@@ -14,7 +14,10 @@ function extra(extraopt, args, lampman) {
         });
     }
     else {
-        child.execSync(extraopt.command, { stdio: 'inherit' });
+        child.execSync(extraopt.command, {
+            stdio: 'inherit',
+            cwd: lampman.project_dir
+        });
     }
     return;
 }
