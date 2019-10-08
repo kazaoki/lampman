@@ -157,12 +157,14 @@ export default async function up(commands: any, lampman: any)
                 if('run_command'===action.type) {
                     let extraopt = action
                     if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
+                    console.log()
                     extra(extraopt, extraopt.args, lampman)
                     count ++
                 }
 
                 // extraコマンドを実行する
                 if('run_extra_command'===action.type && action.name in lampman.config.extra) {
+                    console.log()
                     extra(lampman.config.extra[action.name], action.args, lampman)
                     count ++
                 }
