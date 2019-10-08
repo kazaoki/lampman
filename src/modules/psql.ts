@@ -22,10 +22,11 @@ export default async function psql(cname: string|null, commands: any, lampman: a
     for(let key of Object.keys(lampman.config)) {
         if(key.match(/^postgresql/)) {
             list.push({
-                title: key,
-                // description: key,
+                title: key+(commands.restore && lampman.config[key].volume_locked ? ' - [locked]' : ''),
+                description: (lampman.config[key].volume_locked ? '[locked]' : ''),
                 value: {cname:key, ...lampman.config[key]} ,
                 cname: key,
+                disabled: commands.restore && lampman.config[key].volume_locked
             })
         }
     }
@@ -131,18 +132,30 @@ export default async function psql(cname: string|null, commands: any, lampman: a
     // リストア
     if(commands.restore) {
 
+        // ロック中のボリュームはリストアしない。
+        if(postgresql.volume_locked) libs.Error(`${postgresql.cname} はロック済みボリュームのためリストアできません。`)
+
         // ラベル表示
         console.log()
         libs.Label('Restore PostgreSQL')
 
+        // 再起動対象のコンテナ
+        let conts = [postgresql.cname]
+        // if(postgresql.query_log) conts.push('lampman') // クエリログを有効にしている場合、lampmanも一旦終了させないとボリュームが削除できないため
+
         // 対象のpostgresqlコンテナを強制終了
-        process.stdout.write(`Stopping ${postgresql.cname} ... `)
         try {
-            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'rm', '-sf', postgresql.cname], {cwd: lampman.config_dir})
+            child.spawnSync('docker-compose', [
+                '--project-name', lampman.config.project,
+                'rm', '-sf',
+                ...conts
+            ], {
+                cwd: lampman.config_dir,
+                stdio: 'inherit'
+            })
         } catch(e) {
             libs.Error(e)
         }
-        console.log(color.green('done'))
 
         // 対象のボリュームを強制削除
         postgresql.vname = `${lampman.config.project}-${postgresql.cname}_data`
@@ -155,25 +168,48 @@ export default async function psql(cname: string|null, commands: any, lampman: a
         console.log(color.green('done'))
 
         // 対象のpostgresqlコンテナのみ起動
-        process.stdout.write(`Reupping ${postgresql.cname} ... `)
         try {
-            child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'up', '-d', postgresql.cname], {cwd: lampman.config_dir})
+            child.spawnSync('docker-compose', [
+                '--project-name', lampman.config.project,
+                'up', '-d',
+                ...conts
+            ], {
+                cwd: lampman.config_dir,
+                stdio: 'inherit'
+            })
         } catch(e) {
             libs.Error(e)
         }
-        console.log(color.green('done'))
         console.log('');
+        let procs = [];
         process.stdout.write(color.magenta.bold('  [Ready]'));
-        libs.ContainerLogAppear(
+
+        // postgresql Ready
+        procs.push(libs.ContainerLogAppear(
             postgresql.cname,
             'Entrypoint finish.',
             lampman,
-        ).catch(err=>{libs.Error(err)})
-            .then(()=>{
-                process.stdout.write(color.magenta(` ${postgresql.cname}`))
-                console.log()
-            }
         )
+            .catch(err=>{libs.Error(err)})
+            .then(()=>process.stdout.write(color.magenta(` ${postgresql.cname}`)))
+        )
+
+        // lampman Ready
+        // if(postgresql.query_log) {
+        //     procs.push(
+        //         libs.ContainerLogAppear(
+        //             'lampman',
+        //             'lampman started',
+        //             lampman,
+        //     )
+        //         .catch(err=>{libs.Error(err)})
+        //         .then(()=>process.stdout.write(color.magenta(' lampman')))
+        //     )
+        // }
+
+        // Parallel processing
+        await Promise.all(procs).catch(e=>libs.Error(e))
+        console.log()
 
         return
     }
