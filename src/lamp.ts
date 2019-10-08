@@ -120,8 +120,10 @@ commander
 
 // errors: エラーログ監視
 commander
-    .command('logs [group]')
-    .description('ログファイル監視（グループ未指定ならsplitして全て表示）')
+    .command('logs [groups...]')
+    .description('ログファイル監視（グループ未指定なら最初の１つが表示）')
+    .option('-a, --all', '全て表示します')
+    .option('-s, --select', '表示するものを１つ選択します')
     .action((cname, cmd)=>logs(cname, cmd, lampman))
 
 // yamlout: 設定データをymlとして標準出力（プロジェクトルートから相対）

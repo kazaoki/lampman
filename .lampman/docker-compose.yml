@@ -115,7 +115,7 @@ services:
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
       POSTGRES_DB: test
-      VOLUME_LOCKED: 0
+      VOLUME_LOCKED: 1
       DUMP_ROTATIONS: 5
       DUMP_FILENAME: dump.sql
   postgresql_b:
@@ -150,7 +150,7 @@ volumes:
     name: lampman-test-mysql_2_data
   postgresql_data:
     driver: local
-    name: lampman-test-postgresql_data
+    name: locked_lampman-test-postgresql_data
   postgresql_b_data:
     driver: local
     name: lampman-test-postgresql_b_data

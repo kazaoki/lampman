@@ -89,8 +89,10 @@ commander
     .option('-r, --restore', '最新のダンプファイルをリストアします。')
     .action(function (cname, cmd) { return psql_1.default(cname, cmd, lampman); });
 commander
-    .command('logs [group]')
-    .description('ログファイル監視（グループ未指定ならsplitして全て表示）')
+    .command('logs [groups...]')
+    .description('ログファイル監視（グループ未指定なら最初の１つが表示）')
+    .option('-a, --all', '全て表示します')
+    .option('-s, --select', '表示するものを１つ選択します')
     .action(function (cname, cmd) { return logs_1.default(cname, cmd, lampman); });
 commander
     .command('yamlout')
