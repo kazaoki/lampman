@@ -69,6 +69,16 @@ commander
     .description('LAMP終了')
     .action(function (cmd) { return down_1.default(cmd, lampman); });
 commander
+    .command('config')
+    .description('設定ファイル(config.js)をエディタで開く')
+    .action(function (cmd) { return config_1.default(cmd, lampman); });
+commander
+    .command('logs [groups...]')
+    .description('ログファイル監視（グループ未指定なら最初の１つが表示）')
+    .option('-a, --all', '全て表示します')
+    .option('-s, --select', '表示するものを１つ選択します')
+    .action(function (cname, cmd) { return logs_1.default(cname, cmd, lampman); });
+commander
     .command('login [container-name]')
     .description('リストから選択したコンテナのコンソールにログインします')
     .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
@@ -89,38 +99,28 @@ commander
     .option('-r, --restore', '最新のダンプファイルをリストアします。')
     .action(function (cname, cmd) { return psql_1.default(cname, cmd, lampman); });
 commander
-    .command('logs [groups...]')
-    .description('ログファイル監視（グループ未指定なら最初の１つが表示）')
-    .option('-a, --all', '全て表示します')
-    .option('-s, --select', '表示するものを１つ選択します')
-    .action(function (cname, cmd) { return logs_1.default(cname, cmd, lampman); });
-commander
-    .command('yamlout')
-    .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
-    .action(function (cmd) { return yamlout_1.default(cmd, lampman); });
-commander
     .command('reject')
     .description('コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）')
     .option('-a, --all', 'ロック中のボリュームも選択できるようにする')
     .option('-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）')
     .action(function (cmd) { return reject_1.default(cmd, lampman); });
 commander
-    .command('sweep')
-    .description('全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃')
-    .option('-f, --force', '確認なしで実行する')
-    .action(function (cmd) { return sweep_1.default(cmd, lampman); });
-commander
     .command('rmi')
     .description('イメージを選択して削除')
     .option('-p, --prune', '選択を出さず <none> のみ全て削除')
     .action(function (cmd) { return rmi_1.default(cmd, lampman); });
 commander
-    .command('config')
-    .description('設定ファイル(config.js)をエディタで開く')
-    .action(function (cmd) { return config_1.default(cmd, lampman); });
+    .command('sweep')
+    .description('全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃')
+    .option('-f, --force', '確認なしで実行する')
+    .action(function (cmd) { return sweep_1.default(cmd, lampman); });
+commander
+    .command('yamlout')
+    .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
+    .action(function (cmd) { return yamlout_1.default(cmd, lampman); });
 commander
     .command('web')
-    .description('設定無しで現在のパスでビルトインPHPウェブサーバを一時的に起動します。')
+    .description('設定不要で現在のパスにビルトインPHPウェブサーバを一時的に起動します。')
     .option('-p, --port <port>', 'ポートを指定します。未指定なら自動で付きます')
     .action(function (cmd) { return web_1.default(cmd, lampman); });
 commander
