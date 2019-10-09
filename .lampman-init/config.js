@@ -3,7 +3,7 @@
 const __IS_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE
 
 // load dotenv
-require(module.parent.path+'/../node_modules/dotenv').config()
+require(process.env.NODE_PATH+'/lampman/node_modules/dotenv').config()
 
 // Exprot config
 module.exports.config = {
