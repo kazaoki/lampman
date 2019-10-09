@@ -33,6 +33,12 @@ fi
 # -------------------
 echo 'max_connections=1000' >> /etc/mysql/my.cnf
 
+# Add run shell before pass to main entrypoint.sh
+# -----------------------------------------------
+if [ -e /mysql/entrypoint-add.sh ]; then
+  /mysql/entrypoint-add.sh
+fi
+
 # Pass to true shell
 # ------------------
 sed -i 's/exec "$@"/echo "Entrypoint finish."\nexec "$@"/' /entrypoint.sh
