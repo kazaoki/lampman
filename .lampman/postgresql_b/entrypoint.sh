@@ -13,6 +13,12 @@ echo "ja_JP.EUC-JP EUC-JP" >> /etc/locale.gen
 export LANG=ja_JP.UTF-8
 /usr/sbin/update-locale LANG=ja_JP.UTF-8
 
+# Add run shell before pass to main entrypoint.sh
+# -----------------------------------------------
+if [ -e /postgresql/entrypoint-add.sh ]; then
+  /postgresql/entrypoint-add.sh
+fi
+
 # Pass to true shell
 # ------------------
 sed -i 's/exec "$@"/echo "Entrypoint finish."\nexec "$@"/' /docker-entrypoint.sh

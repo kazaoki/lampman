@@ -56,7 +56,7 @@ services:
       - 'mysql_data:/var/lib/mysql'
       - 'mysql_querylogs:/var/log/mysql'
       - './mysql/dump.sql:/docker-entrypoint-initdb.d/import.sql'
-    entrypoint: /mysql/before-entrypoint.sh
+    entrypoint: /mysql/entrypoint.sh
     command:
       - mysqld
       - '--character-set-server=utf8mb4'
@@ -83,7 +83,7 @@ services:
       - './mysql_2:/mysql'
       - 'mysql_2_data:/var/lib/mysql'
       - './mysql_2/dump.sql:/docker-entrypoint-initdb.d/import.sql'
-    entrypoint: /mysql/before-entrypoint.sh
+    entrypoint: /mysql/entrypoint.sh
     command:
       - mysqld
       - '--character-set-server=utf8mb4'
@@ -107,7 +107,7 @@ services:
       - './postgresql:/postgresql'
       - 'postgresql_data:/var/lib/postgresql/data'
       - './postgresql/dump.sql:/docker-entrypoint-initdb.d/import.sql'
-    entrypoint: /postgresql/before-entrypoint.sh
+    entrypoint: /postgresql/entrypoint.sh
     command: postgres
     labels:
       - lampman-test
@@ -127,7 +127,7 @@ services:
       - './postgresql_b:/postgresql'
       - 'postgresql_b_data:/var/lib/postgresql/data'
       - './postgresql_b/dump.sql:/docker-entrypoint-initdb.d/import.sql'
-    entrypoint: /postgresql/before-entrypoint.sh
+    entrypoint: /postgresql/entrypoint.sh
     command: postgres
     labels:
       - lampman-test

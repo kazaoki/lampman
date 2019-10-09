@@ -92,6 +92,20 @@ commander
     // .option('-v, --volumes', '関連ボリュームも合わせて削除する。（ロックされたボリュームはキープ）')
     .action(cmd=>down(cmd, lampman))
 
+// config: 設定ファイル(config.js)をエディタで開く
+commander
+    .command('config')
+    .description('設定ファイル(config.js)をエディタで開く')
+    .action(cmd=>config(cmd, lampman))
+
+// errors: エラーログ監視
+commander
+    .command('logs [groups...]')
+    .description('ログファイル監視（グループ未指定なら最初の１つが表示）')
+    .option('-a, --all', '全て表示します')
+    .option('-s, --select', '表示するものを１つ選択します')
+    .action((cname, cmd)=>logs(cname, cmd, lampman))
+
 // login: リストから選択したコンテナのコンソールにログインします
 commander
     .command('login [container-name]')
@@ -118,20 +132,6 @@ commander
     .option('-r, --restore', '最新のダンプファイルをリストアします。')
     .action((cname, cmd)=>psql(cname, cmd, lampman))
 
-// errors: エラーログ監視
-commander
-    .command('logs [groups...]')
-    .description('ログファイル監視（グループ未指定なら最初の１つが表示）')
-    .option('-a, --all', '全て表示します')
-    .option('-s, --select', '表示するものを１つ選択します')
-    .action((cname, cmd)=>logs(cname, cmd, lampman))
-
-// yamlout: 設定データをymlとして標準出力（プロジェクトルートから相対）
-commander
-    .command('yamlout')
-    .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
-    .action(cmd=>yamlout(cmd, lampman))
-
 // reject: コンテナ・ボリュームを選択して削除
 commander
     .command('reject')
@@ -140,13 +140,6 @@ commander
     .option('-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）')
     .action(cmd=>reject(cmd, lampman))
 
-// sweep: 全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃
-commander
-    .command('sweep')
-    .description('全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃')
-    .option('-f, --force', '確認なしで実行する')
-    .action(cmd=>sweep(cmd, lampman))
-
 // rmi: イメージを選択して削除
 commander
     .command('rmi')
@@ -154,16 +147,23 @@ commander
     .option('-p, --prune', '選択を出さず <none> のみ全て削除')
     .action(cmd=>rmi(cmd, lampman))
 
-// config: 設定ファイル(config.js)をエディタで開く
+// sweep: 全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃
 commander
-    .command('config')
-    .description('設定ファイル(config.js)をエディタで開く')
-    .action(cmd=>config(cmd, lampman))
+    .command('sweep')
+    .description('全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃')
+    .option('-f, --force', '確認なしで実行する')
+    .action(cmd=>sweep(cmd, lampman))
 
-// web: カレントでapacheサーバのみ起動（configいらず
+// yamlout: 設定データをymlとして標準出力（プロジェクトルートから相対）
+commander
+    .command('yamlout')
+    .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
+    .action(cmd=>yamlout(cmd, lampman))
+
+// web: カレントでapacheサーバのみ起動（config.jsいらず
 commander
     .command('web')
-    .description('設定無しで現在のパスでビルトインPHPウェブサーバを一時的に起動します。')
+    .description('設定不要で現在のパスにビルトインPHPウェブサーバを一時的に起動します。')
     .option('-p, --port <port>', 'ポートを指定します。未指定なら自動で付きます')
     .action(cmd=>web(cmd, lampman))
 
