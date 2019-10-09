@@ -15,7 +15,7 @@ export default function config(commands: any, lampman: any)
         let mode_label = 'default'===lampman.mode ? '' : lampman.mode
         libs.Message(
             `設定ファイル（.lampman${mode_label?'-'+mode_label:''}/config.js）が見つかりませんでした。\n`+
-            `プロジェクトフォルダのルートにて \'lamp init ${mode_label?'--mode '+mode_label:''}\' を実行して初期化を行ってください。`,
+            `プロジェクトフォルダのルートにて \'lamp init${mode_label?' --mode '+mode_label:''}\' を実行して初期化を行ってください。`,
             'warning'
         )
         return

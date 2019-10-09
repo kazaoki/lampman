@@ -46,6 +46,7 @@ let lampman: any = {
 
 // 設定ディレクトリ特定（見つかるまでディレクトリ遡る）
 let dirs = process.cwd().split(path.sep)
+if(''===dirs[0]) dirs[0]='/'
 while(1!==dirs.length) {
     let config_dir = path.join(...dirs, '.lampman'+('default'===lampman.mode ? '' : '-'+lampman.mode))
     try {

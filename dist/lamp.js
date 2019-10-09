@@ -36,6 +36,8 @@ var lampman = {
     mode: process.env.LAMPMAN_MODE
 };
 var dirs = process.cwd().split(path.sep);
+if ('' === dirs[0])
+    dirs[0] = '/';
 while (1 !== dirs.length) {
     var config_dir = path.join.apply(path, dirs.concat(['.lampman' + ('default' === lampman.mode ? '' : '-' + lampman.mode)]));
     try {
