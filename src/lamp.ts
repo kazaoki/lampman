@@ -191,5 +191,18 @@ if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
 // パース実行
 commander.parse(process.argv)
 
+// どれもマッチしなかった場合はヘルプ出す
+if(commander.args.length) {
+    let pos = commander.args.length-1
+    let str = 'object'===typeof commander.args[pos]
+        ? (<any>commander.args[pos]).name()
+        : commander.args[pos]
+    if(!commander.commands.map((cmd: any)=>cmd.name()).includes(str)) {
+        commander.help()
+    }
+}
+
 // 引数なしの場合は noargs を実行
-if(!commander.args.length) noargs(commander, lampman)
+else {
+    noargs(commander, lampman)
+}

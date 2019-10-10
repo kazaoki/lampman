@@ -153,5 +153,15 @@ if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
     }
 }
 commander.parse(process.argv);
-if (!commander.args.length)
+if (commander.args.length) {
+    var pos = commander.args.length - 1;
+    var str = 'object' === typeof commander.args[pos]
+        ? commander.args[pos].name()
+        : commander.args[pos];
+    if (!commander.commands.map(function (cmd) { return cmd.name(); }).includes(str)) {
+        commander.help();
+    }
+}
+else {
     noargs_1.default(commander, lampman);
+}
