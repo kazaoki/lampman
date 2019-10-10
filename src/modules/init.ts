@@ -33,6 +33,7 @@ export default async function init(commands: any, lampman: any)
             ],
             instructions: false,
         })
+        if(!response.setup) return
         setup = response.setup
     } else {
         // --select 無しのときの標準設定

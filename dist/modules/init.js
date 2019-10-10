@@ -65,6 +65,8 @@ function init(commands, lampman) {
                         })];
                 case 1:
                     response = _b.sent();
+                    if (!response.setup)
+                        return [2];
                     setup = response.setup;
                     return [3, 3];
                 case 2:
