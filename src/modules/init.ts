@@ -27,7 +27,7 @@ export default async function init(commands: any, lampman: any)
                 { title: 'MySQL設定',          value: 'Mysql',         description: `(proj)/${config_dirname}/mysql/*`,      selected: false },
                 { title: 'PostgreSQL設定',     value: 'Postgresql',    description: `(proj)/${config_dirname}/postgresql/*`, selected: false },
                 { title: '.envサンプル設定',   value: 'EnvSample',     description: '(proj)/.env-sample',                    selected: false },
-                { title: 'VSCode用XDebug設定', value: 'VSCodeDir',     description: '(proj)/.vs-code/',                      selected: false },
+                { title: 'VSCode用Xdebug設定', value: 'VSCodeDir',     description: '(proj)/.vs-code/',                      selected: false },
             ],
             instructions: false,
         })
