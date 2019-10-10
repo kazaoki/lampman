@@ -4,6 +4,8 @@
 import libs = require('../libs');
 import fs   = require('fs-extra');
 import path = require('path');
+import config    from './config';
+
 const prompts = require('prompts')
 
 /**
@@ -72,6 +74,8 @@ export default async function init(commands: any, lampman: any)
             lampman = libs.LoadConfig(lampman) // config.js を読み込み
             libs.UpdateCompose(lampman) // 最新の docker-compose.yml を生成
             messages.push(`  - ${path.join(config_dir, '/docker-compose.yml')}`)
+            // config.js をエディタで開く
+            config({}, lampman)
         }
 
         // MySQL設定

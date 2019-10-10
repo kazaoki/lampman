@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var fs = require("fs-extra");
 var path = require("path");
+var config_1 = require("./config");
 var prompts = require('prompts');
 function init(commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
@@ -97,6 +98,7 @@ function init(commands, lampman) {
                             lampman = libs.LoadConfig(lampman);
                             libs.UpdateCompose(lampman);
                             messages.push("  - " + path.join(config_dir, '/docker-compose.yml'));
+                            config_1.default({}, lampman);
                         }
                         if (setup.includes('Mysql')) {
                             copyFromMaster('mysql', true);
