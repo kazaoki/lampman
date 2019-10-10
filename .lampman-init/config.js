@@ -97,7 +97,7 @@ module.exports.config = {
     //     hosts:          ['main.db'],
     //     volume_locked:  false,
     //     query_log:      true,
-    //     query_cache:    true,
+    //     query_cache:    false,
     //     dump: {
     //         rotations:  3,
     //         filename:   'dump.sql',
