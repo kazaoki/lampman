@@ -47,6 +47,7 @@ module.exports.config = {
                 '../public_html:/var/www/html',
                 '../public_html:/home/user_a/public_html',
             ],
+            // rewrite_log: true, // or 1-8, true=8
         },
 
         // PHP
@@ -159,13 +160,13 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     logs: {
-        http: [
-            ['/var/log/httpd/access_log', ['-cS', 'apache']],
-            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
-        ],
         https: [
             ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
             ['/var/log/httpd/ssl_error_log', ['-cS', 'apache_errors']],
+        ],
+        http: [
+            ['/var/log/httpd/access_log', ['-cS', 'apache']],
+            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
         ],
         db: [
             ['/var/log/mysql/query.log', ['-ci', 'green']],

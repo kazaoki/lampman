@@ -1,0 +1,32 @@
+
+
+
+# for legacy blog images
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^blog/wp-content/uploads/(.+)$ /uploads/images/legacy/$1 [R=301,L]
+  RewriteRule ^k$ /?kazaoki [QSA,L]
+</IfModule>
+
+# for slime system
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # http -> https
+  RewriteCond %{HTTPS} off
+  RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # Add trail slash
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteCond %{REQUEST_URI} !\.[^/\.]+$
+  RewriteRule .* %{REQUEST_URI}/ [R=301,L]
+
+  # Some hosts may require you to use the `RewriteBase` directive.
+  RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+  RewriteRule ^(.*) - [E=BASE:%1]
+
+  # Set to slime route
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [QSA,L]
+</IfModule>

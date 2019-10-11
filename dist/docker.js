@@ -34,6 +34,17 @@ function ConfigToYaml(config) {
         if ('mounts' in config.lampman.apache && config.lampman.apache.mounts.length) {
             (_b = yaml.services.lampman.volumes).push.apply(_b, config.lampman.apache.mounts);
         }
+        if ('rewrite_log' in config.lampman.apache) {
+            if (true === config.lampman.apache.rewrite_log) {
+                yaml.services.lampman.environment.LAMPMAN_APACHE_REWRITE_LOG = 8;
+            }
+            else if (1 <= config.lampman.apache.rewrite_log && config.lampman.apache.rewrite_log <= 8) {
+                yaml.services.lampman.environment.LAMPMAN_APACHE_REWRITE_LOG = config.lampman.apache.rewrite_log;
+            }
+            else {
+                yaml.services.lampman.environment.LAMPMAN_APACHE_REWRITE_LOG = 0;
+            }
+        }
     }
     if ('php' in config.lampman) {
         if ('image' in config.lampman.php) {
