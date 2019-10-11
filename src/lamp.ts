@@ -70,6 +70,7 @@ if(lampman.config_dir) {
 
 // 基本オプション
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）')
+    commander.helpOption('-h, --help', 'ヘルプを表示します。');
 
 // init: 初期化
 commander

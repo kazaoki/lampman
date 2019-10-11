@@ -55,6 +55,7 @@ if (lampman.config_dir) {
     libs.UpdateCompose(lampman);
 }
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）');
+commander.helpOption('-h, --help', 'ヘルプを表示します。');
 commander
     .command('init')
     .description("\u521D\u671F\u5316\uFF08.lampman" + libs.ModeString(lampman.mode) + "/ \u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u4F5C\u6210\uFF09")
