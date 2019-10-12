@@ -111,8 +111,9 @@ commander
 // login: リストから選択したコンテナのコンソールにログインします
 commander
     .command('login [container-name]')
-    .description('リストから選択したコンテナのコンソールにログインします')
-    .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
+    .description('コンテナのコンソールにログインします')
+    .option('-s, --select', 'コンテナを選択します。Default: lampman')
+    .option('-l, --shell <shell>', 'ログインシェルを指定。Default: bash')
     .option('-p, --path <path>', 'ログインパスを指定。Default: /')
     .action((cname, cmd)=>login(cname, cmd, lampman))
 

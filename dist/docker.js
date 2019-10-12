@@ -267,3 +267,11 @@ function exchangePortFromSchema(schema, cname, lampman) {
         return exchangePort('443', cname, lampman);
 }
 exports.exchangePortFromSchema = exchangePortFromSchema;
+function getRealCname(cname, lampman) {
+    var cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', cname], { cwd: lampman.config_dir }).toString();
+    var res = child.execFileSync('docker', ['ps', '-f', "id=" + cid.trim(), '--format', '{{.Names}}']).toString();
+    if (res)
+        return res.trim();
+    throw new Error();
+}
+exports.getRealCname = getRealCname;

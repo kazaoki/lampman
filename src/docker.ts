@@ -282,3 +282,16 @@ export function exchangePortFromSchema(schema: string, cname: string='lampman', 
     if('http'===schema) return exchangePort('80', cname, lampman)
     else if('https'===schema) return exchangePort('443', cname, lampman)
 }
+
+/**
+* docker-compose のサービス名から実際に起動中のコンテナ名を返す
+*
+* @param cname: string
+*/
+export function getRealCname(cname: string, lampman: any)
+{
+    let cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', cname], {cwd: lampman.config_dir}).toString()
+    let res = child.execFileSync('docker', ['ps', '-f', `id=${cid.trim()}`, '--format', '{{.Names}}']).toString()
+    if(res) return res.trim()
+    throw new Error()
+}

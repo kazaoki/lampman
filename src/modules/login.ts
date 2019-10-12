@@ -2,6 +2,7 @@
 'use strict'
 
 import libs   = require('../libs');
+import docker = require('../docker');
 const prompts = require('prompts');
 const child   = require('child_process')
 const color   = require('cli-color');
@@ -14,6 +15,7 @@ export default async function login(cname: string|null, commands: any, lampman: 
     let target_cname
 
     // コンテナリスト取得
+    let sname
     let cnames = []
     let list = []
     let out = child.execFileSync('docker', ['ps', '--format', '{{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}'])
@@ -33,8 +35,8 @@ export default async function login(cname: string|null, commands: any, lampman: 
     }
     if(1===list.length) cname = cnames[0]
 
-    // コンテナ名未入力の場合はリストから選択
-    if(!cname) {
+    // --selectの場合はリストから選択
+    if(commands.select) {
         // コンテナ選択
         const response = await prompts([
             {
@@ -46,19 +48,26 @@ export default async function login(cname: string|null, commands: any, lampman: 
         ]);
         if(response.cname) target_cname = response.cname
         console.log()
-    } else {
+    } else if(cname) {
         // コンテナ名入力した場合は、リストにあるかチェック
         if(cnames.includes(cname)) {
             target_cname = cname
         } else {
             // リストになければサービス名として docker-compose に渡して実際のコンテナ名を取得
             try {
-                let cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', cname], {cwd: lampman.config_dir}).toString()
-                let res = child.execFileSync('docker', ['ps', '-f', `id=${cid.trim()}`, '--format', '{{.Names}}']).toString()
-                if(res) target_cname = res.trim()
+                sname = cname
+                target_cname = docker.getRealCname(cname, lampman)
             } catch(e) {
                 libs.Error(e)
             }
+        }
+    } else {
+        // コンテナ名も無く、--select でもなく、コンテナが複数ある場合は、強制的に lampman コンテナを対象にする
+        try {
+            sname = 'lampman'
+            target_cname = docker.getRealCname(sname, lampman)
+        } catch(e) {
+            libs.Error(e)
         }
     }
 
@@ -69,11 +78,12 @@ export default async function login(cname: string|null, commands: any, lampman: 
     }
 
     // docker-composeのコンテナならサービス名を取得しておく
-    let sname
-    try {
-        let ret = child.execFileSync('docker', ['inspect', '--format', '{{ index .Config.Labels "com.docker.compose.service"}}', target_cname]).toString().trim()
-        if(ret) sname = ret
-    } catch(e){}
+    if(!sname) {
+        try {
+            let ret = child.execFileSync('docker', ['inspect', '--format', '{{ index .Config.Labels "com.docker.compose.service"}}', target_cname]).toString().trim()
+            if(ret) sname = ret
+        } catch(e){}
+    }
 
     // ログインパス指定
     let login_path = '/'

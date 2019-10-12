@@ -36,12 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
+var docker = require("../docker");
 var prompts = require('prompts');
 var child = require('child_process');
 var color = require('cli-color');
 function login(cname, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var target_cname, cnames, list, out, _i, _a, line, column, response, cid, res, sname, ret, login_path;
+        var target_cname, sname, cnames, list, out, _i, _a, line, column, response, ret, login_path;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -66,7 +67,7 @@ function login(cname, commands, lampman) {
                     }
                     if (1 === list.length)
                         cname = cnames[0];
-                    if (!!cname) return [3, 2];
+                    if (!commands.select) return [3, 2];
                     return [4, prompts([
                             {
                                 type: 'select',
@@ -82,15 +83,24 @@ function login(cname, commands, lampman) {
                     console.log();
                     return [3, 3];
                 case 2:
-                    if (cnames.includes(cname)) {
-                        target_cname = cname;
+                    if (cname) {
+                        if (cnames.includes(cname)) {
+                            target_cname = cname;
+                        }
+                        else {
+                            try {
+                                sname = cname;
+                                target_cname = docker.getRealCname(cname, lampman);
+                            }
+                            catch (e) {
+                                libs.Error(e);
+                            }
+                        }
                     }
                     else {
                         try {
-                            cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', cname], { cwd: lampman.config_dir }).toString();
-                            res = child.execFileSync('docker', ['ps', '-f', "id=" + cid.trim(), '--format', '{{.Names}}']).toString();
-                            if (res)
-                                target_cname = res.trim();
+                            sname = 'lampman';
+                            target_cname = docker.getRealCname(sname, lampman);
                         }
                         catch (e) {
                             libs.Error(e);
@@ -102,12 +112,14 @@ function login(cname, commands, lampman) {
                         libs.Message("\u3054\u6307\u5B9A\u306E\u30B3\u30F3\u30C6\u30CA\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3067\u3057\u305F\u3002\n" + target_cname, 'warning', 1);
                         return [2];
                     }
-                    try {
-                        ret = child.execFileSync('docker', ['inspect', '--format', '{{ index .Config.Labels "com.docker.compose.service"}}', target_cname]).toString().trim();
-                        if (ret)
-                            sname = ret;
+                    if (!sname) {
+                        try {
+                            ret = child.execFileSync('docker', ['inspect', '--format', '{{ index .Config.Labels "com.docker.compose.service"}}', target_cname]).toString().trim();
+                            if (ret)
+                                sname = ret;
+                        }
+                        catch (e) { }
                     }
-                    catch (e) { }
                     login_path = '/';
                     if (sname in lampman.config && 'login_path' in lampman.config[sname]) {
                         login_path = lampman.config[sname].login_path;
