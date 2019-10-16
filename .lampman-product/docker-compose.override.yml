@@ -2,11 +2,29 @@ version: '2.2'
 
 services:
 
-  alpine:
-    image: alpine
+  # Mount apache logs from Lampman
+  # ------------------------------------------------------------------
+  lampman:
     volumes:
-      - ./:/lampman
-    labels:
-      - "test-alpine"
-    environment:
-      LAMPMAN_ADD_TEST: aaaaaaaa
+      - 'locked_httpd_logs:/var/log/httpd/'
+
+  # Fluentd (for output)
+  # ------------------------------------------------------------------
+  fluentd:
+    container_name: fluentd
+    image: fluentd
+    # ports:
+    #   - "24224:24224"
+    #   - "24224:24224/udp"
+    volumes:
+      - locked_fluentd_data:/fluentd/log
+      - ./fluentd:/fluentd/etc
+      - ./log-archives:/log-archives
+    volumes_from:
+      - lampman
+    depends_on:
+      - lampman
+
+volumes:
+  locked_fluentd_data: {}
+  locked_httpd_logs: {}

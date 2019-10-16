@@ -49,3 +49,7 @@ RUN localedef -f UTF-8 -i ja_JP ja_JP
 RUN cd /usr/bin \
     && curl https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip | funzip > ngrok \
     && chmod +x ngrok
+
+# -- permit for web log files
+RUN chmod 0755 /var/log/httpd/ \
+    && chmod 0755 /var/log/nginx/
