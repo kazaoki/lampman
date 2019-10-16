@@ -2,11 +2,11 @@ version: '2.2'
 
 services:
 
-  fluentd:
-    image: fluentd
+  alpine:
+    image: alpine
     volumes:
       - ./:/lampman
-    volumes_from:
-      - phpenv
-      - mysql
-      - lampman
+    labels:
+      - "test-alpine"
+    environment:
+      LAMPMAN_ADD_TEST: aaaaaaaa

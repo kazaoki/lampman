@@ -1,9 +1,6 @@
 
-// DEFAULT BOOL
-const __TRUE_ON_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE
-
 // load dotenv
-require(module.parent.path+'/../node_modules/dotenv').config()
+require(process.env.NODE_PATH+'/lampman/node_modules/dotenv').config()
 
 // Exprot config
 module.exports.config = {
@@ -15,7 +12,7 @@ module.exports.config = {
      */
 
     // project name
-    project: 'lampman-test',
+    project: 'lampman-test-prod',
 
     // docker-compose file version
     // * docker-compose.override.ymlがあればそのversionと合わせる必要あり
@@ -46,27 +43,28 @@ module.exports.config = {
             mounts: [ // 公開ディレクトリに /var/www/html を割り当ててください。
                 '../public_html:/var/www/html',
             ],
+            rewrite_log: true, // or 1-8, true=8
         },
 
         // PHP
         php: {
-            image: 'kazaoki/phpenv:7.3.6', // ref: https://hub.docker.com/r/kazaoki/phpenv/tags
+            image: 'kazaoki/phpenv:7.3.6', // ここにあるバージョンから → https://hub.docker.com/r/kazaoki/phpenv/tags
             // ↑ image 未指定なら標準のPHP使用
-            error_report: __TRUE_ON_DEFAULT__,
-            xdebug_start: __TRUE_ON_DEFAULT__,
-            xdebug_host: '192.168.0.10',
-            xdebug_port: 9000,
+            // error_report: true,
+            // xdebug_start: true,
+            // xdebug_host: '192.168.0.10',
+            // xdebug_port: 9000,
         },
 
         // // maildev
         // maildev: {
-        //     start: __TRUE_ON_DEFAULT__,
+        //     start: true,
         //     ports: ['9981:1080'],
         // },
 
         // postfix
         postfix: {
-            start: __TRUE_ON_DEFAULT__,
+            start: true,
             // ports: [],
         },
 
@@ -94,31 +92,14 @@ module.exports.config = {
         charset:        'utf8mb4',
         collation:      'utf8mb4_unicode_ci',
         hosts:          ['main.db'],
-        volume_locked:  false,
-        query_log:      true,
+        volume_locked:  true,
+        query_log:      false,
         query_cache:    true,
         dump: {
             rotations:  3,
             filename:   'dump.sql',
         }
     },
-    // mysql_2: { // make '/mysql_2/' folder.
-    //     image:          'mysql:5.5',
-    //     ports:          ['3307:3306'],
-    //     database:       'test2',
-    //     user:           'test2',
-    //     password:       'test2', // same root password
-    //     charset:        'utf8mb4',
-    //     collation:      'utf8mb4_unicode_ci',
-    //     hosts:          ['main-2.db'],
-    //     volume_locked:  false,
-    //     query_log:      true,
-    //     query_cache:    true,
-    //     dump:           {
-    //         rotations:  5,
-    //         filename:   'dump.sql',
-    //     }
-    // },
 
     /**
      * ---------------------------------------------------------------
@@ -138,19 +119,6 @@ module.exports.config = {
     //         filename:  'dump.sql',
     //     }
     // },
-    // postgresql_b:  {
-    //     image:         'kazaoki/postgres-bigm',
-    //     ports:         ['5433:5432'],
-    //     database:      'testb',
-    //     user:          'testb',
-    //     password:      'testb', // same root password
-    //     hosts:         ['sub-b.db'],
-    //     volume_locked: false,
-    //     dump: {
-    //         rotations: 3,
-    //         filename:  'dump.sql',
-    //     }
-    // },
 
     /**
      * ---------------------------------------------------------------
@@ -158,21 +126,21 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     logs: {
-        // http: [
-        //     ['/var/log/httpd/access_log', ['-cS', 'apache']],
-        //     ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
-        // ],
         https: [
             ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
             ['/var/log/httpd/ssl_error_log', ['-cS', 'apache_errors']],
         ],
-        // app: [
-        //     ['/var/www/html/app.log', ['-ci', 'green']],
+        // http: [
+        //     ['/var/log/httpd/access_log', ['-cS', 'apache']],
+        //     ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
         // ],
         db: [
             ['/var/log/mysql/query.log', ['-ci', 'green']],
             // ['/var/log/mysql_2/query.log', ['-ci', 'blue']],
         ],
+        // app: [
+        //     ['/var/www/html/slime/logs/app.log', ['-ci', 'green']],
+        // ],
     },
 
     /**
@@ -181,29 +149,37 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     extra: {
-        // Lampmanコンテナ上でApacheベンチ実行
-        ab: {
-            command: 'ab -n1000 -c100 https://localhost/',
-            container: 'lampman',
-        },
 
-        // PHP Xdebug の有効/無効切り替え
-        xon: {
-            command: '/lampman/lampman/php-xdebug-on.sh',
-            container: 'lampman',
-            desc: 'Xdebugを開始する'
-        },
-        xoff: {
-            command: '/lampman/lampman/php-xdebug-off.sh',
-            container: 'lampman',
-            desc: 'Xdebugを終了する'
-        },
+        // // PHP Xdebug の有効/無効切り替え
+        // xon: {
+        //     command: '/lampman/lampman/php-xdebug-on.sh',
+        //     container: 'lampman',
+        //     desc: 'Xdebugを開始する'
+        // },
+        // xoff: {
+        //     command: '/lampman/lampman/php-xdebug-off.sh',
+        //     container: 'lampman',
+        //     desc: 'Xdebugを終了する'
+        // },
 
-        // プロジェクトパスに本番用 docker-compose.yml を生成する（ productモードにするので .lampman-product/ が必要です）
-        product_compose: {
-            command: `cd ${__dirname}/../ && lamp yamlout --mode product > docker-compose.yml`,
-            desc: '本番用の docker-compose.yml をプロジェクトパスに生成'
-        },
+        // // ngrok
+        // expose: {
+        //     command: 'ngrok http 80',
+        //     container: 'lampman',
+        //     desc: 'ngrok を使用して一時的に外部からアクセスできるようにする'
+        // },
+
+        // // Lampmanコンテナ上でApacheベンチ実行
+        // ab: {
+        //     command: 'ab -n1000 -c100 https://localhost/',
+        //     container: 'lampman',
+        // },
+
+        // // プロジェクトパスに本番用 docker-compose.yml を生成する（ productモードにするので .lampman-product/ が必要です）
+        // product_compose: {
+        //     command: `cd ${__dirname}/../ && lamp yamlout --mode product > docker-compose.yml`,
+        //     desc: '本番用の docker-compose.yml をプロジェクトパスに生成'
+        // },
 
         // extraサンプル：`lamp sample`
         // sample: {
@@ -255,6 +231,10 @@ module.exports.config = {
         //         win: 'dir',
         //         unix: 'ls -la',
         //     },
+        // },
+        // {
+        //     type: 'run_command',
+        //     command: 'gulp',
         // },
     ],
 }

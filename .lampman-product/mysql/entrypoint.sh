@@ -8,7 +8,7 @@ echo 'Asia/Tokyo' > /etc/timezone
 # Set SQL mode to strict
 # ----------------------
 echo '\n[mysqld]' >> /etc/mysql/my.cnf
-echo 'sql_mode=STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' >> /etc/mysql/my.cnf
+echo 'sql_mode=ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' >> /etc/mysql/my.cnf
 
 # Set query log
 # -------------------------
@@ -32,6 +32,12 @@ fi
 # Set Max connections
 # -------------------
 echo 'max_connections=1000' >> /etc/mysql/my.cnf
+
+# Add run shell before pass to main entrypoint.sh
+# -----------------------------------------------
+if [ -e /mysql/entrypoint-add.sh ]; then
+  /mysql/entrypoint-add.sh
+fi
 
 # Pass to true shell
 # ------------------
