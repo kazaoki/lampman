@@ -26,6 +26,7 @@ $data = [
 </head>
 <body>
 
+<?php if('default'===getenv('LAMPMAN_MODE')) { ?>
 <section>
     <h1>MAILDEV (<a href="http://<?php echo getenv('HTTP_HOST') ?>:9981" target="_blank">open blank window : port 9981</a>)</h1>
     <div class="center">
@@ -46,6 +47,7 @@ $data = [
         </table>
     </div>
 </section>
+<?php } ?>
 
 <section>
     <h1>LAMPMAN ENV</h1>

@@ -1,7 +1,4 @@
 
-// DEFAULT BOOL
-const __IS_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE
-
 // load dotenv
 require(process.env.NODE_PATH+'/lampman/node_modules/dotenv').config()
 
@@ -54,21 +51,21 @@ module.exports.config = {
         php: {
             image: 'kazaoki/phpenv:5.6.22', // ここにあるバージョンから → https://hub.docker.com/r/kazaoki/phpenv/tags
             // ↑ image 未指定なら標準のPHP使用
-            error_report: __IS_DEFAULT__,
-            xdebug_start: __IS_DEFAULT__,
+            error_report: true,
+            xdebug_start: true,
             xdebug_host: '192.168.0.10',
             xdebug_port: 9000,
         },
 
         // maildev
         maildev: {
-            start: __IS_DEFAULT__,
+            start: true,
             ports: ['9981:1080'],
         },
 
         // postfix
         postfix: {
-            start: __IS_DEFAULT__,
+            start: true,
             // ports: [],
         },
 
