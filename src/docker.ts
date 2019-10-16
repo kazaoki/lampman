@@ -44,6 +44,15 @@ export function ConfigToYaml(config: any)
         if('mounts' in config.lampman.apache && config.lampman.apache.mounts.length) {
             yaml.services.lampman.volumes.push(...config.lampman.apache.mounts)
         }
+        if('rewrite_log' in config.lampman.apache) {
+            if(true===config.lampman.apache.rewrite_log) {
+                yaml.services.lampman.environment.LAMPMAN_APACHE_REWRITE_LOG = 8
+            } else if(1<=config.lampman.apache.rewrite_log && config.lampman.apache.rewrite_log<=8) {
+                yaml.services.lampman.environment.LAMPMAN_APACHE_REWRITE_LOG = config.lampman.apache.rewrite_log
+            } else {
+                yaml.services.lampman.environment.LAMPMAN_APACHE_REWRITE_LOG = 0
+            }
+        }
     }
     if('php' in config.lampman) {
         if('image' in config.lampman.php) {
@@ -272,4 +281,17 @@ export function exchangePortFromSchema(schema: string, cname: string='lampman', 
 {
     if('http'===schema) return exchangePort('80', cname, lampman)
     else if('https'===schema) return exchangePort('443', cname, lampman)
+}
+
+/**
+* docker-compose のサービス名から実際に起動中のコンテナ名を返す
+*
+* @param cname: string
+*/
+export function getRealCname(cname: string, lampman: any)
+{
+    let cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', cname], {cwd: lampman.config_dir}).toString()
+    let res = child.execFileSync('docker', ['ps', '-f', `id=${cid.trim()}`, '--format', '{{.Names}}']).toString()
+    if(res) return res.trim()
+    throw new Error()
 }

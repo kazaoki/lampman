@@ -46,6 +46,7 @@ let lampman: any = {
 
 // 設定ディレクトリ特定（見つかるまでディレクトリ遡る）
 let dirs = process.cwd().split(path.sep)
+if(''===dirs[0]) dirs[0]='/'
 while(1!==dirs.length) {
     let config_dir = path.join(...dirs, '.lampman'+('default'===lampman.mode ? '' : '-'+lampman.mode))
     try {
@@ -69,6 +70,7 @@ if(lampman.config_dir) {
 
 // 基本オプション
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）')
+    commander.helpOption('-h, --help', 'ヘルプを表示します。');
 
 // init: 初期化
 commander
@@ -109,8 +111,9 @@ commander
 // login: リストから選択したコンテナのコンソールにログインします
 commander
     .command('login [container-name]')
-    .description('リストから選択したコンテナのコンソールにログインします')
-    .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
+    .description('コンテナのコンソールにログインします')
+    .option('-s, --select', 'コンテナを選択します。Default: lampman')
+    .option('-l, --shell <shell>', 'ログインシェルを指定。Default: bash')
     .option('-p, --path <path>', 'ログインパスを指定。Default: /')
     .action((cname, cmd)=>login(cname, cmd, lampman))
 
@@ -190,5 +193,18 @@ if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
 // パース実行
 commander.parse(process.argv)
 
+// どれもマッチしなかった場合はヘルプ出す
+if(commander.args.length) {
+    let pos = commander.args.length-1
+    let str = 'object'===typeof commander.args[pos]
+        ? (<any>commander.args[pos]).name()
+        : commander.args[pos]
+    if(!commander.commands.map((cmd: any)=>cmd.name()).includes(str)) {
+        commander.help()
+    }
+}
+
 // 引数なしの場合は noargs を実行
-if(!commander.args.length) noargs(commander, lampman)
+else {
+    noargs(commander, lampman)
+}

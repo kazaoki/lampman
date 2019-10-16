@@ -1,0 +1,6 @@
+
+# for rewrite test
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^k$ /?kazaoki [QSA,L]
+</IfModule>

@@ -3,7 +3,7 @@
 const __IS_DEFAULT__ = 'default'===process.env.LAMPMAN_MODE
 
 // load dotenv
-require(module.parent.path+'/../node_modules/dotenv').config()
+require(process.env.NODE_PATH+'/lampman/node_modules/dotenv').config()
 
 // Exprot config
 module.exports.config = {
@@ -97,7 +97,7 @@ module.exports.config = {
     //     hosts:          ['main.db'],
     //     volume_locked:  false,
     //     query_log:      true,
-    //     query_cache:    true,
+    //     query_cache:    false,
     //     dump: {
     //         rotations:  3,
     //         filename:   'dump.sql',
@@ -129,13 +129,13 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     logs: {
-        // http: [
-        //     ['/var/log/httpd/access_log', ['-cS', 'apache']],
-        //     ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
-        // ],
         https: [
             ['/var/log/httpd/ssl_request_log', ['-cS', 'apache']],
             ['/var/log/httpd/ssl_error_log', ['-cS', 'apache_errors']],
+        ],
+        http: [
+            ['/var/log/httpd/access_log', ['-cS', 'apache']],
+            ['/var/log/httpd/error_log', ['-cS', 'apache_errors']],
         ],
         db: [
             ['/var/log/mysql/query.log', ['-ci', 'green']],
@@ -149,12 +149,6 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     extra: {
-        // Lampmanコンテナ上でApacheベンチ実行
-        ab: {
-            command: 'ab -n1000 -c100 https://localhost/',
-            container: 'lampman',
-        },
-
         // PHP Xdebug の有効/無効切り替え
         xon: {
             command: '/lampman/lampman/php-xdebug-on.sh',
@@ -167,11 +161,18 @@ module.exports.config = {
             desc: 'Xdebugを終了する'
         },
 
-        // プロジェクトパスに本番用 docker-compose.yml を生成する（ productモードにするので .lampman-product/ が必要です）
-        product_compose: {
-            command: `cd ${__dirname}/../ && lamp yamlout --mode product > docker-compose.yml`,
-            desc: '本番用の docker-compose.yml をプロジェクトパスに生成'
+        // ngrok
+        expose: {
+            command: 'ngrok http 80',
+            container: 'lampman',
+            desc: 'ngrok を使用して一時的に外部からアクセスできるようにする'
         },
+
+        // // プロジェクトパスに本番用 docker-compose.yml を生成する（ productモードにするので .lampman-product/ が必要です）
+        // product_compose: {
+        //     command: `cd ${__dirname}/../ && lamp yamlout --mode product > docker-compose.yml`,
+        //     desc: '本番用の docker-compose.yml をプロジェクトパスに生成'
+        // },
 
         // extraサンプル：`lamp sample`
         // sample: {
@@ -191,6 +192,11 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     on_upped: [
+        // {
+        //     // MAILDEV
+        //     type: 'open_browser',
+        //     port: '1080',
+        // },
         {
             // open browser on upped (win&mac only)
             type: 'open_browser',
@@ -199,11 +205,6 @@ module.exports.config = {
             // port: '',
             // container: 'lampman',
             // url: 'http://localhost:9981',
-        },
-        {
-            // MAILDEV
-            type: 'open_browser',
-            port: '1080',
         },
         // {
         //     type: 'run_command',

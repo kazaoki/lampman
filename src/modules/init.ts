@@ -4,6 +4,8 @@
 import libs = require('../libs');
 import fs   = require('fs-extra');
 import path = require('path');
+import config    from './config';
+
 const prompts = require('prompts')
 
 /**
@@ -27,10 +29,11 @@ export default async function init(commands: any, lampman: any)
                 { title: 'MySQL設定',          value: 'Mysql',         description: `(proj)/${config_dirname}/mysql/*`,      selected: false },
                 { title: 'PostgreSQL設定',     value: 'Postgresql',    description: `(proj)/${config_dirname}/postgresql/*`, selected: false },
                 { title: '.envサンプル設定',   value: 'EnvSample',     description: '(proj)/.env-sample',                    selected: false },
-                { title: 'VSCode用XDebug設定', value: 'VSCodeDir',     description: '(proj)/.vs-code/',                      selected: false },
+                { title: 'VSCode用Xdebug設定', value: 'VSCodeDir',     description: '(proj)/.vs-code/',                      selected: false },
             ],
             instructions: false,
         })
+        if(!response.setup) return
         setup = response.setup
     } else {
         // --select 無しのときの標準設定
@@ -72,6 +75,8 @@ export default async function init(commands: any, lampman: any)
             lampman = libs.LoadConfig(lampman) // config.js を読み込み
             libs.UpdateCompose(lampman) // 最新の docker-compose.yml を生成
             messages.push(`  - ${path.join(config_dir, '/docker-compose.yml')}`)
+            // config.js をエディタで開く
+            config({}, lampman)
         }
 
         // MySQL設定

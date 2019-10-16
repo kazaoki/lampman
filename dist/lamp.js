@@ -36,6 +36,8 @@ var lampman = {
     mode: process.env.LAMPMAN_MODE
 };
 var dirs = process.cwd().split(path.sep);
+if ('' === dirs[0])
+    dirs[0] = '/';
 while (1 !== dirs.length) {
     var config_dir = path.join.apply(path, dirs.concat(['.lampman' + ('default' === lampman.mode ? '' : '-' + lampman.mode)]));
     try {
@@ -53,6 +55,7 @@ if (lampman.config_dir) {
     libs.UpdateCompose(lampman);
 }
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）');
+commander.helpOption('-h, --help', 'ヘルプを表示します。');
 commander
     .command('init')
     .description("\u521D\u671F\u5316\uFF08.lampman" + libs.ModeString(lampman.mode) + "/ \u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u4F5C\u6210\uFF09")
@@ -80,8 +83,9 @@ commander
     .action(function (cname, cmd) { return logs_1.default(cname, cmd, lampman); });
 commander
     .command('login [container-name]')
-    .description('リストから選択したコンテナのコンソールにログインします')
-    .option('-s, --shell <shell>', 'ログインシェルが指定できます。Default: bash')
+    .description('コンテナのコンソールにログインします')
+    .option('-s, --select', 'コンテナを選択します。Default: lampman')
+    .option('-l, --shell <shell>', 'ログインシェルを指定。Default: bash')
     .option('-p, --path <path>', 'ログインパスを指定。Default: /')
     .action(function (cname, cmd) { return login_1.default(cname, cmd, lampman); });
 commander
@@ -151,5 +155,15 @@ if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
     }
 }
 commander.parse(process.argv);
-if (!commander.args.length)
+if (commander.args.length) {
+    var pos = commander.args.length - 1;
+    var str = 'object' === typeof commander.args[pos]
+        ? commander.args[pos].name()
+        : commander.args[pos];
+    if (!commander.commands.map(function (cmd) { return cmd.name(); }).includes(str)) {
+        commander.help();
+    }
+}
+else {
     noargs_1.default(commander, lampman);
+}

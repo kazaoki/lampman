@@ -69,6 +69,11 @@ if [[ $LAMPMAN_APACHE_START ]]; then
 </Directory>
 EOL
 fi
+if [[ $LAMPMAN_APACHE_REWRITE_LOG ]]; then
+  sed -i "s/^LogLevel .*$/LogLevel warn rewrite:trace$LAMPMAN_APACHE_REWRITE_LOG/" /etc/httpd/conf/httpd.conf
+  sed -i "s/^LogLevel .*$/LogLevel warn rewrite:trace$LAMPMAN_APACHE_REWRITE_LOG/" /etc/httpd/conf.d/ssl.conf
+fi
+
 
 # # --------------------------------------------------------------------
 # # Fluentd

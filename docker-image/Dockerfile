@@ -28,6 +28,7 @@ RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
         cronie \
         logrotate \
         openssh-server \
+        unzip \
     && rm -rf /var/cache/yum/* \
     && yum clean all
 
@@ -43,3 +44,8 @@ RUN npm install maildev iconv -g --unsafe-perm
 
 # -- Add utf-8 locle
 RUN localedef -f UTF-8 -i ja_JP ja_JP
+
+# -- ngrok setup
+RUN cd /usr/bin \
+    && curl https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip | funzip > ngrok \
+    && chmod +x ngrok

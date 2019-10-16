@@ -15,7 +15,7 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
 一番シンプルな使い方
 -----------
 
-1. まず、プロジェクトディレクトリに移動して以下のコマンドを打ちます。※プロジェクトごと初回のみ
+1. まず、 `public_html/` のあるプロジェクトディレクトリに移動して以下のコマンドを打ちます。※プロジェクトごと初回のみ
 
     ``` shell
     lamp init
@@ -28,7 +28,7 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
     lamp up
     ```
 
-3. 初期設定ではプロジェクトディレクトリの `public_html/` が公開ディレクトリとなっています。ブラウザーで [http://localhost](http://localhost) にアクセスして開発を開始してください。（Toolbox 環境の方は [http://192.168.99.100](http://192.168.99.100) など）
+3. ブラウザで [http://localhost](http://localhost) にアクセスするとPHP実行やメール送信(※1)ができます。（Toolbox 環境の方は [http://192.168.99.100](http://192.168.99.100) など）
 
 4.  開発が終わったらそのまま放っておいてもいいですが、以下のコマンドで起動させたサーバコンテナ達を削除することができます。
 
@@ -38,6 +38,8 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
 
 **以上です。**
 
+※1 ... sendmailを使用した一般的なメール送信は実際には受信者に届かず MailDev に捕捉されますので、 http://localhost:9981 でその届くはずだったメールの内容が確認できます。（設定次第で実際の配信も可能です）
+
 <br><br><br>
 
 
@@ -45,18 +47,19 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
 もう少し詳しく
 -------
 
-さて、これだけでは[PHPのビルトインウェブサーバ](https://www.php.net/manual/ja/features.commandline.webserver.php)と変わらないですね。
+さて、これだけでは[PHPのビルトインウェブサーバ](https://www.php.net/manual/ja/features.commandline.webserver.php)とあまり変わらないですね。
 
 「`/public_html` じゃない」「PHPのバージョン変えたい」「MySQLどーやんの」「他の docker サービス使いたい」「VPSで本番したい」ということですよね、はい、全部できます。
 基本的には設定ディレクトリ `.lampman/` の中でごにょごにょすることで、ご希望のサーバ環境が比較的かんたんに用意できます。
 
-全体的な仕組みはこうです。
+まずは全体のシンプルな仕組みを知っておいてください。
 
   1. `.lampman/config.js` に設定を書く
-  2. `lamp` コマンド実行すると `.lampman/config.js` を元に `.lampman/docker-compose.yml` が生成/更新される
-  3. `lamp up` でコンテナ起動する際は `.lampman/` を起点に内部で `docker-compose up -d` してるだけなので、設定上書き用のymlファイル `.lampman/docker-compose.override.yml` があればそれも読み込まれて起動する
+  2. `lamp` コマンド実行すると `.lampman/config.js` を元に `.lampman/docker-compose.yml` が自動生成/更新される
+  3. `lamp up` でコンテナ起動する際は `.lampman/` を起点に内部で `docker-compose up -d` を実行する
+  4. `docker-compose` は、 `.lampman/docker-compose.yml` と設定上書き用のymlファイル `.lampman/docker-compose.override.yml` を読み込んで起動する
 
-そのため `.lampman/config.js` をいじるだけでは実現できないサーバ設定は、 `.lampman/docker-compose.override.yml` に追加コンテナやサーバの設定ファイル等をマウントする設定を書くなり、独自のDockerイメージを用意するなりすれば、理論的にはほぼご希望どおりのサーバ環境が用意できるでしょう。
+`.lampman/config.js` をいじるだけでは実現できない複雑なサーバ設定などは、 `.lampman/docker-compose.override.yml` に追加コンテナやサーバの設定ファイル等をマウントする設定を書くなり、独自のDockerイメージを用意するなりすれば、理論的にはほぼご希望どおりのサーバ環境が用意できるでしょう。
 
 以下、なが～いドキュメントです。ドキュメント各種へのアンカーリンク出しておきます。
 
@@ -646,6 +649,20 @@ Basically, the following image is used, but this can be changed to a self-made i
 - 機能制限
 - セキュアdocker
 - ログfluent
+
+
+
+Lampmanで動いてるのにレンタルサーバでが動かない
+---------------------------------------------------------------
+Dockerはあくまで擬似的なコンテナですので、ホスト側のファイルシステムの違いなど、どうしても本番とは状況が違います。Lampmanで動いてるから本番UPは１日あればいいやーなどと思っているとおおいにハマるのでご注意ください。  
+以下、ヒントです。
+
+- .htaccess でそのサーバ専用の何かをしなくちゃいけない（PHPハンドラーの設定や、Optionsディレクティブの設定など）
+- PHPエラーで"クラスが見つからない"と出るのは、クラス名の大文字/小文字を間違っている可能性がある（Windowsホスト上だとエラーにならない）
+- DB接続情報あってるか再度確認を。サーバによっては `localhost` だとダメで、 `127.0.0.1` にする必要があるところも。
+- ajaxなどが304えらーを返す場合は、サーバ側セキュリティ設定でWAF効いてる可能性があるので無効にするなど。
+- ファイルアップロードの機能がある場合、0600で保存されてしまうことがあるので、0644等になるように修正
+
 
 
 その他
