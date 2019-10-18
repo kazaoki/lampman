@@ -27,3 +27,12 @@
 
 # -- etc...
 
+# -- ltsv log for fluentd
+sed -i "s/^CustomLog/#CustomLog/" /etc/httpd/conf.d/ssl.conf
+sed -i 's/"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x/#/' /etc/httpd/conf.d/ssl.conf
+sed -i "s/<\/VirtualHost>//" /etc/httpd/conf.d/ssl.conf
+cat <<EOL >> /etc/httpd/conf.d/ssl.conf
+LogFormat "domain:%V\thost:%h\tserver:%A\tident:%l\tuser:%u\ttime:%{%Y/%m/%d %H:%M:%S}t\tmethod:%m\tpath:%U%q\tprotocol:%H\tstatus:%>s\tsize:%b\treferer:%{Referer}i\tagent:%{User-Agent}i\tresponse_time:%D" apache_ltsv
+CustomLog logs/ssl_request_log apache_ltsv
+</VirtualHost>
+EOL
