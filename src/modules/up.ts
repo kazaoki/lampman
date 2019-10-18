@@ -10,6 +10,7 @@ const child = require('child_process')
 const path  = require('path')
 const color = require('cli-color');
 const fs    = require('fs');
+const find  = require('find');
 
 /**
  * up: LAMP起動
@@ -31,11 +32,24 @@ export default async function up(commands: any, lampman: any)
         }
     }
 
+    // 各shファイルのパーミッションに実行権を付与
+    let files = find.fileSync(/\.sh$/, lampman.config_dir)
+    if(files.length) {
+        for(let file of files) {
+            fs.chmodSync(file, 0o705)
+        }
+    }
+
     // 引数用意
     let args = [
         '--project-name', lampman.config.project,
-        'up', '-d',
+        'up',
     ]
+
+    // -D が指定されてればフォアグラウンドーモードに。
+    if(!commands.D) {
+        args.push('-d')
+    }
 
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(commands.flush) {

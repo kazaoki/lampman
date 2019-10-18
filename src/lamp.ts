@@ -85,6 +85,7 @@ commander
     .description(`LAMP起動（.lampman${libs.ModeString(lampman.mode)}/docker-compose.yml 自動更新）`)
     .option('-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
     .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
+    .option('-D', 'デーモンじゃなくフォアグラウンドで起動する')
     .action(cmd=>up(cmd, lampman))
 
 // down: LAMP終了
