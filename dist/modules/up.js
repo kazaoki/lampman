@@ -43,12 +43,13 @@ var child = require('child_process');
 var path = require('path');
 var color = require('cli-color');
 var fs = require('fs');
+var find = require('find');
 function up(commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, mount, dirs, pubdir, args, proc;
+        var _i, _a, mount, dirs, pubdir, files, _b, files_1, file, args, proc;
         var _this = this;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     if ('apache' in lampman.config.lampman && 'mounts' in lampman.config.lampman.apache) {
                         for (_i = 0, _a = lampman.config.lampman.apache.mounts; _i < _a.length; _i++) {
@@ -63,6 +64,13 @@ function up(commands, lampman) {
                             }
                         }
                     }
+                    files = find.fileSync(/\.sh$/, lampman.config_dir);
+                    if (files.length) {
+                        for (_b = 0, files_1 = files; _b < files_1.length; _b++) {
+                            file = files_1[_b];
+                            fs.chmodSync(file, 453);
+                        }
+                    }
                     args = [
                         '--project-name', lampman.config.project,
                         'up', '-d',
@@ -71,9 +79,9 @@ function up(commands, lampman) {
                     libs.Label('Flush cleaning');
                     return [4, reject_1.default({ force: true }, lampman)];
                 case 1:
-                    _b.sent();
+                    _c.sent();
                     console.log();
-                    _b.label = 2;
+                    _c.label = 2;
                 case 2:
                     if (commands.dockerComposeOptions) {
                         args.push.apply(args, commands.dockerComposeOptions.replace('\\', '').split(' '));
