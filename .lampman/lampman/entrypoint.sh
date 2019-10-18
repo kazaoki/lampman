@@ -115,8 +115,8 @@ done
 # --------------------------------------------------------------------
 # Add run shell before servers start
 # --------------------------------------------------------------------
-if [ -e /lampman/entrypoint-add.sh ]; then
-  /lampman/entrypoint-add.sh
+if [ -e /lampman/lampman/entrypoint-add.sh ]; then
+  /lampman/lampman/entrypoint-add.sh
 fi
 
 # --------------------------------------------------------------------
