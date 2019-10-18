@@ -43,8 +43,13 @@ export default async function up(commands: any, lampman: any)
     // 引数用意
     let args = [
         '--project-name', lampman.config.project,
-        'up', '-d',
+        'up',
     ]
+
+    // -D が指定されてればフォアグラウンドーモードに。
+    if(!commands.D) {
+        args.push('-d')
+    }
 
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(commands.flush) {

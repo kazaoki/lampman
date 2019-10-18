@@ -66,6 +66,7 @@ commander
     .description("LAMP\u8D77\u52D5\uFF08.lampman" + libs.ModeString(lampman.mode) + "/docker-compose.yml \u81EA\u52D5\u66F4\u65B0\uFF09")
     .option('-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
     .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
+    .option('-D', 'デーモンじゃなくフォアグラウンドで起動する')
     .action(function (cmd) { return up_1.default(cmd, lampman); });
 commander
     .command('down')

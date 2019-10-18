@@ -73,8 +73,11 @@ function up(commands, lampman) {
                     }
                     args = [
                         '--project-name', lampman.config.project,
-                        'up', '-d',
+                        'up',
                     ];
+                    if (!commands.D) {
+                        args.push('-d');
+                    }
                     if (!commands.flush) return [3, 2];
                     libs.Label('Flush cleaning');
                     return [4, reject_1.default({ force: true }, lampman)];
