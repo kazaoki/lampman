@@ -67,7 +67,7 @@ export default async function login(cname: string|null, commands: any, lampman: 
             sname = 'lampman'
             target_cname = docker.getRealCname(sname, lampman)
         } catch(e) {
-            libs.Error(e)
+            libs.Error('正しく実行モードの指定をするか、-s でコンテナを選択してください。')
         }
     }
 
