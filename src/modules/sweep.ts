@@ -27,36 +27,14 @@ export default async function sweep(commands: any, lampman: any)
         if(!response.value) return
     }
 
-    let procs = [];
-
     // 全てのコンテナとボリューム削除
-    procs.push(reject({force: true}, lampman))
+    await reject({force: true}, lampman)
 
     // <none>イメージ削除
-    procs.push(rmi({prune: true}, lampman))
+    await rmi({prune: true}, lampman)
 
     // 不要ネットワークの削除
-    procs.push(
-        // child.spawn('docker', ['network', 'prune', '-f'], {stdio: 'inherit'})
-        new Promise((resolve, reject)=>{
-            child.execFile('docker', ['network', 'prune', '-f'])
-                .stderr.on('data', (data: string)=>{
-                    // console.log(`Removing network ${data} ... ${color.red('ng')}`)
-                    reject(data)
-                })
-                .on('close', (code: any)=>{
-                    // console.log(`Removing network ${data} ... ${color.green('done')}`)
-                    resolve()
-                })
-            ;
-        })
-    )
+    child.spawnSync('docker', ['network', 'prune', '-f'], {stdio: 'inherit'})
 
-    // Parallel processing
-    Promise.all(procs)
-        .catch(e=>libs.Error(e))
-        .then(()=>{
-            console.log()
-        })
     return
 }

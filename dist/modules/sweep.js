@@ -35,14 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var libs = require("../libs");
 var child = require("child_process");
 var prompts = require('prompts');
 var reject_1 = require("./reject");
 var rmi_1 = require("./rmi");
 function sweep(commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var response, procs;
+        var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -62,24 +61,13 @@ function sweep(commands, lampman) {
                     if (!response.value)
                         return [2];
                     _a.label = 2;
-                case 2:
-                    procs = [];
-                    procs.push(reject_1.default({ force: true }, lampman));
-                    procs.push(rmi_1.default({ prune: true }, lampman));
-                    procs.push(new Promise(function (resolve, reject) {
-                        child.execFile('docker', ['network', 'prune', '-f'])
-                            .stderr.on('data', function (data) {
-                            reject(data);
-                        })
-                            .on('close', function (code) {
-                            resolve();
-                        });
-                    }));
-                    Promise.all(procs)
-                        .catch(function (e) { return libs.Error(e); })
-                        .then(function () {
-                        console.log();
-                    });
+                case 2: return [4, reject_1.default({ force: true }, lampman)];
+                case 3:
+                    _a.sent();
+                    return [4, rmi_1.default({ prune: true }, lampman)];
+                case 4:
+                    _a.sent();
+                    child.spawnSync('docker', ['network', 'prune', '-f'], { stdio: 'inherit' });
                     return [2];
             }
         });
