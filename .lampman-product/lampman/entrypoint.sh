@@ -3,7 +3,7 @@
 # --------------------------------------------------------------------
 # sshd setup
 # --------------------------------------------------------------------
-if [[ $LAMPMAN_SSHD_START == '1' ]]; then
+if [[ $LAMPMAN_SSHD_START == 1 ]]; then
   useradd $LAMPMAN_SSHD_USER -d $LAMPMAN_SSHD_PATH -M -l -R / -G root -p `echo $LAMPMAN_SSHD_PASS | openssl passwd -1 -stdin`
   ssh-keygen -A
   /usr/sbin/sshd -D -f /etc/ssh/sshd_config &
@@ -51,7 +51,7 @@ echo $phpini > /phpinipath
 # --------------------------------------------------------------------
 # Apache
 # --------------------------------------------------------------------
-if [[ $LAMPMAN_APACHE_START ]]; then
+if [[ $LAMPMAN_APACHE_START == 1 ]]; then
   sed -i "s/ScriptAlias \/cgi\-bin\//#ScriptAlias \/cgi\-bin\//" /etc/httpd/conf/httpd.conf
   sed -i "s/CustomLog \"logs\/access_log\" combined$/CustomLog \"logs\/access_log\" combined env\=\!nolog/" /etc/httpd/conf/httpd.conf
   echo "SetEnvIfNoCase Request_URI \"\.(gif|jpg|jpeg|jpe|png|css|js|ico|woff|woff2|map)$\" nolog" >> /etc/httpd/conf/httpd.conf
@@ -69,7 +69,7 @@ if [[ $LAMPMAN_APACHE_START ]]; then
 </Directory>
 EOL
 fi
-if [[ $LAMPMAN_APACHE_REWRITE_LOG ]]; then
+if [[ $LAMPMAN_APACHE_REWRITE_LOG != 0 ]]; then
   sed -i "s/^LogLevel .*$/LogLevel warn rewrite:trace$LAMPMAN_APACHE_REWRITE_LOG/" /etc/httpd/conf/httpd.conf
   sed -i "s/^LogLevel .*$/LogLevel warn rewrite:trace$LAMPMAN_APACHE_REWRITE_LOG/" /etc/httpd/conf.d/ssl.conf
 fi
@@ -107,7 +107,7 @@ do
   host=${value[0]}
   service=${value[1]}
   ip=`dig $service +short`
-  if [[ $ip ]]; then
+  if [[ $ip != '' ]]; then
     echo "${ip} ${host}" >> /etc/hosts
   fi
 done
@@ -124,13 +124,13 @@ fi
 # --------------------------------------------------------------------
 
 # -- Apache2 start
-if [[ $LAMPMAN_APACHE_START ]]; then
+if [[ $LAMPMAN_APACHE_START == 1 ]]; then
   /usr/sbin/httpd -k start
   echo 'lampman started.'
 fi
 
 # -- Mail servers
-if [[ $LAMPMAN_MAILDEV_START ]]; then
+if [[ $LAMPMAN_MAILDEV_START == 1 ]]; then
 
   # -- Postfix config change
   echo 'relayhost = 127.0.0.1:1025' >> /etc/postfix/main.cf
@@ -141,7 +141,7 @@ if [[ $LAMPMAN_MAILDEV_START ]]; then
 fi
 
 # -- Postfix start
-if [[ $LAMPMAN_POSTFIX_START ]]; then
+if [[ $LAMPMAN_POSTFIX_START == 1 ]]; then
   /usr/sbin/postfix start
 fi
 
