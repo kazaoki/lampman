@@ -43,7 +43,7 @@ module.exports.config = {
             mounts: [ // 公開ディレクトリに /var/www/html を割り当ててください。
                 '../public_html:/var/www/html',
             ],
-            rewrite_log: true, // or 1-8, true=8
+            // rewrite_log: true, // or 1-8, true=8
         },
 
         // PHP

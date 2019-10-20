@@ -11,7 +11,6 @@ services:
     environment:
       LAMPMAN_MODE: product
       LAMPMAN_APACHE_START: 1
-      LAMPMAN_APACHE_REWRITE_LOG: 8
       LAMPMAN_PHP_PHPENV_IMAGE: 'kazaoki/phpenv:7.3.6'
       LAMPMAN_PHP_PHPENV_VERSION: 7.3.6
       LAMPMAN_POSTFIX_START: 1
