@@ -127,7 +127,7 @@ function reject(commands, lampman) {
                     targets = response.targets;
                     _h.label = 5;
                 case 5:
-                    if (!targets.length) return [3, 10];
+                    if (!(targets && targets.length)) return [3, 10];
                     procs = [];
                     _loop_1 = function (item) {
                         var cid = item.name;

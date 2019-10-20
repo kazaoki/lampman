@@ -94,7 +94,7 @@ export default async function reject(commands: any, lampman: any)
     }
 
     // 削除実行
-    if(targets.length) {
+    if(targets && targets.length) {
         let procs: any[] = []
 
         // コンテナ削除
