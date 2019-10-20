@@ -9,5 +9,10 @@ import libs = require('../libs');
 export default function version(commands: any, lampman: any)
 {
     var json = require('../../package.json');
-    libs.Message(`${json.name} ver ${json.version}`, 'primary');
+    libs.Message(
+        `${json.name} ver ${json.version}\n`+
+        `mode: ${lampman.mode}`,
+        'primary',
+        1
+    );
 }

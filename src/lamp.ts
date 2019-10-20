@@ -59,6 +59,11 @@ while(1!==dirs.length) {
     dirs.pop()
 }
 
+// モード指定されている（default以外）のに設定が無い場合はエラー
+if('default'!==lampman.mode && !lampman.config_dir) {
+    libs.Error(`ご指定のモードがの設定ファイルが見つかりません。\nセットアップを実行してください。\nlamp init --mode ${lampman.mode}`)
+}
+
 // 設定ファイル特定
 if(lampman.config_dir) {
     // config.js を読み込み

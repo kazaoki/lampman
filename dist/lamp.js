@@ -50,6 +50,9 @@ while (1 !== dirs.length) {
     }
     dirs.pop();
 }
+if ('default' !== lampman.mode && !lampman.config_dir) {
+    libs.Error("\u3054\u6307\u5B9A\u306E\u30E2\u30FC\u30C9\u304C\u306E\u8A2D\u5B9A\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002\n\u30BB\u30C3\u30C8\u30A2\u30C3\u30D7\u3092\u5B9F\u884C\u3057\u3066\u304F\u3060\u3055\u3044\u3002\nlamp init --mode " + lampman.mode);
+}
 if (lampman.config_dir) {
     lampman = libs.LoadConfig(lampman);
     libs.UpdateCompose(lampman);
