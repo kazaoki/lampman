@@ -47,6 +47,7 @@ else
 fi
 sed -i "s/^variables_order .*$/variables_order = \"EGPCS\"/" $phpini
 echo $phpini > /phpinipath
+export LAMPMAN_PHP_INI_PATH=$phpini
 
 # --------------------------------------------------------------------
 # Apache
