@@ -26,7 +26,6 @@ import sweep     from './modules/sweep';
 import rmi       from './modules/rmi';
 import config    from './modules/config';
 import extra     from './modules/extra';
-import web       from './modules/web';
 
 // 1行改行
 console.log()
@@ -163,13 +162,6 @@ commander
     .command('yamlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action(cmd=>yamlout(cmd, lampman))
-
-// web: カレントでapacheサーバのみ起動（config.jsいらず
-commander
-    .command('web')
-    .description('設定不要で現在のパスにビルトインPHPウェブサーバを一時的に起動します。')
-    .option('-p, --port <port>', 'ポートを指定します。未指定なら自動で付きます')
-    .action(cmd=>web(cmd, lampman))
 
 // version: バージョン表示
 commander

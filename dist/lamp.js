@@ -22,7 +22,6 @@ var sweep_1 = require("./modules/sweep");
 var rmi_1 = require("./modules/rmi");
 var config_1 = require("./modules/config");
 var extra_1 = require("./modules/extra");
-var web_1 = require("./modules/web");
 console.log();
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
@@ -125,11 +124,6 @@ commander
     .command('yamlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action(function (cmd) { return yamlout_1.default(cmd, lampman); });
-commander
-    .command('web')
-    .description('設定不要で現在のパスにビルトインPHPウェブサーバを一時的に起動します。')
-    .option('-p, --port <port>', 'ポートを指定します。未指定なら自動で付きます')
-    .action(function (cmd) { return web_1.default(cmd, lampman); });
 commander
     .command('version')
     .description('バージョン表示')
