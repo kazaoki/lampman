@@ -22,13 +22,13 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
     ```
     これによりプロジェクトディレクトリに `.lampman/` という設定用のディレクトリが作成されます。
 
-2. 次に以下のコマンドを打つとサーバコンテナ達が起動します。
+2. 次に以下のコマンドを打つと、LAMP構成のサーバコンテナ達がごそごそ起動します。
 
     ``` shell
     lamp up
     ```
 
-3. ブラウザで [http://localhost](http://localhost) にアクセスするとPHP実行やメール送信(※1)ができます。（Toolbox 環境の方は [http://192.168.99.100](http://192.168.99.100) など）
+3. ブラウザで [http://localhost](http://localhost) などにアクセスしてHTMLやPHPが実行できます。（Toolbox 環境の方は [http://192.168.99.100](http://192.168.99.100) など）
 
 4.  開発が終わったらそのまま放っておいてもいいですが、以下のコマンドで起動させたサーバコンテナ達を削除することができます。
 
@@ -38,7 +38,7 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
 
 **以上です。**
 
-※1 ... sendmailを使用した一般的なメール送信は実際には受信者に届かず MailDev に捕捉されますので、 http://localhost:9981 でその届くはずだったメールの内容が確認できます。（設定次第で実際の配信も可能です）
+次回、続きからまた作業を開始したい場合は、このディレクトリ下位のどこからでも `lamp up` すれば同じくLAMPサーバ達が立ち上がります。
 
 <br><br><br>
 
@@ -54,12 +54,12 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
 
 まずは全体のシンプルな仕組みを知っておいてください。
 
-  1. `.lampman/config.js` に設定を書く
+  1. プロジェクトフォルダごとに `.lampman/config.js` に設定を書く
   2. `lamp` コマンド実行すると `.lampman/config.js` を元に `.lampman/docker-compose.yml` が自動生成/更新される
-  3. `lamp up` でコンテナ起動する際は `.lampman/` を起点に内部で `docker-compose up -d` を実行する
-  4. `docker-compose` は、 `.lampman/docker-compose.yml` と設定上書き用のymlファイル `.lampman/docker-compose.override.yml` を読み込んで起動する
+  3. `lamp up` と打つと `.lampman/` を起点に内部で `docker-compose up -d` が実行される（`.lampman/docker-compose.yml` と設定上書き用のymlファイル `.lampman/docker-compose.override.yml` が読み込まれる）
 
-`.lampman/config.js` をいじるだけでは実現できない複雑なサーバ設定などは、 `.lampman/docker-compose.override.yml` に追加コンテナやサーバの設定ファイル等をマウントする設定を書くなり、独自のDockerイメージを用意するなりすれば、理論的にはほぼご希望どおりのサーバ環境が用意できるでしょう。
+要は、 設定ファイルから `docker-compose.yml` を生成して `docker-compose` コマンドを叩いてるだけです。  
+なので、 設定ファイルをいじるだけでは実現できない複雑なサーバ設定などは、 `.lampman/docker-compose.override.yml` に追加コンテナやサーバの設定ファイル等をマウントする設定を書くなり、独自のDockerイメージを用意するなりすれば、理論的にはなんでもできます。
 
 以下、なが～いドキュメントです。ドキュメント各種へのアンカーリンク出しておきます。
 
@@ -83,7 +83,6 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
   - [lamp rmi](#lamp-rmi%e3%82%a4%e3%83%a1%e3%83%bc%e3%82%b8%e3%82%92%e3%83%aa%e3%82%b9%e3%83%88%e3%81%8b%e3%82%89%e9%81%b8%e6%8a%9e%e3%81%97%e3%81%a6%e5%89%8a%e9%99%a4)
   - [lamp sweep](#lamp-sweep%e5%85%a8%e3%81%a6%e3%81%ae%e3%82%b3%e3%83%b3%e3%83%86%e3%83%8a%e6%9c%aa%e3%83%ad%e3%83%83%e3%82%af%e3%83%9c%e3%83%aa%e3%83%a5%e3%83%bc%e3%83%a0ltnonegt%e3%82%a4%e3%83%a1%e3%83%bc%e3%82%b8%e4%b8%8d%e8%a6%81%e3%83%8d%e3%83%83%e3%83%88%e3%83%af%e3%83%bc%e3%82%af%e3%82%92%e4%b8%80%e6%8e%83%e3%81%99%e3%82%8b%e3%81%a4%e3%82%88%e3%81%84)
   - [lamp yamlout](#lamp-ymlout%e8%a8%ad%e5%ae%9a%e6%83%85%e5%a0%b1%e3%82%92yaml%e5%bd%a2%e5%bc%8f%e3%81%a7%e6%a8%99%e6%ba%96%e5%87%ba%e5%8a%9b%e3%81%ab%e5%87%ba%e5%8a%9b%e3%81%99%e3%82%8b)
-  - [lamp web](#lamp-web%e7%8f%be%e5%9c%a8%e3%81%ae%e3%83%91%e3%82%b9%e3%81%a7%e3%83%93%e3%83%ab%e3%83%88%e3%82%a4%e3%83%b3php%e3%82%a6%e3%82%a7%e3%83%96%e3%82%b5%e3%83%bc%e3%83%90%e3%82%92%e4%b8%80%e6%99%82%e7%9a%84%e3%81%ab%e8%b5%b7%e5%8b%95%e3%81%99%e3%82%8b)
   - [lamp version](#lamp-versionlampman%e3%81%ae%e3%82%b3%e3%83%9e%e3%83%b3%e3%83%89%e3%83%90%e3%83%bc%e3%82%b8%e3%83%a7%e3%83%b3%e3%82%92%e8%a1%a8%e7%a4%ba%e3%81%99%e3%82%8b)
   - [lamp (extraコマンド)](#lamp-extra%e3%82%b3%e3%83%9e%e3%83%b3%e3%83%89%e8%a8%ad%e5%ae%9a%e3%81%97%e3%81%9f%e7%8b%ac%e8%87%aa%e3%81%ae%e3%82%b3%e3%83%9e%e3%83%b3%e3%83%89%e3%82%92%e5%ae%9f%e8%a1%8c%e3%81%99%e3%82%8b)
 - 設定ファイル詳説
@@ -111,7 +110,8 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
 - [Docker](https://www.docker.com/)：なるべく最新版
   - Windows版 ... 😄
   - macOS版 ... 😄
-  - Toolbox版 ... 😒
+  - Linux版 ... 😄
+  - Toolbox版(Win/Mac) ... 😒
 - [Node.js](https://nodejs.org/en/)：なるべく最新版
   - 12系で開発してます。10系で動くかは不明です・・。
 - コマンドラインが打てる何か
@@ -122,7 +122,6 @@ Lampman - LAMP構成のためのDockerコンテナビルダ
 ホストOS上にXamppとかPHPとかは不要です。必要なのは上記だけで、あとは各コンテナ内で対応します。
 
 
-
 インストール
 -----------
 
@@ -131,7 +130,7 @@ npm i lampman -g
 ```
 
 これでどこでも `lamp` コマンドが打てるようになります。４文字打つのが面倒なときは `lm` でもOKなようにしておきました。
-
+インストール済みの状態で上記コマンドを打つと最新バージョンになります。
 
 
 
@@ -140,7 +139,7 @@ npm i lampman -g
 
 カレントディレクトリに `.lampman/` 設定ディレクトリが生成されます。
 
-#### `lamp init -s`<br>`lamp init --setup`
+### `lamp init -s`<br>`lamp init --select`
 
 追加のインストールオプションが表示されますので、ご希望があれば選択してください。
 
@@ -150,8 +149,18 @@ npm i lampman -g
 ( )  MySQL設定
 ( )  PostgreSQL設定
 ( )  .envサンプル設定
-( )  VSCode用XDebug設定
+( )  VSCode用Xdebug設定
 ```
+
+### `lamp init -p <プロジェクト名>`<br>`lamp init --project <プロジェクト名>`
+
+プロジェクト名を英数字で指定可能です。未指定の場合は `lampman-proj` として設定ファイルに書き込まれますので、必要に応じて後で直してください。後述しますが、このプロジェクト名は生成されるコンテナやネットワークの接頭辞（頭に付く）となります。
+
+
+### `lamp init -d <公開ディレクトリ名>`<br>`lamp init --public-dir <公開ディレクトリ名>`
+
+ホストOS側のプロジェクトパスにての公開ディレクトリ名を指定可能です。未指定の場合は `public_html` として設定ファイルに書き込まれますが、多段階層の場合など必要に応じて手動で直してください。
+
 
 `-h`, `--help`：ヘルプ表示
 ------------------------
@@ -171,17 +180,19 @@ npm i lampman -g
 実行モードを指定した場合、対象の設定ディレクトリとコンテナ内の環境変数が変わります。これにより開発用と本番用と分けて管理したりできます。
 尚、未指定の場合の実行モードは `default` となります。
 
-| モード指定コマンド例         | 対象設定ディレクトリ | コンテナ内環境変数 `LAMPMAN_MODE` |
-| ---------------------------- | -------------------- | --------------------------------- |
-| `lamp (コマンド)`            | .lampman/            | default                           |
-| `lamp (コマンド) -m test`    | .lampman-test/       | test                              |
-| `lamp (コマンド) -m product` | .lampman-product/    | product                           |
-| `lamp (コマンド) -m xxxxxx`  | .lampman-xxxxxx/     | xxxxxx                            |
+| モード指定コマンド例         | 対象設定ディレクトリ | コンテナ内環境変数 |
+| ---------------------------- | -------------------- | ------------------- |
+| `lamp (コマンド)`            | .lampman/            | LAMPMAN_MODE=default |
+| `lamp -m test (コマンド)`    | .lampman-test/       | LAMPMAN_MODE=test    |
+| `lamp -m product (コマンド)` | .lampman-product/    | LAMPMAN_MODE=product |
+| `lamp -m xxxxxx (コマンド)`  | .lampman-xxxxxx/     | LAMPMAN_MODE=xxxxxx  |
 
-例えば本番用の設定を新たに作りたい場合、以下のようにすると `.lampman-product/` ディレクトリが作成されます。
+例えば本番用の設定を新たに作りたい場合、以下のようにすると `.lampman-product/` ディレクトリに設定がセットアップされますのでその中で本番用の設定を書いていきます。
 
 ``` shell
-lamp init -m product
+lamp -m product init
+lamp -m product up
+lamp -m product down
 ```
 
 #### 他の方法で実行モードを指定する
@@ -194,7 +205,7 @@ lamp init -m product
     ``` shell
     export LAMPMAN_MODE=product
     ```
-    ただし、こういった運用の場合、cron実行など `.bashrc` を読み込まずに実行するケースもあるので十分ご注意ください。
+    ただし、こういった運用の場合、cron実行など `.bashrc` を読み込まないケースもあるので十分ご注意ください。
 
 2. プロジェクトディレクトリに `.env` ファイルを用意しておく
 
@@ -209,8 +220,8 @@ lamp init -m product
 
 ちなみに、ホストOS上の環境変数は設定ファイル中で参照できます。例えば環境変数 `LAMPMAN_MODE` なら、
 
-- `.lampman/config.js` の中で `process.env.LAMPMAN_MODE`
-- `.lampman/docker-compose.override.yml` の中で `"${LAMPMAN_MODE}"`
+- `.lampman/config.js` の中では `process.env.LAMPMAN_MODE`
+- `.lampman/docker-compose.override.yml` の中では `"${LAMPMAN_MODE}"`
 
 のように書くことで参照できるので、パスワードや環境による違いなどgit対象にしたくない情報は環境変数に逃がすと良いでしょう。（そのため `.env` はgitのコミット対象にすべきではありません）
 
@@ -654,14 +665,14 @@ Basically, the following image is used, but this can be changed to a self-made i
 
 Lampmanで動いてるのにレンタルサーバでが動かない
 ---------------------------------------------------------------
-Dockerはあくまで擬似的なコンテナですので、ホスト側のファイルシステムの違いなど、どうしても本番とは状況が違います。Lampmanで動いてるから本番UPは１日あればいいやーなどと思っているとおおいにハマるのでご注意ください。  
+Dockerはあくまで擬似的なLinuxコンテナですので、ホスト側のファイルシステムの違いなど、どうしても本番とは状況が違います。Lampmanで動いてるから本番UPは１日あればいいやーなどと思っているとおおいにハマるのでご注意ください。  
 以下、ヒントです。
 
-- .htaccess でそのサーバ専用の何かをしなくちゃいけない（PHPハンドラーの設定や、Optionsディレクティブの設定など）
-- PHPエラーで"クラスが見つからない"と出るのは、クラス名の大文字/小文字を間違っている可能性がある（Windowsホスト上だとエラーにならない）
+- .`htaccess` でそのサーバ専用の何かをしなくちゃいけない（PHPハンドラーの設定や、Optionsディレクティブの設定など）
+- PHPエラーで"クラスが見つからない"と出るのは、クラス名の大文字/小文字を間違っている可能性がある（Windowsホスト上だと大小区別無い模様）
 - DB接続情報あってるか再度確認を。サーバによっては `localhost` だとダメで、 `127.0.0.1` にする必要があるところも。
-- ajaxなどが304えらーを返す場合は、サーバ側セキュリティ設定でWAF効いてる可能性があるので無効にするなど。
-- ファイルアップロードの機能がある場合、0600で保存されてしまうことがあるので、0644等になるように修正
+- ajaxなどが304エラーを返す場合は、サーバ側セキュリティ設定でWAFが効いてる可能性があるので無効にするなど。
+- ファイルアップロードの機能がある場合、パーミッション0600で保存されてしまうことがあるので、0644等になるように修正
 
 
 
@@ -676,13 +687,41 @@ https://hub.docker.com/r/kazaoki/phpenv/tags
 ただし、古いバージョン（5.3以下）はちゃんとコンパイルできない可能性が高いので、期待しないほうがいいかも・・。
 
 ### コンテナ実行時にサーバに手入れしたい
-- `.lamman/lampman/entry-add.sh`
+- `.lamman/lampman/entrypoint-add.sh`
 
 上記のファイルがあると思いますが、これはメインの `lampman` コンテナが起動した際に、各種サーバサービスが立ち上がる前に実行されるシェルスクリプトのファイルになります。初期ではこの中身は全てコメントアウトされており、何も実行しないファイルになっていますので、こちらをいじって直接サーバの中身を書き換えるなどが可能です。
 
 また、初期では存在しませんが、 `mysql` や `postgresql` コンテナも同様ですので、以下のシェルスクリプトを新規で用意するだけでメインの `entrypoint.sh` が実行される前の処理を書くことができます。
 
-- `.lamman/mysql/entry-add.sh`
-- `.lamman/postgresql/entry-add.sh`
+- `.lamman/mysql/entrypoint-add.sh`
+- `.lamman/postgresql/entrypoint-add.sh`
 
+
+運用例
+---------------------------------------------------------------
+
+```shell
+$ mkdir proj-a
+$ cd proj
+$ mkdir html
+$ echo '<?php phpinfo() ?>' >> html/index.php
+$ lm init -d html -p proj-a
+
+(MySQL接続情報を設定ファイルに設定...)
+
+$ git init
+$ git add -A
+$ git commit -m '[ADD] lampman initialize'
+$ lm up -f
+$ lm logs
+
+(開発を進める...)
+
+$ lm mysql -d
+$ lm sweep -f
+$ git add -A
+$ git commit -m '[ADD] php developed, and mysql dumped.'
+```
+
+`.lampman/` ディレクトリごと git コミット対象にすると、他のユーザーや別の環境でほぼ同様の動作確認環境が構築できます。（ファイルシステムの違いによる挙動の違いはでてきますが・・）
 
