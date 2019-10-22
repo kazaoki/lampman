@@ -70,7 +70,7 @@ if [[ $LAMPMAN_APACHE_START == 1 ]]; then
 </Directory>
 EOL
 fi
-if [[ $LAMPMAN_APACHE_REWRITE_LOG != 0 ]]; then
+if [[ $LAMPMAN_APACHE_REWRITE_LOG && $LAMPMAN_APACHE_REWRITE_LOG != 0 ]]; then
   sed -i "s/^LogLevel .*$/LogLevel warn rewrite:trace$LAMPMAN_APACHE_REWRITE_LOG/" /etc/httpd/conf/httpd.conf
   sed -i "s/^LogLevel .*$/LogLevel warn rewrite:trace$LAMPMAN_APACHE_REWRITE_LOG/" /etc/httpd/conf.d/ssl.conf
 fi

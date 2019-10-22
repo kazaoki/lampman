@@ -44,6 +44,7 @@ module.exports.config = {
                 '../public_html:/var/www/html',
                 // '../public_html:/home/user_a/public_html',
             ],
+            rewrite_log: false, // or 1-8, true=8
         },
 
         // PHP
