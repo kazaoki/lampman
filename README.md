@@ -243,6 +243,9 @@ $ cd .lampman/
 $ docker-compose up -d --project-name (プロジェクト名)
 ```
 
+再起動したい場合も同様のupコマンドでOKです。ymlが更新された必要なコンテナが再起動されます。（確実に全て更新したい場合は `down` してからか `-f, --flush`オプションを指定してください。後述）
+
+
 
 ### `lamp up -f`<br>`lamp up --flush`
 
@@ -253,7 +256,13 @@ $ docker-compose up -d --project-name (プロジェクト名)
 
 ### `lamp up -o <オプション文字列>`<br>`lamp up --docker-compose-options <オプション文字列>`
 
-docker-composeコマンドに渡すオプションを文字列で指定可能
+docker-compose コマンドに渡すオプションを文字列で指定可能です。
+ただし、内部で使用している [Commander.js](https://www.npmjs.com/package/commander) の問題なのか、ハイフンの前にバックスラッシュ入れないとエラーになります。
+
+```shell
+$ lamp up -o "-t 300"      ... NG
+$ lamp up -o "\-t 300"     ... OK
+```
 
 ### `lamp up -D`
 
@@ -261,8 +270,7 @@ docker-composeコマンドに渡すオプションを文字列で指定可能
 
 ### `lamp up -n`<br>`lamp up--no-update`
 
-docker-compose.yml を更新せずに起動する
-
+`.lampman/docker-compose.yml` を更新せずに起動させることが可能です。設定ファイルを書き換えてしまったものの、以前のymlで起動を確認したい場合などにご指定ください。
 
 
 
