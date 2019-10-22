@@ -70,7 +70,14 @@ export default async function init(commands: any, lampman: any)
                 copyFromMaster(name, true)
                 messages.push(`  - ${path.join(config_dir, '/'+name)}`)
             }
-            // compose更新
+            // config.js 書き換え
+            if(commands.project || commands.publicDir) {
+                let content = fs.readFileSync(config_dir+'/config.js', 'utf-8')
+                if(commands.project) content = content.replace(`project: 'lampman-proj',`, `project: '${commands.project}',`)
+                if(commands.publicDir) content = content.replace(`'../public_html:/var/www/html'`, `'../${commands.publicDir}:/var/www/html'`)
+                fs.writeFileSync(config_dir+'/config.js', content, 'utf-8')
+            }
+            // compose作成
             lampman.config_dir = config_dir
             lampman = libs.LoadConfig(lampman) // config.js を読み込み
             libs.UpdateCompose(lampman) // 最新の docker-compose.yml を生成

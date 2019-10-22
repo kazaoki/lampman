@@ -49,8 +49,8 @@ while (1 !== dirs.length) {
     }
     dirs.pop();
 }
-if ('default' !== lampman.mode && !lampman.config_dir) {
-    libs.Error("\u3054\u6307\u5B9A\u306E\u30E2\u30FC\u30C9\u304C\u306E\u8A2D\u5B9A\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002\n\u30BB\u30C3\u30C8\u30A2\u30C3\u30D7\u3092\u5B9F\u884C\u3057\u3066\u304F\u3060\u3055\u3044\u3002\nlamp init --mode " + lampman.mode);
+if ('default' !== lampman.mode && !lampman.config_dir && !process.argv.includes('init')) {
+    libs.Error("\u3054\u6307\u5B9A\u306E\u30E2\u30FC\u30C9\u306E\u8A2D\u5B9A\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002\n\u30BB\u30C3\u30C8\u30A2\u30C3\u30D7\u3092\u5B9F\u884C\u3057\u3066\u304F\u3060\u3055\u3044\u3002\nlamp init --mode " + lampman.mode);
 }
 if (lampman.config_dir)
     lampman = libs.LoadConfig(lampman);
@@ -59,7 +59,9 @@ commander.helpOption('-h, --help', 'ヘルプを表示します。');
 commander
     .command('init')
     .description("\u521D\u671F\u5316\uFF08.lampman" + libs.ModeString(lampman.mode) + "/ \u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u4F5C\u6210\uFF09")
-    .option('-s, --select', 'セットアップしたい内容を個別に選択可能です。')
+    .option('-s, --select', 'セットアップしたい内容を個別に選択可能')
+    .option('-p, --project <name>', 'プロジェクト名を指定可能')
+    .option('-d, --public-dir <dir>', 'ウェブ公開ディレクトリ名を指定可能（初期:public_html）')
     .action(function (cmd) { return init_1.default(cmd, lampman); });
 commander
     .command('up')

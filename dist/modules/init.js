@@ -42,7 +42,7 @@ var config_1 = require("./config");
 var prompts = require('prompts');
 function init(commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var config_dirname, config_dir, setup, response, messages, copyFromMaster, _i, _a, name_1;
+        var config_dirname, config_dir, setup, response, messages, copyFromMaster, _i, _a, name_1, content;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -95,6 +95,14 @@ function init(commands, lampman) {
                                 name_1 = _a[_i];
                                 copyFromMaster(name_1, true);
                                 messages.push("  - " + path.join(config_dir, '/' + name_1));
+                            }
+                            if (commands.project || commands.publicDir) {
+                                content = fs.readFileSync(config_dir + '/config.js', 'utf-8');
+                                if (commands.project)
+                                    content = content.replace("project: 'lampman-proj',", "project: '" + commands.project + "',");
+                                if (commands.publicDir)
+                                    content = content.replace("'../public_html:/var/www/html'", "'../" + commands.publicDir + ":/var/www/html'");
+                                fs.writeFileSync(config_dir + '/config.js', content, 'utf-8');
                             }
                             lampman.config_dir = config_dir;
                             lampman = libs.LoadConfig(lampman);

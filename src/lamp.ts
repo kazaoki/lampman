@@ -58,9 +58,9 @@ while(1!==dirs.length) {
     dirs.pop()
 }
 
-// モード指定されている（default以外）のに設定が無い場合はエラー
-if('default'!==lampman.mode && !lampman.config_dir) {
-    libs.Error(`ご指定のモードがの設定ファイルが見つかりません。\nセットアップを実行してください。\nlamp init --mode ${lampman.mode}`)
+// モード指定されている（default以外）のに設定が無い場合はエラー。ただしinitの場合は通す。
+if('default'!==lampman.mode && !lampman.config_dir && !process.argv.includes('init')) {
+    libs.Error(`ご指定のモードの設定ファイルが見つかりません。\nセットアップを実行してください。\nlamp init --mode ${lampman.mode}`)
 }
 
 // 設定ディレクトリがあれば config.js を読み込み
@@ -74,7 +74,9 @@ commander.option('-m, --mode <mode>', '実行モードを指定できます。�
 commander
     .command('init')
     .description(`初期化（.lampman${libs.ModeString(lampman.mode)}/ ディレクトリ作成）`)
-    .option('-s, --select', 'セットアップしたい内容を個別に選択可能です。')
+    .option('-s, --select', 'セットアップしたい内容を個別に選択可能')
+    .option('-p, --project <name>', 'プロジェクト名を指定可能')
+    .option('-d, --public-dir <dir>', 'ウェブ公開ディレクトリ名を指定可能（初期:public_html）')
     .action(cmd=>init(cmd, lampman))
 
     // up: LAMP起動
