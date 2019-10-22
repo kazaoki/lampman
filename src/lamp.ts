@@ -64,14 +64,8 @@ if('default'!==lampman.mode && !lampman.config_dir) {
     libs.Error(`ご指定のモードがの設定ファイルが見つかりません。\nセットアップを実行してください。\nlamp init --mode ${lampman.mode}`)
 }
 
-// 設定ファイル特定
-if(lampman.config_dir) {
-    // config.js を読み込み
-    lampman = libs.LoadConfig(lampman)
-
-    // 最新の docker-compose.yml を生成
-    libs.UpdateCompose(lampman)
-}
+// 設定ディレクトリがあれば config.js を読み込み
+if(lampman.config_dir) lampman = libs.LoadConfig(lampman)
 
 // 基本オプション
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）')
@@ -91,6 +85,7 @@ commander
     .option('-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
     .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
     .option('-D', 'デーモンじゃなくフォアグラウンドで起動する')
+    .option('-n --no-update', 'docker-compose.yml を更新せずに起動する')
     .action(cmd=>up(cmd, lampman))
 
 // down: LAMP終了

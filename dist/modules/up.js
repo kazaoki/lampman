@@ -71,6 +71,8 @@ function up(commands, lampman) {
                             fs.chmodSync(file, 453);
                         }
                     }
+                    if (commands.update)
+                        libs.UpdateCompose(lampman);
                     args = [
                         '--project-name', lampman.config.project,
                         'up',

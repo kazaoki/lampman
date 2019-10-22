@@ -40,6 +40,9 @@ export default async function up(commands: any, lampman: any)
         }
     }
 
+    // 最新の docker-compose.yml を生成
+    if(commands.update) libs.UpdateCompose(lampman)
+
     // 引数用意
     let args = [
         '--project-name', lampman.config.project,

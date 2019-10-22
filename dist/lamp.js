@@ -53,10 +53,8 @@ while (1 !== dirs.length) {
 if ('default' !== lampman.mode && !lampman.config_dir) {
     libs.Error("\u3054\u6307\u5B9A\u306E\u30E2\u30FC\u30C9\u304C\u306E\u8A2D\u5B9A\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002\n\u30BB\u30C3\u30C8\u30A2\u30C3\u30D7\u3092\u5B9F\u884C\u3057\u3066\u304F\u3060\u3055\u3044\u3002\nlamp init --mode " + lampman.mode);
 }
-if (lampman.config_dir) {
+if (lampman.config_dir)
     lampman = libs.LoadConfig(lampman);
-    libs.UpdateCompose(lampman);
-}
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）');
 commander.helpOption('-h, --help', 'ヘルプを表示します。');
 commander
@@ -70,6 +68,7 @@ commander
     .option('-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
     .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
     .option('-D', 'デーモンじゃなくフォアグラウンドで起動する')
+    .option('-n --no-update', 'docker-compose.yml を更新せずに起動する')
     .action(function (cmd) { return up_1.default(cmd, lampman); });
 commander
     .command('down')
