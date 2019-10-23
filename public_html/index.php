@@ -26,6 +26,11 @@ $data = [
 </head>
 <body>
 
+<section style="position:fixed;right:5px;top:10px">
+    <img src="images/uso.jpg" style="width:100px;margin:10px">
+    <img src="images/tare.jpg" style="width:100px;margin:10px">
+</section>
+
 <?php if('default'===getenv('LAMPMAN_MODE')) { ?>
 <section>
     <h1>MAILDEV (<a href="http://<?php echo getenv('HTTP_HOST') ?>:9981" target="_blank">open blank window : port 9981</a>)</h1>
