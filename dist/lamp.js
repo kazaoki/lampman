@@ -22,6 +22,7 @@ var sweep_1 = require("./modules/sweep");
 var rmi_1 = require("./modules/rmi");
 var config_1 = require("./modules/config");
 var extra_1 = require("./modules/extra");
+var stdout_1 = require("./modules/stdout");
 console.log();
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
@@ -95,7 +96,8 @@ commander
 commander
     .command('mysql [container-name]')
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
-    .option('-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。')
+    .option('-d, --dump', 'ダンプします')
+    .option('-p, --file-path <file_path>', 'ダンプファイルのディレクトリパスを指定')
     .option('-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ')
     .option('-r, --restore', '最新のダンプファイルをリストアします。')
     .action(function (cname, cmd) { return mysql_1.default(cname, cmd, lampman); });
@@ -126,6 +128,10 @@ commander
     .command('yamlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action(function (cmd) { return yamlout_1.default(cmd, lampman); });
+commander
+    .command('stdout')
+    .description('dockerコンテナ達の標準出力を監視する')
+    .action(function (cmd) { return stdout_1.default(cmd, lampman); });
 commander
     .command('version')
     .description('バージョン表示')
@@ -163,6 +169,6 @@ if (commander.args.length) {
         commander.help();
     }
 }
-else {
+else if (process.argv.length <= 2) {
     noargs_1.default(commander, lampman);
 }

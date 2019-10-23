@@ -33,10 +33,8 @@ function noargs(commands, lampman) {
             for (var _e = 0, _f = text.split(/, ?/); _e < _f.length; _e++) {
                 var item = _f[_e];
                 texts.push(is_group
-                    ? item
-                    : 'label' in line
-                        ? color.blue(item)
-                        : item);
+                    ? color.bold(item)
+                    : item);
             }
             set.push({
                 text: texts.join('\n'),

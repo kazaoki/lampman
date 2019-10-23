@@ -58,7 +58,7 @@ services:
       - './mysql:/mysql'
       - 'mysql_data:/var/lib/mysql'
       - 'mysql_querylogs:/var/log/mysql'
-      - './mysql/dump.sql:/docker-entrypoint-initdb.d/import.sql'
+      - './mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql'
     entrypoint: /mysql/entrypoint.sh
     command:
       - mysqld
@@ -87,7 +87,7 @@ services:
     volumes:
       - './mysql_2:/mysql'
       - 'mysql_2_data:/var/lib/mysql'
-      - './mysql_2/dump.sql:/docker-entrypoint-initdb.d/import.sql'
+      - './mysql_2/dump.sql:/docker-entrypoint-initdb.d/dump.sql'
     entrypoint: /mysql/entrypoint.sh
     command:
       - mysqld
@@ -113,7 +113,7 @@ services:
     volumes:
       - './postgresql:/postgresql'
       - 'postgresql_data:/var/lib/postgresql/data'
-      - './postgresql/dump.sql:/docker-entrypoint-initdb.d/import.sql'
+      - './postgresql/dump.sql:/docker-entrypoint-initdb.d/dump.sql'
     entrypoint: /postgresql/entrypoint.sh
     command: postgres
     labels:
@@ -135,7 +135,7 @@ services:
     volumes:
       - './postgresql_b:/postgresql'
       - 'postgresql_b_data:/var/lib/postgresql/data'
-      - './postgresql_b/dump.sql:/docker-entrypoint-initdb.d/import.sql'
+      - './postgresql_b/dump.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz'
     entrypoint: /postgresql/entrypoint.sh
     command: postgres
     labels:
@@ -146,7 +146,7 @@ services:
       POSTGRES_DB: testb
       VOLUME_LOCKED: 0
       DUMP_ROTATIONS: 3
-      DUMP_FILENAME: dump.sql
+      DUMP_FILENAME: dump.sql.gz
     networks:
       - default
 volumes:

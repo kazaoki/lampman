@@ -26,6 +26,7 @@ import sweep     from './modules/sweep';
 import rmi       from './modules/rmi';
 import config    from './modules/config';
 import extra     from './modules/extra';
+import stdout    from './modules/stdout';
 
 // 1行改行
 console.log()
@@ -123,7 +124,8 @@ commander
 commander
     .command('mysql [container-name]')
     .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
-    .option('-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。')
+    .option('-d, --dump', 'ダンプします')
+    .option('-p, --file-path <file_path>', 'ダンプファイルのディレクトリパスを指定')
     .option('-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ')
     .option('-r, --restore', '最新のダンプファイルをリストアします。')
     .action((cname, cmd)=>mysql(cname, cmd, lampman))
@@ -165,6 +167,12 @@ commander
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action(cmd=>yamlout(cmd, lampman))
 
+// stdout: dockerコンテナ達の標準出力を監視する
+commander
+    .command('stdout')
+    .description('dockerコンテナ達の標準出力を監視する')
+    .action(cmd=>stdout(cmd, lampman))
+
 // version: バージョン表示
 commander
     .command('version')
@@ -200,6 +208,6 @@ if(commander.args.length) {
 }
 
 // 引数なしの場合は noargs を実行
-else {
+else if(process.argv.length<=2){
     noargs(commander, lampman)
 }

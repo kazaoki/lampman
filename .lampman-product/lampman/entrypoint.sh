@@ -24,6 +24,7 @@ if [[ $LAMPMAN_PHP_PHPENV_IMAGE != '' ]]; then
   if expr $LAMPMAN_PHP_PHPENV_VERSION : "^7" > /dev/null; then
     sed -i "s/LoadModule\ php5_module\ modules\/libphp5.so/LoadModule\ php7_module\ modules\/libphp7.so/" /etc/httpd/conf.modules.d/10-php.conf
   fi
+  eval "$(anyenv init -)"
 fi
 if [[ $LAMPMAN_PHP_ERROR_REPORT == 1 ]]; then
   sed -i "s/^display_errors\ \=\ Off/display_errors\ \=\ On/" $phpini
@@ -53,14 +54,16 @@ export LAMPMAN_PHP_INI_PATH=$phpini
 # Apache
 # --------------------------------------------------------------------
 if [[ $LAMPMAN_APACHE_START == 1 ]]; then
-  sed -i "s/ScriptAlias \/cgi\-bin\//#ScriptAlias \/cgi\-bin\//" /etc/httpd/conf/httpd.conf
-  sed -i "s/CustomLog \"logs\/access_log\" combined$/CustomLog \"logs\/access_log\" combined env\=\!nolog/" /etc/httpd/conf/httpd.conf
-  echo "SetEnvIfNoCase Request_URI \"\.(gif|jpg|jpeg|jpe|png|css|js|ico|woff|woff2|map)$\" nolog" >> /etc/httpd/conf/httpd.conf
-  sed -i "s/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\"/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\" env\=\!nolog/" /etc/httpd/conf.d/ssl.conf
-  # sed -i "s/\%h /\%\{X-Forwarded-For\}i /g" /etc/httpd/conf/httpd.conf
-  # sed -i "s/\%h /\%\{X-Forwarded-For\}i /g" /etc/httpd/conf.d/ssl.conf
+  # not logging for resource files
+  echo "SetEnvIfNoCase Request_URI \"\.(gif|jpg|jpeg|jpe|png|css|js|ico|woff|woff2|map)$\" resourcefiles" >> /etc/httpd/conf/httpd.conf
+  sed -i "s/CustomLog \"logs\/access_log\" combined$/CustomLog \"logs\/access_log\" combined env\=\!resourcefiles/" /etc/httpd/conf/httpd.conf
+  sed -i "s/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\"/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\" env\=\!resourcefiles/" /etc/httpd/conf.d/ssl.conf
+  # for local domain
   sed -i "s/#ServerName www\.example\.com\:80/ServerName lampman\.localhost/" /etc/httpd/conf/httpd.conf
+  # for cgi
+  sed -i "s/ScriptAlias \/cgi\-bin\//#ScriptAlias \/cgi\-bin\//" /etc/httpd/conf/httpd.conf
   sed -i "s/#AddHandler cgi-script \.cgi/AddHandler cgi-script .cgi/" /etc/httpd/conf/httpd.conf
+  # for other
   cat <<EOL >> /etc/httpd/conf/httpd.conf
 
 <Directory "/var/www/html">
@@ -74,14 +77,6 @@ if [[ $LAMPMAN_APACHE_REWRITE_LOG && $LAMPMAN_APACHE_REWRITE_LOG != 0 ]]; then
   sed -i "s/^LogLevel .*$/LogLevel warn rewrite:trace$LAMPMAN_APACHE_REWRITE_LOG/" /etc/httpd/conf/httpd.conf
   sed -i "s/^LogLevel .*$/LogLevel warn rewrite:trace$LAMPMAN_APACHE_REWRITE_LOG/" /etc/httpd/conf.d/ssl.conf
 fi
-
-
-# # --------------------------------------------------------------------
-# # Fluentd
-# # --------------------------------------------------------------------
-# if [[ $GENIE_LOG_FLUENTD_ENABLED ]]; then
-#   td-agent --config=$GENIE_LOG_FLUENTD_CONFIG_FILE &
-# fi
 
 # --------------------------------------------------------------------
 # Add multitail config
