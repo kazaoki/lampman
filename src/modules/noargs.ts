@@ -41,10 +41,8 @@ export default function noargs(commands: any, lampman: any)
             let texts = []
             for(let item of text.split(/, ?/)) {
                 texts.push(is_group
-                    ? item
-                    : 'label' in line
-                        ? color.blue(item)
-                        : item
+                    ? color.bold(item)
+                    : item
                 )
             }
             set.push({
