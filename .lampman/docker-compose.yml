@@ -58,7 +58,7 @@ services:
       - './mysql:/mysql'
       - 'mysql_data:/var/lib/mysql'
       - 'mysql_querylogs:/var/log/mysql'
-      - './mysql/dump.sql:/docker-entrypoint-initdb.d/import.sql'
+      - './mysql/dump.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz'
     entrypoint: /mysql/entrypoint.sh
     command:
       - mysqld
@@ -76,7 +76,7 @@ services:
       LAMPMAN_SERVICE: mysql
       QUERY_CACHE: 1
       DUMP_ROTATIONS: 3
-      DUMP_FILENAME: dump.sql
+      DUMP_FILENAME: dump.sql.gz
     networks:
       - default
   mysql_2:
@@ -87,7 +87,7 @@ services:
     volumes:
       - './mysql_2:/mysql'
       - 'mysql_2_data:/var/lib/mysql'
-      - './mysql_2/dump.sql:/docker-entrypoint-initdb.d/import.sql'
+      - './mysql_2/dump.sql:/docker-entrypoint-initdb.d/dump.sql'
     entrypoint: /mysql/entrypoint.sh
     command:
       - mysqld

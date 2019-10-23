@@ -76,16 +76,16 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
     if(commands.dump) {
 
         // ラベル表示
-        console.log()
         libs.Label('Dump MySQL')
 
+        // 圧縮モードか
+        let is_gzip = mysql.dump.filename.match(/\.gz$/)
+
         // ダンプファイルの特定
-        let dumpfile = commands.dump
-        if(true===dumpfile) {
-            dumpfile = path.join(lampman.config_dir, mysql.cname, mysql.dump.filename ? mysql.dump.filename : 'dump.sql')
-        } else if(!path.isAbsolute(dumpfile)) {
-            dumpfile = path.join(lampman.config_dir, mysql.cname, dumpfile)
-        }
+        let dumpfile = path.join(
+            (commands.filePath   ? commands.filePath   : path.join(lampman.config_dir, mysql.cname)),
+            (mysql.dump.filename ? mysql.dump.filename : 'dump.sql')
+        )
 
         // ダンプファイルローテーション
         if(commands.rotate && mysql.dump.rotations>0) {
@@ -96,7 +96,8 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
 
         // ダンプ開始
         process.stdout.write('Dump to '+dumpfile+' ... ')
-        child.spawnSync(
+        let procs = []
+        procs.push(child.spawn(
             'docker-compose',
             [
                 '--project-name', lampman.config.project,
@@ -112,11 +113,32 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
                 cwd: lampman.config_dir,
                 stdio: [
                     'ignore',
-                    fs.openSync(dumpfile, 'w'),
+                    (is_gzip
+                        ? 'pipe'
+                        : fs.openSync(dumpfile, 'w')
+                    ),
                     'ignore',
                 ]
             }
-        )
+        ))
+        // 圧縮処理
+        if(is_gzip) {
+            procs.push(child.spawn(
+                'gzip',
+                {
+                    stdio: [
+                        procs[0].stdio[1],
+                        fs.openSync(dumpfile, 'w'),
+                        'ignore',
+                    ]
+                }
+            ))
+        }
+
+        // 直列実行
+        for(let proc of procs) {
+            await proc
+        }
 
         // 完了表示
         console.log(color.green('done'))
@@ -131,7 +153,6 @@ export default async function mysql(cname: string|null, commands: any, lampman: 
         if(mysql.volume_locked) libs.Error(`${mysql.cname} はロック済みボリュームのためリストアできません。`)
 
         // ラベル表示
-        console.log()
         libs.Label('Restore MySQL')
 
         // 再起動対象のコンテナ

@@ -154,7 +154,7 @@ export function ConfigToYaml(config: any)
                 }
                 if('filename' in config[key].dump) {
                     yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename
-                    yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/import.sql`)
+                    yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/${config[key].dump.filename}`)
                 }
             }
             if ('LAMPMAN_MYSQLS' in yaml.services.lampman.environment) {
