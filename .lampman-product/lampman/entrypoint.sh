@@ -24,6 +24,7 @@ if [[ $LAMPMAN_PHP_PHPENV_IMAGE != '' ]]; then
   if expr $LAMPMAN_PHP_PHPENV_VERSION : "^7" > /dev/null; then
     sed -i "s/LoadModule\ php5_module\ modules\/libphp5.so/LoadModule\ php7_module\ modules\/libphp7.so/" /etc/httpd/conf.modules.d/10-php.conf
   fi
+  eval "$(anyenv init -)"
 fi
 if [[ $LAMPMAN_PHP_ERROR_REPORT == 1 ]]; then
   sed -i "s/^display_errors\ \=\ Off/display_errors\ \=\ On/" $phpini
