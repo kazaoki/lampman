@@ -76,14 +76,6 @@ if [[ $LAMPMAN_APACHE_REWRITE_LOG && $LAMPMAN_APACHE_REWRITE_LOG != 0 ]]; then
   sed -i "s/^LogLevel .*$/LogLevel warn rewrite:trace$LAMPMAN_APACHE_REWRITE_LOG/" /etc/httpd/conf.d/ssl.conf
 fi
 
-
-# # --------------------------------------------------------------------
-# # Fluentd
-# # --------------------------------------------------------------------
-# if [[ $GENIE_LOG_FLUENTD_ENABLED ]]; then
-#   td-agent --config=$GENIE_LOG_FLUENTD_CONFIG_FILE &
-# fi
-
 # --------------------------------------------------------------------
 # Add multitail config
 # --------------------------------------------------------------------
