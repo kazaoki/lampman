@@ -22,6 +22,7 @@ var sweep_1 = require("./modules/sweep");
 var rmi_1 = require("./modules/rmi");
 var config_1 = require("./modules/config");
 var extra_1 = require("./modules/extra");
+var stdout_1 = require("./modules/stdout");
 console.log();
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
@@ -126,6 +127,10 @@ commander
     .command('yamlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action(function (cmd) { return yamlout_1.default(cmd, lampman); });
+commander
+    .command('stdout')
+    .description('dockerコンテナ達の標準出力を監視する')
+    .action(function (cmd) { return stdout_1.default(cmd, lampman); });
 commander
     .command('version')
     .description('バージョン表示')

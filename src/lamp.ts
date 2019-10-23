@@ -26,6 +26,7 @@ import sweep     from './modules/sweep';
 import rmi       from './modules/rmi';
 import config    from './modules/config';
 import extra     from './modules/extra';
+import stdout    from './modules/stdout';
 
 // 1行改行
 console.log()
@@ -164,6 +165,12 @@ commander
     .command('yamlout')
     .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
     .action(cmd=>yamlout(cmd, lampman))
+
+// stdout: dockerコンテナ達の標準出力を監視する
+commander
+    .command('stdout')
+    .description('dockerコンテナ達の標準出力を監視する')
+    .action(cmd=>stdout(cmd, lampman))
 
 // version: バージョン表示
 commander
