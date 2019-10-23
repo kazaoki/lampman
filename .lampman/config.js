@@ -117,6 +117,7 @@ module.exports.config = {
         dump:           {
             rotations:  5,
             filename:   'dump.sql',
+            // filename:   'dump.sql.gz', // .gzにすると自動的に圧縮されます
         }
     },
 
@@ -136,6 +137,7 @@ module.exports.config = {
         dump: {
             rotations: 5,
             filename:  'dump.sql',
+            // filename:  'dump.sql.gz', // .gzにすると自動的に圧縮されます
         }
     },
     postgresql_b:  {
@@ -149,6 +151,7 @@ module.exports.config = {
         dump: {
             rotations: 3,
             filename:  'dump.sql',
+            // filename:  'dump.sql.gz', // .gzにすると自動的に圧縮されます
         }
     },
 

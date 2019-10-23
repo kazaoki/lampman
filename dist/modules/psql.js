@@ -54,9 +54,9 @@ var path = require('path');
 var color = require('cli-color');
 function psql(cname, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var postgresql, list, _i, _a, key, _b, list_1, item, before_str, response, dumpfile, conts, procs;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var postgresql, list, _i, _a, key, _b, list_1, item, before_str, response, is_gzip, dumpfile, procs, _c, procs_1, proc, conts, procs;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
                     postgresql = {};
                     list = [];
@@ -101,14 +101,14 @@ function psql(cname, commands, lampman) {
                             }
                         ])];
                 case 2:
-                    response = _c.sent();
+                    response = _d.sent();
                     if ('undefined' === typeof response.cname)
                         return [2];
                     postgresql = response.cname;
                     return [3, 4];
                 case 3:
                     postgresql = list[0].value;
-                    _c.label = 4;
+                    _d.label = 4;
                 case 4:
                     try {
                         child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', postgresql.cname], { cwd: lampman.config_dir });
@@ -116,51 +116,68 @@ function psql(cname, commands, lampman) {
                     catch (e) {
                         libs.Error(e);
                     }
-                    if (commands.dump) {
-                        console.log();
-                        libs.Label('Dump PostgreSQL');
-                        dumpfile = commands.dump;
-                        if (true === dumpfile) {
-                            dumpfile = path.join(lampman.config_dir, postgresql.cname, postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql');
-                        }
-                        else if (!path.isAbsolute(dumpfile)) {
-                            dumpfile = path.join(lampman.config_dir, postgresql.cname, dumpfile);
-                        }
-                        if (commands.rotate && postgresql.dump.rotations > 0) {
-                            process.stdout.write('Dumpfile rotate ... ');
-                            libs.RotateFile(dumpfile, postgresql.dump.rotations);
-                            console.log(color.green('done'));
-                        }
-                        process.stdout.write('Dump to ' + dumpfile + ' ... ');
-                        child.spawnSync('docker-compose', [
-                            '--project-name', lampman.config.project,
-                            'exec',
-                            '-T',
-                            '-e', 'TERM=xterm-256color',
-                            '-e', 'LANGUAGE=ja_JP.UTF-8',
-                            '-e', 'LC_ALL=ja_JP.UTF-8',
-                            '-e', 'LANG=ja_JP.UTF-8',
-                            '-e', 'LC_TYPE=ja_JP.UTF-8',
-                            postgresql.cname,
-                            'pg_dump',
-                            postgresql.database,
-                            '-U',
-                            postgresql.user,
-                        ], {
-                            cwd: lampman.config_dir,
+                    if (!commands.dump) return [3, 9];
+                    libs.Label('Dump PostgreSQL');
+                    is_gzip = !!postgresql.dump.filename.match(/\.gz$/);
+                    dumpfile = path.join((commands.filePath ? commands.filePath : path.join(lampman.config_dir, postgresql.cname)), (postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql'));
+                    if (commands.rotate && postgresql.dump.rotations > 0) {
+                        process.stdout.write('Dumpfile rotate ... ');
+                        libs.RotateFile(dumpfile, postgresql.dump.rotations);
+                        console.log(color.green('done'));
+                    }
+                    process.stdout.write('Dump to ' + dumpfile + ' ... ');
+                    procs = [];
+                    procs.push(child.spawn('docker-compose', [
+                        '--project-name', lampman.config.project,
+                        'exec',
+                        '-T',
+                        '-e', 'LANGUAGE=ja_JP.UTF-8',
+                        '-e', 'LC_ALL=ja_JP.UTF-8',
+                        '-e', 'LANG=ja_JP.UTF-8',
+                        '-e', 'LC_TYPE=ja_JP.UTF-8',
+                        postgresql.cname,
+                        'pg_dump',
+                        postgresql.database,
+                        '-U',
+                        postgresql.user,
+                    ], {
+                        cwd: lampman.config_dir,
+                        stdio: [
+                            'ignore',
+                            (is_gzip
+                                ? 'pipe'
+                                : fs.openSync(dumpfile, 'w')),
+                            'ignore',
+                        ]
+                    }));
+                    if (is_gzip) {
+                        procs.push(child.spawn('gzip', {
                             stdio: [
-                                'ignore',
+                                procs[0].stdio[1],
                                 fs.openSync(dumpfile, 'w'),
                                 'ignore',
                             ]
-                        });
-                        console.log(color.green('done'));
-                        return [2];
+                        }));
                     }
-                    if (!commands.restore) return [3, 6];
+                    _c = 0, procs_1 = procs;
+                    _d.label = 5;
+                case 5:
+                    if (!(_c < procs_1.length)) return [3, 8];
+                    proc = procs_1[_c];
+                    return [4, proc];
+                case 6:
+                    _d.sent();
+                    _d.label = 7;
+                case 7:
+                    _c++;
+                    return [3, 5];
+                case 8:
+                    console.log(color.green('done'));
+                    return [2];
+                case 9:
+                    if (!commands.restore) return [3, 11];
                     if (postgresql.volume_locked)
                         libs.Error(postgresql.cname + " \u306F\u30ED\u30C3\u30AF\u6E08\u307F\u30DC\u30EA\u30E5\u30FC\u30E0\u306E\u305F\u3081\u30EA\u30B9\u30C8\u30A2\u3067\u304D\u307E\u305B\u3093\u3002");
-                    console.log();
                     libs.Label('Restore PostgreSQL');
                     conts = [postgresql.cname];
                     try {
@@ -203,11 +220,11 @@ function psql(cname, commands, lampman) {
                         .catch(function (err) { libs.Error(err); })
                         .then(function () { return process.stdout.write(color.magenta(" " + postgresql.cname)); }));
                     return [4, Promise.all(procs).catch(function (e) { return libs.Error(e); })];
-                case 5:
-                    _c.sent();
+                case 10:
+                    _d.sent();
                     console.log();
                     return [2];
-                case 6: return [4, child.spawn('docker-compose', [
+                case 11: return [4, child.spawn('docker-compose', [
                         '--project-name', lampman.config.project,
                         'exec',
                         '-e', 'TERM=xterm-256color',
@@ -224,8 +241,8 @@ function psql(cname, commands, lampman) {
                         cwd: lampman.config_dir,
                         stdio: 'inherit'
                     })];
-                case 7:
-                    _c.sent();
+                case 12:
+                    _d.sent();
                     return [2];
             }
         });

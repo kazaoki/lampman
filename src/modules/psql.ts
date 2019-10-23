@@ -76,16 +76,17 @@ export default async function psql(cname: string|null, commands: any, lampman: a
     if(commands.dump) {
 
         // ラベル表示
-        console.log()
         libs.Label('Dump PostgreSQL')
 
+        // 圧縮モードか
+        let is_gzip = !!postgresql.dump.filename.match(/\.gz$/)
+
         // ダンプファイルの特定
-        let dumpfile = commands.dump
-        if(true===dumpfile) {
-            dumpfile = path.join(lampman.config_dir, postgresql.cname, postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql')
-        } else if(!path.isAbsolute(dumpfile)) {
-            dumpfile = path.join(lampman.config_dir, postgresql.cname, dumpfile)
-        }
+        // ダンプファイルの特定
+        let dumpfile = path.join(
+            (commands.filePath   ? commands.filePath   : path.join(lampman.config_dir, postgresql.cname)),
+            (postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql')
+        )
 
         // ダンプファイルローテーション
         if(commands.rotate && postgresql.dump.rotations>0) {
@@ -94,15 +95,18 @@ export default async function psql(cname: string|null, commands: any, lampman: a
             console.log(color.green('done'))
         }
 
+        // console.log(is_gzip)
+        // console.log(procs[0].stdio)
+
         // ダンプ開始
         process.stdout.write('Dump to '+dumpfile+' ... ')
-        child.spawnSync(
+        let procs = []
+        procs.push(child.spawn(
             'docker-compose',
             [
                 '--project-name', lampman.config.project,
                 'exec',
                 '-T',
-                '-e', 'TERM=xterm-256color',
                 '-e', 'LANGUAGE=ja_JP.UTF-8',
                 '-e', 'LC_ALL=ja_JP.UTF-8',
                 '-e', 'LANG=ja_JP.UTF-8',
@@ -117,11 +121,32 @@ export default async function psql(cname: string|null, commands: any, lampman: a
                 cwd: lampman.config_dir,
                 stdio: [
                     'ignore',
-                    fs.openSync(dumpfile, 'w'),
+                    (is_gzip
+                        ? 'pipe'
+                        : fs.openSync(dumpfile, 'w')
+                    ),
                     'ignore',
                 ]
             }
-        )
+        ))
+
+        // 圧縮処理
+        if(is_gzip) {
+            procs.push(child.spawn(
+                'gzip',
+                {
+                    stdio: [
+                        procs[0].stdio[1],
+                        fs.openSync(dumpfile, 'w'),
+                        'ignore',
+                    ]
+                }
+            ))
+        }
+        // 直列実行
+        for(let proc of procs) {
+            await proc
+        }
 
         // 完了表示
         console.log(color.green('done'))
@@ -136,7 +161,6 @@ export default async function psql(cname: string|null, commands: any, lampman: a
         if(postgresql.volume_locked) libs.Error(`${postgresql.cname} はロック済みボリュームのためリストアできません。`)
 
         // ラベル表示
-        console.log()
         libs.Label('Restore PostgreSQL')
 
         // 再起動対象のコンテナ
@@ -194,7 +218,7 @@ export default async function psql(cname: string|null, commands: any, lampman: a
             .then(()=>process.stdout.write(color.magenta(` ${postgresql.cname}`)))
         )
 
-        // lampman Ready
+        // // lampman Ready
         // if(postgresql.query_log) {
         //     procs.push(
         //         libs.ContainerLogAppear(
