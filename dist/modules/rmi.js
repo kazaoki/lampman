@@ -37,7 +37,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var child = require("child_process");
 var prompts = require('prompts');
-function rmi(commands, lampman) {
+function meta() {
+    return {
+        command: 'rmi',
+        description: 'イメージを選択して削除',
+        options: [
+            ['-p, --prune', '選択を出さず <none> のみ全て削除'],
+        ]
+    };
+}
+exports.meta = meta;
+function action(commands) {
     return __awaiter(this, void 0, void 0, function () {
         var lines, list, _i, lines_1, line, column, name_1, tag, id, size, since, response;
         return __generator(this, function (_a) {
@@ -81,4 +91,4 @@ function rmi(commands, lampman) {
         });
     });
 }
-exports.default = rmi;
+exports.action = action;

@@ -44,7 +44,20 @@ var path = require('path');
 var color = require('cli-color');
 var fs = require('fs');
 var find = require('find');
-function up(commands, lampman) {
+function meta() {
+    return {
+        command: 'up',
+        description: "LAMP\u8D77\u52D5\uFF08.lampman" + libs.ModeString(lampman.mode) + "/docker-compose.yml \u81EA\u52D5\u66F4\u65B0\uFF09",
+        options: [
+            ['-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する'],
+            ['-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能'],
+            ['-D', 'デーモンじゃなくフォアグラウンドで起動する'],
+            ['-n --no-update', 'docker-compose.yml を更新せずに起動する'],
+        ]
+    };
+}
+exports.meta = meta;
+function action(commands) {
     return __awaiter(this, void 0, void 0, function () {
         var _i, _a, mount, dirs, pubdir, files, _b, files_1, file, args, proc;
         var _this = this;
@@ -82,7 +95,7 @@ function up(commands, lampman) {
                     }
                     if (!commands.flush) return [3, 2];
                     libs.Label('Flush cleaning');
-                    return [4, reject_1.default({ force: true }, lampman)];
+                    return [4, reject_1.action({ force: true })];
                 case 1:
                     _c.sent();
                     console.log();
@@ -97,7 +110,7 @@ function up(commands, lampman) {
                         stdio: 'inherit'
                     });
                     proc.on('close', function (code) { return __awaiter(_this, void 0, void 0, function () {
-                        var procs, lampman_id, sp, _loop_1, _i, _a, key, docker_host, http_port, https_port, count, _b, _c, action, url, opencmd, extraopt;
+                        var procs, lampman_id, sp, _loop_1, _i, _a, key, docker_host, http_port, https_port, count, _b, _c, action_1, url, opencmd, extraopt;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
                                 case 0:
@@ -146,19 +159,19 @@ function up(commands, lampman) {
                                     if ('on_upped' in lampman.config && lampman.config.on_upped.length) {
                                         count = 0;
                                         for (_b = 0, _c = lampman.config.on_upped; _b < _c.length; _b++) {
-                                            action = _c[_b];
-                                            if ('open_browser' === action.type) {
-                                                url = action.url
-                                                    ? new URL(action.url)
+                                            action_1 = _c[_b];
+                                            if ('open_browser' === action_1.type) {
+                                                url = action_1.url
+                                                    ? new URL(action_1.url)
                                                     : new URL('http://' + docker_host);
-                                                if (action.schema) {
-                                                    url.protocol = action.schema;
-                                                    url.port = docker.exchangePortFromSchema(action.schema, action.container, lampman);
+                                                if (action_1.schema) {
+                                                    url.protocol = action_1.schema;
+                                                    url.port = docker.exchangePortFromSchema(action_1.schema, action_1.container, lampman);
                                                 }
-                                                if (action.path)
-                                                    url.pathname = action.path;
-                                                if (action.port)
-                                                    url.port = docker.exchangePort(action.port, action.container, lampman);
+                                                if (action_1.path)
+                                                    url.pathname = action_1.path;
+                                                if (action_1.port)
+                                                    url.port = docker.exchangePort(action_1.port, action_1.container, lampman);
                                                 opencmd = libs.isWindows()
                                                     ? 'start'
                                                     : libs.isMac()
@@ -167,21 +180,21 @@ function up(commands, lampman) {
                                                 if (opencmd)
                                                     child.execSync(opencmd + " " + url.href);
                                             }
-                                            if ('show_message' === action.type && action.message.length) {
-                                                libs.Message(action.message, action.style);
+                                            if ('show_message' === action_1.type && action_1.message.length) {
+                                                libs.Message(action_1.message, action_1.style);
                                                 count++;
                                             }
-                                            if ('run_command' === action.type) {
-                                                extraopt = action;
+                                            if ('run_command' === action_1.type) {
+                                                extraopt = action_1;
                                                 if ('object' === typeof extraopt.command)
                                                     extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
                                                 console.log();
-                                                extra_1.default(extraopt, extraopt.args, lampman);
+                                                extra_1.action(extraopt, extraopt.args);
                                                 count++;
                                             }
-                                            if ('run_extra_command' === action.type && action.name in lampman.config.extra) {
+                                            if ('run_extra_command' === action_1.type && action_1.name in lampman.config.extra) {
                                                 console.log();
-                                                extra_1.default(lampman.config.extra[action.name], action.args, lampman);
+                                                extra_1.action(lampman.config.extra[action_1.name], action_1.args);
                                                 count++;
                                             }
                                         }
@@ -197,4 +210,4 @@ function up(commands, lampman) {
         });
     });
 }
-exports.default = up;
+exports.action = action;

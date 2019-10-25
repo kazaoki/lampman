@@ -1,6 +1,15 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp mysql]
+ * MySQL操作
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs')
 const prompts = require('prompts')
 const child   = require('child_process')
@@ -9,10 +18,26 @@ const path    = require('path');
 const color   = require('cli-color');
 
 /**
- * mysql: MySQL操作
+ * コマンド登録用メタデータ
  */
+export function meta()
+{
+    return {
+        command: 'mysql [container-name]',
+        description: 'MySQL操作（オプション未指定なら mysql クライアントが実行されます）',
+        options: [
+            ['-d, --dump', 'ダンプします'],
+            ['-p, --file-path <file_path>', 'ダンプファイルのディレクトリパスを指定'],
+            ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
+            ['-r, --restore', '最新のダンプファイルをリストアします。'],
+        ]
+    }
+}
 
-export default async function mysql(cname: string|null, commands: any, lampman: any)
+/**
+ * コマンド実行
+ */
+export async function action(cname:string|null, commands:any)
 {
     // 対象のmysql情報の入れ物
     let mysql: any = {}

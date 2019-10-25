@@ -1,14 +1,34 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp config]
+ * config.jsをエディタで開く
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs');
 const child = require('child_process')
 const fs = require('fs')
 
 /**
- * config: config.jsをエディタで開く
+ * コマンド登録用メタデータ
  */
-export default function config(commands: any, lampman: any)
+export function meta()
+{
+    return {
+        command: 'config',
+        description: '設定ファイル(config.js)をエディタで開く',
+    }
+}
+
+/**
+ * コマンド実行
+ */
+export function action(commands:any)
 {
     // configあるか
     if(!fs.existsSync(`${lampman.config_dir}/config.js`)) {

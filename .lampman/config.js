@@ -50,9 +50,9 @@ module.exports.config = {
         // PHP
         php: {
             image: 'kazaoki/phpenv:5.6.22', // ここにあるバージョンから → https://hub.docker.com/r/kazaoki/phpenv/tags
-            // ↑ image 未指定なら標準のPHP使用
-            error_report: true,
-            xdebug_start: true,
+            // ↑ コメントアウトするとlampman標準のPHP使用(5.4とか)
+            error_report: true, // 本番環境の場合は必ずfalseに。
+            xdebug_start: true, // 本番環境の場合は必ずfalseに。
             xdebug_host: '192.168.0.10',
             xdebug_port: 9000,
         },
@@ -173,9 +173,6 @@ module.exports.config = {
             ['/var/log/mysql/query.log', ['-ci', 'green']],
             // ['/var/log/mysql_2/query.log', ['-ci', 'blue']],
         ],
-        // app: [
-        //     ['/var/www/html/slime/logs/app.log', ['-ci', 'green']],
-        // ],
     },
 
     /**
@@ -185,36 +182,12 @@ module.exports.config = {
      */
     extra: {
 
-        // PHP Xdebug の有効/無効切り替え
-        xon: {
-            command: '/lampman/lampman/php-xdebug-on.sh',
-            container: 'lampman',
-            desc: 'Xdebugを開始する'
-        },
-        xoff: {
-            command: '/lampman/lampman/php-xdebug-off.sh',
-            container: 'lampman',
-            desc: 'Xdebugを終了する'
-        },
-
         // ngrok
         expose: {
             command: 'ngrok http 80',
             container: 'lampman',
             desc: 'ngrok を使用して一時的に外部からアクセスできるようにする'
         },
-
-        // // Lampmanコンテナ上でApacheベンチ実行
-        // ab: {
-        //     command: 'ab -n1000 -c100 https://localhost/',
-        //     container: 'lampman',
-        // },
-
-        // // プロジェクトパスに本番用 docker-compose.yml を生成する（ productモードにするので .lampman-product/ が必要です）
-        // product_compose: {
-        //     command: `cd ${__dirname}/../ && lamp yamlout --mode product > docker-compose.yml`,
-        //     desc: '本番用の docker-compose.yml をプロジェクトパスに生成'
-        // },
 
         // extraサンプル：`lamp sample`
         // sample: {

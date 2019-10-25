@@ -52,7 +52,20 @@ var child = require('child_process');
 var fs = require('fs');
 var path = require('path');
 var color = require('cli-color');
-function mysql(cname, commands, lampman) {
+function meta() {
+    return {
+        command: 'mysql [container-name]',
+        description: 'MySQL操作（オプション未指定なら mysql クライアントが実行されます）',
+        options: [
+            ['-d, --dump', 'ダンプします'],
+            ['-p, --file-path <file_path>', 'ダンプファイルのディレクトリパスを指定'],
+            ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
+            ['-r, --restore', '最新のダンプファイルをリストアします。'],
+        ]
+    };
+}
+exports.meta = meta;
+function action(cname, commands) {
     return __awaiter(this, void 0, void 0, function () {
         var mysql, list, _i, _a, key, _b, list_1, item, before_str, response, is_gzip, dumpfile, procs, _c, procs_1, proc, conts, procs;
         return __generator(this, function (_d) {
@@ -251,4 +264,4 @@ function mysql(cname, commands, lampman) {
         });
     });
 }
-exports.default = mysql;
+exports.action = action;

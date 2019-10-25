@@ -1,10 +1,19 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp up]
+ * config.jsを基にymlを生成、docker-composeとしてupする。
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs');
 import docker = require('../docker');
-import reject    from './reject';
-import extra     from './extra';
+import { action as reject } from './reject';
+import { action as extra } from './extra';
 
 const child = require('child_process')
 const path  = require('path')
@@ -13,10 +22,26 @@ const fs    = require('fs');
 const find  = require('find');
 
 /**
- * up: LAMP起動
+ * コマンド登録用メタデータ
  */
+export function meta()
+{
+    return {
+        command: 'up',
+        description: `LAMP起動（.lampman${libs.ModeString(lampman.mode)}/docker-compose.yml 自動更新）`,
+        options: [
+            ['-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する'],
+            ['-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能'],
+            ['-D', 'デーモンじゃなくフォアグラウンドで起動する'],
+            ['-n --no-update', 'docker-compose.yml を更新せずに起動する'],
+        ]
+    }
+}
 
-export default async function up(commands: any, lampman: any)
+/**
+ * コマンド実行
+ */
+export async function action(commands:any)
 {
     // 公開Webディレクトリが指定されているかチェック
     if('apache' in lampman.config.lampman && 'mounts' in lampman.config.lampman.apache) {
@@ -57,7 +82,7 @@ export default async function up(commands: any, lampman: any)
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(commands.flush) {
         libs.Label('Flush cleaning')
-        await reject({force:true}, lampman)
+        await reject({force:true})
         console.log()
     }
 
@@ -175,14 +200,14 @@ export default async function up(commands: any, lampman: any)
                     let extraopt = action
                     if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
                     console.log()
-                    extra(extraopt, extraopt.args, lampman)
+                    extra(extraopt, extraopt.args)
                     count ++
                 }
 
                 // extraコマンドを実行する
                 if('run_extra_command'===action.type && action.name in lampman.config.extra) {
                     console.log()
-                    extra(lampman.config.extra[action.name], action.args, lampman)
+                    extra(lampman.config.extra[action.name], action.args)
                     count ++
                 }
             }

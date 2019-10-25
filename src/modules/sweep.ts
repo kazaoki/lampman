@@ -1,16 +1,39 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp sweep]
+ * 全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs   = require('../libs');
 import child  = require('child_process')
 const prompts = require('prompts')
-import reject from './reject';
-import rmi from './rmi';
+import { action as reject } from './reject';
+import { action as rmi } from './rmi';
 
 /**
- * sweep: 全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃
+ * コマンド登録用メタデータ
  */
-export default async function sweep(commands: any, lampman: any)
+export function meta()
+{
+    return {
+        command: 'sweep',
+        description: '全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃',
+        options: [
+            ['-f, --force', '確認なしで実行する'],
+        ]
+    }
+}
+
+/**
+ * コマンド実行
+ */
+export async function action(commands:any)
 {
     // Yes/No確認
     if(!commands.force) {
@@ -28,10 +51,10 @@ export default async function sweep(commands: any, lampman: any)
     }
 
     // 全てのコンテナとボリューム削除
-    await reject({force: true}, lampman)
+    await reject({force: true})
 
     // <none>イメージ削除
-    await rmi({prune: true}, lampman)
+    await rmi({prune: true})
 
     // 不要ネットワークの削除
     child.spawnSync('docker', ['network', 'prune', '-f'], {stdio: 'inherit'})

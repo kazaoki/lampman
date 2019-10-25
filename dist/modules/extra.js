@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var child = require('child_process');
-function extra(extraopt, args, lampman) {
+function action(extraopt, args) {
     if (!('not_show_message' in extraopt && extraopt.not_show_message)) {
         libs.Message("\u4EE5\u4E0B\u306E\u30B3\u30DE\u30F3\u30C9\u3092 " + (extraopt.container ? extraopt.container : 'ホストOS') + " \u4E0A\u3067\u5B9F\u884C\u3057\u307E\u3059\u3002\n" + extraopt.command, 'primary', 1);
         console.log();
@@ -21,4 +21,4 @@ function extra(extraopt, args, lampman) {
     }
     return;
 }
-exports.default = extra;
+exports.action = action;

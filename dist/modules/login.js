@@ -40,7 +40,19 @@ var docker = require("../docker");
 var prompts = require('prompts');
 var child = require('child_process');
 var color = require('cli-color');
-function login(cname, commands, lampman) {
+function meta() {
+    return {
+        command: 'login [container-name]',
+        description: 'コンテナのコンソールにログインします',
+        options: [
+            ['-s, --select', 'コンテナを選択します。Default: lampman'],
+            ['-l, --shell <shell>', 'ログインシェルを指定。Default: bash'],
+            ['-p, --path <path>', 'ログインパスを指定。Default: /'],
+        ]
+    };
+}
+exports.meta = meta;
+function action(cname, commands) {
     return __awaiter(this, void 0, void 0, function () {
         var target_cname, sname, cnames, list, out, _i, _a, line, column, response, ret, login_path;
         return __generator(this, function (_b) {
@@ -148,4 +160,4 @@ function login(cname, commands, lampman) {
         });
     });
 }
-exports.default = login;
+exports.action = action;

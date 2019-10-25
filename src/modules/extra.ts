@@ -1,14 +1,18 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * extraコマンド
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs')
 const child   = require('child_process')
 
-/**
- * extra commands
- */
-
-export default function extra(extraopt: any, args: any, lampman: any)
+export function action(extraopt:any, args:any)
 {
     // メッセージ表示
     if(!('not_show_message' in extraopt && extraopt.not_show_message)) {

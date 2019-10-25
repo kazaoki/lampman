@@ -3,14 +3,14 @@
 
 /**
  * -------------------------------------------------------------------
- * [lamp down]
- * upで起動したコンテナ達を終了する（ボリュームは残る。多分
+ * [lamp status]
+ * docker-compose logs -f -p XXX と同等
  * -------------------------------------------------------------------
  */
 
 declare let lampman:any;
 
-const child = require('child_process')
+import child = require('child_process')
 
 /**
  * コマンド登録用メタデータ
@@ -18,8 +18,8 @@ const child = require('child_process')
 export function meta()
 {
     return {
-        command: 'down',
-        description: 'LAMP終了',
+        command: 'status',
+        description: 'dockerコンテナ達の標準出力(logs)を監視する',
     }
 }
 
@@ -28,14 +28,16 @@ export function meta()
  */
 export function action(commands:any)
 {
-    child.spawn('docker-compose',
+    child.execFileSync(
+        'docker-compose',
         [
-            '--project-name', lampman.config.project,
-            'down'
+            '-p', lampman.config.project,
+            'logs',
+            '-f',
         ],
         {
-            cwd: lampman.config_dir,
-            stdio: 'inherit'
+            stdio: 'inherit',
+            cwd: lampman.config_dir
         }
     )
 }

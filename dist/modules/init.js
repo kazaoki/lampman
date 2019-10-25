@@ -40,7 +40,19 @@ var fs = require("fs-extra");
 var path = require("path");
 var config_1 = require("./config");
 var prompts = require('prompts');
-function init(commands, lampman) {
+function meta() {
+    return {
+        command: 'init',
+        description: "\u521D\u671F\u5316\uFF08.lampman" + libs.ModeString(lampman.mode) + "/ \u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u4F5C\u6210\uFF09",
+        options: [
+            ['-s, --select', 'セットアップしたい内容を個別に選択可能'],
+            ['-p, --project <name>', 'プロジェクト名を指定可能'],
+            ['-d, --public-dir <dir>', 'ウェブ公開ディレクトリ名を指定可能（初期:public_html）'],
+        ]
+    };
+}
+exports.meta = meta;
+function action(commands) {
     return __awaiter(this, void 0, void 0, function () {
         var config_dirname, config_dir, setup, response, messages, copyFromMaster, _i, _a, name_1, content;
         return __generator(this, function (_b) {
@@ -108,7 +120,7 @@ function init(commands, lampman) {
                             lampman = libs.LoadConfig(lampman);
                             libs.UpdateCompose(lampman);
                             messages.push("  - " + path.join(config_dir, '/docker-compose.yml'));
-                            config_1.default({}, lampman);
+                            config_1.action({});
                         }
                         if (setup.includes('Mysql')) {
                             copyFromMaster('mysql', true);
@@ -138,4 +150,4 @@ function init(commands, lampman) {
         });
     });
 }
-exports.default = init;
+exports.action = action;
