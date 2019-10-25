@@ -49,7 +49,7 @@ function meta() {
     };
 }
 exports.meta = meta;
-function action(args, commands, lampman) {
+function action(args, commands) {
     return __awaiter(this, void 0, void 0, function () {
         var groups, response, arg_string, _i, groups_1, group, i, column, file, opts;
         return __generator(this, function (_a) {

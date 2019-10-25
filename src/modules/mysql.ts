@@ -37,7 +37,7 @@ export function meta()
 /**
  * コマンド実行
  */
-export async function action(cname:string|null, commands:any, lampman:any)
+export async function action(cname:string|null, commands:any)
 {
     // 対象のmysql情報の入れ物
     let mysql: any = {}

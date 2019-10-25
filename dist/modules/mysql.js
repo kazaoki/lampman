@@ -65,7 +65,7 @@ function meta() {
     };
 }
 exports.meta = meta;
-function action(cname, commands, lampman) {
+function action(cname, commands) {
     return __awaiter(this, void 0, void 0, function () {
         var mysql, list, _i, _a, key, _b, list_1, item, before_str, response, is_gzip, dumpfile, procs, _c, procs_1, proc, conts, procs;
         return __generator(this, function (_d) {

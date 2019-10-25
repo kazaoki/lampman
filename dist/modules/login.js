@@ -52,7 +52,7 @@ function meta() {
     };
 }
 exports.meta = meta;
-function action(cname, commands, lampman) {
+function action(cname, commands) {
     return __awaiter(this, void 0, void 0, function () {
         var target_cname, sname, cnames, list, out, _i, _a, line, column, response, ret, login_path;
         return __generator(this, function (_b) {

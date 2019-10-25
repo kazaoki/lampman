@@ -32,7 +32,7 @@ export function meta()
 /**
  * コマンド実行
  */
-export async function action(args:string[]|null, commands:any, lampman:any)
+export async function action(args:string[]|null, commands:any)
 {
     let groups: string[] = []
 
