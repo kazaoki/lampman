@@ -25,7 +25,7 @@ export function meta()
         command: 'yaml',
         description: 'YAMLの更新のみ、出力のみする',
         options: [
-            ['-b, --build', path.basename(lampman.config_dir)+'/docker-compose.yml を作成/更新する'],
+            ['-b, --build', ('config_dir' in lampman ? path.basename(lampman.config_dir) : '.lampman/')+'/docker-compose.yml を作成/更新する'],
             ['-o, --out', '標準出力にマージ後のYAMLデータを出力する'],
         ]
     }
