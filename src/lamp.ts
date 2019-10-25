@@ -55,59 +55,52 @@ if(lampman.config_dir) lampman = libs.LoadConfig(lampman)
 
 // 基本オプション
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）')
-    commander.helpOption('-h, --help', 'ヘルプを表示します。');
+commander.helpOption('-h, --help', 'ヘルプを表示します。');
 
-(async ()=>{
-    let result = await new Promise(resolve=>{
+// モジュールファイル一覧
+let module_files = fs.readdirSync(path.join(__dirname, 'modules')).filter(file=>{
+    return fs.statSync(path.join(__dirname, 'modules', file)).isFile() && /.*\.js$/.test(file);
+})
 
-        // モジュールファイル一覧
-        let module_files = fs.readdirSync(path.join(__dirname, 'modules')).filter(file=>{
-            return fs.statSync(path.join(__dirname, 'modules', file)).isFile() && /.*\.js$/.test(file);
-        })
-
-        // モジュール登録
-        module_files.forEach(file=>{
-            let module = require('./modules/'+file)
-            if(!('meta' in module)) return
-            let meta = module.meta()
-            let c = commander
-                .command(meta.command)
-                .description(meta.description)
-                .action((...args)=>resolve(false!==module.action(...args)))
-            if('options' in meta) {
-                for(let opt of meta.options) {
-                    c.option(opt[0], opt[1], opt[2], opt[3])
-                }
-            }
-        })
-
-        // extraコマンド登録
-        let extra = require('./modules/extra')
-        if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
-            for(let key of Object.keys(lampman.config.extra)) {
-                let extraopt = lampman.config.extra[key]
-                if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
-                if('undefined'===typeof extraopt.desc) extraopt.desc = extraopt.command
-                commander
-                    .command(key)
-                    .description(extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''))
-                    .action((...args)=>extra(extraopt, args, lampman))
-                ;
-            }
-        }
-
-        // パース実行
-        commander.parse(process.argv)
-    })
-
-    // どれも実行されなかった、または実行が無効だった場合
-    if(!result) {
-        if(commander.args.length) {
-            // どれもマッチしなかった場合はヘルプ出す
-            commander.help()
-        } else {
-            // 引数が指定されなかった場合は noargs を実行
-            libs.dockerLs(lampman)
+// モジュール登録
+module_files.forEach(file=>{
+    let module = require('./modules/'+file)
+    if(!('meta' in module)) return
+    let meta = module.meta()
+    let c = commander
+        .command(meta.command)
+        .description(meta.description)
+        .action((...args)=>module.action(...args))
+    if('options' in meta) {
+        for(let opt of meta.options) {
+            c.option(opt[0], opt[1], opt[2], opt[3])
         }
     }
-})()
+})
+
+// extraコマンド登録
+let extra = require('./modules/extra')
+if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
+    for(let key of Object.keys(lampman.config.extra)) {
+        let extraopt = lampman.config.extra[key]
+        if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
+        if('undefined'===typeof extraopt.desc) extraopt.desc = extraopt.command
+        commander
+            .command(key)
+            .description(extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''))
+            .action((...args)=>extra(extraopt, args, lampman))
+        ;
+    }
+}
+
+// コマンドが無い場合の処理
+commander.on('command:*', ()=>{
+    commander.help()
+    process.exit(1)
+});
+
+// パース実行
+commander.parse(process.argv)
+
+// 引数が指定されなかった場合はdockerの情報を表示
+if(!commander.args.length) libs.dockerLs(lampman)
