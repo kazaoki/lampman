@@ -1,15 +1,39 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp reject]
+ * コンテナ・ボリュームを選択して削除
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs');
 import child = require('child_process')
 const color    = require('cli-color');
 const prompts = require('prompts')
 
 /**
- * reject: コンテナ・ボリュームを選択して削除
+ * コマンド登録用メタデータ
  */
-export default async function reject(commands: any, lampman: any)
+export function meta()
+{
+    return {
+        command: 'reject',
+        description: 'コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）',
+        options: [
+            ['-a, --all', 'ロック中のボリュームも選択できるようにする'],
+            ['-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）'],
+        ]
+    }
+}
+
+/**
+ * コマンド実行
+ */
+export async function action(commands:any)
 {
     // コンテナ一覧取得
     let containers = child.execFileSync('docker', ['ps', '-a', '--format={{.Names}}']).toString().split(/\r?\n/)

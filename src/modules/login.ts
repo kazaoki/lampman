@@ -1,6 +1,15 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp login]
+ * リストから選択したコンテナのコンソールにログインします
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs   = require('../libs');
 import docker = require('../docker');
 const prompts = require('prompts');
@@ -8,9 +17,25 @@ const child   = require('child_process')
 const color   = require('cli-color');
 
 /**
- * login: リストから選択したコンテナのコンソールにログインします
+ * コマンド登録用メタデータ
  */
-export default async function login(cname: string|null, commands: any, lampman: any)
+export function meta()
+{
+    return {
+        command: 'login [container-name]',
+        description: 'コンテナのコンソールにログインします',
+        options: [
+            ['-s, --select', 'コンテナを選択します。Default: lampman'],
+            ['-l, --shell <shell>', 'ログインシェルを指定。Default: bash'],
+            ['-p, --path <path>', 'ログインパスを指定。Default: /'],
+        ]
+    }
+}
+
+/**
+ * コマンド実行
+ */
+export async function action(cname:string|null, commands:any, lampman:any)
 {
     let target_cname
 

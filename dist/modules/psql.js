@@ -52,7 +52,19 @@ var child = require('child_process');
 var fs = require('fs');
 var path = require('path');
 var color = require('cli-color');
-function psql(cname, commands, lampman) {
+function meta() {
+    return {
+        command: 'psql [container-name]',
+        description: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',
+        options: [
+            ['-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。'],
+            ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
+            ['-r, --restore', '最新のダンプファイルをリストアします。'],
+        ]
+    };
+}
+exports.meta = meta;
+function action(cname, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var postgresql, list, _i, _a, key, _b, list_1, item, before_str, response, is_gzip, dumpfile, procs, _c, procs_1, proc, conts, procs;
         return __generator(this, function (_d) {
@@ -248,4 +260,4 @@ function psql(cname, commands, lampman) {
         });
     });
 }
-exports.default = psql;
+exports.action = action;

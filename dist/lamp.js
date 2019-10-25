@@ -1,28 +1,47 @@
 #!/usr/bin/env node
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 var fs = require("fs");
 var path = require("path");
-var color = require("cli-color");
 var commander = require("commander");
 var libs = require("./libs");
-var version_1 = require("./modules/version");
-var init_1 = require("./modules/init");
-var up_1 = require("./modules/up");
-var down_1 = require("./modules/down");
-var login_1 = require("./modules/login");
-var mysql_1 = require("./modules/mysql");
-var psql_1 = require("./modules/psql");
-var logs_1 = require("./modules/logs");
-var yamlout_1 = require("./modules/yamlout");
-var noargs_1 = require("./modules/noargs");
-var reject_1 = require("./modules/reject");
-var sweep_1 = require("./modules/sweep");
-var rmi_1 = require("./modules/rmi");
-var config_1 = require("./modules/config");
-var extra_1 = require("./modules/extra");
-var stdout_1 = require("./modules/stdout");
 console.log();
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
@@ -35,6 +54,7 @@ if (!process.env.LAMPMAN_MODE)
 var lampman = {
     mode: process.env.LAMPMAN_MODE
 };
+global.lampman = lampman;
 var dirs = process.cwd().split(path.sep);
 if ('' === dirs[0])
     dirs[0] = '/';
@@ -57,118 +77,47 @@ if (lampman.config_dir)
     lampman = libs.LoadConfig(lampman);
 commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）');
 commander.helpOption('-h, --help', 'ヘルプを表示します。');
-commander
-    .command('init')
-    .description("\u521D\u671F\u5316\uFF08.lampman" + libs.ModeString(lampman.mode) + "/ \u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u4F5C\u6210\uFF09")
-    .option('-s, --select', 'セットアップしたい内容を個別に選択可能')
-    .option('-p, --project <name>', 'プロジェクト名を指定可能')
-    .option('-d, --public-dir <dir>', 'ウェブ公開ディレクトリ名を指定可能（初期:public_html）')
-    .action(function (cmd) { return init_1.default(cmd, lampman); });
-commander
-    .command('up')
-    .description("LAMP\u8D77\u52D5\uFF08.lampman" + libs.ModeString(lampman.mode) + "/docker-compose.yml \u81EA\u52D5\u66F4\u65B0\uFF09")
-    .option('-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する')
-    .option('-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能')
-    .option('-D', 'デーモンじゃなくフォアグラウンドで起動する')
-    .option('-n --no-update', 'docker-compose.yml を更新せずに起動する')
-    .action(function (cmd) { return up_1.default(cmd, lampman); });
-commander
-    .command('down')
-    .description('LAMP終了')
-    .action(function (cmd) { return down_1.default(cmd, lampman); });
-commander
-    .command('config')
-    .description('設定ファイル(config.js)をエディタで開く')
-    .action(function (cmd) { return config_1.default(cmd, lampman); });
-commander
-    .command('logs [groups...]')
-    .description('ログファイル監視（グループ未指定なら最初の１つが表示）')
-    .option('-a, --all', '全て表示します')
-    .option('-s, --select', '表示するものを１つ選択します')
-    .action(function (cname, cmd) { return logs_1.default(cname, cmd, lampman); });
-commander
-    .command('login [container-name]')
-    .description('コンテナのコンソールにログインします')
-    .option('-s, --select', 'コンテナを選択します。Default: lampman')
-    .option('-l, --shell <shell>', 'ログインシェルを指定。Default: bash')
-    .option('-p, --path <path>', 'ログインパスを指定。Default: /')
-    .action(function (cname, cmd) { return login_1.default(cname, cmd, lampman); });
-commander
-    .command('mysql [container-name]')
-    .description('MySQL操作（オプション未指定なら mysql クライアントが実行されます）')
-    .option('-d, --dump', 'ダンプします')
-    .option('-p, --file-path <file_path>', 'ダンプファイルのディレクトリパスを指定')
-    .option('-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ')
-    .option('-r, --restore', '最新のダンプファイルをリストアします。')
-    .action(function (cname, cmd) { return mysql_1.default(cname, cmd, lampman); });
-commander
-    .command('psql [container-name]')
-    .description('PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）')
-    .option('-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。')
-    .option('-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ')
-    .option('-r, --restore', '最新のダンプファイルをリストアします。')
-    .action(function (cname, cmd) { return psql_1.default(cname, cmd, lampman); });
-commander
-    .command('reject')
-    .description('コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）')
-    .option('-a, --all', 'ロック中のボリュームも選択できるようにする')
-    .option('-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）')
-    .action(function (cmd) { return reject_1.default(cmd, lampman); });
-commander
-    .command('rmi')
-    .description('イメージを選択して削除')
-    .option('-p, --prune', '選択を出さず <none> のみ全て削除')
-    .action(function (cmd) { return rmi_1.default(cmd, lampman); });
-commander
-    .command('sweep')
-    .description('全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃')
-    .option('-f, --force', '確認なしで実行する')
-    .action(function (cmd) { return sweep_1.default(cmd, lampman); });
-commander
-    .command('yamlout')
-    .description('設定データをymlとして標準出力（プロジェクトルートから相対）')
-    .action(function (cmd) { return yamlout_1.default(cmd, lampman); });
-commander
-    .command('stdout')
-    .description('dockerコンテナ達の標準出力を監視する')
-    .action(function (cmd) { return stdout_1.default(cmd, lampman); });
-commander
-    .command('version')
-    .description('バージョン表示')
-    .action(function (cmd) { return version_1.default(cmd, lampman); });
-if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
-    var _loop_1 = function (key) {
-        var extraopt = lampman.config.extra[key];
-        if ('object' === typeof extraopt.command)
-            extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
-        if ('undefined' === typeof extraopt.desc)
-            extraopt.desc = extraopt.command;
-        commander
-            .command(key)
-            .description(extraopt.desc + (extraopt.container ? color.blackBright(" on " + extraopt.container) : ''))
-            .action(function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
-            return extra_1.default(extraopt, args, lampman);
-        });
-    };
-    for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
-        var key = _a[_i];
-        _loop_1(key);
-    }
-}
-commander.parse(process.argv);
-if (commander.args.length) {
-    var pos = commander.args.length - 1;
-    var str = 'object' === typeof commander.args[pos]
-        ? commander.args[pos].name()
-        : commander.args[pos];
-    if (!commander.commands.map(function (cmd) { return cmd.name(); }).includes(str)) {
-        commander.help();
-    }
-}
-else if (process.argv.length <= 2) {
-    noargs_1.default(commander, lampman);
-}
+(function () { return __awaiter(_this, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4, new Promise(function (resolve) {
+                    var module_files = fs.readdirSync(path.join(__dirname, 'modules')).filter(function (file) {
+                        return fs.statSync(path.join(__dirname, 'modules', file)).isFile() && /.*\.js$/.test(file);
+                    });
+                    module_files.forEach(function (file) {
+                        var module = require('./modules/' + file);
+                        var meta = module.meta();
+                        var c = commander
+                            .command(meta.command)
+                            .description(meta.description)
+                            .action(function () {
+                            var args = [];
+                            for (var _i = 0; _i < arguments.length; _i++) {
+                                args[_i] = arguments[_i];
+                            }
+                            return resolve(false !== module.action.apply(module, args));
+                        });
+                        if ('options' in meta) {
+                            for (var _i = 0, _a = meta.options; _i < _a.length; _i++) {
+                                var opt = _a[_i];
+                                c.option(opt[0], opt[1], opt[2], opt[3]);
+                            }
+                        }
+                    });
+                    commander.parse(process.argv);
+                })];
+            case 1:
+                result = _a.sent();
+                if (!result) {
+                    if (commander.args.length) {
+                        commander.help();
+                    }
+                    else {
+                        libs.dockerLs(lampman);
+                    }
+                }
+                return [2];
+        }
+    });
+}); })();

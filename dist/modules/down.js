@@ -1,9 +1,15 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 var child = require('child_process');
-var path = require('path');
-function down(commands, lampman) {
-    var proc = child.spawn('docker-compose', [
+function meta() {
+    return {
+        command: 'down',
+        description: 'LAMP終了',
+    };
+}
+exports.meta = meta;
+function action(commands) {
+    child.spawn('docker-compose', [
         '--project-name', lampman.config.project,
         'down'
     ], {
@@ -11,4 +17,4 @@ function down(commands, lampman) {
         stdio: 'inherit'
     });
 }
-exports.default = down;
+exports.action = action;

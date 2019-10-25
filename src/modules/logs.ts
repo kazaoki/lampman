@@ -1,14 +1,38 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp logs]
+ * エラーログ監視
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs');
 const child   = require('child_process')
 const prompts = require('prompts')
 
 /**
- * logs: エラーログ監視
+ * コマンド登録用メタデータ
  */
-export default async function logs(args: string[]|null, commands: any, lampman: any)
+export function meta()
+{
+    return {
+        command: 'logs [groups...]',
+        description: 'ログファイル監視（グループ未指定なら最初の１つが表示）',
+        options: [
+            ['-a, --all', '全て表示します'],
+            ['-s, --select', '表示するものを１つ選択します'],
+        ]
+    }
+}
+
+/**
+ * コマンド実行
+ */
+export async function action(args:string[]|null, commands:any, lampman:any)
 {
     let groups: string[] = []
 

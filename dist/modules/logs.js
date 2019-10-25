@@ -38,7 +38,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var child = require('child_process');
 var prompts = require('prompts');
-function logs(args, commands, lampman) {
+function meta() {
+    return {
+        command: 'logs [groups...]',
+        description: 'ログファイル監視（グループ未指定なら最初の１つが表示）',
+        options: [
+            ['-a, --all', '全て表示します'],
+            ['-s, --select', '表示するものを１つ選択します'],
+        ]
+    };
+}
+exports.meta = meta;
+function action(args, commands, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var groups, response, arg_string, _i, groups_1, group, i, column, file, opts;
         return __generator(this, function (_a) {
@@ -100,4 +111,4 @@ function logs(args, commands, lampman) {
         });
     });
 }
-exports.default = logs;
+exports.action = action;

@@ -39,7 +39,18 @@ var libs = require("../libs");
 var child = require("child_process");
 var color = require('cli-color');
 var prompts = require('prompts');
-function reject(commands, lampman) {
+function meta() {
+    return {
+        command: 'reject',
+        description: 'コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）',
+        options: [
+            ['-a, --all', 'ロック中のボリュームも選択できるようにする'],
+            ['-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）'],
+        ]
+    };
+}
+exports.meta = meta;
+function action(commands) {
     return __awaiter(this, void 0, void 0, function () {
         var containers, volumes, list, _i, containers_1, name_1, _a, volumes_1, name_2, response, targets, _b, containers_2, name_3, _c, volumes_2, name_4, response, procs, _loop_1, _d, _e, item, _loop_2, _f, _g, item;
         return __generator(this, function (_h) {
@@ -185,4 +196,4 @@ function reject(commands, lampman) {
         });
     });
 }
-exports.default = reject;
+exports.action = action;

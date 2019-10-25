@@ -1,14 +1,37 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp rmi]
+ * イメージを選択して削除
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs');
 import child = require('child_process')
 const prompts = require('prompts')
 
 /**
- * rmi: イメージを選択して削除
+ * コマンド登録用メタデータ
  */
-export default async function rmi(commands: any, lampman: any)
+export function meta()
+{
+    return {
+        command: 'rmi',
+        description: 'イメージを選択して削除',
+        options: [
+            ['-p, --prune', '選択を出さず <none> のみ全て削除'],
+        ]
+    }
+}
+
+/**
+ * コマンド実行
+ */
+export async function action(commands:any)
 {
     // プルーン実行
     if(commands.prune) {

@@ -1,6 +1,15 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp psql]
+ * PostgreSQL操作
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs')
 const prompts = require('prompts')
 const child   = require('child_process')
@@ -9,10 +18,25 @@ const path    = require('path');
 const color   = require('cli-color');
 
 /**
- * psql: PostgreSQL操作
+ * コマンド登録用メタデータ
  */
+export function meta()
+{
+    return {
+        command: 'psql [container-name]',
+        description: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',
+        options: [
+            ['-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。'],
+            ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
+            ['-r, --restore', '最新のダンプファイルをリストアします。'],
+        ]
+    }
+}
 
-export default async function psql(cname: string|null, commands: any, lampman: any)
+/**
+ * コマンド実行
+ */
+export async function action(cname:string|null, commands:any, lampman:any)
 {
     // 対象のpostgresql情報の入れ物
     let postgresql: any = {}

@@ -39,7 +39,17 @@ var child = require("child_process");
 var prompts = require('prompts');
 var reject_1 = require("./reject");
 var rmi_1 = require("./rmi");
-function sweep(commands, lampman) {
+function meta() {
+    return {
+        command: 'sweep',
+        description: '全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃',
+        options: [
+            ['-f, --force', '確認なしで実行する'],
+        ]
+    };
+}
+exports.meta = meta;
+function action(commands) {
     return __awaiter(this, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
@@ -61,10 +71,10 @@ function sweep(commands, lampman) {
                     if (!response.value)
                         return [2];
                     _a.label = 2;
-                case 2: return [4, reject_1.default({ force: true }, lampman)];
+                case 2: return [4, reject_1.action({ force: true })];
                 case 3:
                     _a.sent();
-                    return [4, rmi_1.default({ prune: true }, lampman)];
+                    return [4, rmi_1.action({ prune: true })];
                 case 4:
                     _a.sent();
                     child.spawnSync('docker', ['network', 'prune', '-f'], { stdio: 'inherit' });
@@ -73,4 +83,4 @@ function sweep(commands, lampman) {
         });
     });
 }
-exports.default = sweep;
+exports.action = action;

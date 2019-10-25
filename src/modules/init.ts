@@ -1,17 +1,41 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp init]
+ * Lampman初期化
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs');
 import fs   = require('fs-extra');
 import path = require('path');
-import config    from './config';
-
+import { action as config } from './config';
 const prompts = require('prompts')
 
 /**
- * init: 初期化
+ * コマンド登録用メタデータ
  */
-export default async function init(commands: any, lampman: any)
+export function meta()
+{
+    return {
+        command: 'init',
+        description: `初期化（.lampman${libs.ModeString(lampman.mode)}/ ディレクトリ作成）`,
+        options: [
+            ['-s, --select', 'セットアップしたい内容を個別に選択可能'],
+            ['-p, --project <name>', 'プロジェクト名を指定可能'],
+            ['-d, --public-dir <dir>', 'ウェブ公開ディレクトリ名を指定可能（初期:public_html）'],
+        ]
+    }
+}
+
+/**
+ * コマンド実行
+ */
+export async function action(commands:any)
 {
     // 作成する設定ディレクトリを特定
     let config_dirname = `.lampman${libs.ModeString(lampman.mode)}`
@@ -83,7 +107,7 @@ export default async function init(commands: any, lampman: any)
             libs.UpdateCompose(lampman) // 最新の docker-compose.yml を生成
             messages.push(`  - ${path.join(config_dir, '/docker-compose.yml')}`)
             // config.js をエディタで開く
-            config({}, lampman)
+            config({})
         }
 
         // MySQL設定

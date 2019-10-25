@@ -1,18 +1,37 @@
 
 'use strict'
 
+/**
+ * -------------------------------------------------------------------
+ * [lamp version]
+ * Lampmanバージョン確認
+ * -------------------------------------------------------------------
+ */
+
+declare let lampman:any;
+
 import libs = require('../libs');
 
 /**
- * version: バージョン情報モジュール
+ * コマンド登録用メタデータ
  */
-export default function version(commands: any, lampman: any)
+export function meta()
 {
-    var json = require('../../package.json');
+    return {
+        command: 'version',
+        description: 'バージョン表示',
+    }
+}
+
+/**
+ * コマンド実行
+ */
+export function action(commands:any)
+{
     libs.Message(
-        `${json.name} ver ${json.version}\n`+
+        `Lampman ver ${libs.getLampmanVersion()}\n`+
         `mode: ${lampman.mode}`,
         'primary',
         1
-    );
+    )
 }

@@ -3,7 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var child = require('child_process');
 var fs = require('fs');
-function config(commands, lampman) {
+function meta() {
+    return {
+        command: 'config',
+        description: '設定ファイル(config.js)をエディタで開く',
+    };
+}
+exports.meta = meta;
+function action(commands) {
     if (!fs.existsSync(lampman.config_dir + "/config.js")) {
         var mode_label = 'default' === lampman.mode ? '' : lampman.mode;
         libs.Message("\u8A2D\u5B9A\u30D5\u30A1\u30A4\u30EB\uFF08.lampman" + (mode_label ? '-' + mode_label : '') + "/config.js\uFF09\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3067\u3057\u305F\u3002\n" +
@@ -20,4 +27,4 @@ function config(commands, lampman) {
         libs.d(lampman.config);
     }
 }
-exports.default = config;
+exports.action = action;
