@@ -68,6 +68,7 @@ commander.option('-m, --mode <mode>', '実行モードを指定できます。�
         // モジュール登録
         module_files.forEach(file=>{
             let module = require('./modules/'+file)
+            if(!('meta' in module)) return
             let meta = module.meta()
             let c = commander
                 .command(meta.command)
@@ -79,6 +80,21 @@ commander.option('-m, --mode <mode>', '実行モードを指定できます。�
                 }
             }
         })
+
+        // extraコマンド登録
+        let extra = require('./modules/extra')
+        if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
+            for(let key of Object.keys(lampman.config.extra)) {
+                let extraopt = lampman.config.extra[key]
+                if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
+                if('undefined'===typeof extraopt.desc) extraopt.desc = extraopt.command
+                commander
+                    .command(key)
+                    .description(extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''))
+                    .action((...args)=>extra(extraopt, args, lampman))
+                ;
+            }
+        }
 
         // パース実行
         commander.parse(process.argv)

@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var docker = require("../docker");
 var reject_1 = require("./reject");
+var extra_1 = require("./extra");
 var child = require('child_process');
 var path = require('path');
 var color = require('cli-color');
@@ -109,7 +110,7 @@ function action(commands) {
                         stdio: 'inherit'
                     });
                     proc.on('close', function (code) { return __awaiter(_this, void 0, void 0, function () {
-                        var procs, lampman_id, sp, _loop_1, _i, _a, key, docker_host, http_port, https_port, count, _b, _c, action_1, url, opencmd;
+                        var procs, lampman_id, sp, _loop_1, _i, _a, key, docker_host, http_port, https_port, count, _b, _c, action_1, url, opencmd, extraopt;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
                                 case 0:
@@ -181,6 +182,19 @@ function action(commands) {
                                             }
                                             if ('show_message' === action_1.type && action_1.message.length) {
                                                 libs.Message(action_1.message, action_1.style);
+                                                count++;
+                                            }
+                                            if ('run_command' === action_1.type) {
+                                                extraopt = action_1;
+                                                if ('object' === typeof extraopt.command)
+                                                    extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
+                                                console.log();
+                                                extra_1.action(extraopt, extraopt.args);
+                                                count++;
+                                            }
+                                            if ('run_extra_command' === action_1.type && action_1.name in lampman.config.extra) {
+                                                console.log();
+                                                extra_1.action(lampman.config.extra[action_1.name], action_1.args);
                                                 count++;
                                             }
                                         }

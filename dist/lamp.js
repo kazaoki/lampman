@@ -40,6 +40,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 var fs = require("fs");
 var path = require("path");
+var color = require("cli-color");
 var commander = require("commander");
 var libs = require("./libs");
 console.log();
@@ -87,6 +88,8 @@ commander.helpOption('-h, --help', 'ヘルプを表示します。');
                     });
                     module_files.forEach(function (file) {
                         var module = require('./modules/' + file);
+                        if (!('meta' in module))
+                            return;
                         var meta = module.meta();
                         var c = commander
                             .command(meta.command)
@@ -105,6 +108,30 @@ commander.helpOption('-h, --help', 'ヘルプを表示します。');
                             }
                         }
                     });
+                    var extra = require('./modules/extra');
+                    if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
+                        var _loop_1 = function (key) {
+                            var extraopt = lampman.config.extra[key];
+                            if ('object' === typeof extraopt.command)
+                                extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
+                            if ('undefined' === typeof extraopt.desc)
+                                extraopt.desc = extraopt.command;
+                            commander
+                                .command(key)
+                                .description(extraopt.desc + (extraopt.container ? color.blackBright(" on " + extraopt.container) : ''))
+                                .action(function () {
+                                var args = [];
+                                for (var _i = 0; _i < arguments.length; _i++) {
+                                    args[_i] = arguments[_i];
+                                }
+                                return extra(extraopt, args, lampman);
+                            });
+                        };
+                        for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
+                            var key = _a[_i];
+                            _loop_1(key);
+                        }
+                    }
                     commander.parse(process.argv);
                 })];
             case 1:

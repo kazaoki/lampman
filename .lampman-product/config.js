@@ -149,36 +149,11 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
     extra: {
-
-        // // PHP Xdebug の有効/無効切り替え
-        // xon: {
-        //     command: '/lampman/lampman/php-xdebug-on.sh',
-        //     container: 'lampman',
-        //     desc: 'Xdebugを開始する'
-        // },
-        // xoff: {
-        //     command: '/lampman/lampman/php-xdebug-off.sh',
-        //     container: 'lampman',
-        //     desc: 'Xdebugを終了する'
-        // },
-
         // // ngrok
         // expose: {
         //     command: 'ngrok http 80',
         //     container: 'lampman',
         //     desc: 'ngrok を使用して一時的に外部からアクセスできるようにする'
-        // },
-
-        // // Lampmanコンテナ上でApacheベンチ実行
-        // ab: {
-        //     command: 'ab -n1000 -c100 https://localhost/',
-        //     container: 'lampman',
-        // },
-
-        // // プロジェクトパスに本番用 docker-compose.yml を生成する（ productモードにするので .lampman-product/ が必要です）
-        // product_compose: {
-        //     command: `cd ${__dirname}/../ && lamp yamlout --mode product > docker-compose.yml`,
-        //     desc: '本番用の docker-compose.yml をプロジェクトパスに生成'
         // },
 
         // extraサンプル：`lamp sample`
