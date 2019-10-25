@@ -50,9 +50,9 @@ module.exports.config = {
         // PHP
         php: {
             image: 'kazaoki/phpenv:5.6.22', // ここにあるバージョンから → https://hub.docker.com/r/kazaoki/phpenv/tags
-            // ↑ image 未指定なら標準のPHP使用
-            error_report: true,
-            xdebug_start: true,
+            // ↑ コメントアウトするとlampman標準のPHP使用(5.4とか)
+            error_report: true, // 本番環境の場合は必ずfalseに。
+            xdebug_start: true, // 本番環境の場合は必ずfalseに。
             xdebug_host: '192.168.0.10',
             xdebug_port: 9000,
         },

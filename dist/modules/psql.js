@@ -57,7 +57,8 @@ function meta() {
         command: 'psql [container-name]',
         description: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',
         options: [
-            ['-d, --dump [file_path]', 'ダンプします。ダンプファイルのパス指定可能。'],
+            ['-d, --dump', 'ダンプします'],
+            ['-p, --file-path <file_path>', 'ダンプファイルのディレクトリパスを指定'],
             ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
             ['-r, --restore', '最新のダンプファイルをリストアします。'],
         ]
