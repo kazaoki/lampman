@@ -62,6 +62,35 @@ let module_files = fs.readdirSync(path.join(__dirname, 'modules')).filter(file=>
     return fs.statSync(path.join(__dirname, 'modules', file)).isFile() && /.*\.js$/.test(file);
 })
 
+// 順番指定
+let files_new:string[] = []
+let order = [
+    'init.js',
+    'up.js',
+    'down.js',
+    'config.js',
+    'xoff.js',
+    'xon.js',
+    'reject.js',
+    'rmi.js',
+    'sweep.js',
+    'logs.js',
+    'status.js',
+    'mysql.js',
+    'psql.js',
+    'login.js',
+    'yaml.js',
+    'version.js',
+]
+order.forEach(item=>{
+    let index = module_files.indexOf(item)
+    if(-1!==index) {
+        files_new.push(item)
+        module_files.splice(index, 1)
+    }
+})
+module_files = [...files_new, ...module_files.sort()]
+
 // モジュール登録
 module_files.forEach(file=>{
     let module = require('./modules/'+file)
@@ -88,7 +117,7 @@ if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
         commander
             .command(key)
             .description(extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''))
-            .action((...args)=>extra(extraopt, args, lampman))
+            .action((...args)=>extra.action(extraopt, args))
         ;
     }
 }

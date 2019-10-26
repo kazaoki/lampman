@@ -14,14 +14,13 @@ const child   = require('child_process')
 
 export function action(extraopt:any, args:any)
 {
-    // メッセージ表示
-    if(!('not_show_message' in extraopt && extraopt.not_show_message)) {
-        libs.Message(`以下のコマンドを ${extraopt.container ? extraopt.container: 'ホストOS'} 上で実行します。\n${extraopt.command}`, 'primary', 1)
-        console.log()
+    // 関数実行
+    if('function' in extraopt) {
+        extraopt.function(...args)
     }
 
     // コマンド実行
-    if('container' in extraopt) {
+    else if('container' in extraopt) {
         // 指定コンテナにてコマンド実行
         child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'exec', extraopt.container, 'sh', '-c', extraopt.command], {
             stdio: 'inherit',

@@ -45,6 +45,33 @@ commander.helpOption('-h, --help', 'ヘルプを表示します。');
 var module_files = fs.readdirSync(path.join(__dirname, 'modules')).filter(function (file) {
     return fs.statSync(path.join(__dirname, 'modules', file)).isFile() && /.*\.js$/.test(file);
 });
+var files_new = [];
+var order = [
+    'init.js',
+    'up.js',
+    'down.js',
+    'config.js',
+    'xoff.js',
+    'xon.js',
+    'reject.js',
+    'rmi.js',
+    'sweep.js',
+    'logs.js',
+    'status.js',
+    'mysql.js',
+    'psql.js',
+    'login.js',
+    'yaml.js',
+    'version.js',
+];
+order.forEach(function (item) {
+    var index = module_files.indexOf(item);
+    if (-1 !== index) {
+        files_new.push(item);
+        module_files.splice(index, 1);
+    }
+});
+module_files = files_new.concat(module_files.sort());
 module_files.forEach(function (file) {
     var module = require('./modules/' + file);
     if (!('meta' in module))
@@ -83,7 +110,7 @@ if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            return extra(extraopt, args, lampman);
+            return extra.action(extraopt, args);
         });
     };
     for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {

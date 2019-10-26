@@ -196,6 +196,7 @@ module.exports.config = {
         //         win: '(command for windows)',
         //         unix: '(command for mac|linux)',
         //     },
+        //     function: (in1, in2)=>{console.log(`${in1}/${in2}/${lampman.config.project}`)},
         //     container: 'lampman', // if specified, run on container.
         //     desc: '(description)', // if specified, show desc on `lamp --help`
         // },
