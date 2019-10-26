@@ -110,7 +110,7 @@ if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            return extra(extraopt, args, lampman);
+            return extra.action(extraopt, args);
         });
     };
     for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {

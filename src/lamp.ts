@@ -117,7 +117,7 @@ if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
         commander
             .command(key)
             .description(extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''))
-            .action((...args)=>extra(extraopt, args, lampman))
+            .action((...args)=>extra.action(extraopt, args))
         ;
     }
 }
