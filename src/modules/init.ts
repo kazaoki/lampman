@@ -44,12 +44,18 @@ export async function action(commands:any)
     // セットアップ内容を選択
     let setup = []
     if(commands.select) {
+        // 既に config.js あるか
+        let existConfig = 'config_dir' in lampman
+            ? fs.existsSync(path.join(lampman.config_dir, 'config.js'))
+            : false
+
+            // 選択肢用意
         let response = await prompts({
             type: 'multiselect',
             name: 'setup',
             message: 'セットアップしたい内容を選択してください。（スペースキーで複数選択可）',
             choices: [
-                { title: 'Lampman設定',        value: 'LampmanConfig', description: `(proj)/${config_dirname}/config.js`,    selected: true },
+                { title: 'Lampman設定',        value: 'LampmanConfig', description: `(proj)/${config_dirname}/config.js`,    selected: !existConfig },
                 { title: 'MySQL設定',          value: 'Mysql',         description: `(proj)/${config_dirname}/mysql/*`,      selected: false },
                 { title: 'PostgreSQL設定',     value: 'Postgresql',    description: `(proj)/${config_dirname}/postgresql/*`, selected: false },
                 { title: '.envサンプル設定',   value: 'EnvSample',     description: '(proj)/.env-sample',                    selected: false },

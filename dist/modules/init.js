@@ -54,7 +54,7 @@ function meta() {
 exports.meta = meta;
 function action(commands) {
     return __awaiter(this, void 0, void 0, function () {
-        var config_dirname, config_dir, setup, response, messages, copyFromMaster, _i, _a, name_1, content;
+        var config_dirname, config_dir, setup, existConfig, response, messages, copyFromMaster, _i, _a, name_1, content;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -62,12 +62,15 @@ function action(commands) {
                     config_dir = path.join(process.cwd(), config_dirname);
                     setup = [];
                     if (!commands.select) return [3, 2];
+                    existConfig = 'config_dir' in lampman
+                        ? fs.existsSync(path.join(lampman.config_dir, 'config.js'))
+                        : false;
                     return [4, prompts({
                             type: 'multiselect',
                             name: 'setup',
                             message: 'セットアップしたい内容を選択してください。（スペースキーで複数選択可）',
                             choices: [
-                                { title: 'Lampman設定', value: 'LampmanConfig', description: "(proj)/" + config_dirname + "/config.js", selected: true },
+                                { title: 'Lampman設定', value: 'LampmanConfig', description: "(proj)/" + config_dirname + "/config.js", selected: !existConfig },
                                 { title: 'MySQL設定', value: 'Mysql', description: "(proj)/" + config_dirname + "/mysql/*", selected: false },
                                 { title: 'PostgreSQL設定', value: 'Postgresql', description: "(proj)/" + config_dirname + "/postgresql/*", selected: false },
                                 { title: '.envサンプル設定', value: 'EnvSample', description: '(proj)/.env-sample', selected: false },
