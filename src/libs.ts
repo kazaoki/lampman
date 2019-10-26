@@ -324,3 +324,13 @@ export function dockerLs(lampman:any)
     }
     Message(cliui.toString(), 'primary', 1, {for_container: true})
 }
+
+/**
+ * 設定ファイルがあるか
+ */
+export function existConfig(lampman:any)
+{
+    return 'config_dir' in lampman
+        ? fs.existsSync(path.join(lampman.config_dir, 'config.js'))
+        : false
+}

@@ -43,6 +43,11 @@ export function meta()
  */
 export async function action(commands:any)
 {
+    // 設定ファイルがあるか
+    if(!libs.existConfig(lampman)) {
+        libs.Error(`設定ファイルが見当たりません。先にセットアップを実行してください。\nlamp init`+('default'===lampman.mode ? '' : ' --mode '+lampman.mode))
+    }
+
     // 公開Webディレクトリが指定されているかチェック
     if('apache' in lampman.config.lampman && 'mounts' in lampman.config.lampman.apache) {
         for(let mount of lampman.config.lampman.apache.mounts) {

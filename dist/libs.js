@@ -245,3 +245,9 @@ function dockerLs(lampman) {
     Message(cliui.toString(), 'primary', 1, { for_container: true });
 }
 exports.dockerLs = dockerLs;
+function existConfig(lampman) {
+    return 'config_dir' in lampman
+        ? fs.existsSync(path.join(lampman.config_dir, 'config.js'))
+        : false;
+}
+exports.existConfig = existConfig;
