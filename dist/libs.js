@@ -80,14 +80,14 @@ function Message(message, type, line, opt) {
     }
     width += 2;
     console.log(indent +
-        line_color('╒') +
-        line_color(Repeat('═', width)) +
-        line_color('╕'));
+        line_color('╭') +
+        line_color(Repeat('─', width)) +
+        line_color('╮'));
     for (var i = 0; i < messages.length; i++) {
         if (line > 0 && line === i) {
             console.log(indent +
                 line_color('├') +
-                line_color(Repeat('-', width)) +
+                line_color(Repeat('╶', width)) +
                 line_color('┤'));
         }
         console.log(indent +
