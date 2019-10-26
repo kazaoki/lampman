@@ -1,7 +1,7 @@
 {
     "name": "lampman",
     "description": "LAMP server orchestration tool on docker-compose (Under development...)",
-    "version": "0.1.69",
+    "version": "0.1.70",
     "license": "MIT",
     "private": false,
     "bin": {
@@ -25,7 +25,7 @@
         "cli-color": "^1.4.0",
         "cliui": "^5.0.0",
         "commander": "^3.0.0",
-        "dotenv": "^8.1.0",
+        "dotenv": "^8.2.0",
         "find": "^0.3.0",
         "fs-extra": "^8.1.0",
         "get-port": "^5.0.0",

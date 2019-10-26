@@ -4,13 +4,12 @@
 
 require('dotenv').config()
 
-import fs        = require('fs');
-import path      = require('path');
-import child     = require('child_process');
-import color     = require('cli-color');
-import commander = require('commander');
-import libs      = require('./libs');
-import docker    = require('./docker');
+import fs        = require('fs')
+import path      = require('path')
+import color     = require('cli-color')
+import commander = require('commander')
+import libs      = require('./libs')
+require('dotenv').config()
 
 // 1行改行
 console.log()

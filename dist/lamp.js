@@ -7,6 +7,7 @@ var path = require("path");
 var color = require("cli-color");
 var commander = require("commander");
 var libs = require("./libs");
+require('dotenv').config();
 console.log();
 process.argv.forEach(function (value, i) {
     if ('-m' === value || '--mode' === value) {
