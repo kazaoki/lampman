@@ -197,6 +197,18 @@ module.exports.config = {
         //     container: 'lampman', // if specified, run on container.
         //     desc: '(description)', // if specified, show desc on `lamp --help`
         // },
+
+        // git-book serve
+        gb: {
+            command: 'cd git-book && start http://localhost:4000 && gitbook serve',
+            desc: 'git-book serve'
+        },
+        // _book 削除（↑コマンド後、別コンソールからこれ一度実行しないとファイル更新時にnode落ちる）
+        gbc: {
+            command: 'cd git-book && rm -rf _book',
+            desc: 'delete git-book serve dir'
+            // https://takamints.hatenablog.jp/entry/avoid-a-gitbook-bug-on-windows
+        },
     },
 
     /**
