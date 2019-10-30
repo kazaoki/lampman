@@ -1,7 +1,4 @@
 
-// load dotenv
-require(process.env.NODE_PATH+'/lampman/node_modules/dotenv').config()
-
 // Exprot config
 module.exports.config = {
 
