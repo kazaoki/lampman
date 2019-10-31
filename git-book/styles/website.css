@@ -1,0 +1,14 @@
+.book-summary ul.summary ul.articles li.chapter :hover {
+    color: #008cff;
+}
+
+pre.cmd {
+    line-height: 1.4;
+    font-size: 11pt;
+    white-space: pre;
+}
+
+pre.cmd .comment {
+    color: #888;
+    font-size: 11pt;
+}
