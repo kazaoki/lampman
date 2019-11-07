@@ -258,7 +258,7 @@ export function LoadConfig(lampman: any)
  */
 export function UpdateCompose(lampman: any)
 {
-    let ymldata = docker.ConfigToYaml(lampman.config)
+    let ymldata = docker.ConfigToYaml(lampman.config, lampman.config_dir)
     let date = new Date()
     fs.writeFileSync(
         `${lampman.config_dir}/docker-compose.yml`,
