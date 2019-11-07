@@ -3,7 +3,7 @@
 
 import libs = require('./libs');
 const child = require('child_process')
-const color = require('cli-color');
+const fs = require('fs');
 
 /**
 * ConfigToYaml
@@ -154,7 +154,9 @@ export function ConfigToYaml(config: any)
                 }
                 if('filename' in config[key].dump) {
                     yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename
-                    yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/${config[key].dump.filename}`)
+                    if(fs.existsSync(`./${key}/${config[key].dump.filename}`)) {
+                        yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/${config[key].dump.filename}`)
+                    }
                 }
             }
             if ('LAMPMAN_MYSQLS' in yaml.services.lampman.environment) {
@@ -197,7 +199,9 @@ export function ConfigToYaml(config: any)
                 }
                 if('filename' in config[key].dump) {
                     yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename
-                    yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/${config[key].dump.filename}`)
+                    if(fs.existsSync(`./${key}/${config[key].dump.filename}`)) {
+                        yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/${config[key].dump.filename}`)
+                    }
                 }
             }
             if('hosts' in config[key] && config[key].hosts.length) {

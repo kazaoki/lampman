@@ -67,7 +67,11 @@ export async function action(cname:string|null, commands:any)
         }
     } else {
         // 引数未指定の場合
-        if(list.length>1) {
+        if(list.length===0) {
+            // 設定無し
+            libs.Error('PostgreSQL設定がありません。')
+            return
+        } else if(list.length>1) {
             // 接頭辞
             let before_str = ''
             if(commands.dump) before_str = 'ダンプを生成する'

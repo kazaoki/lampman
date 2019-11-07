@@ -88,7 +88,7 @@ module.exports.config = {
         user:           'test',
         password:       'test', // same root password
         charset:        'utf8mb4',
-        collation:      'utf8mb4_unicode_ci',
+        collation:      'utf8mb4_general_ci',
         hosts:          ['main.db'],
         volume_locked:  false,
         query_log:      true,
@@ -106,7 +106,7 @@ module.exports.config = {
         user:           'test2',
         password:       'test2', // same root password
         charset:        'utf8mb4',
-        collation:      'utf8mb4_unicode_ci',
+        collation:      'utf8mb4_general_ci',
         hosts:          ['main-2.db'],
         volume_locked:  false,
         query_log:      false,
