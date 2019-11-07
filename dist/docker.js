@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var child = require('child_process');
 var fs = require('fs');
-function ConfigToYaml(config) {
+var path = require('path');
+function ConfigToYaml(config, config_dir) {
     var _a, _b, _c, _d, _e;
     var yaml = {
         version: config.version,
@@ -157,7 +158,7 @@ function ConfigToYaml(config) {
                 }
                 if ('filename' in config[key].dump) {
                     yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename;
-                    if (fs.existsSync("./" + key + "/" + config[key].dump.filename)) {
+                    if (fs.existsSync(path.join(config_dir, "/" + key + "/" + config[key].dump.filename))) {
                         yaml.services[key].volumes.push("./" + key + "/" + config[key].dump.filename + ":/docker-entrypoint-initdb.d/" + config[key].dump.filename);
                     }
                 }
@@ -201,7 +202,7 @@ function ConfigToYaml(config) {
                 }
                 if ('filename' in config[key].dump) {
                     yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename;
-                    if (fs.existsSync("./" + key + "/" + config[key].dump.filename)) {
+                    if (fs.existsSync(path.join(config_dir, "/" + key + "/" + config[key].dump.filename))) {
                         yaml.services[key].volumes.push("./" + key + "/" + config[key].dump.filename + ":/docker-entrypoint-initdb.d/" + config[key].dump.filename);
                     }
                 }

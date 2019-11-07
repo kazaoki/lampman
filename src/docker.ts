@@ -3,7 +3,8 @@
 
 import libs = require('./libs');
 const child = require('child_process')
-const fs = require('fs');
+const fs    = require('fs');
+const path  = require('path');
 
 /**
 * ConfigToYaml
@@ -11,7 +12,7 @@ const fs = require('fs');
 *
 * @param object
 */
-export function ConfigToYaml(config: any)
+export function ConfigToYaml(config:any, config_dir:string)
 {
     let yaml = {
         version:  config.version,
@@ -154,7 +155,7 @@ export function ConfigToYaml(config: any)
                 }
                 if('filename' in config[key].dump) {
                     yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename
-                    if(fs.existsSync(`./${key}/${config[key].dump.filename}`)) {
+                    if(fs.existsSync(path.join(config_dir, `/${key}/${config[key].dump.filename}`))) {
                         yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/${config[key].dump.filename}`)
                     }
                 }
@@ -199,7 +200,7 @@ export function ConfigToYaml(config: any)
                 }
                 if('filename' in config[key].dump) {
                     yaml.services[key].environment.DUMP_FILENAME = config[key].dump.filename
-                    if(fs.existsSync(`./${key}/${config[key].dump.filename}`)) {
+                    if(fs.existsSync(path.join(config_dir, `/${key}/${config[key].dump.filename}`))) {
                         yaml.services[key].volumes.push(`./${key}/${config[key].dump.filename}:/docker-entrypoint-initdb.d/${config[key].dump.filename}`)
                     }
                 }
