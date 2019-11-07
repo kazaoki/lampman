@@ -53,6 +53,7 @@ function meta() {
             ['-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能'],
             ['-D', 'デーモンじゃなくフォアグラウンドで起動する'],
             ['-n --no-update', 'docker-compose.yml を更新せずに起動する'],
+            ['-t --thru-upped', 'config.jsで設定した起動時コマンド"on_upped"を実行しない'],
         ]
     };
 }
@@ -159,7 +160,7 @@ function action(commands) {
                                     if (process.env.LAMPMAN_EXPORT_LAMPMAN_1080)
                                         console.log(color.magenta.bold('  [Maildev] ') +
                                             color.magenta("http://" + docker_host + ":" + process.env.LAMPMAN_EXPORT_LAMPMAN_1080));
-                                    if ('on_upped' in lampman.config && lampman.config.on_upped.length) {
+                                    if ('on_upped' in lampman.config && lampman.config.on_upped.length && !commands.thruUpped) {
                                         count = 0;
                                         for (_b = 0, _c = lampman.config.on_upped; _b < _c.length; _b++) {
                                             action_1 = _c[_b];
