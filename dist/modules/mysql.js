@@ -95,9 +95,13 @@ function action(cname, commands) {
                         libs.Message('ご指定のコンテナ情報が設定ファイルに存在しません。\n' + cname, 'warning', 1);
                         process.exit();
                     }
-                    return [3, 4];
+                    return [3, 5];
                 case 1:
-                    if (!(list.length > 1)) return [3, 3];
+                    if (!(list.length === 0)) return [3, 2];
+                    libs.Error('MySQL設定がありません。');
+                    return [2];
+                case 2:
+                    if (!(list.length > 1)) return [3, 4];
                     before_str = '';
                     if (commands.dump)
                         before_str = 'ダンプを生成する';
@@ -113,23 +117,23 @@ function action(cname, commands) {
                                 choices: list,
                             }
                         ])];
-                case 2:
+                case 3:
                     response = _d.sent();
                     if ('undefined' === typeof response.cname)
                         return [2];
                     mysql = response.cname;
-                    return [3, 4];
-                case 3:
-                    mysql = list[0].value;
-                    _d.label = 4;
+                    return [3, 5];
                 case 4:
+                    mysql = list[0].value;
+                    _d.label = 5;
+                case 5:
                     try {
                         child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', mysql.cname], { cwd: lampman.config_dir });
                     }
                     catch (e) {
                         libs.Error(e);
                     }
-                    if (!commands.dump) return [3, 9];
+                    if (!commands.dump) return [3, 10];
                     libs.Label('Dump MySQL');
                     is_gzip = mysql.dump.filename.match(/\.gz$/);
                     dumpfile = path.join((commands.filePath ? commands.filePath : path.join(lampman.config_dir, mysql.cname)), (mysql.dump.filename ? mysql.dump.filename : 'dump.sql'));
@@ -169,22 +173,22 @@ function action(cname, commands) {
                         }));
                     }
                     _c = 0, procs_1 = procs;
-                    _d.label = 5;
-                case 5:
-                    if (!(_c < procs_1.length)) return [3, 8];
+                    _d.label = 6;
+                case 6:
+                    if (!(_c < procs_1.length)) return [3, 9];
                     proc = procs_1[_c];
                     return [4, proc];
-                case 6:
-                    _d.sent();
-                    _d.label = 7;
                 case 7:
-                    _c++;
-                    return [3, 5];
+                    _d.sent();
+                    _d.label = 8;
                 case 8:
+                    _c++;
+                    return [3, 6];
+                case 9:
                     console.log(color.green('done'));
                     return [2];
-                case 9:
-                    if (!commands.restore) return [3, 11];
+                case 10:
+                    if (!commands.restore) return [3, 12];
                     if (mysql.volume_locked)
                         libs.Error(mysql.cname + " \u306F\u30ED\u30C3\u30AF\u6E08\u307F\u30DC\u30EA\u30E5\u30FC\u30E0\u306E\u305F\u3081\u30EA\u30B9\u30C8\u30A2\u3067\u304D\u307E\u305B\u3093\u3002");
                     libs.Label('Restore MySQL');
@@ -236,11 +240,11 @@ function action(cname, commands) {
                             .then(function () { return process.stdout.write(color.magenta(' lampman')); }));
                     }
                     return [4, Promise.all(procs).catch(function (e) { return libs.Error(e); })];
-                case 10:
+                case 11:
                     _d.sent();
                     console.log();
                     return [2];
-                case 11: return [4, child.spawn('docker-compose', [
+                case 12: return [4, child.spawn('docker-compose', [
                         '--project-name', lampman.config.project,
                         'exec',
                         '-e', 'TERM=xterm-256color',
@@ -257,7 +261,7 @@ function action(cname, commands) {
                         cwd: lampman.config_dir,
                         stdio: 'inherit'
                     })];
-                case 12:
+                case 13:
                     _d.sent();
                     return [2];
             }
