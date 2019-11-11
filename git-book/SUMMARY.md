@@ -1,8 +1,6 @@
 # Summary
 
-- [はじめに](README.md)
-    * [Lampman（ランプマン）](README.md)
-    * [一番シンプルな使い方](docs/intro-simple.md)
+- [Lampman（ランプマン）概要](README.md)
     * [もう少し詳しく](docs/intro-detail.md)
 
 

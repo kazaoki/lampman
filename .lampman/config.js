@@ -200,7 +200,10 @@ module.exports.config = {
 
         // git-book serve
         gb: {
-            command: 'cd git-book && start http://localhost:4000 && gitbook serve',
+            command: {
+                win: 'cd git-book && start http://localhost:4000 && gitbook serve',
+                unix: 'cd git-book && open http://localhost:4000 && gitbook serve',
+            },
             desc: 'git-book serve'
         },
         // _book 削除（↑コマンド後、別コンソールからこれ一度実行しないとファイル更新時にnode落ちる）

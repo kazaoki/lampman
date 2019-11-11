@@ -1,65 +1,28 @@
-# Lampman（ランプマン）
+# Lampman（ランプマン）概要
 
-よくあるレンタルサーバの構成（**L**inux, **A**pache, **M**ySQL, **P**HP|**P**erl）をLAMP（ランプ）構成などと呼んだりしますが、これをサクッと自分の作業環境に構築できるコマンド `lamp` を開発し、名称をLampman（ランプマン） としました。
+## LAMP環境構築ツール
+よくあるレンタルサーバの構成（**L**inux, **A**pache, **M**ySQL, **P**HP|**P**erl）を、頭文字を取ってLAMP（ランプ）構成などと呼んだりしますが、ゼロからLAMPサーバを構築するとなると結構な作業で、ましてや案件ごとに環境を用意するのは容易なことではないです。そこで、これをサクッと自分の作業環境に構築できてしまうコマンドを作ってみました。
+
+名称は Lampman ですが、コマンドは `lamp` ですのご注意ください。
 このコマンドは実際には内部でLAMP構成の `docker-compose.yml` ファイルを自動生成して [docker-compose](https://docs.docker.com/compose/) を実行しているだけです。
-そのため、[Xampp](https://www.apachefriends.org/jp/index.html) で確認するよりは本番サーバに近い環境を用意でき、FTPで本番サーバに上げながら開発するよりも手軽で安全です。また、LAMPの基本機能やバージョンの指定、DB接続情報やダンプ自動ロードなど、ほぼ設定ファイルを少し編集するだけで用意できますので、作業データと一緒に [Git](https://git-scm.com/) 等で管理すれば他のクリエータとも開発環境の共有が容易になるというメリットもあります。
+そのため、[Xampp](https://www.apachefriends.org/jp/index.html) で確認するよりも本番サーバに近い環境を用意でき、FTPで本番サーバに上げながら開発するよりも手軽で安全です。また、LAMPの基本機能やPHPバージョンの指定、DB接続情報やダンプファイルの自動ロードなど、ある程度なら設定ファイルを少し編集するだけで調整可能になっていますので、作業データと一緒に [Git](https://git-scm.com/) 等で管理すれば他のクリエータとも同じ開発環境を共有できます。
 
-## ざっくりコマンドサンプル
+あと、おまけ機能をたくさん用意してあるので開発時にいろいろ便利かと思います。欲しい機能がなかったら設定ファイルいじって自分で追加することも可能です。
 
-```
-$ cd proj-A/
-$ lamp init
-$ vi .lampman/config.js
-$ lamp up
-...
-$ lamp down
-```
+## とりあえず今すぐ試したい場合
 
-`lamp init` は初回のみでOKです。
+[Docker](https://www.docker.com/) と [Node.js](https://nodejs.org/en/)(v10以降) が入っている環境で以下のコマンド打てばLAMPサーバが起動します。　
 
-
-
----
-
-## Lampman導入の手順
-
-`lamp` コマンドはインストールされており（後述）、 `proj-A/public_html/index.php` というプロジェクトフォルダと公開ファイルが用意されているとします。
-
-```
-$ cd proj-A/
+``` shell
+$ mkdir -p proj_a/public_html
+$ cd proj_a/
+$ echo '<?php phpinfo();' > public_html/index.php
+$ sudo npm i lampman -g
 $ lamp init
 $ lamp up
 ```
-ここでブラウザが起動します。
+※Windows環境では `sudo` は不要です。  
+※初回は必要なDockerイメージが [Docker Hub](https://hub.docker.com/) からダウンロードされます。  
 
-
-
----
-
-## 作業の流れサンプル
-
-
-動作環境やインストール方法は後回しで、まずは雰囲気をどうそ。
-
-1. まず `public_html/` があるプロジェクトディレクトリに移動して以下のコマンドを打ちます。
-
-    ``` shell
-    lamp init
-    ```
-    これによりプロジェクトディレクトリに `.lampman/` という設定用のディレクトリが作成されます。
-
-2. 次に以下のコマンドを打つと、docker上でWebサーバがごそごそ起動します。
-
-    ``` shell
-    lamp up
-    ```
-
-3. 起動完了すると勝手にブラウザが開き [https://localhost](https://localhost) にアクセスされますので、`public_html/` にて開発を進めてください。（[Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/) 環境の場合は [https://192.168.99.100](https://192.168.99.100) など）
-
-4.  開発が終わったらそのまま放っておいてもいいですが、以下のコマンドで、起動させたサーバコンテナ達を終了させることができます。
-
-    ``` shell
-    lamp down
-    ```
-
-**基本は以上です。**
+ブラウザが立ち上がり、 [phpinfo()](https://www.php.net/manual/ja/function.phpinfo.php) の実行結果が表示されます。（途中、設定ファイルがエディタで自動で開いたり、ブラウザのセキュリティ警告が出たりするかもしれません）  
+終了するには `lamp down`、次回の起動時のコマンドは `lamp up` または `lamp up -f` （既存コンテナ＆ボリューム一掃）などとすればOKです。
