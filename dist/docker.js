@@ -280,3 +280,9 @@ function getRealCname(cname, lampman) {
     throw new Error();
 }
 exports.getRealCname = getRealCname;
+function isRunning(cname, lampman) {
+    var cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', cname], { cwd: lampman.config_dir }).toString();
+    var res = child.execFileSync('docker', ['inspect', cid.trim(), '--format', '{{.State.Status}}']).toString();
+    return 'running' === res.trim();
+}
+exports.isRunning = isRunning;

@@ -300,3 +300,16 @@ export function getRealCname(cname: string, lampman: any)
     if(res) return res.trim()
     throw new Error()
 }
+
+/**
+ * 指定コンテナがrunning中かどうか
+ *
+ * @param service: string
+ * @param lampman: any
+ */
+export function isRunning(cname:string, lampman:any)
+{
+    let cid = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', cname], {cwd: lampman.config_dir}).toString()
+    let res = child.execFileSync('docker', ['inspect', cid.trim(), '--format', '{{.State.Status}}']).toString()
+    return 'running'===res.trim()
+}

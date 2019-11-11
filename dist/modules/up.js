@@ -114,9 +114,9 @@ function action(commands) {
                         stdio: 'inherit'
                     });
                     proc.on('close', function (code) { return __awaiter(_this, void 0, void 0, function () {
-                        var procs, lampman_id, sp, _loop_1, _i, _a, key, docker_host, http_port, https_port, count, _b, _c, action_1, url, opencmd, extraopt;
-                        return __generator(this, function (_d) {
-                            switch (_d.label) {
+                        var procs, lampman_id, sp, _loop_1, _i, _a, key, _b, _c, key, docker_host, http_port, https_port, count, _d, _e, action_1, url, opencmd, extraopt;
+                        return __generator(this, function (_f) {
+                            switch (_f.label) {
                                 case 0:
                                     if (code) {
                                         libs.Error("Up process exited with code " + code);
@@ -147,7 +147,20 @@ function action(commands) {
                                     }
                                     return [4, Promise.all(procs).catch(function (e) { return libs.Error(e); })];
                                 case 1:
-                                    _d.sent();
+                                    _f.sent();
+                                    if (!docker.isRunning('lampman', lampman)) {
+                                        console.log();
+                                        libs.Error('lampman container dead!!');
+                                    }
+                                    for (_b = 0, _c = Object.keys(lampman.config); _b < _c.length; _b++) {
+                                        key = _c[_b];
+                                        if (!key.match(/^(mysql|postgresql)/))
+                                            continue;
+                                        if (!docker.isRunning(key, lampman)) {
+                                            console.log();
+                                            libs.Error(key + " container dead!!");
+                                        }
+                                    }
                                     docker_host = docker.getDockerLocalhost();
                                     console.log();
                                     http_port = process.env.LAMPMAN_EXPORT_LAMPMAN_80;
@@ -162,8 +175,8 @@ function action(commands) {
                                             color.magenta("http://" + docker_host + ":" + process.env.LAMPMAN_EXPORT_LAMPMAN_1080));
                                     if ('on_upped' in lampman.config && lampman.config.on_upped.length && !commands.thruUpped) {
                                         count = 0;
-                                        for (_b = 0, _c = lampman.config.on_upped; _b < _c.length; _b++) {
-                                            action_1 = _c[_b];
+                                        for (_d = 0, _e = lampman.config.on_upped; _d < _e.length; _d++) {
+                                            action_1 = _e[_d];
                                             if ('open_browser' === action_1.type) {
                                                 url = action_1.url
                                                     ? new URL(action_1.url)

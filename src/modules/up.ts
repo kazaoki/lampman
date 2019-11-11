@@ -156,6 +156,21 @@ export async function action(commands:any)
         // Parallel processing
         await Promise.all(procs).catch(e=>libs.Error(e))
 
+        // lampmanコンテナ死んでないか
+        if(!docker.isRunning('lampman', lampman)) {
+            console.log()
+            libs.Error('lampman container dead!!')
+        }
+
+        // mysql/postgresqlコンテナ死んでないか
+        for(let key of Object.keys(lampman.config)) {
+            if(!key.match(/^(mysql|postgresql)/)) continue
+            if(!docker.isRunning(key, lampman)) {
+                console.log()
+                libs.Error(`${key} container dead!!`)
+            }
+        }
+
         // Show links
         let docker_host = docker.getDockerLocalhost()
         console.log()
