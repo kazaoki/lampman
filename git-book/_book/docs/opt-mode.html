@@ -89,21 +89,34 @@
         
         
     
-        <li class="chapter " data-level="1.1" data-path="../">
+        <li class="chapter " data-level="1.1" >
             
-                <a href="../">
+                <span>
             
                     
-                    Lampman（ランプマン）概要
+                    Lampman（ランプマン）
             
-                </a>
+                </span>
             
 
             
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.1.1" data-path="intro-detail.html">
+        <li class="chapter " data-level="1.1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    概要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.2" data-path="intro-detail.html">
             
                 <a href="intro-detail.html">
             
@@ -973,17 +986,19 @@
 <h3 id="&#x4F8B;">&#x4F8B;</h3>
 <pre class="cmd">
 $ lamp -m product init
+&#xFF08;.lampman-product/&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x304C;&#x4F5C;&#x6210;&#x3055;&#x308C;&#x308B;&#x306E;&#x3067;&#x3053;&#x3053;&#x306B;&#x672C;&#x756A;&#x8A2D;&#x5B9A;&#x3057;&#x3066;&#x304F;&#xFF09;
+
 $ lamp -m product up
-$ lamp -m product down
+&#xFF08;&#x672C;&#x756A;&#x30E2;&#x30FC;&#x30C9;&#x3067;LAMP&#x7ACB;&#x3061;&#x4E0A;&#x3052;&#xFF09;
 </pre>
 
 <h3 id="&#x4ED6;&#x306E;&#x65B9;&#x6CD5;&#x3067;&#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;">&#x4ED6;&#x306E;&#x65B9;&#x6CD5;&#x3067;&#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;</h3>
-<p>&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x306B; <code>-m</code> &#x3084; <code>--mode</code> &#x3092;&#x8A18;&#x8FF0;&#x3057;&#x306A;&#x304F;&#x3066;&#x3082;&#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x304C;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x308B;&#x65B9;&#x6CD5;&#x304C;&#xFF12;&#x3064;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x306B; <code>-m</code>, <code>--mode</code> &#x3092;&#x8A18;&#x8FF0;&#x3057;&#x306A;&#x304F;&#x3066;&#x3082;&#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x304C;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x308B;&#x65B9;&#x6CD5;&#x304C;&#xFF12;&#x3064;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
 <h4 id="1-&#x30DB;&#x30B9;&#x30C8;os&#x4E0A;&#x306E;&#x74B0;&#x5883;&#x5909;&#x6570;-lampmanmode-&#x306B;&#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x306E;&#x6587;&#x5B57;&#x5217;&#x3092;&#x8A2D;&#x5B9A;&#x3057;&#x3066;&#x304A;&#x304F;">1. &#x30DB;&#x30B9;&#x30C8;OS&#x4E0A;&#x306E;&#x74B0;&#x5883;&#x5909;&#x6570; <code>LAMPMAN_MODE</code> &#x306B;&#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x306E;&#x6587;&#x5B57;&#x5217;&#x3092;&#x8A2D;&#x5B9A;&#x3057;&#x3066;&#x304A;&#x304F;</h4>
-<p>&#x4F8B;&#x3048;&#x3070; <code>.bashrc</code> &#x306B;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306B;&#x8A18;&#x8FF0;&#x3057;&#x3066;&#x304A;&#x304D;&#x307E;&#x3059;&#x3002;&#xFF08;Linux&#x306A;&#x3069;&#xFF09;</p>
+<p>&#x4F8B;&#x3048;&#x3070;&#x30E6;&#x30FC;&#x30B6;&#x30FC;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x306E; <code>.bashrc</code> &#x306B;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306B;&#x8A18;&#x8FF0;&#x3057;&#x3066;&#x74B0;&#x5883;&#x5909;&#x6570;&#x3092;&#x8A2D;&#x5B9A;&#x3057;&#x3066;&#x304A;&#x304D;&#x307E;&#x3059;&#x3002;&#xFF08;Linux&#x306A;&#x3069;&#xFF09;</p>
 <pre><code class="lang-shell">export LAMPMAN_MODE=product
 </code></pre>
-<p>&#x305F;&#x3060;&#x3057;&#x3001;&#x3053;&#x3046;&#x3044;&#x3063;&#x305F;&#x904B;&#x7528;&#x306E;&#x5834;&#x5408;&#x3001;cron&#x5B9F;&#x884C;&#x306A;&#x3069; <code>.bashrc</code> &#x3092;&#x8AAD;&#x307F;&#x8FBC;&#x307E;&#x306A;&#x3044;&#x30B1;&#x30FC;&#x30B9;&#x3082;&#x3042;&#x308B;&#x306E;&#x3067;&#x5341;&#x5206;&#x3054;&#x6CE8;&#x610F;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+<p>&#x3053;&#x308C;&#x3067; <code>lamp up</code> &#x3068;&#x6253;&#x3066;&#x3070; <code>product</code> &#x30E2;&#x30FC;&#x30C9;&#x3067;LAMP&#x304C;&#x7ACB;&#x3061;&#x4E0A;&#x304C;&#x308A;&#x307E;&#x3059;&#x3002;<br>&#x305F;&#x3060;&#x3057;&#x3053;&#x306E;&#x6307;&#x5B9A;&#x65B9;&#x6CD5;&#x306E;&#x5834;&#x5408;&#x3001;cron&#x5B9F;&#x884C;&#x306A;&#x3069;&#x3067; <code>.bashrc</code> &#x3092;&#x8AAD;&#x307F;&#x8FBC;&#x307E;&#x306A;&#x3044;&#x30B1;&#x30FC;&#x30B9;&#x3082;&#x3042;&#x308B;&#x306E;&#x3067;&#x5341;&#x5206;&#x3054;&#x6CE8;&#x610F;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
 <h4 id="2-&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x306B;-env-&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x7528;&#x610F;&#x3057;&#x3066;&#x304A;&#x304F;">2. &#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x306B; <code>.env</code> &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x7528;&#x610F;&#x3057;&#x3066;&#x304A;&#x304F;</h4>
 <p>&#x4F8B;&#x3048;&#x3070;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306B;&#x8A18;&#x8FF0;&#x3057;&#x3066;&#x304A;&#x304D;&#x307E;&#x3059;&#x3002;</p>
 <pre><code class="lang-shell">LAMPMAN_MODE=product
@@ -996,7 +1011,7 @@ $ lamp -m product down
 <li><code>.lampman/config.js</code> &#x306E;&#x4E2D;&#x3067;&#x306F; <code>process.env.LAMPMAN_MODE</code></li>
 <li><code>.lampman/docker-compose.override.yml</code> &#x306E;&#x4E2D;&#x3067;&#x306F; <code>&quot;${LAMPMAN_MODE}&quot;</code></li>
 </ul>
-<p>&#x306E;&#x3088;&#x3046;&#x306B;&#x66F8;&#x304F;&#x3053;&#x3068;&#x3067;&#x53C2;&#x7167;&#x3067;&#x304D;&#x308B;&#x306E;&#x3067;&#x3001;&#x30D1;&#x30B9;&#x30EF;&#x30FC;&#x30C9;&#x3084;&#x74B0;&#x5883;&#x306B;&#x3088;&#x308B;&#x9055;&#x3044;&#x306A;&#x3069;git&#x5BFE;&#x8C61;&#x306B;&#x3057;&#x305F;&#x304F;&#x306A;&#x3044;&#x60C5;&#x5831;&#x306F;&#x74B0;&#x5883;&#x5909;&#x6570;&#x306B;&#x9003;&#x304C;&#x3059;&#x3068;&#x826F;&#x3044;&#x3067;&#x3057;&#x3087;&#x3046;&#x3002;</p>
+<p>&#x306E;&#x3088;&#x3046;&#x306B;&#x66F8;&#x304F;&#x3053;&#x3068;&#x3067;&#x53C2;&#x7167;&#x3067;&#x304D;&#x308B;&#x306E;&#x3067;&#x3001;&#x30D1;&#x30B9;&#x30EF;&#x30FC;&#x30C9;&#x3084;&#x74B0;&#x5883;&#x306B;&#x3088;&#x308B;&#x9055;&#x3044;&#x306A;&#x3069;&#x3001;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;git&#x30B3;&#x30DF;&#x30C3;&#x30C8;&#x5BFE;&#x8C61;&#x306B;&#x3057;&#x305F;&#x304F;&#x306A;&#x3044;&#x60C5;&#x5831;&#x306F;&#x74B0;&#x5883;&#x5909;&#x6570;&#x306B;&#x9003;&#x304C;&#x3059;&#x3068;&#x826F;&#x3044;&#x3067;&#x3057;&#x3087;&#x3046;&#x3002;</p>
 
                                 
                                 </section>
@@ -1036,7 +1051,7 @@ $ lamp -m product down
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"-m, --mode","level":"3.1.2","depth":2,"next":{"title":"セットアップコマンド","level":"4.1","depth":1,"ref":"","articles":[{"title":"lamp init","level":"4.1.1","depth":2,"path":"docs/cmd-init.md","ref":"docs/cmd-init.md","articles":[]}]},"previous":{"title":"-h, --help","level":"3.1.1","depth":2,"path":"docs/opt-help.md","ref":"docs/opt-help.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.77"},"title":"Lampman 0.1.77","language":"ja","gitbook":"*"},"file":{"path":"docs/opt-mode.md","mtime":"2019-11-11T12:53:11.338Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-11T14:08:04.090Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"-m, --mode","level":"3.1.2","depth":2,"next":{"title":"セットアップコマンド","level":"4.1","depth":1,"ref":"","articles":[{"title":"lamp init","level":"4.1.1","depth":2,"path":"docs/cmd-init.md","ref":"docs/cmd-init.md","articles":[]}]},"previous":{"title":"-h, --help","level":"3.1.1","depth":2,"path":"docs/opt-help.md","ref":"docs/opt-help.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.77"},"title":"Lampman 0.1.77","language":"ja","gitbook":"*"},"file":{"path":"docs/opt-mode.md","mtime":"2019-11-12T14:44:48.737Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-12T14:00:04.701Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

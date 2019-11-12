@@ -1,10 +1,11 @@
 # Summary
 
-- [Lampman（ランプマン）概要](README.md)
+- Lampman（ランプマン）
+    * [概要](README.md)
     * [もう少し詳しく](docs/intro-detail.md)
 
 
-* セットアップ
+- セットアップ
     * [動作要件](docs/require.md)
     * [lamp コマンドインストール](docs/install.md)
 

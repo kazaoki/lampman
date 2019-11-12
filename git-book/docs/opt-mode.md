@@ -21,21 +21,24 @@
 ### 例
 <pre class="cmd">
 $ lamp -m product init
+（.lampman-product/ディレクトリが作成されるのでここに本番設定してく）
+
 $ lamp -m product up
-$ lamp -m product down
+（本番モードでLAMP立ち上げ）
 </pre>
 
 ### 他の方法で実行モードを指定する
 
-コマンドに `-m` や `--mode` を記述しなくても実行モードが指定できる方法が２つあります。
+コマンドに `-m`, `--mode` を記述しなくても実行モードが指定できる方法が２つあります。
 
 #### 1. ホストOS上の環境変数 `LAMPMAN_MODE` に実行モードの文字列を設定しておく
 
-例えば `.bashrc` に以下のように記述しておきます。（Linuxなど）
+例えばユーザーディレクトリの `.bashrc` に以下のように記述して環境変数を設定しておきます。（Linuxなど）
 ``` shell
 export LAMPMAN_MODE=product
 ```
-ただし、こういった運用の場合、cron実行など `.bashrc` を読み込まないケースもあるので十分ご注意ください。
+これで `lamp up` と打てば `product` モードでLAMPが立ち上がります。  
+ただしこの指定方法の場合、cron実行などで `.bashrc` を読み込まないケースもあるので十分ご注意ください。
 
 #### 2. プロジェクトディレクトリに `.env` ファイルを用意しておく
 
@@ -54,4 +57,4 @@ LAMPMAN_MODE=product
 - `.lampman/config.js` の中では `process.env.LAMPMAN_MODE`
 - `.lampman/docker-compose.override.yml` の中では `"${LAMPMAN_MODE}"`
 
-のように書くことで参照できるので、パスワードや環境による違いなどgit対象にしたくない情報は環境変数に逃がすと良いでしょう。
+のように書くことで参照できるので、パスワードや環境による違いなど、設定ファイルをgitコミット対象にしたくない情報は環境変数に逃がすと良いでしょう。

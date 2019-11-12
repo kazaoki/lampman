@@ -89,21 +89,34 @@
         
         
     
-        <li class="chapter " data-level="1.1" data-path="../">
+        <li class="chapter " data-level="1.1" >
             
-                <a href="../">
+                <span>
             
                     
-                    Lampman（ランプマン）概要
+                    Lampman（ランプマン）
             
-                </a>
+                </span>
             
 
             
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.1.1" data-path="intro-detail.html">
+        <li class="chapter " data-level="1.1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    概要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.1.2" data-path="intro-detail.html">
             
                 <a href="intro-detail.html">
             
@@ -948,11 +961,11 @@
 <p>&#x306F;&#x3044;&#x3001;&#x3053;&#x3093;&#x306A;&#x3068;&#x3053;&#x308D;&#x3067;&#x3057;&#x3087;&#x3046;&#x304B;&#x3002;&#x5168;&#x90E8;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;<br>&#x57FA;&#x672C;&#x7684;&#x306B;&#x306F;&#x8A2D;&#x5B9A;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA; <code>.lampman/</code> &#x306E;&#x4E2D;&#x3067;&#x3054;&#x306B;&#x3087;&#x3054;&#x306B;&#x3087;&#x3059;&#x308B;&#x3053;&#x3068;&#x3067;&#x3001;&#x3054;&#x5E0C;&#x671B;&#x306E;&#x30B5;&#x30FC;&#x30D0;&#x74B0;&#x5883;&#x304C;&#x7528;&#x610F;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
 <p>&#x307E;&#x305A;&#x306F;&#x8D77;&#x52D5;&#x307E;&#x3067;&#x306E;&#x5185;&#x90E8;&#x30D5;&#x30ED;&#x30FC;&#x3092;&#x77E5;&#x3063;&#x3066;&#x304A;&#x3044;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#x4ED5;&#x7D44;&#x307F;&#x306F;&#x30B7;&#x30F3;&#x30D7;&#x30EB;&#x3067;&#x3059;&#x3002;</p>
 <ol>
-<li>&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x30D5;&#x30A9;&#x30EB;&#x30C0;&#x3054;&#x3068;&#x306B; <code>.lampman/config.js</code> &#x306B;&#x8A2D;&#x5B9A;&#x3092;&#x66F8;&#x304F;</li>
+<li><code>lamp init</code> &#x3068;&#x6253;&#x3063;&#x3066;&#x4F5C;&#x6210;&#x3055;&#x308C;&#x305F; <code>.lampman/config.js</code> &#x306B;&#x8A2D;&#x5B9A;&#x3092;&#x66F8;&#x304F;</li>
 <li><code>lamp up</code> &#x3068;&#x6253;&#x3064;&#x3068; <code>.lampman/config.js</code> &#x3092;&#x5143;&#x306B; <code>.lampman/docker-compose.yml</code> &#x304C;&#x81EA;&#x52D5;&#x751F;&#x6210;/&#x66F4;&#x65B0;&#x3055;&#x308C;&#x3001;<code>.lampman/</code> &#x3092;&#x8D77;&#x70B9;&#x306B;&#x5185;&#x90E8;&#x3067; <code>docker-compose up -d</code> &#x304C;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x308B;</li>
 <li><code>docker-compose</code> &#x306F;&#x5B9F;&#x884C;&#x6642;&#x306B; <code>.lampman/docker-compose.yml</code> &#x306B;&#x8A2D;&#x5B9A;&#x4E0A;&#x66F8;&#x304D;&#x7528;&#x306E;yml&#x30D5;&#x30A1;&#x30A4;&#x30EB; <code>.lampman/docker-compose.override.yml</code> &#x3092;&#x30DE;&#x30FC;&#x30B8;&#x3057;&#x3066;&#x8D77;&#x52D5;&#x3092;&#x958B;&#x59CB;&#x3059;&#x308B;&#x3002;</li>
 </ol>
-<p>&#x8981;&#x306F; <code>config.js</code> &#x304B;&#x3089; <code>docker-compose.yml</code> &#x3092;&#x751F;&#x6210;&#x3057;&#x3066; <code>docker-compose</code> &#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x53E9;&#x3044;&#x3066;&#x308B;&#x3060;&#x3051;&#x306A;&#x3093;&#x3067;&#x3059;&#x3002;<br>&#x306A;&#x306E;&#x3067;&#x3001; &#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x3044;&#x3058;&#x308B;&#x3060;&#x3051;&#x3067;&#x306F;&#x5B9F;&#x73FE;&#x3067;&#x304D;&#x306A;&#x3044;&#x8907;&#x96D1;&#x306A;&#x30B5;&#x30FC;&#x30D0;&#x8A2D;&#x5B9A;&#x306A;&#x3069;&#x306F;&#x3001; <code>docker-compose.override.yml</code> &#x306B;&#x8FFD;&#x52A0;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3084;&#x30B5;&#x30FC;&#x30D0;&#x306E;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x7B49;&#x3092;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3059;&#x308B;&#x8A2D;&#x5B9A;&#x3092;&#x66F8;&#x304F;&#x306A;&#x308A;&#x3001;&#x72EC;&#x81EA;&#x306E;Docker&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3092;&#x7528;&#x610F;&#x3059;&#x308B;&#x306A;&#x308A;&#x3059;&#x308C;&#x3070;&#x3001;LAMP&#x69CB;&#x6210;&#x306B;&#x9650;&#x3089;&#x305A;&#x7406;&#x8AD6;&#x7684;&#x306B;&#x306F;&#x306A;&#x3093;&#x3067;&#x3082;&#x3067;&#x304D;&#x308B;&#x3001;&#x3068;&#x3044;&#x3046;&#x30EF;&#x30B1;&#x3067;&#x3059;&#x3002;
+<p>&#x8981;&#x306F; <code>config.js</code> &#x304B;&#x3089; <code>docker-compose.yml</code> &#x3092;&#x751F;&#x6210;&#x3057;&#x3066; <code>docker-compose</code> &#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x53E9;&#x3044;&#x3066;&#x308B;&#x3060;&#x3051;&#x306A;&#x3093;&#x3067;&#x3059;&#x3002;&#x306A;&#x306E;&#x3067;&#x3001; &#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x3044;&#x3058;&#x308B;&#x3060;&#x3051;&#x3067;&#x306F;&#x5B9F;&#x73FE;&#x3067;&#x304D;&#x306A;&#x3044;&#x8907;&#x96D1;&#x306A;&#x30B5;&#x30FC;&#x30D0;&#x8A2D;&#x5B9A;&#x306A;&#x3069;&#x306F;&#x3001; <code>docker-compose.override.yml</code> &#x306B;&#x8FFD;&#x52A0;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3084;&#x30B5;&#x30FC;&#x30D0;&#x306E;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x7B49;&#x3092;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3059;&#x308B;&#x8A2D;&#x5B9A;&#x3092;&#x66F8;&#x304F;&#x306A;&#x308A;&#x3001;&#x72EC;&#x81EA;&#x306E;Docker&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3092;&#x7528;&#x610F;&#x3059;&#x308B;&#x306A;&#x308A;&#x3059;&#x308C;&#x3070;&#x3001;LAMP&#x69CB;&#x6210;&#x306B;&#x9650;&#x3089;&#x305A;&#x7406;&#x8AD6;&#x7684;&#x306B;&#x306F;&#x306A;&#x3093;&#x3067;&#x3082;&#x3067;&#x304D;&#x308B;&#x3001;&#x3068;&#x3044;&#x3046;&#x30EF;&#x30B1;&#x3067;&#x3059;&#x3002;
 &#x3053;&#x306E;&#x8FBA;&#x306F; <a href="http://docs.docker.jp/compose/overview.html" target="_blank">docker-compose&#x516C;&#x5F0F;</a> &#x3092;&#x78BA;&#x8A8D;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
 <p><code>docker-compose.override.yml</code> &#x3092;&#x99C6;&#x4F7F;&#x3057;&#x3066;&#x7279;&#x6B8A;&#x306A;&#x30B5;&#x30FC;&#x30D0;&#x69CB;&#x6210;&#x3092;&#x304C;&#x3093;&#x3070;&#x3063;&#x3066;&#x4F5C;&#x308B;&#x3068; Lampman &#x81EA;&#x4F53;&#x5FC5;&#x8981;&#x7121;&#x3044;&#x6C17;&#x3082;&#x3057;&#x3066;&#x304D;&#x307E;&#x3059;&#x304C;&#x3001;&#x4ED6;&#x306B;&#x3082;&#x3053;&#x306E;LAMP&#x69CB;&#x6210;&#x3092;&#x7BA1;&#x7406;&#x3059;&#x308B;&#x305F;&#x3081;&#x306E;&#x4FBF;&#x5229;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x7528;&#x610F;&#x3057;&#x3066;&#x304A;&#x308A;&#x307E;&#x3059;&#x306E;&#x3067;&#x3001;&#x662F;&#x975E;&#x3054;&#x6D3B;&#x7528;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
 <p>&#x4EE5;&#x964D;&#x3001;&#x8A73;&#x8AAC;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
@@ -983,7 +996,7 @@
 
             
                 
-                <a href="../" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Lampman（ランプマン）概要">
+                <a href="../" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 概要">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -995,7 +1008,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"もう少し詳しく","level":"1.1.1","depth":2,"next":{"title":"セットアップ","level":"2.1","depth":1,"ref":"","articles":[{"title":"動作要件","level":"2.1.1","depth":2,"path":"docs/require.md","ref":"docs/require.md","articles":[]},{"title":"lamp コマンドインストール","level":"2.1.2","depth":2,"path":"docs/install.md","ref":"docs/install.md","articles":[]}]},"previous":{"title":"Lampman（ランプマン）概要","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[{"title":"もう少し詳しく","level":"1.1.1","depth":2,"path":"docs/intro-detail.md","ref":"docs/intro-detail.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.77"},"title":"Lampman 0.1.77","language":"ja","gitbook":"*"},"file":{"path":"docs/intro-detail.md","mtime":"2019-11-11T15:08:53.230Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-11T14:08:04.090Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"もう少し詳しく","level":"1.1.2","depth":2,"next":{"title":"セットアップ","level":"2.1","depth":1,"ref":"","articles":[{"title":"動作要件","level":"2.1.1","depth":2,"path":"docs/require.md","ref":"docs/require.md","articles":[]},{"title":"lamp コマンドインストール","level":"2.1.2","depth":2,"path":"docs/install.md","ref":"docs/install.md","articles":[]}]},"previous":{"title":"概要","level":"1.1.1","depth":2,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.77"},"title":"Lampman 0.1.77","language":"ja","gitbook":"*"},"file":{"path":"docs/intro-detail.md","mtime":"2019-11-12T14:05:31.706Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-12T14:00:04.701Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
