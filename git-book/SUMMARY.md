@@ -61,6 +61,7 @@
   - [Logs command settings：ログファイル設定]()
   - [Extra command settings：extraコマンド設定]()
   - [Add action on upped lampman：up時の自動実行設定]()
+  - [その他shファイル]()
 
 
 - 技術情報
