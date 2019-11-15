@@ -38,8 +38,12 @@ export function action(commands:any)
 {
     // --build: docker-compose.yml を作成/更新する
     if(commands.build) {
-        libs.UpdateCompose(lampman)
-        libs.Message('Built it!', 'success')
+        let ret = libs.UpdateCompose(lampman)
+        if(ret) {
+            libs.Message('Built it!', 'success')
+        } else {
+            libs.Message('No changes.', 'success')
+        }
     }
 
     // --out: 標準出力にYAMLデータを出力する

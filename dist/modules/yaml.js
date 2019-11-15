@@ -18,8 +18,13 @@ function meta() {
 exports.meta = meta;
 function action(commands) {
     if (commands.build) {
-        libs.UpdateCompose(lampman);
-        libs.Message('Built it!', 'success');
+        var ret = libs.UpdateCompose(lampman);
+        if (ret) {
+            libs.Message('Built it!', 'success');
+        }
+        else {
+            libs.Message('No changes.', 'success');
+        }
     }
     if (commands.out) {
         var yaml = jsYaml.load(child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config'], { cwd: lampman.config_dir }).toString());
