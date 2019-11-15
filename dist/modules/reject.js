@@ -44,7 +44,7 @@ function meta() {
         command: 'reject',
         description: 'コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）',
         options: [
-            ['-a, --all', 'ロック中のボリュームも選択できるようにする'],
+            ['-l, --locked', 'ロック中のボリュームも選択できるようにする'],
             ['-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）'],
         ]
     };
@@ -84,7 +84,7 @@ function action(commands) {
                             });
                         }
                     }
-                    if (!(commands.all && commands.force)) return [3, 2];
+                    if (!(commands.locked && commands.force)) return [3, 2];
                     return [4, prompts([
                             {
                                 type: 'toggle',
@@ -115,7 +115,7 @@ function action(commands) {
                     for (_c = 0, volumes_2 = volumes; _c < volumes_2.length; _c++) {
                         name_4 = volumes_2[_c];
                         if (name_4.length) {
-                            if (!commands.all && name_4.match(/^locked_/))
+                            if (!commands.locked && name_4.match(/^locked_/))
                                 continue;
                             targets.push({
                                 type: 'volume',

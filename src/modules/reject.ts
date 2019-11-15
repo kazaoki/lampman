@@ -24,7 +24,7 @@ export function meta()
         command: 'reject',
         description: 'コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）',
         options: [
-            ['-a, --all', 'ロック中のボリュームも選択できるようにする'],
+            ['-l, --locked', 'ロック中のボリュームも選択できるようにする'],
             ['-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）'],
         ]
     }
@@ -69,8 +69,8 @@ export async function action(commands:any)
         }
     }
 
-    // -faのときのみ、確認だす
-    if(commands.all && commands.force) {
+    // -lfのときのみ、確認だす
+    if(commands.locked && commands.force) {
         const response = await prompts([
             {
                 type: 'toggle',
@@ -97,7 +97,7 @@ export async function action(commands:any)
         }
         for(let name of volumes) {
             if(name.length) {
-                if(!commands.all && name.match(/^locked_/)) continue;
+                if(!commands.locked && name.match(/^locked_/)) continue;
                 targets.push({
                     type: 'volume',
                     name: name
