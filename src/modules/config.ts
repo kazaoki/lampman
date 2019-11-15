@@ -13,6 +13,7 @@ declare let lampman:any;
 import libs = require('../libs');
 const child = require('child_process')
 const fs = require('fs')
+const open = require('open')
 
 /**
  * コマンド登録用メタデータ
@@ -28,7 +29,7 @@ export function meta()
 /**
  * コマンド実行
  */
-export function action(commands:any)
+export async function action(commands:any)
 {
     // configあるか
     if(!fs.existsSync(`${lampman.config_dir}/config.js`)) {
@@ -41,18 +42,6 @@ export function action(commands:any)
         return
     }
 
-    // Windows
-    if(libs.isWindows()) {
-        child.execSync(`start ${lampman.config_dir}/config.js`)
-    }
-
-    // Mac
-    else if(libs.isMac()) {
-        child.execSync(`open ${lampman.config_dir}/config.js`)
-    }
-
-    // Linux, show only
-    else {
-        libs.d(lampman.config)
-    }
+    // open
+    await open(`${lampman.config_dir}/config.js`, {wait: true})
 }
