@@ -58,7 +58,7 @@ function meta() {
         description: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',
         options: [
             ['-d, --dump', 'ダンプします'],
-            ['-p, --file-path <file_path>', 'ダンプファイルのディレクトリパスを指定'],
+            ['-p, --dump-path <dump_path>', 'ダンプファイルのディレクトリパスを指定'],
             ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
             ['-r, --restore', '最新のダンプファイルをリストアします。'],
         ]
@@ -136,7 +136,7 @@ function action(cname, commands) {
                     if (!commands.dump) return [3, 10];
                     libs.Label('Dump PostgreSQL');
                     is_gzip = !!postgresql.dump.filename.match(/\.gz$/);
-                    dumpfile = path.join((commands.filePath ? commands.filePath : path.join(lampman.config_dir, postgresql.cname)), (postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql'));
+                    dumpfile = path.join((commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, postgresql.cname)), (postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql'));
                     if (commands.rotate && postgresql.dump.rotations > 0) {
                         process.stdout.write('Dumpfile rotate ... ');
                         libs.RotateFile(dumpfile, postgresql.dump.rotations);

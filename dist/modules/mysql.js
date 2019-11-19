@@ -58,7 +58,7 @@ function meta() {
         description: 'MySQL操作（オプション未指定なら mysql クライアントが実行されます）',
         options: [
             ['-d, --dump', 'ダンプします'],
-            ['-p, --file-path <file_path>', 'ダンプファイルのディレクトリパスを指定'],
+            ['-p, --dump-path <dump_path>', 'ダンプファイルのディレクトリパスを指定'],
             ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
             ['-r, --restore', '最新のダンプファイルをリストアします。'],
         ]
@@ -136,7 +136,7 @@ function action(cname, commands) {
                     if (!commands.dump) return [3, 10];
                     libs.Label('Dump MySQL');
                     is_gzip = mysql.dump.filename.match(/\.gz$/);
-                    dumpfile = path.join((commands.filePath ? commands.filePath : path.join(lampman.config_dir, mysql.cname)), (mysql.dump.filename ? mysql.dump.filename : 'dump.sql'));
+                    dumpfile = path.join((commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, mysql.cname)), (mysql.dump.filename ? mysql.dump.filename : 'dump.sql'));
                     if (commands.rotate && mysql.dump.rotations > 0) {
                         process.stdout.write('Dumpfile rotate ... ');
                         libs.RotateFile(dumpfile, mysql.dump.rotations);

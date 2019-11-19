@@ -27,7 +27,7 @@ export function meta()
         description: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',
         options: [
             ['-d, --dump', 'ダンプします'],
-            ['-p, --file-path <file_path>', 'ダンプファイルのディレクトリパスを指定'],
+            ['-p, --dump-path <dump_path>', 'ダンプファイルのディレクトリパスを指定'],
             ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
             ['-r, --restore', '最新のダンプファイルをリストアします。'],
         ]
@@ -113,7 +113,7 @@ export async function action(cname:string|null, commands:any)
         // ダンプファイルの特定
         // ダンプファイルの特定
         let dumpfile = path.join(
-            (commands.filePath   ? commands.filePath   : path.join(lampman.config_dir, postgresql.cname)),
+            (commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, postgresql.cname)),
             (postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql')
         )
 
