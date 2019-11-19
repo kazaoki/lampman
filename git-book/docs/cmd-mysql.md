@@ -8,7 +8,7 @@
 MySQLクライアントに接続します。
 `設定名` が未指定の場合で複数のMySQL設定がある場合は選択肢が表示されますが、１つしか無い場合は省略可能です。
 
-以下、設定ファイルの例を上げます。
+以下、設定ファイルの例です。
 
 <pre style="font-size:14px">
     mysql: {
@@ -19,7 +19,7 @@ MySQLクライアントに接続します。
         password:       'test', // same root password
         charset:        'utf8mb4',
         collation:      'utf8mb4_general_ci',
-        hosts:          ['main.db'],
+        hosts:          ['my-main.db'],
         volume_locked:  false,
         query_log:      false,
         query_cache:    false,
@@ -36,7 +36,7 @@ MySQLクライアントに接続します。
         password:       'test', // same root password
         charset:        'utf8mb4',
         collation:      'utf8mb4_general_ci',
-        hosts:          ['sub.db'],
+        hosts:          ['my-sub.db'],
         volume_locked:  false,
         query_log:      false,
         query_cache:    false,
@@ -63,7 +63,7 @@ $ lamp mysql mysql_sub
 
 ### `lamp mysql -d`<br>`lamp mysql --dump`
 
-指定のMySQLをダンプファイルにします。
+指定のMySQLデータをダンプファイルにします。
 この時、バックアップローテーション数やファイル名は設定ファイルで指定したものになります。
 ```
 ...
@@ -83,14 +83,15 @@ $ lamp mysql mysql_sub
 となります。ちなみにダンプファイルの拡張子の最後を `.gz` にすれば自動的に圧縮されます。
 `.gz` ファイルでもリストア可能ですので、容量が大きくなる場合は圧縮を利用するといいでしょう。
 
-### `lamp mysql -p <ファイルパス>`<br>`lamp mysql --file-path <ファイルパス>`
+### `lamp mysql -p <ダンプパス>`<br>`lamp mysql --dump-path <ダンプパス>`
 
-ダンプファイルの保存先のディレクトリを変更したい場合は、これで指定してください。  
+ダンプファイルの保存先のディレクトリを一時的に変更したい場合は、これで指定してください。  
 ※保存ファイル名を指定するものではありません。
 
 例）
 ``` shell
-$ lamp mysql -d -p /mnt/backups/mysql mysql_sub
+$ lamp mysql -d -p /mnt/backups/mysql_sub/ mysql_sub
+-> /mnt/backups/mysql_sub/dump.sql.gz
 ```
 
 

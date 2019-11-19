@@ -964,7 +964,7 @@
 <h3 id="lamp-mysql-&#x8A2D;&#x5B9A;&#x540D;"><code>lamp mysql [&#x8A2D;&#x5B9A;&#x540D;]</code></h3>
 <p>MySQL&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x306B;&#x63A5;&#x7D9A;&#x3057;&#x307E;&#x3059;&#x3002;
 <code>&#x8A2D;&#x5B9A;&#x540D;</code> &#x304C;&#x672A;&#x6307;&#x5B9A;&#x306E;&#x5834;&#x5408;&#x3067;&#x8907;&#x6570;&#x306E;MySQL&#x8A2D;&#x5B9A;&#x304C;&#x3042;&#x308B;&#x5834;&#x5408;&#x306F;&#x9078;&#x629E;&#x80A2;&#x304C;&#x8868;&#x793A;&#x3055;&#x308C;&#x307E;&#x3059;&#x304C;&#x3001;&#xFF11;&#x3064;&#x3057;&#x304B;&#x7121;&#x3044;&#x5834;&#x5408;&#x306F;&#x7701;&#x7565;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;</p>
-<p>&#x4EE5;&#x4E0B;&#x3001;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x4F8B;&#x3092;&#x4E0A;&#x3052;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x3001;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x4F8B;&#x3067;&#x3059;&#x3002;</p>
 <pre style="font-size:14px">
     mysql: {
         image:          &apos;mysql:5.7&apos;,
@@ -974,7 +974,7 @@
         password:       &apos;test&apos;, // same root password
         charset:        &apos;utf8mb4&apos;,
         collation:      &apos;utf8mb4_general_ci&apos;,
-        hosts:          [&apos;main.db&apos;],
+        hosts:          [&apos;my-main.db&apos;],
         volume_locked:  false,
         query_log:      false,
         query_cache:    false,
@@ -991,7 +991,7 @@
         password:       &apos;test&apos;, // same root password
         charset:        &apos;utf8mb4&apos;,
         collation:      &apos;utf8mb4_general_ci&apos;,
-        hosts:          [&apos;sub.db&apos;],
+        hosts:          [&apos;my-sub.db&apos;],
         volume_locked:  false,
         query_log:      false,
         query_cache:    false,
@@ -1010,7 +1010,7 @@
 <p>&#x3068;&#x6253;&#x3066;&#x3070;&#x305D;&#x308C;&#x305E;&#x308C;&#x306E;MySQL&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x306B;&#x63A5;&#x7D9A;&#x3057;&#x307E;&#x3059;&#x3002;</p>
 <p>&#x203B;&#x3061;&#x306A;&#x307F;&#x306B;&#x8907;&#x6570;&#x306E;MySQL&#x8A2D;&#x5B9A;&#x3092;&#x5B9A;&#x7FA9;&#x3059;&#x308B;&#x5834;&#x5408;&#x306F;&#x304B;&#x306A;&#x3089;&#x305A;&#x8A2D;&#x5B9A;&#x540D;&#x3092;&#x300C;mysql&#xFF5E;&#x300D;&#x3068;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
 <h3 id="lamp-mysql--dlamp-mysql---dump"><code>lamp mysql -d</code><br><code>lamp mysql --dump</code></h3>
-<p>&#x6307;&#x5B9A;&#x306E;MySQL&#x3092;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;
+<p>&#x6307;&#x5B9A;&#x306E;MySQL&#x30C7;&#x30FC;&#x30BF;&#x3092;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;
 &#x3053;&#x306E;&#x6642;&#x3001;&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;&#x30ED;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x6570;&#x3084;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x540D;&#x306F;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3067;&#x6307;&#x5B9A;&#x3057;&#x305F;&#x3082;&#x306E;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
 <pre><code>...
         dump: {
@@ -1026,10 +1026,11 @@
 </ul>
 <p>&#x3068;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;&#x3061;&#x306A;&#x307F;&#x306B;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x62E1;&#x5F35;&#x5B50;&#x306E;&#x6700;&#x5F8C;&#x3092; <code>.gz</code> &#x306B;&#x3059;&#x308C;&#x3070;&#x81EA;&#x52D5;&#x7684;&#x306B;&#x5727;&#x7E2E;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;
 <code>.gz</code> &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3067;&#x3082;&#x30EA;&#x30B9;&#x30C8;&#x30A2;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x306E;&#x3067;&#x3001;&#x5BB9;&#x91CF;&#x304C;&#x5927;&#x304D;&#x304F;&#x306A;&#x308B;&#x5834;&#x5408;&#x306F;&#x5727;&#x7E2E;&#x3092;&#x5229;&#x7528;&#x3059;&#x308B;&#x3068;&#x3044;&#x3044;&#x3067;&#x3057;&#x3087;&#x3046;&#x3002;</p>
-<h3 id="lamp-mysql--p-&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D1;&#x30B9;lamp-mysql---file-path-&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D1;&#x30B9;"><code>lamp mysql -p &lt;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D1;&#x30B9;&gt;</code><br><code>lamp mysql --file-path &lt;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D1;&#x30B9;&gt;</code></h3>
-<p>&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x4FDD;&#x5B58;&#x5148;&#x306E;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x3092;&#x5909;&#x66F4;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001;&#x3053;&#x308C;&#x3067;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x203B;&#x4FDD;&#x5B58;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x540D;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x3082;&#x306E;&#x3067;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+<h3 id="lamp-mysql--p-&#x30C0;&#x30F3;&#x30D7;&#x30D1;&#x30B9;lamp-mysql---dump-path-&#x30C0;&#x30F3;&#x30D7;&#x30D1;&#x30B9;"><code>lamp mysql -p &lt;&#x30C0;&#x30F3;&#x30D7;&#x30D1;&#x30B9;&gt;</code><br><code>lamp mysql --dump-path &lt;&#x30C0;&#x30F3;&#x30D7;&#x30D1;&#x30B9;&gt;</code></h3>
+<p>&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x4FDD;&#x5B58;&#x5148;&#x306E;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x3092;&#x4E00;&#x6642;&#x7684;&#x306B;&#x5909;&#x66F4;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001;&#x3053;&#x308C;&#x3067;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x203B;&#x4FDD;&#x5B58;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x540D;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x3082;&#x306E;&#x3067;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
 <p>&#x4F8B;&#xFF09;</p>
-<pre><code class="lang-shell">$ lamp mysql -d -p /mnt/backups/mysql mysql_sub
+<pre><code class="lang-shell">$ lamp mysql -d -p /mnt/backups/mysql_sub/ mysql_sub
+-&gt; /mnt/backups/mysql_sub/dump.sql.gz
 </code></pre>
 <h3 id="lamp-mysql--nlamp-mysql---no-rotate"><code>lamp mysql -n</code><br><code>lamp mysql --no-rotate</code></h3>
 <p>&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30ED;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3057;&#x306A;&#x3044;&#x3067;&#x30C0;&#x30F3;&#x30D7;&#x3057;&#x307E;&#x3059;&#x3002;&#x203B; <code>-d</code> &#x6642;&#x306E;&#x307F;</p>
@@ -1085,7 +1086,7 @@ $ lamp mysql -dn
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"lamp mysql","level":"9.1.1","depth":2,"next":{"title":"lamp psql","level":"9.1.2","depth":2,"path":"docs/cmd-psql.md","ref":"docs/cmd-psql.md","articles":[]},"previous":{"title":"DB操作コマンド","level":"9.1","depth":1,"ref":"","articles":[{"title":"lamp mysql","level":"9.1.1","depth":2,"path":"docs/cmd-mysql.md","ref":"docs/cmd-mysql.md","articles":[]},{"title":"lamp psql","level":"9.1.2","depth":2,"path":"docs/cmd-psql.md","ref":"docs/cmd-psql.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.80"},"title":"Lampman 0.1.80","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-mysql.md","mtime":"2019-11-19T13:10:32.273Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-19T13:12:38.117Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"lamp mysql","level":"9.1.1","depth":2,"next":{"title":"lamp psql","level":"9.1.2","depth":2,"path":"docs/cmd-psql.md","ref":"docs/cmd-psql.md","articles":[]},"previous":{"title":"DB操作コマンド","level":"9.1","depth":1,"ref":"","articles":[{"title":"lamp mysql","level":"9.1.1","depth":2,"path":"docs/cmd-mysql.md","ref":"docs/cmd-mysql.md","articles":[]},{"title":"lamp psql","level":"9.1.2","depth":2,"path":"docs/cmd-psql.md","ref":"docs/cmd-psql.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.80"},"title":"Lampman 0.1.80","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-mysql.md","mtime":"2019-11-19T13:48:26.279Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-19T13:12:38.117Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
