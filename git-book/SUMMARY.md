@@ -46,7 +46,7 @@
 
 
 - 調査/その他コマンド
-    * [lamp (引数なし)](docs/cmd-noargs.md)
+    * [lamp (オプション引数なし)](docs/cmd-noargs.md)
     * [lamp login](docs/cmd-login.md)
     * [lamp yaml](docs/cmd-yaml.md)
     * [lamp version](docs/cmd-version.md)
