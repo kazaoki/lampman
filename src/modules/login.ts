@@ -27,7 +27,7 @@ export function meta()
         options: [
             ['-s, --select', 'コンテナを選択します。Default: lampman'],
             ['-l, --shell <shell>', 'ログインシェルを指定。Default: bash'],
-            ['-p, --path <path>', 'ログインパスを指定。Default: /'],
+            ['-p, --path <path>', 'ログインパスを指定。（lampmanのみ設定ファイルにてデフォルト指定可能）'],
         ]
     }
 }
