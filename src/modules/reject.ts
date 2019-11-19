@@ -10,9 +10,10 @@
 
 declare let lampman:any;
 
-import libs = require('../libs');
+import libs = require('../libs')
+import docker = require('../docker')
 import child = require('child_process')
-const color    = require('cli-color');
+const color    = require('cli-color')
 const prompts = require('prompts')
 
 /**
@@ -35,6 +36,9 @@ export function meta()
  */
 export async function action(commands:any)
 {
+    // Docker起動必須
+    docker.needDockerLive()
+
     // コンテナ一覧取得
     let containers = child.execFileSync('docker', ['ps', '-a', '--format={{.Names}}']).toString().split(/\r?\n/)
 

@@ -1,6 +1,7 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 var child = require("child_process");
+var docker = require("../docker");
 function meta() {
     return {
         command: 'status',
@@ -9,6 +10,7 @@ function meta() {
 }
 exports.meta = meta;
 function action(commands) {
+    docker.needDockerLive();
     child.execFileSync('docker-compose', [
         '-p', lampman.config.project,
         'logs',

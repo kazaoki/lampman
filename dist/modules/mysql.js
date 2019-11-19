@@ -47,6 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
+var docker = require("../docker");
 var prompts = require('prompts');
 var child = require('child_process');
 var fs = require('fs');
@@ -71,6 +72,7 @@ function action(cname, commands) {
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
+                    docker.needDockerLive();
                     mysql = {};
                     list = [];
                     for (_i = 0, _a = Object.keys(lampman.config); _i < _a.length; _i++) {

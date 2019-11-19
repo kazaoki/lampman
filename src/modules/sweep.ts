@@ -11,6 +11,7 @@
 declare let lampman:any;
 
 import libs   = require('../libs');
+import docker = require('../docker');
 import child  = require('child_process')
 const prompts = require('prompts')
 import { action as reject } from './reject';
@@ -35,6 +36,9 @@ export function meta()
  */
 export async function action(commands:any)
 {
+    // Docker起動必須
+    docker.needDockerLive()
+
     // Yes/No確認
     if(!commands.force) {
         const response = await prompts([

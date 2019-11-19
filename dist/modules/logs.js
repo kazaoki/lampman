@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
+var docker = require("../docker");
 var child = require('child_process');
 var prompts = require('prompts');
 function meta() {
@@ -56,6 +57,7 @@ function action(args, commands) {
             switch (_a.label) {
                 case 0:
                     groups = [];
+                    docker.needDockerLive();
                     if (!('logs' in lampman.config) || 0 === Object.keys(lampman.config.logs).length)
                         libs.Error('ログ設定がありません');
                     if (!commands.all) return [3, 1];

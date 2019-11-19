@@ -313,3 +313,15 @@ export function isRunning(cname:string, lampman:any)
     let res = child.execFileSync('docker', ['inspect', cid.trim(), '--format', '{{.State.Status}}']).toString()
     return 'running'===res.trim()
 }
+
+/**
+ * Docker起動してなければエラーに。
+ */
+export function needDockerLive()
+{
+    try {
+        child.execFileSync('docker', ['ps'], {stdio: 'ignore'})
+    }catch(e){
+        libs.Error('Dockerが起動していません。')
+    }
+}

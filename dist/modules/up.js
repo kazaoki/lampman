@@ -65,6 +65,7 @@ function action(commands) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    docker.needDockerLive();
                     if (!libs.existConfig(lampman)) {
                         libs.Error("\u8A2D\u5B9A\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u5F53\u305F\u308A\u307E\u305B\u3093\u3002\u5148\u306B\u30BB\u30C3\u30C8\u30A2\u30C3\u30D7\u3092\u5B9F\u884C\u3057\u3066\u304F\u3060\u3055\u3044\u3002\nlamp init" + ('default' === lampman.mode ? '' : ' --mode ' + lampman.mode));
                     }

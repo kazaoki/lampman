@@ -1,5 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
+var libs = require("./libs");
 var child = require('child_process');
 var fs = require('fs');
 var path = require('path');
@@ -286,3 +287,12 @@ function isRunning(cname, lampman) {
     return 'running' === res.trim();
 }
 exports.isRunning = isRunning;
+function needDockerLive() {
+    try {
+        child.execFileSync('docker', ['ps'], { stdio: 'ignore' });
+    }
+    catch (e) {
+        libs.Error('Dockerが起動していません。');
+    }
+}
+exports.needDockerLive = needDockerLive;

@@ -11,6 +11,7 @@
 declare let lampman:any;
 
 import libs = require('../libs');
+import docker = require('../docker');
 const child = require('child_process')
 
 /**
@@ -29,6 +30,10 @@ export function meta()
  */
 export function action(commands:any)
 {
+    // Docker起動必須
+    docker.needDockerLive()
+
+    // コマンド実行
     child.spawnSync(
         'docker-compose',
         [

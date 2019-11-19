@@ -39,6 +39,9 @@ export async function action(cname:string|null, commands:any)
 {
     let target_cname
 
+    // Docker起動必須
+    docker.needDockerLive()
+
     // コンテナリスト取得
     let sname
     let cnames = []

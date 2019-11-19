@@ -58,6 +58,7 @@ function action(cname, commands) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    docker.needDockerLive();
                     cnames = [];
                     list = [];
                     out = child.execFileSync('docker', ['ps', '--format', '{{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}']);

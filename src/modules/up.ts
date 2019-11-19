@@ -44,6 +44,9 @@ export function meta()
  */
 export async function action(commands:any)
 {
+    // Docker起動必須
+    docker.needDockerLive()
+
     // 設定ファイルがあるか
     if(!libs.existConfig(lampman)) {
         libs.Error(`設定ファイルが見当たりません。先にセットアップを実行してください。\nlamp init`+('default'===lampman.mode ? '' : ' --mode '+lampman.mode))

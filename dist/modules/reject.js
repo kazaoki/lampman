@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
+var docker = require("../docker");
 var child = require("child_process");
 var color = require('cli-color');
 var prompts = require('prompts');
@@ -56,6 +57,7 @@ function action(commands) {
         return __generator(this, function (_h) {
             switch (_h.label) {
                 case 0:
+                    docker.needDockerLive();
                     containers = child.execFileSync('docker', ['ps', '-a', '--format={{.Names}}']).toString().split(/\r?\n/);
                     volumes = child.execFileSync('docker', ['volume', 'ls', '-q']).toString().split(/\r?\n/);
                     list = [];

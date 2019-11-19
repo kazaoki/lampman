@@ -11,6 +11,7 @@
 declare let lampman:any;
 
 import libs = require('../libs')
+import docker = require('../docker');
 const prompts = require('prompts')
 const child   = require('child_process')
 const fs      = require('fs');
@@ -39,6 +40,9 @@ export function meta()
  */
 export async function action(cname:string|null, commands:any)
 {
+    // Docker起動必須
+    docker.needDockerLive()
+
     // 対象のmysql情報の入れ物
     let mysql: any = {}
 

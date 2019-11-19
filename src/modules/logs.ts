@@ -11,6 +11,7 @@
 declare let lampman:any;
 
 import libs = require('../libs');
+import docker = require('../docker');
 const child   = require('child_process')
 const prompts = require('prompts')
 
@@ -35,6 +36,9 @@ export function meta()
 export async function action(args:string[]|null, commands:any)
 {
     let groups: string[] = []
+
+    // Docker起動必須
+    docker.needDockerLive()
 
     // 引数チェック
     if(!('logs' in lampman.config) || 0===Object.keys(lampman.config.logs).length) libs.Error('ログ設定がありません')

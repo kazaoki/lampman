@@ -11,6 +11,7 @@
 declare let lampman:any;
 
 import child = require('child_process')
+import docker = require('../docker');
 
 /**
  * コマンド登録用メタデータ
@@ -28,6 +29,10 @@ export function meta()
  */
 export function action(commands:any)
 {
+    // Docker起動必須
+    docker.needDockerLive()
+
+    // dpcker logs実行
     child.execFileSync(
         'docker-compose',
         [
