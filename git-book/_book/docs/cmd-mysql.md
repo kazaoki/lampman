@@ -10,7 +10,7 @@ MySQLクライアントに接続します。
 
 以下、設定ファイルの例を上げます。
 
-```
+<pre style="font-size:14px">
     mysql: {
         image:          'mysql:5.7',
         ports:          ['3306:3306'],
@@ -28,7 +28,7 @@ MySQLクライアントに接続します。
             filename:   'dump.sql',
         }
     },
-    mysql_sub: {
+    mysql_sub: { <small style="color:#888">// 複数設定する場合「mysql～」として定義</small>
         image:          'mysql:5.6',
         ports:          ['3307:3306'],
         database:       'test',
@@ -45,9 +45,9 @@ MySQLクライアントに接続します。
             filename:   'dump.sql.gz',
         }
     },
-```
+</pre>
 
-この場合、コマンドラインから
+この場合、起動後、コマンドラインから
 
 ``` shell
 $ lamp mysql mysql
@@ -81,10 +81,12 @@ $ lamp mysql mysql_sub
 - mysql_sub -> `.lampnan/mysql_sub/dump.sql.gz`
 
 となります。ちなみにダンプファイルの拡張子の最後を `.gz` にすれば自動的に圧縮されます。
+`.gz` ファイルでもリストア可能ですので、容量が大きくなる場合は圧縮を利用するといいでしょう。
 
 ### `lamp mysql -p <ファイルパス>`<br>`lamp mysql --file-path <ファイルパス>`
 
-ダンプファイルの保存先を変更したい場合は、これで指定してください。
+ダンプファイルの保存先のディレクトリを変更したい場合は、これで指定してください。  
+※保存ファイル名を指定するものではありません。
 
 例）
 ``` shell
@@ -94,7 +96,7 @@ $ lamp mysql -d -p /mnt/backups/mysql mysql_sub
 
 ### `lamp mysql -n`<br>`lamp mysql --no-rotate`
 
-ファイルローテーションしないでダンプします。※-d時のみ
+ファイルローテーションしないでダンプします。※ `-d` 時のみ
 
 例）
 ``` shell
@@ -114,4 +116,4 @@ $ lamp mysql -dn
 $ lamp mysql -r mysql_sub
 ```
 
-`lamp up` はダンプファイルのリストアも自動的に実行されます。
+尚、`lamp up` はダンプファイルのリストアも自動的に実行されます。
