@@ -100,6 +100,7 @@ export async function action(cname:string|null, commands:any)
     }
 
     // ここまで来てもコンテナ名が取得できない場合は終了。
+    if('undefined'===typeof target_cname) return
     if(!target_cname) {
         libs.Message(`ご指定のコンテナが見つかりませんでした。\n${target_cname}`, 'warning', 1)
         return

@@ -121,6 +121,8 @@ function action(cname, commands) {
                     }
                     _b.label = 3;
                 case 3:
+                    if ('undefined' === typeof target_cname)
+                        return [2];
                     if (!target_cname) {
                         libs.Message("\u3054\u6307\u5B9A\u306E\u30B3\u30F3\u30C6\u30CA\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3067\u3057\u305F\u3002\n" + target_cname, 'warning', 1);
                         return [2];
