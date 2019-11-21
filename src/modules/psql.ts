@@ -114,10 +114,18 @@ export async function action(cname:string|null, commands:any)
         // 圧縮モードか
         let is_gzip = !!postgresql.dump.filename.match(/\.gz$/)
 
-        // ダンプファイルの特定
+        // ダンプディレクトリ
+        let dumpdir = commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, postgresql.cname)
+        if(!path.isAbsolute(dumpdir)) {
+            dumpdir = path.join(process.cwd(), dumpdir)
+        }
+        if(!fs.existsSync(dumpdir)) {
+            fs.mkdirSync(dumpdir, {recursive: true})
+        }
+
         // ダンプファイルの特定
         let dumpfile = path.join(
-            (commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, postgresql.cname)),
+            dumpdir,
             (postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql')
         )
 

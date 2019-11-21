@@ -114,9 +114,18 @@ export async function action(cname:string|null, commands:any)
         // 圧縮モードか
         let is_gzip = mysql.dump.filename.match(/\.gz$/)
 
+        // ダンプディレクトリ
+        let dumpdir = commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, mysql.cname)
+        if(!path.isAbsolute(dumpdir)) {
+            dumpdir = path.join(process.cwd(), dumpdir)
+        }
+        if(!fs.existsSync(dumpdir)) {
+            fs.mkdirSync(dumpdir, {recursive: true})
+        }
+
         // ダンプファイルの特定
         let dumpfile = path.join(
-            (commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, mysql.cname)),
+            dumpdir,
             (mysql.dump.filename ? mysql.dump.filename : 'dump.sql')
         )
 

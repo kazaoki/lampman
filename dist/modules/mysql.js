@@ -68,7 +68,7 @@ function meta() {
 exports.meta = meta;
 function action(cname, commands) {
     return __awaiter(this, void 0, void 0, function () {
-        var mysql, list, _i, _a, key, _b, list_1, item, before_str, response, is_gzip, dumpfile, procs, _c, procs_1, proc, conts, procs;
+        var mysql, list, _i, _a, key, _b, list_1, item, before_str, response, is_gzip, dumpdir, dumpfile, procs, _c, procs_1, proc, conts, procs;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
@@ -138,7 +138,14 @@ function action(cname, commands) {
                     if (!commands.dump) return [3, 10];
                     libs.Label('Dump MySQL');
                     is_gzip = mysql.dump.filename.match(/\.gz$/);
-                    dumpfile = path.join((commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, mysql.cname)), (mysql.dump.filename ? mysql.dump.filename : 'dump.sql'));
+                    dumpdir = commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, mysql.cname);
+                    if (!path.isAbsolute(dumpdir)) {
+                        dumpdir = path.join(process.cwd(), dumpdir);
+                    }
+                    if (!fs.existsSync(dumpdir)) {
+                        fs.mkdirSync(dumpdir, { recursive: true });
+                    }
+                    dumpfile = path.join(dumpdir, (mysql.dump.filename ? mysql.dump.filename : 'dump.sql'));
                     if (commands.rotate && mysql.dump.rotations > 0) {
                         process.stdout.write('Dumpfile rotate ... ');
                         libs.RotateFile(dumpfile, mysql.dump.rotations);
