@@ -124,5 +124,5 @@ commander.on('command:*', function () {
     process.exit(1);
 });
 commander.parse(process.argv);
-if (!commander.args.length)
+if (!process.argv.slice(2).length)
     libs.dockerLs(lampman);

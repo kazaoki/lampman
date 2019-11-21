@@ -131,4 +131,4 @@ commander.on('command:*', ()=>{
 commander.parse(process.argv)
 
 // 引数が指定されなかった場合はdockerの情報を表示
-if(!commander.args.length) libs.dockerLs(lampman)
+if(!process.argv.slice(2).length) libs.dockerLs(lampman)
