@@ -58,7 +58,7 @@ function action(commands) {
                             ("\u30D7\u30ED\u30B8\u30A7\u30AF\u30C8\u30D5\u30A9\u30EB\u30C0\u306E\u30EB\u30FC\u30C8\u306B\u3066 'lamp init" + (mode_label ? ' --mode ' + mode_label : '') + "' \u3092\u5B9F\u884C\u3057\u3066\u521D\u671F\u5316\u3092\u884C\u3063\u3066\u304F\u3060\u3055\u3044\u3002"), 'warning');
                         return [2];
                     }
-                    return [4, open(lampman.config_dir + "/config.js", { wait: true })];
+                    return [4, open(lampman.config_dir + "/config.js")];
                 case 1:
                     _a.sent();
                     return [2];

@@ -43,5 +43,5 @@ export async function action(commands:any)
     }
 
     // open
-    await open(`${lampman.config_dir}/config.js`, {wait: true})
+    await open(`${lampman.config_dir}/config.js`)
 }
