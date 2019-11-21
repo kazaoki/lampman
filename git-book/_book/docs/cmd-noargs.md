@@ -13,7 +13,7 @@ Dockerのイメージ、ボリューム、コンテナを一括で表示しま�
 - `docker ps -a`
 
 ### 実行例
-```
+<pre style="font-size:12px;white-space:pre;line-height:1.2em">
 $ lamp
 
   [Images]
@@ -51,4 +51,4 @@ $ lamp
   │                                                                                                     33060/tcp              │
   │ lampman-test-postgresql_2  7a99bbb6bc4a           kazaoki/postgres-bigm  Up 17 minutes              0.0.0.0:5433->5432/tcp │
   ╘════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╛
-```
+</pre>
