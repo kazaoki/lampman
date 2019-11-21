@@ -332,7 +332,7 @@ export function dockerLs(lampman:any)
             }
             set.push({
                 text: texts.join('\n'),
-                padding: [0, 1, 0, 1],
+                padding: [0, 1, 0, 0],
             })
         }
         cliui.div(...set)
