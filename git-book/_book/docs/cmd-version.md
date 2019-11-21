@@ -20,7 +20,7 @@ $ lamp version
 
 ### `lamp version -q`<br>`lamp version --quiet`
 
-バージョンのみ1行のシンプルな文字列で表示されます。
+バージョンのみのシンプルな１行テキストが表示されます。
 
 <pre style="font-size:12px;white-space:pre;line-height:1.2em">
 $ lamp version -q
