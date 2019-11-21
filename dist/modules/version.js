@@ -7,13 +7,13 @@ function meta() {
         command: 'version',
         description: 'バージョン表示',
         options: [
-            ['-q, --quit', 'バージョン文字列のみ出力する'],
+            ['-q, --quiet', 'バージョン文字列のみ出力する'],
         ],
     };
 }
 exports.meta = meta;
 function action(commands) {
-    if (commands.quit) {
+    if (commands.quiet) {
         process.stdout.write(color.move(0, -1));
         process.stdout.write(libs.getLampmanVersion());
     }
