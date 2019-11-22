@@ -22,20 +22,35 @@ const color   = require('cli-color');
 export function meta()
 {
     return {
-        command: 'login [container-name]',
-        description: 'コンテナのコンソールにログインします',
-        options: [
-            ['-s, --select', 'コンテナを選択します。Default: lampman'],
-            ['-l, --shell <shell>', 'ログインシェルを指定。Default: bash'],
-            ['-p, --path <path>', 'ログインパスを指定。（lampmanのみ設定ファイルにてデフォルト指定可能）'],
-        ]
+        command: 'login [service] [options]',
+        describe: 'コンテナのコンソールにログインします',
+        options: {
+            'select': {
+                alias: 's',
+                describe: 'ログインするコンテナを選択肢から選びます。',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'shell': {
+                alias: 'l',
+                describe: 'ログインシェルが指定できます。',
+                type: 'string',
+                nargs: 1,
+                default: 'bash',
+            },
+            'path': {
+                alias: 'p',
+                describe: 'ログインパスが指定できます。（lampmanのみ設定ファイルにてデフォルト指定可能）',
+                type: 'string',
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(cname:string|null, commands:any)
+export async function action(argv:any, lampman:any)
 {
     let target_cname
 
@@ -43,6 +58,7 @@ export async function action(cname:string|null, commands:any)
     docker.needDockerLive()
 
     // コンテナリスト取得
+    let cname = argv.service
     let sname
     let cnames = []
     let list = []
@@ -64,7 +80,7 @@ export async function action(cname:string|null, commands:any)
     if(1===list.length) cname = cnames[0]
 
     // --selectの場合はリストから選択
-    if(commands.select) {
+    if(argv.select) {
         // コンテナ選択
         const response = await prompts([
             {
@@ -119,8 +135,8 @@ export async function action(cname:string|null, commands:any)
     if(sname in lampman.config && 'login_path' in lampman.config[sname]) {
         login_path = lampman.config[sname].login_path
     }
-    if(commands.path) {
-        login_path = commands.path
+    if(argv.path) {
+        login_path = argv.path
     }
 
     // いざログイン
@@ -136,8 +152,8 @@ export async function action(cname:string|null, commands:any)
             '-e', 'LC_TYPE=ja_JP.UTF-8',
             '-it',
             target_cname,
-            commands.shell ? commands.shell : 'bash',
-            '-c', `cd ${login_path} && ${commands.shell ? commands.shell : 'bash'}`,
+            argv.shell ? argv.shell : 'bash',
+            '-c', `cd ${login_path} && ${argv.shell ? argv.shell : 'bash'}`,
         ],
         {
             stdio: 'inherit',
