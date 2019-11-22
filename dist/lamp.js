@@ -87,7 +87,6 @@ module_files.forEach(function (file) {
     });
     keys.push(meta.command.match(/^([^\s]+)/)[1]);
 });
-var extra = require('./modules/extra');
 if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
     var _loop_1 = function (key) {
         var extraopt = lampman.config.extra[key];
@@ -98,7 +97,7 @@ if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
         yargs.command({
             command: key,
             describe: extraopt.desc + (extraopt.container ? color.blackBright(" on " + extraopt.container) : ''),
-            handler: function (argv) { return extra.action(extraopt, argv); }
+            handler: function (argv) { return libs.extra_action(extraopt, argv, lampman); }
         });
         keys.push(key.match(/^([^\s]+)/)[1]);
     };

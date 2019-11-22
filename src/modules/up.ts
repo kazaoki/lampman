@@ -13,7 +13,7 @@ declare let lampman:any;
 import libs = require('../libs');
 import docker = require('../docker');
 import { action as reject } from './reject';
-import { action as extra } from './extra';
+// import { action as extra } from './extra';
 
 const child = require('child_process')
 const path  = require('path')
@@ -224,14 +224,14 @@ export async function action(commands:any)
                     let extraopt = action
                     if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
                     console.log()
-                    extra(extraopt, extraopt.args)
+                    libs.extra_action(extraopt, extraopt.args, lampman)
                     count ++
                 }
 
                 // extraコマンドを実行する
                 if('run_extra_command'===action.type && action.name in lampman.config.extra) {
                     console.log()
-                    extra(lampman.config.extra[action.name], action.args)
+                    libs.extra_action(lampman.config.extra[action.name], action.args, lampman)
                     count ++
                 }
             }

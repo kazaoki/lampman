@@ -349,3 +349,29 @@ export function existConfig(lampman:any)
         ? fs.existsSync(path.join(lampman.config_dir, 'config.js'))
         : false
 }
+
+/**
+ * extraコマンド実行用
+ */
+export function extra_action(extraopt:any, argv:any, lampman:any)
+{
+    // 関数実行
+    if('function' in extraopt) {
+        extraopt.function(...argv._.slice(1))
+    }
+
+    // コマンド実行
+    else if('container' in extraopt) {
+        // 指定コンテナにてコマンド実行
+        child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'exec', extraopt.container, 'sh', '-c', extraopt.command], {
+            stdio: 'inherit',
+            cwd: lampman.config_dir
+        })
+    } else {
+        // ホストOSにてコマンド実行
+        child.execSync(extraopt.command, {
+            stdio: 'inherit',
+            cwd: lampman.project_dir
+        })
+    }
+}

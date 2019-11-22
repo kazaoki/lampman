@@ -8,6 +8,7 @@ import fs    = require('fs')
 import path  = require('path')
 import color = require('cli-color')
 import yargs = require('yargs')
+import child  = require('child_process')
 import libs  = require('./libs')
 require('dotenv').config()
 
@@ -92,7 +93,7 @@ order.forEach(item=>{
 module_files = [...files_new, ...module_files.sort()]
 
 // モジュール登録
-let keys = []
+let keys:any[] = []
 module_files.forEach(file=>{
     let module = require('./modules/'+file)
     if(!('meta' in module)) return
@@ -109,7 +110,6 @@ module_files.forEach(file=>{
 })
 
 // extraコマンド登録
-let extra = require('./modules/extra')
 if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
     for(let key of Object.keys(lampman.config.extra)) {
         let extraopt = lampman.config.extra[key]
@@ -119,7 +119,7 @@ if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
             {
                 command: key,
                 describe: extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''),
-                handler: (argv:any)=>extra.action(extraopt, argv)
+                handler: (argv:any)=>libs.extra_action(extraopt, argv, lampman)
             },
         )
         keys.push(key.match(/^([^\s]+)/)[1])
@@ -134,7 +134,6 @@ yargs
     .group('help', 'Global options:')
     .group('mode', 'Global options:')
     .usage('Usage: lamp|lm [command] [options]')
-    // .wrap(Math.min(100, yargs.terminalWidth()))
     .wrap(null)
     .scriptName('lamp')
     .argv

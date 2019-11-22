@@ -38,7 +38,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var docker = require("../docker");
 var reject_1 = require("./reject");
-var extra_1 = require("./extra");
 var child = require('child_process');
 var path = require('path');
 var color = require('cli-color');
@@ -207,12 +206,12 @@ function action(commands) {
                                                 if ('object' === typeof extraopt.command)
                                                     extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
                                                 console.log();
-                                                extra_1.action(extraopt, extraopt.args);
+                                                libs.extra_action(extraopt, extraopt.args, lampman);
                                                 count++;
                                             }
                                             if ('run_extra_command' === action_1.type && action_1.name in lampman.config.extra) {
                                                 console.log();
-                                                extra_1.action(lampman.config.extra[action_1.name], action_1.args);
+                                                libs.extra_action(lampman.config.extra[action_1.name], action_1.args, lampman);
                                                 count++;
                                             }
                                         }
