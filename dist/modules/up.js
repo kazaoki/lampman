@@ -45,19 +45,43 @@ var fs = require('fs');
 var find = require('find');
 function meta() {
     return {
-        command: 'up',
-        description: "LAMP\u8D77\u52D5\uFF08.lampman" + libs.ModeString(lampman.mode) + "/docker-compose.yml \u81EA\u52D5\u66F4\u65B0\uFF09",
-        options: [
-            ['-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する'],
-            ['-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能'],
-            ['-D', 'デーモンじゃなくフォアグラウンドで起動する'],
-            ['-n --no-update', 'docker-compose.yml を更新せずに起動する'],
-            ['-t --thru-upped', 'config.jsで設定した起動時コマンド"on_upped"を実行しない'],
-        ]
+        command: 'up [options]',
+        describe: "LAMP\u8D77\u52D5\uFF08.lampman" + libs.ModeString(lampman.mode) + "/docker-compose.yml \u81EA\u52D5\u66F4\u65B0\uFF09",
+        options: {
+            'flush': {
+                alias: 'f',
+                describe: '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'docker-compose-options': {
+                alias: 'o',
+                describe: 'docker-composeコマンドに渡すオプションを文字列で指定可能',
+                type: 'string',
+                nargs: 1,
+            },
+            'D': {
+                describe: 'デーモンじゃなくフォアグラウンドで起動する',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'no-update': {
+                alias: 'n',
+                describe: 'docker-compose.yml を更新せずに起動する',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'thru-upped': {
+                alias: 't',
+                describe: 'config.jsで設定した起動時コマンド"on_upped"を実行しない',
+                type: 'boolean',
+                nargs: 0,
+            },
+        },
     };
 }
 exports.meta = meta;
-function action(commands) {
+function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var _i, _a, mount, dirs, pubdir, files, _b, files_1, file, args, proc;
         var _this = this;
@@ -88,16 +112,16 @@ function action(commands) {
                             fs.chmodSync(file, 453);
                         }
                     }
-                    if (commands.update)
+                    if (!argv.noUpdate)
                         libs.UpdateCompose(lampman);
                     args = [
                         '--project-name', lampman.config.project,
                         'up',
                     ];
-                    if (!commands.D) {
+                    if (!argv.D) {
                         args.push('-d');
                     }
-                    if (!commands.flush) return [3, 2];
+                    if (!argv.flush) return [3, 2];
                     libs.Label('Flush cleaning');
                     return [4, reject_1.action({ force: true })];
                 case 1:
@@ -105,8 +129,8 @@ function action(commands) {
                     console.log();
                     _c.label = 2;
                 case 2:
-                    if (commands.dockerComposeOptions) {
-                        args.push.apply(args, commands.dockerComposeOptions.replace('\\', '').split(' '));
+                    if (argv.dockerComposeOptions) {
+                        args.push.apply(args, argv.dockerComposeOptions.replace('\\', '').split(' '));
                     }
                     libs.Label('Upping docker-compose');
                     proc = child.spawn('docker-compose', args, {
@@ -173,7 +197,7 @@ function action(commands) {
                                     if (process.env.LAMPMAN_EXPORT_LAMPMAN_1080)
                                         console.log(color.magenta.bold('  [Maildev] ') +
                                             color.magenta("http://" + docker_host + ":" + process.env.LAMPMAN_EXPORT_LAMPMAN_1080));
-                                    if ('on_upped' in lampman.config && lampman.config.on_upped.length && !commands.thruUpped) {
+                                    if ('on_upped' in lampman.config && lampman.config.on_upped.length && !argv.thruUpped) {
                                         count = 0;
                                         for (_d = 0, _e = lampman.config.on_upped; _d < _e.length; _d++) {
                                             action_1 = _e[_d];
