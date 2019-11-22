@@ -42,16 +42,24 @@ var color = require('cli-color');
 var prompts = require('prompts');
 function meta() {
     return {
-        command: 'reject',
-        description: 'コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）',
-        options: [
-            ['-l, --locked', 'ロック中のボリュームも選択できるようにする'],
-            ['-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）'],
-        ]
+        command: 'reject [options]',
+        describe: 'コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）',
+        options: {
+            'locked': {
+                alias: 'l',
+                describe: 'ロック中のボリュームも選択できるようにします。',
+                type: 'boolean',
+            },
+            'force': {
+                alias: 'f',
+                describe: 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）',
+                type: 'boolean',
+            },
+        },
     };
 }
 exports.meta = meta;
-function action(commands) {
+function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var containers, volumes, list, _i, containers_1, name_1, _a, volumes_1, name_2, response, targets, _b, containers_2, name_3, _c, volumes_2, name_4, response, procs, _loop_1, _d, _e, item, _loop_2, _f, _g, item;
         return __generator(this, function (_h) {
@@ -82,11 +90,11 @@ function action(commands) {
                                     type: 'volume',
                                     name: name_2
                                 },
-                                disabled: !commands.all && name_2.match(/^locked_/),
+                                disabled: !argv.locked && name_2.match(/^locked_/),
                             });
                         }
                     }
-                    if (!(commands.locked && commands.force)) return [3, 2];
+                    if (!(argv.locked && argv.force)) return [3, 2];
                     return [4, prompts([
                             {
                                 type: 'toggle',
@@ -104,7 +112,7 @@ function action(commands) {
                     _h.label = 2;
                 case 2:
                     targets = [];
-                    if (!commands.force) return [3, 3];
+                    if (!argv.force) return [3, 3];
                     for (_b = 0, containers_2 = containers; _b < containers_2.length; _b++) {
                         name_3 = containers_2[_b];
                         if (name_3.length) {
@@ -117,7 +125,7 @@ function action(commands) {
                     for (_c = 0, volumes_2 = volumes; _c < volumes_2.length; _c++) {
                         name_4 = volumes_2[_c];
                         if (name_4.length) {
-                            if (!commands.locked && name_4.match(/^locked_/))
+                            if (!argv.locked && name_4.match(/^locked_/))
                                 continue;
                             targets.push({
                                 type: 'volume',

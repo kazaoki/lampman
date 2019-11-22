@@ -13,7 +13,6 @@ declare let lampman:any;
 import libs = require('../libs');
 import docker = require('../docker');
 import { action as reject } from './reject';
-// import { action as extra } from './extra';
 
 const child = require('child_process')
 const path  = require('path')
@@ -111,7 +110,7 @@ export async function action(argv:any, lampman:any)
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(argv.flush) {
         libs.Label('Flush cleaning')
-        await reject({force:true})
+        await reject({force:true}, lampman)
         console.log()
     }
 

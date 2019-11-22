@@ -119,7 +119,7 @@ function action(argv, lampman) {
                     }
                     if (!argv.flush) return [3, 2];
                     libs.Label('Flush cleaning');
-                    return [4, reject_1.action({ force: true })];
+                    return [4, reject_1.action({ force: true }, lampman)];
                 case 1:
                     _c.sent();
                     console.log();

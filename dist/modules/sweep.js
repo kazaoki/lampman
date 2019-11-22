@@ -73,7 +73,7 @@ function action(commands) {
                     if (!response.value)
                         return [2];
                     _a.label = 2;
-                case 2: return [4, reject_1.action({ force: true })];
+                case 2: return [4, reject_1.action({ force: true }, lampman)];
                 case 3:
                     _a.sent();
                     return [4, rmi_1.action({ prune: true })];

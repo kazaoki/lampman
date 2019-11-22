@@ -55,7 +55,7 @@ export async function action(commands:any)
     }
 
     // 全てのコンテナとボリューム削除
-    await reject({force: true})
+    await reject({force: true}, lampman)
 
     // <none>イメージ削除
     await rmi({prune: true})
