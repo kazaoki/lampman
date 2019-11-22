@@ -23,24 +23,28 @@ import { action as rmi } from './rmi';
 export function meta()
 {
     return {
-        command: 'sweep',
-        description: '全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃',
-        options: [
-            ['-f, --force', '確認なしで実行する'],
-        ]
+        command: 'sweep [options]',
+        describe: '全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃',
+        options: {
+            'force': {
+                alias: 'f',
+                describe: '確認なしで実行します。',
+                type: 'boolean',
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(commands:any)
+export async function action(argv:any, lampman:any)
 {
     // Docker起動必須
     docker.needDockerLive()
 
     // Yes/No確認
-    if(!commands.force) {
+    if(!argv.force) {
         const response = await prompts([
             {
                 type: 'toggle',

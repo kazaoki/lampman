@@ -42,22 +42,26 @@ var reject_1 = require("./reject");
 var rmi_1 = require("./rmi");
 function meta() {
     return {
-        command: 'sweep',
-        description: '全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃',
-        options: [
-            ['-f, --force', '確認なしで実行する'],
-        ]
+        command: 'sweep [options]',
+        describe: '全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃',
+        options: {
+            'force': {
+                alias: 'f',
+                describe: '確認なしで実行します。',
+                type: 'boolean',
+            },
+        },
     };
 }
 exports.meta = meta;
-function action(commands) {
+function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     docker.needDockerLive();
-                    if (!!commands.force) return [3, 2];
+                    if (!!argv.force) return [3, 2];
                     return [4, prompts([
                             {
                                 type: 'toggle',
