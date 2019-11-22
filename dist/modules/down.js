@@ -5,11 +5,12 @@ var docker = require("../docker");
 function meta() {
     return {
         command: 'down',
-        description: 'LAMP終了',
+        describe: 'LAMP終了',
+        options: {},
     };
 }
 exports.meta = meta;
-function action(commands) {
+function action(argv, lampman) {
     docker.needDockerLive();
     child.spawn('docker-compose', [
         '--project-name', lampman.config.project,

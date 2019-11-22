@@ -20,14 +20,15 @@ export function meta()
 {
     return {
         command: 'down',
-        description: 'LAMP終了',
+        describe: 'LAMP終了',
+        options: {},
     }
 }
 
 /**
  * コマンド実行
  */
-export function action(commands:any)
+export function action(argv:any, lampman:any)
 {
     // Docker起動必須
     docker.needDockerLive()
