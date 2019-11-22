@@ -34,7 +34,6 @@ export function meta()
                 alias: 'f',
                 describe: '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する',
                 type: 'boolean',
-                nargs: 0,
             },
             'docker-compose-options': {
                 alias: 'o',
@@ -45,19 +44,16 @@ export function meta()
             'D': {
                 describe: 'デーモンじゃなくフォアグラウンドで起動する',
                 type: 'boolean',
-                nargs: 0,
             },
             'no-update': {
                 alias: 'n',
                 describe: 'docker-compose.yml を更新せずに起動する',
                 type: 'boolean',
-                nargs: 0,
             },
             'thru-upped': {
                 alias: 't',
                 describe: 'config.jsで設定した起動時コマンド"on_upped"を実行しない',
                 type: 'boolean',
-                nargs: 0,
             },
         },
     }

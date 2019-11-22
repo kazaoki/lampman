@@ -29,7 +29,6 @@ export function meta()
                 alias: 's',
                 describe: 'ログインするコンテナを選択肢から選びます。',
                 type: 'boolean',
-                nargs: 0,
             },
             'shell': {
                 alias: 'l',

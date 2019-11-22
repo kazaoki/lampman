@@ -31,7 +31,6 @@ export function meta()
                 alias: 'd',
                 describe: 'ダンプします。',
                 type: 'boolean',
-                nargs: 0,
             },
             'dump-path': {
                 alias: 'p',
@@ -43,13 +42,11 @@ export function meta()
                 alias: 'n',
                 describe: 'ファイルローテーションしないでダンプします。',
                 type: 'boolean',
-                nargs: 0,
             },
             'restore': {
                 alias: 'r',
                 describe: '最新のダンプファイルをリストアします。',
                 type: 'boolean',
-                nargs: 0,
             },
         },
     }

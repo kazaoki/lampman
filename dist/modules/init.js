@@ -49,7 +49,6 @@ function meta() {
                 alias: 's',
                 describe: 'セットアップ可能な選択肢が出ます。',
                 type: 'boolean',
-                nargs: 0,
             },
             'project': {
                 alias: 'p',
