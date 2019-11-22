@@ -55,18 +55,38 @@ var path = require('path');
 var color = require('cli-color');
 function meta() {
     return {
-        command: 'psql [container-name]',
-        description: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',
-        options: [
-            ['-d, --dump', 'ダンプします'],
-            ['-p, --dump-path <dump_path>', 'ダンプファイルのディレクトリパスを指定'],
-            ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
-            ['-r, --restore', '最新のダンプファイルをリストアします。'],
-        ]
+        command: 'psql [service] [options]',
+        describe: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',
+        options: {
+            'dump': {
+                alias: 'd',
+                describe: 'ダンプします。',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'dump-path': {
+                alias: 'p',
+                describe: 'ダンプファイルのディレクトリパスを指定します。',
+                type: 'string',
+                nargs: 1,
+            },
+            'no-rotate': {
+                alias: 'n',
+                describe: 'ファイルローテーションしないでダンプします。',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'restore': {
+                alias: 'r',
+                describe: '最新のダンプファイルをリストアします。',
+                type: 'boolean',
+                nargs: 0,
+            },
+        },
     };
 }
 exports.meta = meta;
-function action(cname, commands) {
+function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var postgresql, list, _i, _a, key, _b, list_1, item, before_str, response, is_gzip, dumpdir, dumpfile, procs, _c, procs_1, proc, conts, procs;
         return __generator(this, function (_d) {
@@ -79,22 +99,22 @@ function action(cname, commands) {
                         key = _a[_i];
                         if (key.match(/^postgresql/)) {
                             list.push({
-                                title: key + (commands.restore && lampman.config[key].volume_locked ? ' - [locked]' : ''),
+                                title: key + (argv.restore && lampman.config[key].volume_locked ? ' - [locked]' : ''),
                                 description: (lampman.config[key].volume_locked ? '[locked]' : ''),
                                 value: __assign({ cname: key }, lampman.config[key]),
                                 cname: key,
-                                disabled: commands.restore && lampman.config[key].volume_locked
+                                disabled: argv.restore && lampman.config[key].volume_locked
                             });
                         }
                     }
-                    if (!(cname && cname.length)) return [3, 1];
+                    if (!(argv.service && argv.service.length)) return [3, 1];
                     for (_b = 0, list_1 = list; _b < list_1.length; _b++) {
                         item = list_1[_b];
-                        if (item.cname === cname)
+                        if (item.cname === argv.service)
                             postgresql = item.value;
                     }
                     if (!Object.keys(postgresql).length) {
-                        libs.Message('ご指定のコンテナ情報が設定ファイルに存在しません。\n' + cname, 'warning', 1);
+                        libs.Message('ご指定のコンテナ情報が設定ファイルに存在しません。\n' + argv.service, 'warning', 1);
                         process.exit();
                     }
                     return [3, 5];
@@ -105,9 +125,9 @@ function action(cname, commands) {
                 case 2:
                     if (!(list.length > 1)) return [3, 4];
                     before_str = '';
-                    if (commands.dump)
+                    if (argv.dump)
                         before_str = 'ダンプを生成する';
-                    else if (commands.restore)
+                    else if (argv.restore)
                         before_str = 'リストアする';
                     else
                         before_str = 'PostgreSQL接続する';
@@ -135,10 +155,10 @@ function action(cname, commands) {
                     catch (e) {
                         libs.Error(e);
                     }
-                    if (!commands.dump) return [3, 10];
+                    if (!argv.dump) return [3, 10];
                     libs.Label('Dump PostgreSQL');
                     is_gzip = !!postgresql.dump.filename.match(/\.gz$/);
-                    dumpdir = commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, postgresql.cname);
+                    dumpdir = argv.dumpPath ? argv.dumpPath : path.join(lampman.config_dir, postgresql.cname);
                     if (!path.isAbsolute(dumpdir)) {
                         dumpdir = path.join(process.cwd(), dumpdir);
                     }
@@ -146,7 +166,7 @@ function action(cname, commands) {
                         fs.mkdirSync(dumpdir, { recursive: true });
                     }
                     dumpfile = path.join(dumpdir, (postgresql.dump.filename ? postgresql.dump.filename : 'dump.sql'));
-                    if (commands.rotate && postgresql.dump.rotations > 0) {
+                    if ((!argv.noRotate) && postgresql.dump.rotations > 0) {
                         process.stdout.write('Dumpfile rotate ... ');
                         libs.RotateFile(dumpfile, postgresql.dump.rotations);
                         console.log(color.green('done'));
@@ -201,7 +221,7 @@ function action(cname, commands) {
                     console.log(color.green('done'));
                     return [2];
                 case 10:
-                    if (!commands.restore) return [3, 12];
+                    if (!argv.restore) return [3, 12];
                     if (postgresql.volume_locked)
                         libs.Error(postgresql.cname + " \u306F\u30ED\u30C3\u30AF\u6E08\u307F\u30DC\u30EA\u30E5\u30FC\u30E0\u306E\u305F\u3081\u30EA\u30B9\u30C8\u30A2\u3067\u304D\u307E\u305B\u3093\u3002");
                     libs.Label('Restore PostgreSQL');

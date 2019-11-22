@@ -24,21 +24,41 @@ const color   = require('cli-color');
 export function meta()
 {
     return {
-        command: 'psql [container-name]',
-        description: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',
-        options: [
-            ['-d, --dump', 'ダンプします'],
-            ['-p, --dump-path <dump_path>', 'ダンプファイルのディレクトリパスを指定'],
-            ['-n, --no-rotate', 'ファイルローテーションしないでダンプします。※-d時のみ'],
-            ['-r, --restore', '最新のダンプファイルをリストアします。'],
-        ]
+        command: 'psql [service] [options]',
+        describe: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',
+        options: {
+            'dump': {
+                alias: 'd',
+                describe: 'ダンプします。',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'dump-path': {
+                alias: 'p',
+                describe: 'ダンプファイルのディレクトリパスを指定します。',
+                type: 'string',
+                nargs: 1,
+            },
+            'no-rotate': {
+                alias: 'n',
+                describe: 'ファイルローテーションしないでダンプします。',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'restore': {
+                alias: 'r',
+                describe: '最新のダンプファイルをリストアします。',
+                type: 'boolean',
+                nargs: 0,
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(cname:string|null, commands:any)
+export async function action(argv:any, lampman:any)
 {
     // Docker起動必須
     docker.needDockerLive()
@@ -51,22 +71,22 @@ export async function action(cname:string|null, commands:any)
     for(let key of Object.keys(lampman.config)) {
         if(key.match(/^postgresql/)) {
             list.push({
-                title: key+(commands.restore && lampman.config[key].volume_locked ? ' - [locked]' : ''),
+                title: key+(argv.restore && lampman.config[key].volume_locked ? ' - [locked]' : ''),
                 description: (lampman.config[key].volume_locked ? '[locked]' : ''),
                 value: {cname:key, ...lampman.config[key]} ,
                 cname: key,
-                disabled: commands.restore && lampman.config[key].volume_locked
+                disabled: argv.restore && lampman.config[key].volume_locked
             })
         }
     }
 
     // 引数にコンテナ名を指定している場合は、リストにあるかチェック
-    if(cname && cname.length) {
+    if(argv.service && argv.service.length) {
         for(let item of list) {
-            if(item.cname===cname) postgresql = item.value
+            if(item.cname===argv.service) postgresql = item.value
         }
         if(!Object.keys(postgresql).length) {
-            libs.Message('ご指定のコンテナ情報が設定ファイルに存在しません。\n'+cname, 'warning', 1)
+            libs.Message('ご指定のコンテナ情報が設定ファイルに存在しません。\n'+argv.service, 'warning', 1)
             process.exit()
         }
     } else {
@@ -78,8 +98,8 @@ export async function action(cname:string|null, commands:any)
         } else if(list.length>1) {
             // 接頭辞
             let before_str = ''
-            if(commands.dump) before_str = 'ダンプを生成する'
-            else if(commands.restore) before_str = 'リストアする'
+            if(argv.dump) before_str = 'ダンプを生成する'
+            else if(argv.restore) before_str = 'リストアする'
             else before_str = 'PostgreSQL接続する'
             // PostgreSQL設定が複数ある場合は選択させる
             const response = await prompts([
@@ -106,7 +126,7 @@ export async function action(cname:string|null, commands:any)
     }
 
     // ダンプ
-    if(commands.dump) {
+    if(argv.dump) {
 
         // ラベル表示
         libs.Label('Dump PostgreSQL')
@@ -115,7 +135,7 @@ export async function action(cname:string|null, commands:any)
         let is_gzip = !!postgresql.dump.filename.match(/\.gz$/)
 
         // ダンプディレクトリ
-        let dumpdir = commands.dumpPath ? commands.dumpPath : path.join(lampman.config_dir, postgresql.cname)
+        let dumpdir = argv.dumpPath ? argv.dumpPath : path.join(lampman.config_dir, postgresql.cname)
         if(!path.isAbsolute(dumpdir)) {
             dumpdir = path.join(process.cwd(), dumpdir)
         }
@@ -130,14 +150,11 @@ export async function action(cname:string|null, commands:any)
         )
 
         // ダンプファイルローテーション
-        if(commands.rotate && postgresql.dump.rotations>0) {
+        if((!argv.noRotate) && postgresql.dump.rotations>0) {
             process.stdout.write('Dumpfile rotate ... ')
             libs.RotateFile(dumpfile, postgresql.dump.rotations)
             console.log(color.green('done'))
         }
-
-        // console.log(is_gzip)
-        // console.log(procs[0].stdio)
 
         // ダンプ開始
         process.stdout.write('Dump to '+dumpfile+' ... ')
@@ -196,7 +213,7 @@ export async function action(cname:string|null, commands:any)
     }
 
     // リストア
-    if(commands.restore) {
+    if(argv.restore) {
 
         // ロック中のボリュームはリストアしない。
         if(postgresql.volume_locked) libs.Error(`${postgresql.cname} はロック済みボリュームのためリストアできません。`)

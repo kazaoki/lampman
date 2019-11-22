@@ -111,7 +111,7 @@ yargs
     .group('help', 'Global options:')
     .group('mode', 'Global options:')
     .usage('Usage: lamp|lm [command] [options]')
-    .wrap(Math.min(100, yargs.terminalWidth()))
+    .wrap(null)
     .scriptName('lamp')
     .argv;
 if (!keys.includes(argv._[0])) {

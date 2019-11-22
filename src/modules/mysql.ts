@@ -24,24 +24,32 @@ const color   = require('cli-color');
 export function meta()
 {
     return {
-        command: 'mysql [service]',
+        command: 'mysql [service] [options]',
         describe: 'MySQL操作（オプション未指定なら mysql クライアントが実行されます）',
         options: {
             'dump': {
                 alias: 'd',
-                describe: 'ダンプします',
+                describe: 'ダンプします。',
+                type: 'boolean',
+                nargs: 0,
             },
-            'dump-path=<path>': {
+            'dump-path': {
                 alias: 'p',
-                describe: 'ダンプファイルのディレクトリパスを指定',
+                describe: 'ダンプファイルのディレクトリパスを指定します。',
+                type: 'string',
+                nargs: 1,
             },
             'no-rotate': {
                 alias: 'n',
                 describe: 'ファイルローテーションしないでダンプします。',
+                type: 'boolean',
+                nargs: 0,
             },
             'restore': {
                 alias: 'r',
                 describe: '最新のダンプファイルをリストアします。',
+                type: 'boolean',
+                nargs: 0,
             },
         },
     }
