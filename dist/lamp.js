@@ -82,7 +82,13 @@ module_files.forEach(function (file) {
     yargs.command({
         command: meta.command,
         describe: meta.describe,
-        builder: function (yargs) { return yargs.options(meta.options); },
+        builder: function (yargs) {
+            if (meta.options)
+                yargs.options(meta.options);
+            if (meta.usage)
+                yargs.usage(meta.usage + '\n\n' + meta.describe);
+            return yargs;
+        },
         handler: function (argv) { return module.action(argv, lampman); },
     });
     keys.push(meta.command.match(/^([^\s]+)/)[1]);

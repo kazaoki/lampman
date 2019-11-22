@@ -102,7 +102,11 @@ module_files.forEach(file=>{
         {
             command: meta.command,
             describe: meta.describe,
-            builder: (yargs:any)=>yargs.options(meta.options),
+            builder: (yargs:any)=>{
+                if(meta.options) yargs.options(meta.options)
+                if(meta.usage) yargs.usage(meta.usage+'\n\n'+meta.describe) // usage指定されるとdescribeがでなくなるので。
+                return yargs
+            },
             handler: (argv:any)=>module.action(argv, lampman),
         },
     )

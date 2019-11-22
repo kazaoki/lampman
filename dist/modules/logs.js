@@ -41,16 +41,25 @@ var child = require('child_process');
 var prompts = require('prompts');
 function meta() {
     return {
-        command: 'logs [groups...]',
-        description: 'ログファイル監視（グループ未指定なら最初の１つが表示）',
-        options: [
-            ['-a, --all', '全て表示します'],
-            ['-s, --select', '表示するものを１つ選択します'],
-        ]
+        command: 'logs',
+        usage: '$0 logs [groups...] [options]',
+        describe: 'ログファイル監視（グループ未指定なら最初の１つが表示）',
+        options: {
+            'all': {
+                alias: 'a',
+                describe: '全て表示します。',
+                type: 'boolean',
+            },
+            'select': {
+                alias: 's',
+                describe: '表示するものを１つ選択します。',
+                type: 'boolean',
+            },
+        },
     };
 }
 exports.meta = meta;
-function action(args, commands) {
+function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var groups, response, arg_string, _i, groups_1, group, i, column, file, opts;
         return __generator(this, function (_a) {
@@ -60,11 +69,11 @@ function action(args, commands) {
                     docker.needDockerLive();
                     if (!('logs' in lampman.config) || 0 === Object.keys(lampman.config.logs).length)
                         libs.Error('ログ設定がありません');
-                    if (!commands.all) return [3, 1];
+                    if (!argv.all) return [3, 1];
                     groups = Object.keys(lampman.config.logs);
                     return [3, 4];
                 case 1:
-                    if (!commands.select) return [3, 3];
+                    if (!argv.select) return [3, 3];
                     return [4, prompts([
                             {
                                 type: 'select',
@@ -80,8 +89,8 @@ function action(args, commands) {
                     groups = [response.group];
                     return [3, 4];
                 case 3:
-                    if (args.length) {
-                        groups = args.slice();
+                    if (argv._.slice(1).length) {
+                        groups = argv._.slice(1);
                     }
                     else {
                         groups = [Object.keys(lampman.config.logs)[0]];
