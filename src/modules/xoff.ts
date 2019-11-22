@@ -21,20 +21,20 @@ export function meta()
 {
     return {
         command: 'xoff',
-        description: 'PHP Xdebug を無効にする',
+        describe: 'PHP Xdebug を無効にする',
     }
 }
 
 /**
  * コマンド実行
  */
-export function action(commands:any)
+export function action(argv:any, lampman:any)
 {
     // Docker起動必須
     docker.needDockerLive()
 
     // コマンド実行
-    child.spawnSync(
+    let result = child.spawnSync(
         'docker-compose',
         [
             '--project-name',
@@ -50,5 +50,5 @@ export function action(commands:any)
             cwd: lampman.config_dir
         }
     )
-    libs.Message('PHP Xdebugを無効にしました。')
+    if(0===result.status) libs.Message('PHP Xdebugを無効にしました。', 'primary')
 }
