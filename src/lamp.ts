@@ -4,23 +4,28 @@
 
 require('dotenv').config()
 
-import fs        = require('fs')
-import path      = require('path')
-import color     = require('cli-color')
-import commander = require('commander')
-import libs      = require('./libs')
+import fs    = require('fs')
+import path  = require('path')
+import color = require('cli-color')
+import yargs = require('yargs')
+import libs  = require('./libs')
 require('dotenv').config()
 
 // 1行改行
 console.log()
 
 // モードの設定
-process.argv.forEach((value, i)=>{
-    if('-m'===value || '--mode'===value) {
-        if(process.argv[i+1]) process.env.LAMPMAN_MODE = process.argv[i+1]
-    }
-})
-if(!process.env.LAMPMAN_MODE) process.env.LAMPMAN_MODE = 'default'
+let argv = yargs
+    .help(false)
+    .option('mode',
+        {
+            describe: '実行モードを指定',
+            alias: 'm',
+            default: 'default'
+        }
+    )
+    .argv
+if('mode' in argv && argv.mode.length) process.env.LAMPMAN_MODE = argv.mode
 
 // Lampmanオブジェクト用意
 let lampman: any = {
@@ -51,10 +56,6 @@ if('default'!==lampman.mode && !lampman.config_dir && !process.argv.includes('in
 
 // 設定ディレクトリがあれば config.js を読み込み
 if(lampman.config_dir) lampman = libs.LoadConfig(lampman)
-
-// 基本オプション
-commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）')
-commander.helpOption('-h, --help', 'ヘルプを表示します。');
 
 // モジュールファイル一覧
 let module_files = fs.readdirSync(path.join(__dirname, 'modules')).filter(file=>{
@@ -91,19 +92,20 @@ order.forEach(item=>{
 module_files = [...files_new, ...module_files.sort()]
 
 // モジュール登録
+let keys = []
 module_files.forEach(file=>{
     let module = require('./modules/'+file)
     if(!('meta' in module)) return
     let meta = module.meta()
-    let c = commander
-        .command(meta.command)
-        .description(meta.description)
-        .action((...args)=>module.action(...args))
-    if('options' in meta) {
-        for(let opt of meta.options) {
-            c.option(opt[0], opt[1], opt[2], opt[3])
-        }
-    }
+    yargs.command(
+        {
+            command: meta.command,
+            describe: meta.describe,
+            builder: (yargs:any)=>yargs.options(meta.options),
+            handler: (argv:any)=>module.action(argv, lampman),
+        },
+    )
+    keys.push(meta.command.match(/^([^\s]+)/)[1])
 })
 
 // extraコマンド登録
@@ -113,22 +115,30 @@ if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
         let extraopt = lampman.config.extra[key]
         if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
         if('undefined'===typeof extraopt.desc) extraopt.desc = extraopt.command
-        commander
-            .command(key)
-            .description(extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''))
-            .action((...args)=>extra.action(extraopt, args))
-        ;
+        yargs.command(
+            {
+                command: key,
+                describe: extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''),
+                handler: (argv:any)=>extra.action(argv, lampman)
+            },
+        )
+        keys.push(key.match(/^([^\s]+)/)[1])
     }
 }
 
-// コマンドが無い場合の処理
-commander.on('command:*', ()=>{
-    commander.help()
-    process.exit(1)
-});
+// グローバルオプション設定
+yargs
+    .locale('en')
+    .help('help', 'ヘルプ表示').alias('help', 'h')
+    .version(false)
+    .group('help', 'Global options:')
+    .group('mode', 'Global options:')
+    .usage('Usage: lamp|lm [command] [options]')
+    .wrap(Math.min(100, yargs.terminalWidth()))
+    .scriptName('lamp')
+    .argv
 
-// パース実行
-commander.parse(process.argv)
-
-// 引数が指定されなかった場合はdockerの情報を表示
-if(!process.argv.slice(2).length) libs.dockerLs(lampman)
+// 引数なし、または存在しないコマンドの場合は docker の情報を表示
+if(!keys.includes(argv._[0])) {
+    libs.dockerLs(lampman)
+}

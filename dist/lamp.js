@@ -5,18 +5,20 @@ require('dotenv').config();
 var fs = require("fs");
 var path = require("path");
 var color = require("cli-color");
-var commander = require("commander");
+var yargs = require("yargs");
 var libs = require("./libs");
 require('dotenv').config();
 console.log();
-process.argv.forEach(function (value, i) {
-    if ('-m' === value || '--mode' === value) {
-        if (process.argv[i + 1])
-            process.env.LAMPMAN_MODE = process.argv[i + 1];
-    }
-});
-if (!process.env.LAMPMAN_MODE)
-    process.env.LAMPMAN_MODE = 'default';
+var argv = yargs
+    .help(false)
+    .option('mode', {
+    describe: '実行モードを指定',
+    alias: 'm',
+    default: 'default'
+})
+    .argv;
+if ('mode' in argv && argv.mode.length)
+    process.env.LAMPMAN_MODE = argv.mode;
 var lampman = {
     mode: process.env.LAMPMAN_MODE
 };
@@ -41,8 +43,6 @@ if ('default' !== lampman.mode && !lampman.config_dir && !process.argv.includes(
 }
 if (lampman.config_dir)
     lampman = libs.LoadConfig(lampman);
-commander.option('-m, --mode <mode>', '実行モードを指定できます。（標準は default ）');
-commander.helpOption('-h, --help', 'ヘルプを表示します。');
 var module_files = fs.readdirSync(path.join(__dirname, 'modules')).filter(function (file) {
     return fs.statSync(path.join(__dirname, 'modules', file)).isFile() && /.*\.js$/.test(file);
 });
@@ -73,56 +73,47 @@ order.forEach(function (item) {
     }
 });
 module_files = files_new.concat(module_files.sort());
+var keys = [];
 module_files.forEach(function (file) {
     var module = require('./modules/' + file);
     if (!('meta' in module))
         return;
     var meta = module.meta();
-    var c = commander
-        .command(meta.command)
-        .description(meta.description)
-        .action(function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        return module.action.apply(module, args);
+    yargs.command({
+        command: meta.command,
+        describe: meta.describe,
+        builder: function (yargs) { return yargs.options(meta.options); },
+        handler: function (argv) { return module.action(argv, lampman); },
     });
-    if ('options' in meta) {
-        for (var _i = 0, _a = meta.options; _i < _a.length; _i++) {
-            var opt = _a[_i];
-            c.option(opt[0], opt[1], opt[2], opt[3]);
-        }
-    }
+    keys.push(meta.command.match(/^([^\s]+)/)[1]);
 });
 var extra = require('./modules/extra');
 if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
-    var _loop_1 = function (key) {
+    for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
+        var key = _a[_i];
         var extraopt = lampman.config.extra[key];
         if ('object' === typeof extraopt.command)
             extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
         if ('undefined' === typeof extraopt.desc)
             extraopt.desc = extraopt.command;
-        commander
-            .command(key)
-            .description(extraopt.desc + (extraopt.container ? color.blackBright(" on " + extraopt.container) : ''))
-            .action(function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
-            return extra.action(extraopt, args);
+        yargs.command({
+            command: key,
+            describe: extraopt.desc + (extraopt.container ? color.blackBright(" on " + extraopt.container) : ''),
+            handler: function (argv) { return extra.action(argv, lampman); }
         });
-    };
-    for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
-        var key = _a[_i];
-        _loop_1(key);
+        keys.push(key.match(/^([^\s]+)/)[1]);
     }
 }
-commander.on('command:*', function () {
-    commander.help();
-    process.exit(1);
-});
-commander.parse(process.argv);
-if (!process.argv.slice(2).length)
+yargs
+    .locale('en')
+    .help('help', 'ヘルプ表示').alias('help', 'h')
+    .version(false)
+    .group('help', 'Global options:')
+    .group('mode', 'Global options:')
+    .usage('Usage: lamp|lm [command] [options]')
+    .wrap(Math.min(100, yargs.terminalWidth()))
+    .scriptName('lamp')
+    .argv;
+if (!keys.includes(argv._[0])) {
     libs.dockerLs(lampman);
+}
