@@ -119,7 +119,7 @@ if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
             {
                 command: key,
                 describe: extraopt.desc+(extraopt.container ? color.blackBright(` on ${extraopt.container}`): ''),
-                handler: (argv:any)=>extra.action(argv, lampman)
+                handler: (argv:any)=>extra.action(extraopt, argv)
             },
         )
         keys.push(key.match(/^([^\s]+)/)[1])

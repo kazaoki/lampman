@@ -89,8 +89,7 @@ module_files.forEach(function (file) {
 });
 var extra = require('./modules/extra');
 if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
-    for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
-        var key = _a[_i];
+    var _loop_1 = function (key) {
         var extraopt = lampman.config.extra[key];
         if ('object' === typeof extraopt.command)
             extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
@@ -99,9 +98,13 @@ if ('undefined' !== typeof lampman.config && 'extra' in lampman.config) {
         yargs.command({
             command: key,
             describe: extraopt.desc + (extraopt.container ? color.blackBright(" on " + extraopt.container) : ''),
-            handler: function (argv) { return extra.action(argv, lampman); }
+            handler: function (argv) { return extra.action(extraopt, argv); }
         });
         keys.push(key.match(/^([^\s]+)/)[1]);
+    };
+    for (var _i = 0, _a = Object.keys(lampman.config.extra); _i < _a.length; _i++) {
+        var key = _a[_i];
+        _loop_1(key);
     }
 }
 yargs

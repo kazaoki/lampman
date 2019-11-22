@@ -16,7 +16,7 @@ export function action(extraopt:any, args:any)
 {
     // 関数実行
     if('function' in extraopt) {
-        extraopt.function(...args)
+        extraopt.function(...args._.slice(1))
     }
 
     // コマンド実行
