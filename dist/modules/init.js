@@ -136,7 +136,7 @@ function action(argv, lampman) {
                             lampman = libs.LoadConfig(lampman);
                             libs.UpdateCompose(lampman);
                             messages.push("  - " + path.join(config_dir, '/docker-compose.yml'));
-                            config_1.action({});
+                            config_1.action(null, null);
                         }
                         if (setup.includes('Mysql')) {
                             copyFromMaster('mysql', true);

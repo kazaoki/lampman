@@ -123,7 +123,7 @@ export async function action(argv:any, lampman:any)
             libs.UpdateCompose(lampman) // 最新の docker-compose.yml を生成
             messages.push(`  - ${path.join(config_dir, '/docker-compose.yml')}`)
             // config.js をエディタで開く
-            config({})
+            config(null, null)
         }
 
         // MySQL設定

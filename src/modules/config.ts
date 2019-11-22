@@ -22,14 +22,15 @@ export function meta()
 {
     return {
         command: 'config',
-        description: '設定ファイル(config.js)をエディタで開く',
+        describe: '設定ファイル(config.js)をエディタで開く',
+        options: {},
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(commands:any)
+export async function action(argv:any, lampman:any)
 {
     // configあるか
     if(!fs.existsSync(`${lampman.config_dir}/config.js`)) {
