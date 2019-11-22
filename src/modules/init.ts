@@ -22,20 +22,36 @@ const prompts = require('prompts')
 export function meta()
 {
     return {
-        command: 'init',
-        description: `初期化（.lampman${libs.ModeString(lampman.mode)}/ ディレクトリ作成）`,
-        options: [
-            ['-s, --select', 'セットアップしたい内容を個別に選択可能'],
-            ['-p, --project <name>', 'プロジェクト名を指定可能'],
-            ['-d, --public-dir <dir>', 'ウェブ公開ディレクトリ名を指定可能（初期:public_html）'],
-        ]
+        command: 'init [options]',
+        describe: `初期化（.lampman${libs.ModeString(lampman.mode)}/ ディレクトリ作成）`,
+        options: {
+            'select': {
+                alias: 's',
+                describe: 'セットアップ可能な選択肢が出ます。',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'project': {
+                alias: 'p',
+                describe: 'セットアップするプロジェクト名を指定可能です。',
+                type: 'string',
+                nargs: 1,
+            },
+            'public-dir': {
+                alias: 'd',
+                describe: 'セットアップするウェブ公開ディレクトリ名を指定可能です。',
+                type: 'string',
+                nargs: 1,
+                default: 'public_html',
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(commands:any)
+export async function action(argv:any, lampman:any)
 {
     // 作成する設定ディレクトリを特定
     let config_dirname = `.lampman${libs.ModeString(lampman.mode)}`
@@ -43,7 +59,7 @@ export async function action(commands:any)
 
     // セットアップ内容を選択
     let setup = []
-    if(commands.select) {
+    if(argv.select) {
         let response = await prompts({
             type: 'multiselect',
             name: 'setup',
@@ -95,10 +111,10 @@ export async function action(commands:any)
                 messages.push(`  - ${path.join(config_dir, '/'+name)}`)
             }
             // config.js 書き換え
-            if(commands.project || commands.publicDir) {
+            if(argv.project || argv.publicDir) {
                 let content = fs.readFileSync(config_dir+'/config.js', 'utf-8')
-                if(commands.project) content = content.replace(`project: 'lampman-proj',`, `project: '${commands.project}',`)
-                if(commands.publicDir) content = content.replace(`'../public_html:/var/www/html'`, `'../${commands.publicDir}:/var/www/html'`)
+                if(argv.project) content = content.replace(`project: 'lampman-proj',`, `project: '${argv.project}',`)
+                if(argv.publicDir) content = content.replace(`'../public_html:/var/www/html'`, `'../${argv.publicDir}:/var/www/html'`)
                 fs.writeFileSync(config_dir+'/config.js', content, 'utf-8')
             }
             // compose作成

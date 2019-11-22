@@ -42,17 +42,33 @@ var config_1 = require("./config");
 var prompts = require('prompts');
 function meta() {
     return {
-        command: 'init',
-        description: "\u521D\u671F\u5316\uFF08.lampman" + libs.ModeString(lampman.mode) + "/ \u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u4F5C\u6210\uFF09",
-        options: [
-            ['-s, --select', 'セットアップしたい内容を個別に選択可能'],
-            ['-p, --project <name>', 'プロジェクト名を指定可能'],
-            ['-d, --public-dir <dir>', 'ウェブ公開ディレクトリ名を指定可能（初期:public_html）'],
-        ]
+        command: 'init [options]',
+        describe: "\u521D\u671F\u5316\uFF08.lampman" + libs.ModeString(lampman.mode) + "/ \u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u4F5C\u6210\uFF09",
+        options: {
+            'select': {
+                alias: 's',
+                describe: 'セットアップ可能な選択肢が出ます。',
+                type: 'boolean',
+                nargs: 0,
+            },
+            'project': {
+                alias: 'p',
+                describe: 'セットアップするプロジェクト名を指定可能です。',
+                type: 'string',
+                nargs: 1,
+            },
+            'public-dir': {
+                alias: 'd',
+                describe: 'セットアップするウェブ公開ディレクトリ名を指定可能です。',
+                type: 'string',
+                nargs: 1,
+                default: 'public_html',
+            },
+        },
     };
 }
 exports.meta = meta;
-function action(commands) {
+function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var config_dirname, config_dir, setup, response, messages, copyFromMaster, _i, _a, name_1, content;
         return __generator(this, function (_b) {
@@ -61,7 +77,7 @@ function action(commands) {
                     config_dirname = ".lampman" + libs.ModeString(lampman.mode);
                     config_dir = path.join(process.cwd(), config_dirname);
                     setup = [];
-                    if (!commands.select) return [3, 2];
+                    if (!argv.select) return [3, 2];
                     return [4, prompts({
                             type: 'multiselect',
                             name: 'setup',
@@ -108,12 +124,12 @@ function action(commands) {
                                 copyFromMaster(name_1, true);
                                 messages.push("  - " + path.join(config_dir, '/' + name_1));
                             }
-                            if (commands.project || commands.publicDir) {
+                            if (argv.project || argv.publicDir) {
                                 content = fs.readFileSync(config_dir + '/config.js', 'utf-8');
-                                if (commands.project)
-                                    content = content.replace("project: 'lampman-proj',", "project: '" + commands.project + "',");
-                                if (commands.publicDir)
-                                    content = content.replace("'../public_html:/var/www/html'", "'../" + commands.publicDir + ":/var/www/html'");
+                                if (argv.project)
+                                    content = content.replace("project: 'lampman-proj',", "project: '" + argv.project + "',");
+                                if (argv.publicDir)
+                                    content = content.replace("'../public_html:/var/www/html'", "'../" + argv.publicDir + ":/var/www/html'");
                                 fs.writeFileSync(config_dir + '/config.js', content, 'utf-8');
                             }
                             lampman.config_dir = config_dir;
