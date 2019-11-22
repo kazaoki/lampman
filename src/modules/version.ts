@@ -19,20 +19,24 @@ const color = require('cli-color');
 export function meta()
 {
     return {
-        command: 'version',
-        description: 'バージョン表示',
-        options: [
-            ['-q, --quiet', 'バージョン文字列のみ出力する'],
-        ],
+        command: 'version [options]',
+        describe: 'バージョン表示',
+        options: {
+            'quiet': {
+                alias: 'q',
+                describe: 'バージョン文字列のみ出力します。',
+                type: 'boolean',
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export function action(commands:any)
+export function action(argv:any, lampman:any)
 {
-    if(commands.quiet) {
+    if(argv.quiet) {
         process.stdout.write(color.move(0, -1))
         process.stdout.write(libs.getLampmanVersion())
     }  else {
