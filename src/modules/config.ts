@@ -8,8 +8,6 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
 import libs = require('../libs');
 const child = require('child_process')
 const fs = require('fs')

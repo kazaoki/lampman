@@ -8,8 +8,6 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
 import child = require('child_process')
 import docker = require('../docker');
 

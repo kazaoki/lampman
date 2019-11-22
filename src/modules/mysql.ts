@@ -8,8 +8,6 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
 import libs = require('../libs')
 import docker = require('../docker');
 const prompts = require('prompts')

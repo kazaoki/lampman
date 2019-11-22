@@ -8,8 +8,6 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
 import libs = require('../libs');
 import fs   = require('fs-extra');
 import path = require('path');
@@ -122,7 +120,7 @@ export async function action(argv:any, lampman:any)
             libs.UpdateCompose(lampman) // 最新の docker-compose.yml を生成
             messages.push(`  - ${path.join(config_dir, '/docker-compose.yml')}`)
             // config.js をエディタで開く
-            config(null, null)
+            config(null, lampman)
         }
 
         // MySQL設定
