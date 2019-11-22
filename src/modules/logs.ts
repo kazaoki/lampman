@@ -18,7 +18,7 @@ const prompts = require('prompts')
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
         command: 'logs',

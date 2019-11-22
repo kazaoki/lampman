@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var color = require('cli-color');
-function meta() {
+function meta(lampman) {
     return {
         command: 'version [options]',
         describe: 'バージョン表示',

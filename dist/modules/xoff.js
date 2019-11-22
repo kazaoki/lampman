@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var docker = require("../docker");
 var child = require('child_process');
-function meta() {
+function meta(lampman) {
     return {
         command: 'xoff',
         describe: 'PHP Xdebug を無効にする',

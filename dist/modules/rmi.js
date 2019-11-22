@@ -38,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var docker = require("../docker");
 var child = require("child_process");
 var prompts = require('prompts');
-function meta() {
+function meta(lampman) {
     return {
         command: 'rmi [options]',
         describe: 'イメージを選択して削除',

@@ -8,8 +8,6 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
 import libs   = require('../libs');
 import jsYaml = require('js-yaml');
 import child  = require('child_process')
@@ -19,7 +17,7 @@ const toYaml  = (inData:object)=>jsYaml.dump(inData, {lineWidth: -1})
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
         command: 'yaml [options]',

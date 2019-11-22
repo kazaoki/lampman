@@ -40,7 +40,7 @@ var docker = require("../docker");
 var prompts = require('prompts');
 var child = require('child_process');
 var color = require('cli-color');
-function meta() {
+function meta(lampman) {
     return {
         command: 'login [service] [options]',
         describe: 'コンテナのコンソールにログインします',

@@ -97,7 +97,7 @@ let keys:any[] = []
 module_files.forEach(file=>{
     let module = require('./modules/'+file)
     if(!('meta' in module)) return
-    let meta = module.meta()
+    let meta = module.meta(lampman)
     yargs.command(
         {
             command: meta.command,

@@ -5,7 +5,7 @@ var jsYaml = require("js-yaml");
 var child = require("child_process");
 var path = require("path");
 var toYaml = function (inData) { return jsYaml.dump(inData, { lineWidth: -1 }); };
-function meta() {
+function meta(lampman) {
     return {
         command: 'yaml [options]',
         describe: 'YAMLの更新のみ、出力のみする',

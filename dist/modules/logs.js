@@ -39,7 +39,7 @@ var libs = require("../libs");
 var docker = require("../docker");
 var child = require('child_process');
 var prompts = require('prompts');
-function meta() {
+function meta(lampman) {
     return {
         command: 'logs',
         usage: '$0 logs [groups...] [options]',

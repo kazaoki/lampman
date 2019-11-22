@@ -78,7 +78,7 @@ module_files.forEach(function (file) {
     var module = require('./modules/' + file);
     if (!('meta' in module))
         return;
-    var meta = module.meta();
+    var meta = module.meta(lampman);
     yargs.command({
         command: meta.command,
         describe: meta.describe,

@@ -40,7 +40,7 @@ var fs = require("fs-extra");
 var path = require("path");
 var config_1 = require("./config");
 var prompts = require('prompts');
-function meta() {
+function meta(lampman) {
     return {
         command: 'init [options]',
         describe: "\u521D\u671F\u5316\uFF08.lampman" + libs.ModeString(lampman.mode) + "/ \u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u4F5C\u6210\uFF09",

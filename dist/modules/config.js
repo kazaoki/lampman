@@ -39,7 +39,7 @@ var libs = require("../libs");
 var child = require('child_process');
 var fs = require('fs');
 var open = require('open');
-function meta() {
+function meta(lampman) {
     return {
         command: 'config',
         describe: '設定ファイル(config.js)をエディタで開く',

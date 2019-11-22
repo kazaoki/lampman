@@ -17,7 +17,7 @@ const child = require('child_process')
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
         command: 'xoff',

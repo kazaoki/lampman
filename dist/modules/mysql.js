@@ -53,7 +53,7 @@ var child = require('child_process');
 var fs = require('fs');
 var path = require('path');
 var color = require('cli-color');
-function meta() {
+function meta(lampman) {
     return {
         command: 'mysql [service] [options]',
         describe: 'MySQL操作（オプション未指定なら mysql クライアントが実行されます）',

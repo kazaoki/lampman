@@ -53,7 +53,7 @@ var child = require('child_process');
 var fs = require('fs');
 var path = require('path');
 var color = require('cli-color');
-function meta() {
+function meta(lampman) {
     return {
         command: 'psql [service] [options]',
         describe: 'PostgreSQL操作（オプション未指定なら psql クライアントが実行されます）',

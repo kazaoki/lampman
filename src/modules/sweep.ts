@@ -20,7 +20,7 @@ import { action as rmi } from './rmi';
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
         command: 'sweep [options]',

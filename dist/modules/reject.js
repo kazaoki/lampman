@@ -40,7 +40,7 @@ var docker = require("../docker");
 var child = require("child_process");
 var color = require('cli-color');
 var prompts = require('prompts');
-function meta() {
+function meta(lampman) {
     return {
         command: 'reject [options]',
         describe: 'コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）',

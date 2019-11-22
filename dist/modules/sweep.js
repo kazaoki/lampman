@@ -40,7 +40,7 @@ var child = require("child_process");
 var prompts = require('prompts');
 var reject_1 = require("./reject");
 var rmi_1 = require("./rmi");
-function meta() {
+function meta(lampman) {
     return {
         command: 'sweep [options]',
         describe: '全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃',

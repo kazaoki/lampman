@@ -43,7 +43,7 @@ var path = require('path');
 var color = require('cli-color');
 var fs = require('fs');
 var find = require('find');
-function meta() {
+function meta(lampman) {
     return {
         command: 'up [options]',
         describe: "LAMP\u8D77\u52D5\uFF08.lampman" + libs.ModeString(lampman.mode) + "/docker-compose.yml \u81EA\u52D5\u66F4\u65B0\uFF09",

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var child = require('child_process');
 var docker = require("../docker");
-function meta() {
+function meta(lampman) {
     return {
         command: 'down',
         describe: 'LAMP終了',

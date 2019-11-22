@@ -21,7 +21,7 @@ const color   = require('cli-color');
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
         command: 'mysql [service] [options]',
