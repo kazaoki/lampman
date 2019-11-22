@@ -39,14 +39,14 @@ var libs = require("../libs");
 var child = require('child_process');
 var fs = require('fs');
 var open = require('open');
-function meta() {
+function meta(lampman) {
     return {
         command: 'config',
-        description: '設定ファイル(config.js)をエディタで開く',
+        describe: '設定ファイル(config.js)をエディタで開く',
     };
 }
 exports.meta = meta;
-function action(commands) {
+function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var mode_label;
         return __generator(this, function (_a) {

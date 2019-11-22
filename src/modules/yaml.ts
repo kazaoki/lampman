@@ -8,8 +8,6 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
 import libs   = require('../libs');
 import jsYaml = require('js-yaml');
 import child  = require('child_process')
@@ -19,25 +17,33 @@ const toYaml  = (inData:object)=>jsYaml.dump(inData, {lineWidth: -1})
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
-        command: 'yaml',
-        description: 'YAMLの更新のみ、出力のみする',
-        options: [
-            ['-b, --build', ('config_dir' in lampman ? path.basename(lampman.config_dir) : '.lampman/')+'/docker-compose.yml を作成/更新する'],
-            ['-o, --out', '標準出力にマージ後のYAMLデータを出力する'],
-        ]
+        command: 'yaml [options]',
+        describe: 'YAMLの更新のみ、出力のみする',
+        options: {
+            'build': {
+                alias: 'b',
+                describe: ('config_dir' in lampman ? path.basename(lampman.config_dir) : '.lampman/')+'/docker-compose.yml を作成/更新する',
+                type: 'boolean',
+            },
+            'out': {
+                alias: 'o',
+                describe: '標準出力にマージ後のYAMLデータを出力する',
+                type: 'boolean',
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export function action(commands:any)
+export function action(argv:any, lampman:any)
 {
     // --build: docker-compose.yml を作成/更新する
-    if(commands.build) {
+    if(argv.build) {
         let ret = libs.UpdateCompose(lampman)
         if(ret) {
             libs.Message('Built it!', 'success')
@@ -47,7 +53,7 @@ export function action(commands:any)
     }
 
     // --out: 標準出力にYAMLデータを出力する
-    if(commands.out) {
+    if(argv.out) {
 
         // docker-compose が認識しているYAML情報を取得する
         let yaml = jsYaml.load(
@@ -98,5 +104,5 @@ export function action(commands:any)
     }
 
     // 引数がどちらも実行されなかったら実行無効。（ヘルプ表示に移行
-    if(!(commands.build||commands.out)) return false
+    if(!(argv.build||argv.out)) return false
 }

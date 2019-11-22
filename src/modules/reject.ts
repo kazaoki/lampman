@@ -8,33 +8,39 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
-import libs = require('../libs')
+import libs   = require('../libs')
 import docker = require('../docker')
-import child = require('child_process')
-const color    = require('cli-color')
+import child  = require('child_process')
+const color   = require('cli-color')
 const prompts = require('prompts')
 
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
-        command: 'reject',
-        description: 'コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）',
-        options: [
-            ['-l, --locked', 'ロック中のボリュームも選択できるようにする'],
-            ['-f, --force', 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）'],
-        ]
+        command: 'reject [options]',
+        describe: 'コンテナ・ボリュームのリストから選択して削除（docker-compose管理外も対象）',
+        options: {
+            'locked': {
+                alias: 'l',
+                describe: 'ロック中のボリュームも選択できるようにします。',
+                type: 'boolean',
+            },
+            'force': {
+                alias: 'f',
+                describe: 'リストから選択可能なものすべて強制的に削除する（※-faとすればロックボリュームも対象）',
+                type: 'boolean',
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(commands:any)
+export async function action(argv:any, lampman:any)
 {
     // Docker起動必須
     docker.needDockerLive()
@@ -67,14 +73,14 @@ export async function action(commands:any)
                     type: 'volume',
                     name: name
                 },
-                disabled: !commands.all && name.match(/^locked_/),
+                disabled: !argv.locked && name.match(/^locked_/),
                 // description: 'xxx',
             })
         }
     }
 
     // -lfのときのみ、確認だす
-    if(commands.locked && commands.force) {
+    if(argv.locked && argv.force) {
         const response = await prompts([
             {
                 type: 'toggle',
@@ -90,7 +96,7 @@ export async function action(commands:any)
 
     // 選択さす
     let targets = []
-    if(commands.force) {
+    if(argv.force) {
         for(let name of containers) {
             if(name.length) {
                 targets.push({
@@ -101,7 +107,7 @@ export async function action(commands:any)
         }
         for(let name of volumes) {
             if(name.length) {
-                if(!commands.locked && name.match(/^locked_/)) continue;
+                if(!argv.locked && name.match(/^locked_/)) continue;
                 targets.push({
                     type: 'volume',
                     name: name

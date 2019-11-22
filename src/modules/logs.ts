@@ -8,8 +8,6 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
 import libs = require('../libs');
 import docker = require('../docker');
 const child   = require('child_process')
@@ -18,24 +16,33 @@ const prompts = require('prompts')
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
-        command: 'logs [groups...]',
-        description: 'ログファイル監視（グループ未指定なら最初の１つが表示）',
-        options: [
-            ['-a, --all', '全て表示します'],
-            ['-s, --select', '表示するものを１つ選択します'],
-        ]
+        command: 'logs',
+        usage: '$0 logs [groups...] [options]',
+        describe: 'ログファイル監視（グループ未指定なら最初の１つが表示）',
+        options: {
+            'all': {
+                alias: 'a',
+                describe: '全て表示します。',
+                type: 'boolean',
+            },
+            'select': {
+                alias: 's',
+                describe: '表示するものを１つ選択します。',
+                type: 'boolean',
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(args:string[]|null, commands:any)
+export async function action(argv:any, lampman:any)
 {
-    let groups: string[] = []
+    let groups:string[] = []
 
     // Docker起動必須
     docker.needDockerLive()
@@ -44,12 +51,12 @@ export async function action(args:string[]|null, commands:any)
     if(!('logs' in lampman.config) || 0===Object.keys(lampman.config.logs).length) libs.Error('ログ設定がありません')
 
     // -a|--all指定の場合は全て
-    if(commands.all) {
+    if(argv.all) {
         groups = Object.keys(lampman.config.logs)
     }
 
     // -s|--select指定の場合は選択
-    else if(commands.select) {
+    else if(argv.select) {
         const response = await prompts([
             {
                 type: 'select',
@@ -63,8 +70,8 @@ export async function action(args:string[]|null, commands:any)
     }
 
     // 引数にて空白区切りで複数指定可能
-    else if(args.length) {
-        groups = [...args]
+    else if(argv._.slice(1).length) {
+        groups = argv._.slice(1)
     }
 
     // 引数未指定の場合は最初の１つ

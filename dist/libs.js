@@ -260,3 +260,21 @@ function existConfig(lampman) {
         : false;
 }
 exports.existConfig = existConfig;
+function extra_action(extraopt, argv, lampman) {
+    if ('function' in extraopt) {
+        extraopt.function.apply(extraopt, argv._.slice(1));
+    }
+    else if ('container' in extraopt) {
+        child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'exec', extraopt.container, 'sh', '-c', extraopt.command], {
+            stdio: 'inherit',
+            cwd: lampman.config_dir
+        });
+    }
+    else {
+        child.execSync(extraopt.command, {
+            stdio: 'inherit',
+            cwd: lampman.project_dir
+        });
+    }
+}
+exports.extra_action = extra_action;

@@ -2,14 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var child = require('child_process');
 var docker = require("../docker");
-function meta() {
+function meta(lampman) {
     return {
         command: 'down',
-        description: 'LAMP終了',
+        describe: 'LAMP終了',
     };
 }
 exports.meta = meta;
-function action(commands) {
+function action(argv, lampman) {
     docker.needDockerLive();
     child.spawn('docker-compose', [
         '--project-name', lampman.config.project,

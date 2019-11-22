@@ -8,12 +8,9 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
 import libs = require('../libs');
 import docker = require('../docker');
 import { action as reject } from './reject';
-import { action as extra } from './extra';
 
 const child = require('child_process')
 const path  = require('path')
@@ -24,25 +21,45 @@ const find  = require('find');
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
-        command: 'up',
-        description: `LAMP起動（.lampman${libs.ModeString(lampman.mode)}/docker-compose.yml 自動更新）`,
-        options: [
-            ['-f, --flush', '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する'],
-            ['-o, --docker-compose-options <args_string>', 'docker-composeコマンドに渡すオプションを文字列で指定可能'],
-            ['-D', 'デーモンじゃなくフォアグラウンドで起動する'],
-            ['-n --no-update', 'docker-compose.yml を更新せずに起動する'],
-            ['-t --thru-upped', 'config.jsで設定した起動時コマンド"on_upped"を実行しない'],
-        ]
+        command: 'up [options]',
+        describe: `LAMP起動（.lampman${libs.ModeString(lampman.mode)}/docker-compose.yml 自動更新）`,
+        options: {
+            'flush': {
+                alias: 'f',
+                describe: '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する',
+                type: 'boolean',
+            },
+            'docker-compose-options': {
+                alias: 'o',
+                describe: 'docker-composeコマンドに渡すオプションを文字列で指定可能',
+                type: 'string',
+                nargs: 1,
+            },
+            'D': {
+                describe: 'デーモンじゃなくフォアグラウンドで起動する',
+                type: 'boolean',
+            },
+            'no-update': {
+                alias: 'n',
+                describe: 'docker-compose.yml を更新せずに起動する',
+                type: 'boolean',
+            },
+            'thru-upped': {
+                alias: 't',
+                describe: 'config.jsで設定した起動時コマンド"on_upped"を実行しない',
+                type: 'boolean',
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(commands:any)
+export async function action(argv:any, lampman:any)
 {
     // Docker起動必須
     docker.needDockerLive()
@@ -75,7 +92,7 @@ export async function action(commands:any)
     }
 
     // 最新の docker-compose.yml を生成
-    if(commands.update) libs.UpdateCompose(lampman)
+    if(!argv.noUpdate) libs.UpdateCompose(lampman)
 
     // 引数用意
     let args = [
@@ -84,14 +101,14 @@ export async function action(commands:any)
     ]
 
     // -D が指定されてればフォアグラウンドーモードに。
-    if(!commands.D) {
+    if(!argv.D) {
         args.push('-d')
     }
 
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
-    if(commands.flush) {
+    if(argv.flush) {
         libs.Label('Flush cleaning')
-        await reject({force:true})
+        await reject({force:true}, lampman)
         console.log()
     }
 
@@ -99,8 +116,8 @@ export async function action(commands:any)
     // ただし、ハイフン前になにもないとエラーになるので以下のように指定すること（commanderのバグ？
     // ex. $lamp up -o "\-t 300"
     //    バックスラッシュ↑ 必要...
-    if(commands.dockerComposeOptions) {
-        args.push(...commands.dockerComposeOptions.replace('\\', '').split(' '))
+    if(argv.dockerComposeOptions) {
+        args.push(...argv.dockerComposeOptions.replace('\\', '').split(' '))
     }
 
     // up実行
@@ -190,7 +207,7 @@ export async function action(commands:any)
         )
 
         // Actions on upped
-        if('on_upped' in lampman.config && lampman.config.on_upped.length && !commands.thruUpped) {
+        if('on_upped' in lampman.config && lampman.config.on_upped.length && !argv.thruUpped) {
             let count = 0;
             for(let action of lampman.config.on_upped) {
 
@@ -224,14 +241,14 @@ export async function action(commands:any)
                     let extraopt = action
                     if('object'===typeof extraopt.command) extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix']
                     console.log()
-                    extra(extraopt, extraopt.args)
+                    libs.extra_action(extraopt, extraopt.args, lampman)
                     count ++
                 }
 
                 // extraコマンドを実行する
                 if('run_extra_command'===action.type && action.name in lampman.config.extra) {
                     console.log()
-                    extra(lampman.config.extra[action.name], action.args)
+                    libs.extra_action(lampman.config.extra[action.name], action.args, lampman)
                     count ++
                 }
             }

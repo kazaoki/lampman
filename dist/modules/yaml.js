@@ -5,19 +5,27 @@ var jsYaml = require("js-yaml");
 var child = require("child_process");
 var path = require("path");
 var toYaml = function (inData) { return jsYaml.dump(inData, { lineWidth: -1 }); };
-function meta() {
+function meta(lampman) {
     return {
-        command: 'yaml',
-        description: 'YAMLの更新のみ、出力のみする',
-        options: [
-            ['-b, --build', ('config_dir' in lampman ? path.basename(lampman.config_dir) : '.lampman/') + '/docker-compose.yml を作成/更新する'],
-            ['-o, --out', '標準出力にマージ後のYAMLデータを出力する'],
-        ]
+        command: 'yaml [options]',
+        describe: 'YAMLの更新のみ、出力のみする',
+        options: {
+            'build': {
+                alias: 'b',
+                describe: ('config_dir' in lampman ? path.basename(lampman.config_dir) : '.lampman/') + '/docker-compose.yml を作成/更新する',
+                type: 'boolean',
+            },
+            'out': {
+                alias: 'o',
+                describe: '標準出力にマージ後のYAMLデータを出力する',
+                type: 'boolean',
+            },
+        },
     };
 }
 exports.meta = meta;
-function action(commands) {
-    if (commands.build) {
+function action(argv, lampman) {
+    if (argv.build) {
         var ret = libs.UpdateCompose(lampman);
         if (ret) {
             libs.Message('Built it!', 'success');
@@ -26,7 +34,7 @@ function action(commands) {
             libs.Message('No changes.', 'success');
         }
     }
-    if (commands.out) {
+    if (argv.out) {
         var yaml = jsYaml.load(child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config'], { cwd: lampman.config_dir }).toString());
         var date = new Date();
         console.log("# Built by Lampman ver " + libs.getLampmanVersion() + " @ " + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
@@ -64,7 +72,7 @@ function action(commands) {
         if (yaml.volumes)
             console.log(toYaml({ volumes: yaml.volumes }));
     }
-    if (!(commands.build || commands.out))
+    if (!(argv.build || argv.out))
         return false;
 }
 exports.action = action;

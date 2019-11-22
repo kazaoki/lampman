@@ -8,8 +8,6 @@
  * -------------------------------------------------------------------
  */
 
-declare let lampman:any;
-
 import libs = require('../libs');
 const child = require('child_process')
 const fs = require('fs')
@@ -18,18 +16,18 @@ const open = require('open')
 /**
  * コマンド登録用メタデータ
  */
-export function meta()
+export function meta(lampman:any)
 {
     return {
         command: 'config',
-        description: '設定ファイル(config.js)をエディタで開く',
+        describe: '設定ファイル(config.js)をエディタで開く',
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(commands:any)
+export async function action(argv:any, lampman:any)
 {
     // configあるか
     if(!fs.existsSync(`${lampman.config_dir}/config.js`)) {
