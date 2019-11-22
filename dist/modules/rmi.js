@@ -40,22 +40,26 @@ var child = require("child_process");
 var prompts = require('prompts');
 function meta() {
     return {
-        command: 'rmi',
-        description: 'イメージを選択して削除',
-        options: [
-            ['-p, --prune', '選択を出さず <none> のみ全て削除'],
-        ]
+        command: 'rmi [options]',
+        describe: 'イメージを選択して削除',
+        options: {
+            'prune': {
+                alias: 'p',
+                describe: '選択を出さず <none> のみ全て削除します。',
+                type: 'boolean',
+            },
+        },
     };
 }
 exports.meta = meta;
-function action(commands) {
+function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
         var lines, list, _i, lines_1, line, column, name_1, tag, id, size, since, response;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     docker.needDockerLive();
-                    if (commands.prune) {
+                    if (argv.prune) {
                         child.execFileSync('docker', ['image', 'prune', '-f'], { stdio: 'inherit' });
                         return [2];
                     }

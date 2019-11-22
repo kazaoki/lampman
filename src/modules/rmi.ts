@@ -21,24 +21,28 @@ const prompts = require('prompts')
 export function meta()
 {
     return {
-        command: 'rmi',
-        description: 'イメージを選択して削除',
-        options: [
-            ['-p, --prune', '選択を出さず <none> のみ全て削除'],
-        ]
+        command: 'rmi [options]',
+        describe: 'イメージを選択して削除',
+        options: {
+            'prune': {
+                alias: 'p',
+                describe: '選択を出さず <none> のみ全て削除します。',
+                type: 'boolean',
+            },
+        },
     }
 }
 
 /**
  * コマンド実行
  */
-export async function action(commands:any)
+export async function action(argv:any, lampman:any)
 {
     // Docker起動必須
     docker.needDockerLive()
 
     // プルーン実行
-    if(commands.prune) {
+    if(argv.prune) {
         child.execFileSync('docker', ['image', 'prune', '-f'], {stdio: 'inherit'})
         return
     }

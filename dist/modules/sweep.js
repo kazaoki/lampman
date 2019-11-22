@@ -76,7 +76,7 @@ function action(commands) {
                 case 2: return [4, reject_1.action({ force: true }, lampman)];
                 case 3:
                     _a.sent();
-                    return [4, rmi_1.action({ prune: true })];
+                    return [4, rmi_1.action({ prune: true }, lampman)];
                 case 4:
                     _a.sent();
                     child.spawnSync('docker', ['network', 'prune', '-f'], { stdio: 'inherit' });

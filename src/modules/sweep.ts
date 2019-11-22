@@ -58,7 +58,7 @@ export async function action(commands:any)
     await reject({force: true}, lampman)
 
     // <none>イメージ削除
-    await rmi({prune: true})
+    await rmi({prune: true}, lampman)
 
     // 不要ネットワークの削除
     child.spawnSync('docker', ['network', 'prune', '-f'], {stdio: 'inherit'})
