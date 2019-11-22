@@ -5,11 +5,11 @@ var docker = require("../docker");
 function meta() {
     return {
         command: 'status',
-        description: 'dockerコンテナ達の標準出力(logs)を監視する',
+        describe: 'dockerコンテナ達の標準出力(logs)を監視する',
     };
 }
 exports.meta = meta;
-function action(commands) {
+function action(argv, lampman) {
     docker.needDockerLive();
     child.execFileSync('docker-compose', [
         '-p', lampman.config.project,

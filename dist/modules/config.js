@@ -43,7 +43,6 @@ function meta() {
     return {
         command: 'config',
         describe: '設定ファイル(config.js)をエディタで開く',
-        options: {},
     };
 }
 exports.meta = meta;

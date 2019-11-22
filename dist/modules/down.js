@@ -6,7 +6,6 @@ function meta() {
     return {
         command: 'down',
         describe: 'LAMP終了',
-        options: {},
     };
 }
 exports.meta = meta;

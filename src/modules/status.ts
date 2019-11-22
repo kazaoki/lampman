@@ -20,14 +20,14 @@ export function meta()
 {
     return {
         command: 'status',
-        description: 'dockerコンテナ達の標準出力(logs)を監視する',
+        describe: 'dockerコンテナ達の標準出力(logs)を監視する',
     }
 }
 
 /**
  * コマンド実行
  */
-export function action(commands:any)
+export function action(argv:any, lampman:any)
 {
     // Docker起動必須
     docker.needDockerLive()
