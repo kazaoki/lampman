@@ -234,6 +234,7 @@ module.exports.config = {
             type: 'open_browser',
             port: '1080',
         },
+        // {
         //     // show message on upped
         //     type: 'show_message',
         //     message: 'hogehoge',

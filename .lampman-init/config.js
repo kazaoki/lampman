@@ -186,6 +186,7 @@ module.exports.config = {
         //     type: 'run_command',
         //     command: 'gulp',
         // },
+        // {
         //     // show message on upped
         //     type: 'show_message',
         //     message: 'hogehoge',
