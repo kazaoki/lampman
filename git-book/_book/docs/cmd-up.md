@@ -25,7 +25,7 @@ $ docker-compose up -d --project-name (プロジェクト名)
 ### `lamp up -o <オプション文字列>`<br>`lamp up --docker-compose-options <オプション文字列>`
 
 `docker-compose` コマンドに渡すオプションを文字列で指定可能です。
-ただし、内部で使用している [Commander.js](https://www.npmjs.com/package/commander) の問題なのか、ハイフンの前にバックスラッシュを入れないとエラーになるようです。
+ただし、ホストOS側の問題なのか、ハイフンの前にバックスラッシュを入れないとエラーになるようです。（Windowsで確認）
 
 ```shell
 $ lamp up -o "-t 300"      ... NG

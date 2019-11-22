@@ -968,31 +968,31 @@
 <pre class="cmd">
 $ lamp -h
 
-Usage: lamp [options] [command]
-
-Options:
-  -m, --mode &lt;mode&gt;                 &#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x3092;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#xFF08;&#x6A19;&#x6E96;&#x306F; default &#xFF09;
-  -h, --help                        &#x30D8;&#x30EB;&#x30D7;&#x3092;&#x8868;&#x793A;&#x3057;&#x307E;&#x3059;&#x3002;
+Usage: lamp|lm [command] [options]
 
 Commands:
-  init [options]                    &#x521D;&#x671F;&#x5316;&#xFF08;.lampman/ &#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x4F5C;&#x6210;&#xFF09;
-  up [options]                      LAMP&#x8D77;&#x52D5;&#xFF08;.lampman/docker-compose.yml &#x81EA;&#x52D5;&#x66F4;&#x65B0;&#xFF09;
-  down                              LAMP&#x7D42;&#x4E86;
-  config                            &#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;(config.js)&#x3092;&#x30A8;&#x30C7;&#x30A3;&#x30BF;&#x3067;&#x958B;&#x304F;
-  xoff                              PHP Xdebug &#x3092;&#x7121;&#x52B9;&#x306B;&#x3059;&#x308B;
-  xon                               PHP Xdebug &#x3092;&#x6709;&#x52B9;&#x306B;&#x3059;&#x308B;
-  reject [options]                  &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x30FB;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x306E;&#x30EA;&#x30B9;&#x30C8;&#x304B;&#x3089;&#x9078;&#x629E;&#x3057;&#x3066;&#x524A;&#x9664;&#xFF08;docker-compose&#x7BA1;&#x7406;&#x5916;&#x3082;&#x5BFE;&#x8C61;&#xFF09;
-  rmi [options]                     &#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3092;&#x9078;&#x629E;&#x3057;&#x3066;&#x524A;&#x9664;
-  sweep [options]                   &#x5168;&#x3066;&#x306E;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3001;&#x672A;&#x30ED;&#x30C3;&#x30AF;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3001;&lt;none&gt;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3001;&#x4E0D;&#x8981;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x306E;&#x4E00;&#x6383;
-  logs [options] [groups...]        &#x30ED;&#x30B0;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x76E3;&#x8996;&#xFF08;&#x30B0;&#x30EB;&#x30FC;&#x30D7;&#x672A;&#x6307;&#x5B9A;&#x306A;&#x3089;&#x6700;&#x521D;&#x306E;&#xFF11;&#x3064;&#x304C;&#x8868;&#x793A;&#xFF09;
-  status                            docker&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x9054;&#x306E;&#x6A19;&#x6E96;&#x51FA;&#x529B;(logs)&#x3092;&#x76E3;&#x8996;&#x3059;&#x308B;
-  mysql [options] [container-name]  MySQL&#x64CD;&#x4F5C;&#xFF08;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x672A;&#x6307;&#x5B9A;&#x306A;&#x3089; mysql &#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x304C;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x307E;&#x3059;&#xFF09;
-  psql [options] [container-name]   PostgreSQL&#x64CD;&#x4F5C;&#xFF08;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x672A;&#x6307;&#x5B9A;&#x306A;&#x3089; psql &#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x304C;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x307E;&#x3059;&#xFF09;
-  login [options] [container-name]  &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306E;&#x30B3;&#x30F3;&#x30BD;&#x30FC;&#x30EB;&#x306B;&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x3057;&#x307E;&#x3059;
-  yaml [options]                    YAML&#x306E;&#x66F4;&#x65B0;&#x306E;&#x307F;&#x3001;&#x51FA;&#x529B;&#x306E;&#x307F;&#x3059;&#x308B;
-  version [options]                 &#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x8868;&#x793A;
-  expose                            ngrok &#x3092;&#x4F7F;&#x7528;&#x3057;&#x3066;&#x4E00;&#x6642;&#x7684;&#x306B;&#x5916;&#x90E8;&#x304B;&#x3089;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x3059;&#x308B; on lampman
-</pre>
+  lamp init [options]             &#x521D;&#x671F;&#x5316;&#xFF08;.lampman/ &#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x4F5C;&#x6210;&#xFF09;
+  lamp up [options]               LAMP&#x8D77;&#x52D5;&#xFF08;.lampman/docker-compose.yml &#x81EA;&#x52D5;&#x66F4;&#x65B0;&#xFF09;
+  lamp down                       LAMP&#x7D42;&#x4E86;
+  lamp config                     &#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;(config.js)&#x3092;&#x30A8;&#x30C7;&#x30A3;&#x30BF;&#x3067;&#x958B;&#x304F;
+  lamp xoff                       PHP Xdebug &#x3092;&#x7121;&#x52B9;&#x306B;&#x3059;&#x308B;
+  lamp xon                        PHP Xdebug &#x3092;&#x6709;&#x52B9;&#x306B;&#x3059;&#x308B;
+  lamp reject [options]           &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x30FB;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x306E;&#x30EA;&#x30B9;&#x30C8;&#x304B;&#x3089;&#x9078;&#x629E;&#x3057;&#x3066;&#x524A;&#x9664;&#xFF08;docker-compose&#x7BA1;&#x7406;&#x5916;&#x3082;&#x5BFE;&#x8C61;&#xFF09;
+  lamp rmi [options]              &#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3092;&#x9078;&#x629E;&#x3057;&#x3066;&#x524A;&#x9664;
+  lamp sweep [options]            &#x5168;&#x3066;&#x306E;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3001;&#x672A;&#x30ED;&#x30C3;&#x30AF;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3001;<none>&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3001;&#x4E0D;&#x8981;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x306E;&#x4E00;&#x6383;
+  lamp logs                       &#x30ED;&#x30B0;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x76E3;&#x8996;&#xFF08;&#x30B0;&#x30EB;&#x30FC;&#x30D7;&#x672A;&#x6307;&#x5B9A;&#x306A;&#x3089;&#x6700;&#x521D;&#x306E;&#xFF11;&#x3064;&#x304C;&#x8868;&#x793A;&#xFF09;
+  lamp status                     docker&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x9054;&#x306E;&#x6A19;&#x6E96;&#x51FA;&#x529B;(logs)&#x3092;&#x76E3;&#x8996;&#x3059;&#x308B;
+  lamp mysql [service] [options]  MySQL&#x64CD;&#x4F5C;&#xFF08;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x672A;&#x6307;&#x5B9A;&#x306A;&#x3089; mysql &#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x304C;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x307E;&#x3059;&#xFF09;
+  lamp psql [service] [options]   PostgreSQL&#x64CD;&#x4F5C;&#xFF08;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x672A;&#x6307;&#x5B9A;&#x306A;&#x3089; psql &#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x304C;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x307E;&#x3059;&#xFF09;
+  lamp login [service] [options]  &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306E;&#x30B3;&#x30F3;&#x30BD;&#x30FC;&#x30EB;&#x306B;&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x3057;&#x307E;&#x3059;
+  lamp yaml [options]             YAML&#x306E;&#x66F4;&#x65B0;&#x306E;&#x307F;&#x3001;&#x51FA;&#x529B;&#x306E;&#x307F;&#x3059;&#x308B;
+  lamp version [options]          &#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x8868;&#x793A;
+  lamp expose                     ngrok &#x3092;&#x4F7F;&#x7528;&#x3057;&#x3066;&#x4E00;&#x6642;&#x7684;&#x306B;&#x5916;&#x90E8;&#x304B;&#x3089;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x3059;&#x308B; on lampman
+
+Global options:
+  --help, -h  &#x30D8;&#x30EB;&#x30D7;&#x8868;&#x793A;  [boolean]
+  --mode, -m  &#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x3092;&#x6307;&#x5B9A;  [default: &quot;default&quot;]
+</none></pre>
 
 <p>&#x203B;&#x4E0A;&#x8A18;&#x6700;&#x5F8C;&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9; <code>expose</code> &#x306F;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x4E2D;&#x306E; extra &#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x306B;&#x767B;&#x9332;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x3082;&#x306E;&#x3067;&#x3059;&#x3002;&#xFF08;&#x30AB;&#x30B9;&#x30BF;&#x30E0;&#x8FFD;&#x52A0;&#x3067;&#x304D;&#x308B;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x8A2D;&#x5B9A;&#x3067;&#x3059;&#x3002;&#x5F8C;&#x8FF0;&#xFF09;</p>
 
@@ -1034,7 +1034,7 @@ Commands:
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"-h, --help","level":"3.1.1","depth":2,"next":{"title":"-m, --mode","level":"3.1.2","depth":2,"path":"docs/opt-mode.md","ref":"docs/opt-mode.md","articles":[]},"previous":{"title":"共通オプション","level":"3.1","depth":1,"ref":"","articles":[{"title":"-h, --help","level":"3.1.1","depth":2,"path":"docs/opt-help.md","ref":"docs/opt-help.md","articles":[]},{"title":"-m, --mode","level":"3.1.2","depth":2,"path":"docs/opt-mode.md","ref":"docs/opt-mode.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.81"},"title":"Lampman 0.1.81","language":"ja","gitbook":"*"},"file":{"path":"docs/opt-help.md","mtime":"2019-11-13T13:52:02.094Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-21T06:58:47.689Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"-h, --help","level":"3.1.1","depth":2,"next":{"title":"-m, --mode","level":"3.1.2","depth":2,"path":"docs/opt-mode.md","ref":"docs/opt-mode.md","articles":[]},"previous":{"title":"共通オプション","level":"3.1","depth":1,"ref":"","articles":[{"title":"-h, --help","level":"3.1.1","depth":2,"path":"docs/opt-help.md","ref":"docs/opt-help.md","articles":[]},{"title":"-m, --mode","level":"3.1.2","depth":2,"path":"docs/opt-mode.md","ref":"docs/opt-mode.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.81"},"title":"Lampman 0.1.81","language":"ja","gitbook":"*"},"file":{"path":"docs/opt-help.md","mtime":"2019-11-22T14:08:44.274Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-22T14:15:37.948Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
