@@ -20,15 +20,15 @@
 
 そのため、例えば本番サーバで使用する単一の `docker-compose.yml` ファイルが作成可能です。例えば以下のようになります。
 
-```
+<pre class="cmd">
 $ cd ~/proj
 $ lamp --mode product yaml --out > ./docker-compose.yml
-```
+</pre>
 
 上記の例ですと、 `proj/docker-compose.yml` が生成され、このファイルから `proj/.lampman-product/`へ各種データが参照されるようになります。  
 この状態であれば `lamp` コマンドが実行できない環境でも `docker-compose` コマンドさえ実行できれば、以下のコマンドで本番環境が走り出します。
 
-```
+<pre class="cmd">
 $ cd ~/proj
 $ docker-compose up -d
-```
+</pre>

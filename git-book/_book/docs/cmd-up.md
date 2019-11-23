@@ -27,10 +27,10 @@ $ docker-compose up -d --project-name (プロジェクト名)
 `docker-compose` コマンドに渡すオプションを文字列で指定可能です。
 ただし、ホストOS側の問題なのか、ハイフンの前にバックスラッシュを入れないとエラーになるようです。（Windowsで確認）
 
-```shell
+<pre class="cmd">
 $ lamp up -o "-t 300"      ... NG
 $ lamp up -o "\-t 300"     ... OK
-```
+</pre>
 
 ### `lamp up -D`
 

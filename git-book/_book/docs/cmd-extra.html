@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>lamp (extraコマンド) · Lampman 0.1.81</title>
+        <title>lamp (extraコマンド) · Lampman 0.2.0</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -964,7 +964,8 @@
 <h3 id="lamp-&#x72EC;&#x81EA;&#x3067;&#x8A2D;&#x5B9A;&#x3057;&#x305F;&#x30B3;&#x30DE;&#x30F3;&#x30C9;"><code>lamp (&#x72EC;&#x81EA;&#x3067;&#x8A2D;&#x5B9A;&#x3057;&#x305F;&#x30B3;&#x30DE;&#x30F3;&#x30C9;)</code></h3>
 <p><code>.lampman/config.js</code> &#x306B;&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x3068; <code>lamp</code> &#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3068;&#x3057;&#x3066;&#x6A5F;&#x80FD;&#x304C;&#x5B9F;&#x884C;&#x3067;&#x304D;&#x308B;&#x3082;&#x306E;&#x3067;&#x3059;&#x3002;</p>
 <p>&#x8A2D;&#x5B9A;&#x306E;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x306F;&#x4EE5;&#x4E0B;&#x306E;&#x901A;&#x308A;&#x3067;&#x3059;&#x3002;</p>
-<pre><code>...
+<pre class="cmd">
+...
     extra: {
         {&#x8A2D;&#x5B9A;&#x540D;1}: {
             command:   {&#x5B9F;&#x884C;&#x3059;&#x308B;&#x30B3;&#x30DE;&#x30F3;&#x30C9;}
@@ -977,10 +978,13 @@
         ...&#x3044;&#x304F;&#x3064;&#x3067;&#x3082;&#x8A2D;&#x5B9A;&#x53EF;&#x80FD;
     }
 ...
-</code></pre><p>&#x4F8B;&#x3048;&#x3070;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306B;&#x8A2D;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+</pre>
+
+<p>&#x4F8B;&#x3048;&#x3070;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306B;&#x8A2D;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
 <h3 id="&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x5185;&#x3067;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x5B9F;&#x884C;">&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x5185;&#x3067;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x5B9F;&#x884C;</h3>
 <p>&#x8A2D;&#x5B9A;&#x4F8B;&#xFF1A;<code>lamp expose</code></p>
-<pre><code>...
+<pre class="cmd">
+...
     extra: {
         expose: {
             command: &apos;ngrok http 80&apos;,
@@ -989,9 +993,12 @@
         },
     },
 ...
-</code></pre><h3 id="&#x6307;&#x5B9A;url&#x3067;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x3092;&#x958B;&#x304F;">&#x6307;&#x5B9A;URL&#x3067;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x3092;&#x958B;&#x304F;</h3>
+</pre>
+
+<h3 id="&#x6307;&#x5B9A;url&#x3067;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x3092;&#x958B;&#x304F;">&#x6307;&#x5B9A;URL&#x3067;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x3092;&#x958B;&#x304F;</h3>
 <p>&#x8A2D;&#x5B9A;&#x4F8B;&#xFF1A;<code>lamp open</code></p>
-<pre><code>...
+<pre class="cmd">
+...
     extra: {
         open: {
             command: {
@@ -1002,10 +1009,13 @@
         },
     },
 ...
-</code></pre><p><code>container</code> &#x3092;&#x6307;&#x5B9A;&#x3057;&#x306A;&#x3044;&#x5834;&#x5408;&#x306F;&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x3067;&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x5B9F;&#x884C;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;<br>&#x307E;&#x305F;&#x3001;Windows &#x3068; macOS/Linux &#x3067;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x304C;&#x9055;&#x3046;&#x5834;&#x5408;&#x3001;&#x4E0A;&#x8A18;&#x306E;&#x3088;&#x3046;&#x306B;&#x3057;&#x3066;&#x5206;&#x3051;&#x308B;&#x3053;&#x3068;&#x304C;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;</p>
+</pre>
+
+<p><code>container</code> &#x3092;&#x6307;&#x5B9A;&#x3057;&#x306A;&#x3044;&#x5834;&#x5408;&#x306F;&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x3067;&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x5B9F;&#x884C;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;<br>&#x307E;&#x305F;&#x3001;Windows &#x3068; macOS/Linux &#x3067;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x304C;&#x9055;&#x3046;&#x5834;&#x5408;&#x3001;&#x4E0A;&#x8A18;&#x306E;&#x3088;&#x3046;&#x306B;&#x3057;&#x3066;&#x5206;&#x3051;&#x308B;&#x3053;&#x3068;&#x304C;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;</p>
 <h3 id="&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x306E;&#x4EE3;&#x308F;&#x308A;&#x306B;-nodejs-&#x95A2;&#x6570;&#x3092;&#x5B9F;&#x884C;">&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x306E;&#x4EE3;&#x308F;&#x308A;&#x306B; Node.js &#x95A2;&#x6570;&#x3092;&#x5B9F;&#x884C;</h3>
 <p>&#x8A2D;&#x5B9A;&#x4F8B;&#xFF1A;<code>lamp envs</code></p>
-<pre><code>...
+<pre class="cmd">
+...
     extra: {
         envs: {
             function: ()=&gt;{
@@ -1015,11 +1025,14 @@
         },
     },
 ...
-</code></pre><p><code>command</code> &#x306E;&#x4EE3;&#x308F;&#x308A;&#x306B; Node.js &#x95A2;&#x6570;&#x304C;&#x5B9F;&#x884C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;
+</pre>
+
+<p><code>command</code> &#x306E;&#x4EE3;&#x308F;&#x308A;&#x306B; Node.js &#x95A2;&#x6570;&#x304C;&#x5B9F;&#x884C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;
 &#x3053;&#x308C;&#x306F;&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x3067;&#x306E;&#x307F;&#x306E;&#x5B9F;&#x884C;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
 <h3 id="extra&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x5F15;&#x6570;&#x3092;&#x6E21;&#x3059;">extra&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x5F15;&#x6570;&#x3092;&#x6E21;&#x3059;</h3>
 <p>&#x8A2D;&#x5B9A;&#x4F8B;&#xFF1A;<code>lamp sum 12 34</code></p>
-<pre><code>...
+<pre class="cmd">
+...
     extra: {
         sum: {
             function: (in1, in2)=&gt;{
@@ -1029,7 +1042,9 @@
         },
     },
 ...
-</code></pre><p>&#x73FE;&#x5728;&#x3001;&#x5F15;&#x6570;&#x3092;&#x6E21;&#x3059;&#x5834;&#x5408;&#x306F; Node.js &#x95A2;&#x6570;&#x306E;&#x307F;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;&#x307E;&#x305F;&#x3001;&#x30CF;&#x30A4;&#x30D5;&#x30F3;&#x304C;&#x982D;&#x306B;&#x4ED8;&#x304F;&#x5F15;&#x6570;&#x306F;&#x6E21;&#x305B;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+</pre>
+
+<p>&#x73FE;&#x5728;&#x3001;&#x5F15;&#x6570;&#x3092;&#x6E21;&#x3059;&#x5834;&#x5408;&#x306F; Node.js &#x95A2;&#x6570;&#x306E;&#x307F;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;&#x307E;&#x305F;&#x3001;&#x30CF;&#x30A4;&#x30D5;&#x30F3;&#x304C;&#x982D;&#x306B;&#x4ED8;&#x304F;&#x5F15;&#x6570;&#x306F;&#x6E21;&#x305B;&#x307E;&#x305B;&#x3093;&#x3002;</p>
 
                                 
                                 </section>
@@ -1069,7 +1084,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"lamp (extraコマンド)","level":"10.1.5","depth":2,"next":{"title":"設定ファイル詳説","level":"11.1","depth":1,"ref":"","articles":[{"title":"General settings：基本設定","level":"11.1.1","depth":2,"ref":"","articles":[]},{"title":"Lampman base container settings：Lampmanベースコンテナ設定","level":"11.1.2","depth":2,"ref":"","articles":[]},{"title":"MySQL container(s) settings：MySQLコンテナ設定","level":"11.1.3","depth":2,"ref":"","articles":[]},{"title":"PostgreSQL container(s) settings：PostgreSQLコンテナ設定","level":"11.1.4","depth":2,"ref":"","articles":[]},{"title":"Logs command settings：ログファイル設定","level":"11.1.5","depth":2,"ref":"","articles":[]},{"title":"Extra command settings：extraコマンド設定","level":"11.1.6","depth":2,"ref":"","articles":[]},{"title":"Add action on upped lampman：up時の自動実行設定","level":"11.1.7","depth":2,"ref":"","articles":[]},{"title":"その他shファイル","level":"11.1.8","depth":2,"ref":"","articles":[]}]},"previous":{"title":"lamp version","level":"10.1.4","depth":2,"path":"docs/cmd-version.md","ref":"docs/cmd-version.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.81"},"title":"Lampman 0.1.81","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-extra.md","mtime":"2019-11-21T06:59:59.706Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-22T14:15:37.948Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"lamp (extraコマンド)","level":"10.1.5","depth":2,"next":{"title":"設定ファイル詳説","level":"11.1","depth":1,"ref":"","articles":[{"title":"General settings：基本設定","level":"11.1.1","depth":2,"ref":"","articles":[]},{"title":"Lampman base container settings：Lampmanベースコンテナ設定","level":"11.1.2","depth":2,"ref":"","articles":[]},{"title":"MySQL container(s) settings：MySQLコンテナ設定","level":"11.1.3","depth":2,"ref":"","articles":[]},{"title":"PostgreSQL container(s) settings：PostgreSQLコンテナ設定","level":"11.1.4","depth":2,"ref":"","articles":[]},{"title":"Logs command settings：ログファイル設定","level":"11.1.5","depth":2,"ref":"","articles":[]},{"title":"Extra command settings：extraコマンド設定","level":"11.1.6","depth":2,"ref":"","articles":[]},{"title":"Add action on upped lampman：up時の自動実行設定","level":"11.1.7","depth":2,"ref":"","articles":[]},{"title":"その他shファイル","level":"11.1.8","depth":2,"ref":"","articles":[]}]},"previous":{"title":"lamp version","level":"10.1.4","depth":2,"path":"docs/cmd-version.md","ref":"docs/cmd-version.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.0"},"title":"Lampman 0.2.0","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-extra.md","mtime":"2019-11-23T15:05:56.908Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-23T14:42:09.303Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

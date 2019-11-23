@@ -8,7 +8,7 @@
 コンテナまたはボリュームをリストから選択して強制削除することができます。
 `config.js` で管理外のコンテナもリスト対象になります。
 
-```
+<pre class="cmd">
 ? 削除するコンテナ・ボリュームを選択してください。（スペースキーで複数選択可） »
 ( )   [CONTAINER] lampman-test-lampman
 ( )   [CONTAINER] lampman-test-phpenv
@@ -16,7 +16,7 @@
 ( )   [VOLUME] a145fa9593755c9bf71165f8bf3abdf1ee87fc0ac9f3f671eeceb20e74f2d00b
 ( )   [VOLUME] lampman-test-mysql_data
 ...
-```
+</pre>
 
 ### `lamp reject -l`<br>`lamp reject --locked`
 

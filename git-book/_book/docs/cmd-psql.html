@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>lamp psql · Lampman 0.1.81</title>
+        <title>lamp psql · Lampman 0.2.0</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -965,7 +965,7 @@
 <p>psql&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x306B;&#x63A5;&#x7D9A;&#x3057;&#x307E;&#x3059;&#x3002;
 <code>&#x8A2D;&#x5B9A;&#x540D;</code> &#x304C;&#x672A;&#x6307;&#x5B9A;&#x306E;&#x5834;&#x5408;&#x3067;&#x8907;&#x6570;&#x306E;psql&#x8A2D;&#x5B9A;&#x304C;&#x3042;&#x308B;&#x5834;&#x5408;&#x306F;&#x9078;&#x629E;&#x80A2;&#x304C;&#x8868;&#x793A;&#x3055;&#x308C;&#x307E;&#x3059;&#x304C;&#x3001;&#xFF11;&#x3064;&#x3057;&#x304B;&#x7121;&#x3044;&#x5834;&#x5408;&#x306F;&#x7701;&#x7565;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;</p>
 <p>&#x4EE5;&#x4E0B;&#x3001;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x4F8B;&#x3067;&#x3059;&#x3002;</p>
-<pre style="font-size:14px">
+<pre class="cmd">
     postgresql: {
         image:         &apos;postgres:9&apos;,
         ports:         [&apos;5432:5432&apos;],
@@ -979,7 +979,7 @@
             filename:  &apos;dump.sql&apos;,
         }
     },
-    postgresql_2: { <small style="color:#888">// &#x8907;&#x6570;&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x5834;&#x5408;&#x300C;postgresql&#xFF5E;&#x300D;&#x3068;&#x3057;&#x3066;&#x5B9A;&#x7FA9;</small>
+    postgresql_2: { <span class="comment">// &#x8907;&#x6570;&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x5834;&#x5408;&#x300C;postgresql&#xFF5E;&#x300D;&#x3068;&#x3057;&#x3066;&#x5B9A;&#x7FA9;</span>
         image:         &apos;postgres:9&apos;,
         ports:         [&apos;5433:5432&apos;],
         database:      &apos;test&apos;,
@@ -995,22 +995,28 @@
 </pre>
 
 <p>&#x3053;&#x306E;&#x5834;&#x5408;&#x3001;&#x8D77;&#x52D5;&#x5F8C;&#x3001;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x30E9;&#x30A4;&#x30F3;&#x304B;&#x3089;</p>
-<pre><code class="lang-shell">$ lamp psql postgresql
-</code></pre>
-<pre><code class="lang-shell">$ lamp psql postgresql_2
-</code></pre>
+<pre class="cmd">
+$ lamp psql postgresql
+</pre>
+<pre class="cmd">
+$ lamp psql postgresql_2
+</pre>
+
 <p>&#x3068;&#x6253;&#x3066;&#x3070;&#x305D;&#x308C;&#x305E;&#x308C;&#x306E;psql&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x306B;&#x63A5;&#x7D9A;&#x3057;&#x307E;&#x3059;&#x3002;</p>
 <p>&#x203B;&#x3061;&#x306A;&#x307F;&#x306B;&#x8907;&#x6570;&#x306E;psql&#x8A2D;&#x5B9A;&#x3092;&#x5B9A;&#x7FA9;&#x3059;&#x308B;&#x5834;&#x5408;&#x306F;&#x304B;&#x306A;&#x3089;&#x305A;&#x8A2D;&#x5B9A;&#x540D;&#x3092;&#x300C;postgresql&#xFF5E;&#x300D;&#x3068;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
 <h3 id="lamp-psql--dlamp-psql---dump"><code>lamp psql -d</code><br><code>lamp psql --dump</code></h3>
 <p>&#x6307;&#x5B9A;&#x306E;PostgreSQL&#x30C7;&#x30FC;&#x30BF;&#x3092;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;
 &#x3053;&#x306E;&#x6642;&#x3001;&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;&#x30ED;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x6570;&#x3084;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x540D;&#x306F;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3067;&#x6307;&#x5B9A;&#x3057;&#x305F;&#x3082;&#x306E;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
-<pre><code>...
+<pre class="cmd">
+...
         dump: {
             rotations:  3,
             filename:   &apos;dump.sql&apos;,
         }
 ...
-</code></pre><p>&#x6A19;&#x6E96;&#x306E;&#x4FDD;&#x5B58;&#x5148;&#x306F;&#x3001; <code>.lampnan/(&#x8A2D;&#x5B9A;&#x540D;)/(&#x8A2D;&#x5B9A;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x540D;)</code> &#x3068;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;
+</pre>
+
+<p>&#x6A19;&#x6E96;&#x306E;&#x4FDD;&#x5B58;&#x5148;&#x306F;&#x3001; <code>.lampnan/(&#x8A2D;&#x5B9A;&#x540D;)/(&#x8A2D;&#x5B9A;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x540D;)</code> &#x3068;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;
 &#x4E0A;&#x8A18;&#x306E;&#x8A2D;&#x5B9A;&#x4F8B;&#x3067;&#x8A00;&#x3048;&#x3070;&#x3001;</p>
 <ul>
 <li>postresql -&gt; <code>.lampnan/postresql/dump.sql</code></li>
@@ -1021,23 +1027,31 @@
 <h3 id="lamp-psql--p-&#x30C0;&#x30F3;&#x30D7;&#x30D1;&#x30B9;lamp-psql---dump-path-&#x30C0;&#x30F3;&#x30D7;&#x30D1;&#x30B9;"><code>lamp psql -p &lt;&#x30C0;&#x30F3;&#x30D7;&#x30D1;&#x30B9;&gt;</code><br><code>lamp psql --dump-path &lt;&#x30C0;&#x30F3;&#x30D7;&#x30D1;&#x30B9;&gt;</code></h3>
 <p>&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x4FDD;&#x5B58;&#x5148;&#x306E;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x3092;&#x4E00;&#x6642;&#x7684;&#x306B;&#x5909;&#x66F4;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001;&#x3053;&#x308C;&#x3067;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x203B;&#x4FDD;&#x5B58;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x540D;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x3082;&#x306E;&#x3067;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
 <p>&#x4F8B;&#xFF09;</p>
-<pre><code class="lang-shell">$ lamp psql -d -p /mnt/backups/postresql_2/ postresql_2
+<pre class="cmd">
+$ lamp psql -d -p /mnt/backups/postresql_2/ postresql_2
 -&gt; /mnt/backups/postresql_2/dump.sql.gz
-</code></pre>
+</pre>
+
+
 <h3 id="lamp-psql--nlamp-psql---no-rotate"><code>lamp psql -n</code><br><code>lamp psql --no-rotate</code></h3>
 <p>&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30ED;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3057;&#x306A;&#x3044;&#x3067;&#x30C0;&#x30F3;&#x30D7;&#x3057;&#x307E;&#x3059;&#x3002;&#x203B; <code>-d</code> &#x6642;&#x306E;&#x307F;</p>
 <p>&#x4F8B;&#xFF09;</p>
-<pre><code class="lang-shell">$ lamp psql -d --no-rotate
+<pre class="cmd">
+$ lamp psql -d --no-rotate
 $ lamp psql -d -n
 $ lamp psql -dn
 &#x203B;&#x5168;&#x3066;&#x540C;&#x3058;&#x610F;&#x5473;&#x3067;&#x3059;
-</code></pre>
+</pre>
+
+
 <h3 id="lamp-psql--rlamp-psql---restore"><code>lamp psql -r</code><br><code>lamp psql --restore</code></h3>
 <p>&#x6700;&#x65B0;&#x306E;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x30EA;&#x30B9;&#x30C8;&#x30A2;&#x3057;&#x307E;&#x3059;&#x3002;
 &#x30ED;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306F;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x305B;&#x3093;&#x3002;</p>
 <p>&#x4F8B;&#xFF09;</p>
-<pre><code class="lang-shell">$ lamp psql -r postgresql_2
-</code></pre>
+<pre class="cmd">
+$ lamp psql -r postgresql_2
+</pre>
+
 <p>&#x5C1A;&#x3001;<code>lamp up</code> &#x3057;&#x305F;&#x969B;&#x306A;&#x3069;&#x306B;postgresql&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x304C;&#x751F;&#x6210;&#x3055;&#x308C;&#x308B;&#x6642;&#x306B;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x30EA;&#x30B9;&#x30C8;&#x30A2;&#x304C;&#x81EA;&#x52D5;&#x7684;&#x306B;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
 
                                 
@@ -1078,7 +1092,7 @@ $ lamp psql -dn
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"lamp psql","level":"9.1.2","depth":2,"next":{"title":"調査/その他コマンド","level":"10.1","depth":1,"ref":"","articles":[{"title":"lamp (オプション引数なし)","level":"10.1.1","depth":2,"path":"docs/cmd-noargs.md","ref":"docs/cmd-noargs.md","articles":[]},{"title":"lamp login","level":"10.1.2","depth":2,"path":"docs/cmd-login.md","ref":"docs/cmd-login.md","articles":[]},{"title":"lamp yaml","level":"10.1.3","depth":2,"path":"docs/cmd-yaml.md","ref":"docs/cmd-yaml.md","articles":[]},{"title":"lamp version","level":"10.1.4","depth":2,"path":"docs/cmd-version.md","ref":"docs/cmd-version.md","articles":[]},{"title":"lamp (extraコマンド)","level":"10.1.5","depth":2,"path":"docs/cmd-extra.md","ref":"docs/cmd-extra.md","articles":[]}]},"previous":{"title":"lamp mysql","level":"9.1.1","depth":2,"path":"docs/cmd-mysql.md","ref":"docs/cmd-mysql.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.1.81"},"title":"Lampman 0.1.81","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-psql.md","mtime":"2019-11-21T05:35:11.201Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-22T14:15:37.948Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"lamp psql","level":"9.1.2","depth":2,"next":{"title":"調査/その他コマンド","level":"10.1","depth":1,"ref":"","articles":[{"title":"lamp (オプション引数なし)","level":"10.1.1","depth":2,"path":"docs/cmd-noargs.md","ref":"docs/cmd-noargs.md","articles":[]},{"title":"lamp login","level":"10.1.2","depth":2,"path":"docs/cmd-login.md","ref":"docs/cmd-login.md","articles":[]},{"title":"lamp yaml","level":"10.1.3","depth":2,"path":"docs/cmd-yaml.md","ref":"docs/cmd-yaml.md","articles":[]},{"title":"lamp version","level":"10.1.4","depth":2,"path":"docs/cmd-version.md","ref":"docs/cmd-version.md","articles":[]},{"title":"lamp (extraコマンド)","level":"10.1.5","depth":2,"path":"docs/cmd-extra.md","ref":"docs/cmd-extra.md","articles":[]}]},"previous":{"title":"lamp mysql","level":"9.1.1","depth":2,"path":"docs/cmd-mysql.md","ref":"docs/cmd-mysql.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.0"},"title":"Lampman 0.2.0","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-psql.md","mtime":"2019-11-23T15:03:42.366Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-23T14:42:09.303Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

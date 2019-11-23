@@ -8,7 +8,7 @@
 バージョンと実行モードが表示されます。
 
 
-<pre style="font-size:12px;white-space:pre;line-height:1.2em">
+<pre class="cmd">
 $ lamp version
 
   ╭───────────────────╮
@@ -22,7 +22,7 @@ $ lamp version
 
 バージョンのみのシンプルな１行テキストが表示されます。
 
-<pre style="font-size:12px;white-space:pre;line-height:1.2em">
+<pre class="cmd">
 $ lamp version -q
 1.0.0
 </pre>

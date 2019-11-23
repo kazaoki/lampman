@@ -13,7 +13,7 @@
 以下ですと、 `-cS` でフォーマット定義、 `-ci` でANSIカラーの指定をしています。
 
 `config.js` 設定例：
-```
+<pre class="cmd">
 ...
     logs: {
         https: [
@@ -25,7 +25,7 @@
         ],
     },
 ...
-```
+</pre>
 
 オプション無しの場合、一番最初のグループのみ監視します。
 
@@ -49,7 +49,7 @@ Lampmanで設定できるMySQLでは、クエリログを有効に設定する�
 ですが、 `docker-compose.override.yml` に設定を追記して、`lampman` コンテナに該当のコンテナのディレクトリをマウントすることで比較的カンタンに対応できます。以下例です。
 
 `docker-compose.override.yml` 設定例：
-```
+<pre class="cmd">
 version: '2.2'
 services:
   lampman:
@@ -62,12 +62,12 @@ volumes:
   centos_log:
     driver: local
     name: lampman-xxx-centos_log
-```
+</pre>
 
 これで `centos` コンテナ内の `/centos_log` ディレクトリが `lampman` コンテナにマウントされアクセスできるようになったので、設定に追記して完了です。
 
 `config.js` 設定例：
-```
+<pre class="cmd">
 ...
     // project name
     project: 'lampman-xxx',
@@ -82,6 +82,6 @@ volumes:
         ],
     },
 ...
-```
+</pre>
 
 ※ 上記の場合、`centos` コンテナで `/centos_log` を用意しておく必要はあります。（大抵はシンボリックリンクになると思いますが）

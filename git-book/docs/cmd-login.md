@@ -16,15 +16,15 @@
 ログインする際のデフォルトシェルを `bash` から変更します。
 
 shでログインする例：
-```
+<pre class="cmd">
 $ lamp login -l sh
-```
+</pre>
 
 ### `lamp login -p <ログインパス>`<br>`lamp login --path <ログインパス>`
 
 ログインする際のパスを指定できます。尚、`lampman` コンテナのみ設定ファイルで事前に指定できます。（`config.lampman.login_path`）
 
 `/tmp` にログインする例：
-```
+<pre class="cmd">
 $ lamp login -p /tmp
-```
+</pre>

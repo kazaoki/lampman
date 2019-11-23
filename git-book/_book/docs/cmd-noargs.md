@@ -13,7 +13,7 @@ Dockerのイメージ、ボリューム、コンテナを一括で表示しま�
 - `docker ps -a`
 
 ### 実行例
-<pre style="font-size:12px;white-space:pre;line-height:1.2em">
+<pre class="cmd">
 $ lamp
 
   [Images]

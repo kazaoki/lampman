@@ -10,7 +10,7 @@ MySQLクライアントに接続します。
 
 以下、設定ファイルの例です。
 
-<pre style="font-size:14px">
+<pre class="cmd">
     mysql: {
         image:          'mysql:5.7',
         ports:          ['3306:3306'],
@@ -28,7 +28,7 @@ MySQLクライアントに接続します。
             filename:   'dump.sql',
         }
     },
-    mysql_sub: { <small style="color:#888">// 複数設定する場合「mysql～」として定義</small>
+    mysql_sub: { <span class="comment">// 複数設定する場合「mysql～」として定義</span>
         image:          'mysql:5.6',
         ports:          ['3307:3306'],
         database:       'test',
@@ -49,12 +49,13 @@ MySQLクライアントに接続します。
 
 この場合、起動後、コマンドラインから
 
-``` shell
+
+<pre class="cmd">
 $ lamp mysql mysql
-```
-``` shell
+</pre>
+<pre class="cmd">
 $ lamp mysql mysql_sub
-```
+</pre>
 
 と打てばそれぞれのMySQLクライアントに接続します。
 
@@ -65,14 +66,14 @@ $ lamp mysql mysql_sub
 
 指定のMySQLデータをダンプファイルにします。
 この時、バックアップローテーション数やファイル名は設定ファイルで指定したものになります。
-```
+<pre class="cmd">
 ...
         dump: {
             rotations:  3,
             filename:   'dump.sql',
         }
 ...
-```
+</pre>
 
 標準の保存先は、 `.lampnan/(設定名)/(設定ダンプファイル名)` となります。
 上記の設定例で言えば、
@@ -89,10 +90,10 @@ $ lamp mysql mysql_sub
 ※保存ファイル名を指定するものではありません。
 
 例）
-``` shell
+<pre class="cmd">
 $ lamp mysql -d -p /mnt/backups/mysql_sub/ mysql_sub
 -> /mnt/backups/mysql_sub/dump.sql.gz
-```
+</pre>
 
 
 ### `lamp mysql -n`<br>`lamp mysql --no-rotate`
@@ -100,12 +101,12 @@ $ lamp mysql -d -p /mnt/backups/mysql_sub/ mysql_sub
 ファイルローテーションしないでダンプします。※ `-d` 時のみ
 
 例）
-``` shell
+<pre class="cmd">
 $ lamp mysql -d --no-rotate
 $ lamp mysql -d -n
 $ lamp mysql -dn
 ※全て同じ意味です
-```
+</pre>
 
 
 ### `lamp mysql -r`<br>`lamp mysql --restore`
@@ -113,8 +114,8 @@ $ lamp mysql -dn
 ローテーションファイルは指定できません。
 
 例）
-``` shell
+<pre class="cmd">
 $ lamp mysql -r mysql_sub
-```
+</pre>
 
 尚、`lamp up` した際などにmysqlコンテナが生成される時にダンプファイルのリストアが自動的に実行されます。
