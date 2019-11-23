@@ -54,14 +54,13 @@
 
 
 - 設定ファイル詳説
-  - [General settings：基本設定]()
-  - [Lampman base container settings：Lampmanベースコンテナ設定]()
-  - [MySQL container(s) settings：MySQLコンテナ設定]()
-  - [PostgreSQL container(s) settings：PostgreSQLコンテナ設定]()
-  - [Logs command settings：ログファイル設定]()
-  - [Extra command settings：extraコマンド設定]()
-  - [Add action on upped lampman：up時の自動実行設定]()
-  - [その他shファイル]()
+  - [基本設定](docs/conf-base.md)
+  - [Lampmanコンテナ設定](docs/conf-lampman.md)
+  - [MySQLコンテナ設定](docs/conf-mysql.md)
+  - [PostgreSQLコンテナ設定](docs/conf-postgresql.md)
+  - [ログコマンド設定](docs/conf-logs.md)
+  - [Extraコマンド設定](docs/conf-extra.md)
+  - [起動時アクション設定](docs/conf-upped.md)
 
 
 - 技術情報

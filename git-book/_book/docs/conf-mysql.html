@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>lamp version · Lampman 0.2.0</title>
+        <title>MySQLコンテナ設定 · Lampman 0.2.0</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -59,10 +59,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="cmd-extra.html" />
+    <link rel="next" href="conf-postgresql.html" />
     
     
-    <link rel="prev" href="cmd-yaml.html" />
+    <link rel="prev" href="conf-lampman.html" />
     
 
     </head>
@@ -612,7 +612,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="10.1.4" data-path="cmd-version.html">
+        <li class="chapter " data-level="10.1.4" data-path="cmd-version.html">
             
                 <a href="cmd-version.html">
             
@@ -690,7 +690,7 @@
             
         </li>
     
-        <li class="chapter " data-level="11.1.3" data-path="conf-mysql.html">
+        <li class="chapter active" data-level="11.1.3" data-path="conf-mysql.html">
             
                 <a href="conf-mysql.html">
             
@@ -933,7 +933,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >lamp version</a>
+        <a href=".." >MySQLコンテナ設定</a>
     </h1>
 </div>
 
@@ -948,26 +948,51 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="lamp-version">lamp version</h1>
-<h2 id="lampman&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3092;&#x8868;&#x793A;&#x3059;&#x308B;">Lampman&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3092;&#x8868;&#x793A;&#x3059;&#x308B;</h2>
-<h3 id="lamp-version"><code>lamp version</code></h3>
-<p>&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3068;&#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x304C;&#x8868;&#x793A;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
+                                <h1 id="&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;mysql&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8A2D;&#x5B9A;">&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;MySQL&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8A2D;&#x5B9A;</h1>
+<h2 id="configjs-&#x8A2D;&#x5B9A;&#x4F8B;">config.js &#x8A2D;&#x5B9A;&#x4F8B;</h2>
 <pre class="cmd">
-$ lamp version
-
-  &#x256D;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x256E;
-  &#x2502; Lampman ver 1.0.0 &#x2502;
-  &#x251C;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2524;
-  &#x2502; mode: default     &#x2502;
-  &#x2558;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x255B;
+    /**
+     * ---------------------------------------------------------------
+     * MySQL&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8A2D;&#x5B9A;
+     * ---------------------------------------------------------------
+     */
+    mysql: {
+        image:          &apos;mysql:5.7&apos;,
+        ports:          [&apos;3306:3306&apos;],
+        database:       &apos;test&apos;,
+        user:           &apos;test&apos;,
+        password:       &apos;test&apos;, // same root password
+        charset:        &apos;utf8mb4&apos;,
+        collation:      &apos;utf8mb4_general_ci&apos;,
+        hosts:          [&apos;main.db&apos;],
+        volume_locked:  false,
+        query_log:      true,
+        query_cache:    false,
+        dump: {
+            rotations:  3,
+            filename:   &apos;dump.sql&apos;,
+        }
+    },
+    mysql_old: {
+        image:          &apos;mysql:5.7&apos;,
+        ports:          [&apos;3307:3306&apos;],
+        database:       &apos;test&apos;,
+        user:           &apos;test&apos;,
+        password:       &apos;test&apos;, // same root password
+        charset:        &apos;utf8mb4&apos;,
+        collation:      &apos;utf8mb4_general_ci&apos;,
+        hosts:          [&apos;old.db&apos;],
+        volume_locked:  false,
+        query_log:      false,
+        query_cache:    false,
+        dump: {
+            rotations:  1,
+            filename:   &apos;dump.sql&apos;,
+        }
+    },
 </pre>
 
-<h3 id="lamp-version--qlamp-version---quiet"><code>lamp version -q</code><br><code>lamp version --quiet</code></h3>
-<p>&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x306E;&#x307F;&#x306E;&#x30B7;&#x30F3;&#x30D7;&#x30EB;&#x306A;&#xFF11;&#x884C;&#x30C6;&#x30AD;&#x30B9;&#x30C8;&#x304C;&#x8868;&#x793A;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
-<pre class="cmd">
-$ lamp version -q
-1.0.0
-</pre>
+<h2 id="mysql&#xFF5E;"><code>mysql&#xFF5E;</code></h2>
 
                                 
                                 </section>
@@ -995,12 +1020,12 @@ $ lamp version -q
 
             
                 
-                <a href="cmd-yaml.html" class="navigation navigation-prev " aria-label="Previous page: lamp yaml">
+                <a href="conf-lampman.html" class="navigation navigation-prev " aria-label="Previous page: Lampmanコンテナ設定">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="cmd-extra.html" class="navigation navigation-next " aria-label="Next page: lamp (extraコマンド)">
+                <a href="conf-postgresql.html" class="navigation navigation-next " aria-label="Next page: PostgreSQLコンテナ設定">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1011,7 +1036,7 @@ $ lamp version -q
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"lamp version","level":"10.1.4","depth":2,"next":{"title":"lamp (extraコマンド)","level":"10.1.5","depth":2,"path":"docs/cmd-extra.md","ref":"docs/cmd-extra.md","articles":[]},"previous":{"title":"lamp yaml","level":"10.1.3","depth":2,"path":"docs/cmd-yaml.md","ref":"docs/cmd-yaml.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.0"},"title":"Lampman 0.2.0","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-version.md","mtime":"2019-11-23T15:11:35.133Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-23T15:22:04.155Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"MySQLコンテナ設定","level":"11.1.3","depth":2,"next":{"title":"PostgreSQLコンテナ設定","level":"11.1.4","depth":2,"path":"docs/conf-postgresql.md","ref":"docs/conf-postgresql.md","articles":[]},"previous":{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"path":"docs/conf-lampman.md","ref":"docs/conf-lampman.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.0"},"title":"Lampman 0.2.0","language":"ja","gitbook":"*"},"file":{"path":"docs/conf-mysql.md","mtime":"2019-11-23T15:30:50.087Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-23T15:22:04.155Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

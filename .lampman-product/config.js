@@ -8,14 +8,14 @@ module.exports.config = {
      * ---------------------------------------------------------------
      */
 
-    // project name
+    // プロジェクト名
     project: 'lampman-test-prod',
 
-    // docker-compose file version
+    // docker-compose.yml のファイルバージョン
     // * docker-compose.override.ymlがあればそのversionと合わせる必要あり
     version: '2.2',
 
-    // // network
+    // ネットワーク
     // network: {
     //     name: 'default', // ネットワークを作成する場合。自動で頭にプロジェクト名が付く
     //     // external: 'lampman_default', // 既存ネットワークを指定する場合は実際の名前（頭にプロジェクト名が付いた状態）のものを指定

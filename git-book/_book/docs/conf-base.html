@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>lamp version · Lampman 0.2.0</title>
+        <title>基本設定 · Lampman 0.2.0</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -59,10 +59,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="cmd-extra.html" />
+    <link rel="next" href="conf-lampman.html" />
     
-    
-    <link rel="prev" href="cmd-yaml.html" />
     
 
     </head>
@@ -612,7 +610,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="10.1.4" data-path="cmd-version.html">
+        <li class="chapter " data-level="10.1.4" data-path="cmd-version.html">
             
                 <a href="cmd-version.html">
             
@@ -664,7 +662,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="11.1.1" data-path="conf-base.html">
+        <li class="chapter active" data-level="11.1.1" data-path="conf-base.html">
             
                 <a href="conf-base.html">
             
@@ -933,7 +931,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >lamp version</a>
+        <a href=".." >基本設定</a>
     </h1>
 </div>
 
@@ -948,26 +946,32 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="lamp-version">lamp version</h1>
-<h2 id="lampman&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3092;&#x8868;&#x793A;&#x3059;&#x308B;">Lampman&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3092;&#x8868;&#x793A;&#x3059;&#x308B;</h2>
-<h3 id="lamp-version"><code>lamp version</code></h3>
-<p>&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3068;&#x5B9F;&#x884C;&#x30E2;&#x30FC;&#x30C9;&#x304C;&#x8868;&#x793A;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
+                                <h1 id="&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;&#x57FA;&#x672C;&#x8A2D;&#x5B9A;">&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;&#x57FA;&#x672C;&#x8A2D;&#x5B9A;</h1>
+<h2 id="configjs-&#x8A2D;&#x5B9A;&#x4F8B;">config.js &#x8A2D;&#x5B9A;&#x4F8B;</h2>
 <pre class="cmd">
-$ lamp version
+    /**
+     * ---------------------------------------------------------------
+     * &#x57FA;&#x672C;&#x8A2D;&#x5B9A;
+     * ---------------------------------------------------------------
+     */
 
-  &#x256D;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x256E;
-  &#x2502; Lampman ver 1.0.0 &#x2502;
-  &#x251C;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2576;&#x2524;
-  &#x2502; mode: default     &#x2502;
-  &#x2558;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x255B;
+    // &#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;
+    project: &apos;lampman-proj&apos;,
+
+    // docker-compose.yml &#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;
+    // * docker-compose.override.yml&#x304C;&#x3042;&#x308C;&#x3070;&#x305D;&#x306E;version&#x3068;&#x5408;&#x308F;&#x305B;&#x308B;&#x5FC5;&#x8981;&#x3042;&#x308A;
+    version: &apos;2.2&apos;,
+
+    // &#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;
+    network: {
+        name: &apos;default&apos;, // &#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x3092;&#x4F5C;&#x6210;&#x3059;&#x308B;&#x5834;&#x5408;&#x3002;&#x81EA;&#x52D5;&#x3067;&#x982D;&#x306B;&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;&#x304C;&#x4ED8;&#x304F;
+        // external: &apos;lampman_default&apos;, // &#x65E2;&#x5B58;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x5834;&#x5408;&#x306F;&#x5B9F;&#x969B;&#x306E;&#x540D;&#x524D;&#xFF08;&#x982D;&#x306B;&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;&#x304C;&#x4ED8;&#x3044;&#x305F;&#x72B6;&#x614B;&#xFF09;&#x306E;&#x3082;&#x306E;&#x3092;&#x6307;&#x5B9A;
+    },
 </pre>
 
-<h3 id="lamp-version--qlamp-version---quiet"><code>lamp version -q</code><br><code>lamp version --quiet</code></h3>
-<p>&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x306E;&#x307F;&#x306E;&#x30B7;&#x30F3;&#x30D7;&#x30EB;&#x306A;&#xFF11;&#x884C;&#x30C6;&#x30AD;&#x30B9;&#x30C8;&#x304C;&#x8868;&#x793A;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
-<pre class="cmd">
-$ lamp version -q
-1.0.0
-</pre>
+<h2 id="&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;"><code>&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;</code></h2>
+<h2 id="docker-composeyml-&#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;"><code>docker-compose.yml &#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;</code></h2>
+<h2 id="&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;"><code>&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;</code></h2>
 
                                 
                                 </section>
@@ -995,12 +999,8 @@ $ lamp version -q
 
             
                 
-                <a href="cmd-yaml.html" class="navigation navigation-prev " aria-label="Previous page: lamp yaml">
-                    <i class="fa fa-angle-left"></i>
-                </a>
                 
-                
-                <a href="cmd-extra.html" class="navigation navigation-next " aria-label="Next page: lamp (extraコマンド)">
+                <a href="conf-lampman.html" class="navigation navigation-next navigation-unique" aria-label="Next page: Lampmanコンテナ設定">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1011,7 +1011,7 @@ $ lamp version -q
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"lamp version","level":"10.1.4","depth":2,"next":{"title":"lamp (extraコマンド)","level":"10.1.5","depth":2,"path":"docs/cmd-extra.md","ref":"docs/cmd-extra.md","articles":[]},"previous":{"title":"lamp yaml","level":"10.1.3","depth":2,"path":"docs/cmd-yaml.md","ref":"docs/cmd-yaml.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.0"},"title":"Lampman 0.2.0","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-version.md","mtime":"2019-11-23T15:11:35.133Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-23T15:22:04.155Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"基本設定","level":"11.1.1","depth":2,"next":{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"path":"docs/conf-lampman.md","ref":"docs/conf-lampman.md","articles":[]},"previous":{"title":"設定ファイル詳説","level":"11.1","depth":1,"ref":"","articles":[{"title":"基本設定","level":"11.1.1","depth":2,"path":"docs/conf-base.md","ref":"docs/conf-base.md","articles":[]},{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"path":"docs/conf-lampman.md","ref":"docs/conf-lampman.md","articles":[]},{"title":"MySQLコンテナ設定","level":"11.1.3","depth":2,"path":"docs/conf-mysql.md","ref":"docs/conf-mysql.md","articles":[]},{"title":"PostgreSQLコンテナ設定","level":"11.1.4","depth":2,"path":"docs/conf-postgresql.md","ref":"docs/conf-postgresql.md","articles":[]},{"title":"ログコマンド設定","level":"11.1.5","depth":2,"path":"docs/conf-logs.md","ref":"docs/conf-logs.md","articles":[]},{"title":"Extraコマンド設定","level":"11.1.6","depth":2,"path":"docs/conf-extra.md","ref":"docs/conf-extra.md","articles":[]},{"title":"起動時アクション設定","level":"11.1.7","depth":2,"path":"docs/conf-upped.md","ref":"docs/conf-upped.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.0"},"title":"Lampman 0.2.0","language":"ja","gitbook":"*"},"file":{"path":"docs/conf-base.md","mtime":"2019-11-23T15:26:46.088Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-23T15:22:04.155Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
