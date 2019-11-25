@@ -130,7 +130,7 @@ module.exports.config = {
         user:          'test',
         password:      'test', // same root password
         hosts:         ['sub.db'],
-        volume_locked: true,
+        volume_locked: false,
         dump: {
             rotations: 5,
             filename:  'dump.sql',

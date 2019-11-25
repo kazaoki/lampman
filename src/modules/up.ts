@@ -75,7 +75,8 @@ export async function action(argv:any, lampman:any)
             let dirs = mount.split(/\:/)
             if(path.resolve('/var/www/html') === path.resolve(dirs[1])) {
                 let pubdir = path.join(lampman.config_dir, dirs[0])
-                if(!fs.existsSync(pubdir)) {
+                let stats = fs.statSync(pubdir);
+                if(!stats.isDirectory()) {
                     libs.Message('最初に公開ディレクトリを作成してください ↓\n'+pubdir, 'warning', 1)
                     process.exit();
                 }

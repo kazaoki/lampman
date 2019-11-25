@@ -79,7 +79,7 @@ function meta(lampman) {
 exports.meta = meta;
 function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, mount, dirs, pubdir, files, _b, files_1, file, args, proc;
+        var _i, _a, mount, dirs, pubdir, stats, files, _b, files_1, file, args, proc;
         var _this = this;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -94,7 +94,8 @@ function action(argv, lampman) {
                             dirs = mount.split(/\:/);
                             if (path.resolve('/var/www/html') === path.resolve(dirs[1])) {
                                 pubdir = path.join(lampman.config_dir, dirs[0]);
-                                if (!fs.existsSync(pubdir)) {
+                                stats = fs.statSync(pubdir);
+                                if (!stats.isDirectory()) {
                                     libs.Message('最初に公開ディレクトリを作成してください ↓\n' + pubdir, 'warning', 1);
                                     process.exit();
                                 }
