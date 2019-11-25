@@ -91,7 +91,7 @@ module.exports.config = {
     //     collation:      'utf8mb4_general_ci',
     //     hosts:          ['main.db'],
     //     volume_locked:  false,
-    //     query_log:      true,
+    //     query_log:      false,
     //     query_cache:    false,
     //     dump: {
     //         rotations:  3,
@@ -111,7 +111,7 @@ module.exports.config = {
     //     user:          'test',
     //     password:      'test', // same root password
     //     hosts:         ['sub.db'],
-    //     volume_locked: true,
+    //     volume_locked: false,
     //     dump: {
     //         rotations: 3,
     //         filename:  'dump.sql',
