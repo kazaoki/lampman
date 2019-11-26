@@ -153,8 +153,7 @@ export async function action(argv:any, lampman:any)
 
         // ダンプ開始
         process.stdout.write('Dump to '+dumpfile+' ... ')
-        let procs = []
-        procs.push(child.spawn(
+        child.spawnSync(
             'docker-compose',
             [
                 '--project-name', lampman.config.project,
@@ -165,41 +164,19 @@ export async function action(argv:any, lampman:any)
                 '-e', 'LANG=ja_JP.UTF-8',
                 '-e', 'LC_TYPE=ja_JP.UTF-8',
                 postgresql.cname,
-                'pg_dump',
-                postgresql.database,
-                '-U',
-                postgresql.user,
+                'sh',
+                '-c',
+                `pg_dump ${postgresql.database} -U ${postgresql.user}`+(is_gzip ? ' | gzip' : '')
             ],
             {
                 cwd: lampman.config_dir,
                 stdio: [
                     'ignore',
-                    (is_gzip
-                        ? 'pipe'
-                        : fs.openSync(dumpfile, 'w')
-                    ),
+                    fs.openSync(dumpfile, 'w'),
                     'ignore',
                 ]
             }
-        ))
-
-        // 圧縮処理
-        if(is_gzip) {
-            procs.push(child.spawn(
-                'gzip',
-                {
-                    stdio: [
-                        procs[0].stdio[1],
-                        fs.openSync(dumpfile, 'w'),
-                        'ignore',
-                    ]
-                }
-            ))
-        }
-        // 直列実行
-        for(let proc of procs) {
-            await proc
-        }
+        )
 
         // 完了表示
         console.log(color.green('done'))

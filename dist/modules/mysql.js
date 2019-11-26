@@ -85,9 +85,9 @@ function meta(lampman) {
 exports.meta = meta;
 function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var mysql, list, _i, _a, key, _b, list_1, item, before_str, response, is_gzip, dumpdir, dumpfile, procs, _c, procs_1, proc, conts, procs;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        var mysql, list, _i, _a, key, _b, list_1, item, before_str, response, is_gzip, dumpdir, dumpfile, conts, procs;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     docker.needDockerLive();
                     mysql = {};
@@ -137,14 +137,14 @@ function action(argv, lampman) {
                             }
                         ])];
                 case 3:
-                    response = _d.sent();
+                    response = _c.sent();
                     if ('undefined' === typeof response.cname)
                         return [2];
                     mysql = response.cname;
                     return [3, 5];
                 case 4:
                     mysql = list[0].value;
-                    _d.label = 5;
+                    _c.label = 5;
                 case 5:
                     try {
                         child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'ps', '-qa', mysql.cname], { cwd: lampman.config_dir });
@@ -152,69 +152,43 @@ function action(argv, lampman) {
                     catch (e) {
                         libs.Error(e);
                     }
-                    if (!argv.dump) return [3, 10];
-                    libs.Label('Dump MySQL');
-                    is_gzip = mysql.dump.filename.match(/\.gz$/);
-                    dumpdir = argv.dumpPath ? argv.dumpPath : path.join(lampman.config_dir, mysql.cname);
-                    if (!path.isAbsolute(dumpdir)) {
-                        dumpdir = path.join(process.cwd(), dumpdir);
-                    }
-                    if (!fs.existsSync(dumpdir)) {
-                        fs.mkdirSync(dumpdir, { recursive: true });
-                    }
-                    dumpfile = path.join(dumpdir, (mysql.dump.filename ? mysql.dump.filename : 'dump.sql'));
-                    if ((!argv.noRotate) && mysql.dump.rotations > 0) {
-                        process.stdout.write('Dumpfile rotate ... ');
-                        libs.RotateFile(dumpfile, mysql.dump.rotations);
-                        console.log(color.green('done'));
-                    }
-                    process.stdout.write('Dump to ' + dumpfile + ' ... ');
-                    procs = [];
-                    procs.push(child.spawn('docker-compose', [
-                        '--project-name', lampman.config.project,
-                        'exec',
-                        '-T',
-                        mysql.cname,
-                        'mysqldump',
-                        mysql.database,
-                        '-u' + mysql.user,
-                        '-p' + mysql.password,
-                    ], {
-                        cwd: lampman.config_dir,
-                        stdio: [
-                            'ignore',
-                            (is_gzip
-                                ? 'pipe'
-                                : fs.openSync(dumpfile, 'w')),
-                            'ignore',
-                        ]
-                    }));
-                    if (is_gzip) {
-                        procs.push(child.spawn('gzip', {
+                    if (argv.dump) {
+                        libs.Label('Dump MySQL');
+                        is_gzip = mysql.dump.filename.match(/\.gz$/);
+                        dumpdir = argv.dumpPath ? argv.dumpPath : path.join(lampman.config_dir, mysql.cname);
+                        if (!path.isAbsolute(dumpdir)) {
+                            dumpdir = path.join(process.cwd(), dumpdir);
+                        }
+                        if (!fs.existsSync(dumpdir)) {
+                            fs.mkdirSync(dumpdir, { recursive: true });
+                        }
+                        dumpfile = path.join(dumpdir, (mysql.dump.filename ? mysql.dump.filename : 'dump.sql'));
+                        if ((!argv.noRotate) && mysql.dump.rotations > 0) {
+                            process.stdout.write('Dumpfile rotate ... ');
+                            libs.RotateFile(dumpfile, mysql.dump.rotations);
+                            console.log(color.green('done'));
+                        }
+                        process.stdout.write('Dump to ' + dumpfile + ' ... ');
+                        child.spawnSync('docker-compose', [
+                            '--project-name', lampman.config.project,
+                            'exec',
+                            '-T',
+                            mysql.cname,
+                            'sh',
+                            '-c',
+                            "mysqldump " + mysql.database + " -u" + mysql.user + " -p" + mysql.password + (is_gzip ? ' | gzip' : '')
+                        ], {
+                            cwd: lampman.config_dir,
                             stdio: [
-                                procs[0].stdio[1],
+                                'ignore',
                                 fs.openSync(dumpfile, 'w'),
                                 'ignore',
                             ]
-                        }));
+                        });
+                        console.log(color.green('done'));
+                        return [2];
                     }
-                    _c = 0, procs_1 = procs;
-                    _d.label = 6;
-                case 6:
-                    if (!(_c < procs_1.length)) return [3, 9];
-                    proc = procs_1[_c];
-                    return [4, proc];
-                case 7:
-                    _d.sent();
-                    _d.label = 8;
-                case 8:
-                    _c++;
-                    return [3, 6];
-                case 9:
-                    console.log(color.green('done'));
-                    return [2];
-                case 10:
-                    if (!argv.restore) return [3, 12];
+                    if (!argv.restore) return [3, 7];
                     if (mysql.volume_locked)
                         libs.Error(mysql.cname + " \u306F\u30ED\u30C3\u30AF\u6E08\u307F\u30DC\u30EA\u30E5\u30FC\u30E0\u306E\u305F\u3081\u30EA\u30B9\u30C8\u30A2\u3067\u304D\u307E\u305B\u3093\u3002");
                     libs.Label('Restore MySQL');
@@ -266,11 +240,11 @@ function action(argv, lampman) {
                             .then(function () { return process.stdout.write(color.magenta(' lampman')); }));
                     }
                     return [4, Promise.all(procs).catch(function (e) { return libs.Error(e); })];
-                case 11:
-                    _d.sent();
+                case 6:
+                    _c.sent();
                     console.log();
                     return [2];
-                case 12: return [4, child.spawn('docker-compose', [
+                case 7: return [4, child.spawn('docker-compose', [
                         '--project-name', lampman.config.project,
                         'exec',
                         '-e', 'TERM=xterm-256color',
@@ -287,8 +261,8 @@ function action(argv, lampman) {
                         cwd: lampman.config_dir,
                         stdio: 'inherit'
                     })];
-                case 13:
-                    _d.sent();
+                case 8:
+                    _c.sent();
                     return [2];
             }
         });
