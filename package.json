@@ -1,8 +1,8 @@
 {
     "name": "lampman",
     "description": "LAMP server orchestration tool on docker-compose (Under development...)",
-    "version": "0.2.3",
-    "license": "MIT",
+    "version": "0.2.4",
+    "license": "Apache License",
     "private": false,
     "bin": {
         "lamp": "dist/lamp.js",
