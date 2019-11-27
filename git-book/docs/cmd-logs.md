@@ -1,7 +1,7 @@
+###### 👀 監視コマンド
 
-# lamp logs
-
-## ログファイルを眺める
+# ログファイルを眺める：`lamp logs`
+----------------------------------------------------------------------
 
 ### `lamp logs`
 
@@ -12,7 +12,7 @@
 その中に監視したいファイル名と設定オプションがありますが、設定オプションは [MultiTailのドキュメント](https://www.vanheusden.com/multitail/examples.php) をご参考ください。
 以下ですと、 `-cS` でフォーマット定義、 `-ci` でANSIカラーの指定をしています。
 
-`config.js` 設定例：
+##### `config.js` 設定例：
 <pre class="cmd">
 ...
     logs: {
@@ -48,7 +48,7 @@
 Lampmanで設定できるMySQLでは、クエリログを有効に設定すると `lampman` コンテナに `/bar/log/(mysql設定名)` にmysqlコンテナのログディレクトリが自動でマウントされるようになりますが、これ以外で `lampman` 本体以外のコンテナの中のファイルを `lamp logs` で眺める方法を Lampman 側では特に方法を用意していません。  
 ですが、 `docker-compose.override.yml` に設定を追記して、`lampman` コンテナに該当のコンテナのディレクトリをマウントすることで比較的カンタンに対応できます。以下例です。
 
-`docker-compose.override.yml` 設定例：
+##### `docker-compose.override.yml` 設定例：
 <pre class="cmd">
 version: '2.2'
 services:
@@ -66,7 +66,7 @@ volumes:
 
 これで `centos` コンテナ内の `/centos_log` ディレクトリが `lampman` コンテナにマウントされアクセスできるようになったので、設定に追記して完了です。
 
-`config.js` 設定例：
+##### `config.js` 設定例：
 <pre class="cmd">
 ...
     // project name

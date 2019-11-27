@@ -1,3 +1,17 @@
+
+.text-left   { text-align: left;   }
+.text-center { text-align: center; }
+.text-right  { text-align: right;  }
+
+.page-inner {
+    max-width: calc(100% - 160px);
+}
+@media (max-width: 1240px) {
+    .page-inner {
+        max-width: calc(100% - 50px);
+    }
+}
+
 .book-summary ul.summary ul.articles li.chapter :hover {
     color: #008cff;
 }
@@ -6,9 +20,28 @@ pre.cmd {
     line-height: 1.4;
     font-size: 11pt;
     white-space: pre;
+    color: #eee;
+    background-color: #333;
+    box-shadow: 5px 5px 9px 0 rgba(0,0,0,0.4) inset;
+    border-radius: 3px;
 }
 
 pre.cmd .comment {
     color: #888;
     font-size: 11pt;
+}
+
+ul.summary>li.chapter>span {
+    font-weight: bold;
+}
+
+ul.summary>li.chapter:first-child>span {
+    color: #333;
+    font-family: serif;
+    /* font-weight: 900; */
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 2px;
+    font-style: italic;
+    text-shadow: -1px -1px 1px rgba(0,0,0,0.1);
 }

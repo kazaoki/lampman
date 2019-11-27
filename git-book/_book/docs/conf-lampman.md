@@ -1,8 +1,11 @@
+###### 📝 設定ファイル解説：config.js
 
-# 設定ファイル詳説：Lampmanコンテナ設定
+# Lampmanコンテナ設定
+----------------------------------------------------------------------
 
 ## config.js 設定例
 <pre class="cmd">
+...
     /**
      * ---------------------------------------------------------------
      * Lampmanコンテナ設定
@@ -57,10 +60,37 @@
             path: '/var/www/html',
         },
     },
+...
 </pre>
 
-## `Apache`
-## `PHP`
-## `maildev`
-## `postfix`
-## `sshd`
+## image:
+
+メインの `lampman` コンテナとなるDockerイメージを指定します。
+`kazaoki/lampman` は以下で一般公開されているイメージですので、フォークなどして独自のイメージを作成してご利用いただいてもOKです。
+
+  - [`kazaoki/lampman` Dockerfile @ GitHub](https://github.com/kazaoki/lampman/blob/master/docker-image/Dockerfile)
+  - [`kazaoki/lampman` @ Docker Hub](https://hub.docker.com/repository/docker/kazaoki/lampman)
+
+## login_path:
+
+`lamp login` でログインする際の初期のパス設定です。
+
+## // Apache
+Webサーバ [Apache](https://httpd.apache.org/) の設定をします。
+- start:  
+  `true` ... Apacheを起動します  
+  `false` ... Apacheを起動しません  
+
+- ports:
+  CCCCC
+
+- mounts:
+  CCCCC
+
+- rewrite_log:
+  CCCCC
+
+## // PHP
+## // maildev
+## // postfix
+## // sshd

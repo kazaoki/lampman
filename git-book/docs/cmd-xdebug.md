@@ -1,9 +1,9 @@
+###### 🔧 設定コマンド
 
-# lamp xon/xoff
+# PHP Xdebug有効/無効切り替え：`lamp xon`, `lamp xoff`
+----------------------------------------------------------------------
 
-## PHP Xdebug有効/無効切り替え
-
-以下コマンドは `lampman` コンテナで Apache の再起動が行われます。
+以下コマンドは `lampman` コンテナの中で [Apache](https://httpd.apache.org/) の再起動が行われます。
 オプションはありません。
 
 ### `lamp xon`

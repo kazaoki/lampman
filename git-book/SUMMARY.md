@@ -1,51 +1,51 @@
 # Summary
 
-- Lampman（ランプマン）
-    * [概要](README.md)
-    * [もう少し詳しく](docs/intro-detail.md)
+- Lampman
+- [概要](README.md)
+- [もう少し詳しく](docs/intro-detail.md)
 
 
-- セットアップ
-    * [動作要件](docs/require.md)
-    * [lamp コマンドインストール](docs/install.md)
+- 💻 Lampman セットアップ
+    * [動作要件](docs/setup-require.md)
+    * [lamp コマンドインストール](docs/setup-install.md)
 
 
-- 共通オプション
+- ⚡ 共通オプション
     * [-h, --help](docs/opt-help.md)
     * [-m, --mode](docs/opt-mode.md)
 
 
-- セットアップコマンド
+- 🔨 セットアップコマンド
     * [lamp init](docs/cmd-init.md)
 
 
-- コンテナ起動/終了コマンド
+- 🚩 コンテナ起動/終了コマンド
     * [lamp up](docs/cmd-up.md)
     * [lamp down](docs/cmd-down.md)
 
 
-- 設定コマンド
+- 🔧 設定コマンド
     * [lamp config](docs/cmd-config.md)
-    * [lamp xon/xoff](docs/cmd-xdebug.md)
+    * [lamp xon, lamp xoff](docs/cmd-xdebug.md)
 
 
-- 掃除コマンド
+- ✨ 掃除コマンド
     * [lamp reject](docs/cmd-reject.md)
     * [lamp rmi](docs/cmd-rmi.md)
     * [lamp sweep](docs/cmd-sweep.md)
 
 
-- 監視コマンド
+- 👀 監視コマンド
     * [lamp logs](docs/cmd-logs.md)
     * [lamp status](docs/cmd-status.md)
 
 
-- DB操作コマンド
+- 📚 DB操作コマンド
     * [lamp mysql](docs/cmd-mysql.md)
     * [lamp psql](docs/cmd-psql.md)
 
 
-- 調査/その他コマンド
+- 🔍 調査/その他コマンド
     * [lamp (オプション引数なし)](docs/cmd-noargs.md)
     * [lamp login](docs/cmd-login.md)
     * [lamp yaml](docs/cmd-yaml.md)
@@ -53,7 +53,7 @@
     * [lamp (extraコマンド)](docs/cmd-extra.md)
 
 
-- 設定ファイル詳説
+- 📝 設定ファイル解説：config.js
   - [基本設定](docs/conf-base.md)
   - [Lampmanコンテナ設定](docs/conf-lampman.md)
   - [MySQLコンテナ設定](docs/conf-mysql.md)
@@ -63,13 +63,13 @@
   - [起動時アクション設定](docs/conf-upped.md)
 
 
-- 技術情報
+- 🤖 技術情報
   - [Dockerイメージについて](docs/tech-images.md)
   - [ディレクトリ構成例](docs/tech-dirs-example.md)
   - [本番用構成例](docs/tech-product-example.md)
   - [その他](docs/tech-misc.md)
 
 
-- その他
+- 🚽 その他
   - [必要なPHPバージョンが一覧にない場合]()
   - [コンテナ実行前にサーバに手入れしたい]()

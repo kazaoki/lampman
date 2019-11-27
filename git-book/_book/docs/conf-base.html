@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>基本設定 · Lampman 0.2.0</title>
+        <title>基本設定 · Lampman 0.2.4</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -94,16 +94,15 @@
                 <span>
             
                     
-                    Lampman（ランプマン）
+                    Lampman
             
                 </span>
             
 
             
-            <ul class="articles">
-                
+        </li>
     
-        <li class="chapter " data-level="1.1.1" data-path="../">
+        <li class="chapter " data-level="1.2" data-path="../">
             
                 <a href="../">
             
@@ -116,7 +115,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.2" data-path="intro-detail.html">
+        <li class="chapter " data-level="1.3" data-path="intro-detail.html">
             
                 <a href="intro-detail.html">
             
@@ -126,11 +125,6 @@
                 </a>
             
 
-            
-        </li>
-    
-
-            </ul>
             
         </li>
     
@@ -146,7 +140,7 @@
                 <span>
             
                     
-                    セットアップ
+                    💻 Lampman セットアップ
             
                 </span>
             
@@ -155,9 +149,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.1" data-path="require.html">
+        <li class="chapter " data-level="2.1.1" data-path="setup-require.html">
             
-                <a href="require.html">
+                <a href="setup-require.html">
             
                     
                     動作要件
@@ -168,9 +162,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2" data-path="install.html">
+        <li class="chapter " data-level="2.1.2" data-path="setup-install.html">
             
-                <a href="install.html">
+                <a href="setup-install.html">
             
                     
                     lamp コマンドインストール
@@ -198,7 +192,7 @@
                 <span>
             
                     
-                    共通オプション
+                    ⚡ 共通オプション
             
                 </span>
             
@@ -250,7 +244,7 @@
                 <span>
             
                     
-                    セットアップコマンド
+                    🔨 セットアップコマンド
             
                 </span>
             
@@ -289,7 +283,7 @@
                 <span>
             
                     
-                    コンテナ起動/終了コマンド
+                    🚩 コンテナ起動/終了コマンド
             
                 </span>
             
@@ -341,7 +335,7 @@
                 <span>
             
                     
-                    設定コマンド
+                    🔧 設定コマンド
             
                 </span>
             
@@ -368,7 +362,7 @@
                 <a href="cmd-xdebug.html">
             
                     
-                    lamp xon/xoff
+                    lamp xon, lamp xoff
             
                 </a>
             
@@ -393,7 +387,7 @@
                 <span>
             
                     
-                    掃除コマンド
+                    ✨ 掃除コマンド
             
                 </span>
             
@@ -458,7 +452,7 @@
                 <span>
             
                     
-                    監視コマンド
+                    👀 監視コマンド
             
                 </span>
             
@@ -510,7 +504,7 @@
                 <span>
             
                     
-                    DB操作コマンド
+                    📚 DB操作コマンド
             
                 </span>
             
@@ -562,7 +556,7 @@
                 <span>
             
                     
-                    調査/その他コマンド
+                    🔍 調査/その他コマンド
             
                 </span>
             
@@ -653,7 +647,7 @@
                 <span>
             
                     
-                    設定ファイル詳説
+                    📝 設定ファイル解説：config.js
             
                 </span>
             
@@ -770,7 +764,7 @@
                 <span>
             
                     
-                    技術情報
+                    🤖 技術情報
             
                 </span>
             
@@ -848,7 +842,7 @@
                 <span>
             
                     
-                    その他
+                    🚽 その他
             
                 </span>
             
@@ -933,9 +927,12 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;&#x57FA;&#x672C;&#x8A2D;&#x5B9A;">&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;&#x57FA;&#x672C;&#x8A2D;&#x5B9A;</h1>
+                                <h6 id="&#x1F4DD;-&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x89E3;&#x8AAC;&#xFF1A;configjs">&#x1F4DD; &#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x89E3;&#x8AAC;&#xFF1A;config.js</h6>
+<h1 id="&#x57FA;&#x672C;&#x8A2D;&#x5B9A;">&#x57FA;&#x672C;&#x8A2D;&#x5B9A;</h1>
+<hr>
 <h2 id="configjs-&#x8A2D;&#x5B9A;&#x4F8B;">config.js &#x8A2D;&#x5B9A;&#x4F8B;</h2>
 <pre class="cmd">
+...
     /**
      * ---------------------------------------------------------------
      * &#x57FA;&#x672C;&#x8A2D;&#x5B9A;
@@ -954,11 +951,19 @@
         name: &apos;default&apos;, // &#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x3092;&#x4F5C;&#x6210;&#x3059;&#x308B;&#x5834;&#x5408;&#x3002;&#x81EA;&#x52D5;&#x3067;&#x982D;&#x306B;&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;&#x304C;&#x4ED8;&#x304F;
         // external: &apos;lampman_default&apos;, // &#x65E2;&#x5B58;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x5834;&#x5408;&#x306F;&#x5B9F;&#x969B;&#x306E;&#x540D;&#x524D;&#xFF08;&#x982D;&#x306B;&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;&#x304C;&#x4ED8;&#x3044;&#x305F;&#x72B6;&#x614B;&#xFF09;&#x306E;&#x3082;&#x306E;&#x3092;&#x6307;&#x5B9A;
     },
+...
 </pre>
 
-<h2 id="&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;"><code>&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;</code></h2>
-<h2 id="docker-composeyml-&#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;"><code>docker-compose.yml &#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;</code></h2>
-<h2 id="&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;"><code>&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;</code></h2>
+<h2 id="&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;">// &#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;</h2>
+<p>&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x540D;&#x306E;&#x982D;&#x306B;&#x3064;&#x304F;&#x3088;&#x3046;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x306E;&#x3067;&#x3001;&#x534A;&#x89D2;&#x82F1;&#x6570;&#x5B57;&#x3067;&#x308F;&#x304B;&#x308A;&#x3084;&#x3059;&#x3044;&#x3082;&#x306E;&#x3092;&#x8A2D;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+<h2 id="docker-composeyml-&#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;">// docker-compose.yml &#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;</h2>
+<p>&#x57FA;&#x672C;&#x7684;&#x306B; <code>2.2</code> &#x3068;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;
+&#x3069;&#x3046;&#x3057;&#x3066;&#x3082;&#x5909;&#x66F4;&#x3059;&#x308B;&#x969B;&#x306F; <code>docker-compose.override.yml</code> &#x306E;&#x5192;&#x982D;&#x3082;&#x540C;&#x69D8;&#x306B;&#x5909;&#x66F4;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#x5C1A;&#x3001;&#x73FE;&#x5728;&#x306E; Lampman &#x3067;&#x306F;&#x57FA;&#x672C;&#x7684;&#x306B; <code>2.2</code> &#x5411;&#x3051;&#x306E;&#x51FA;&#x529B;&#x3057;&#x304B;&#x5BFE;&#x5FDC;&#x3057;&#x3066;&#x3044;&#x307E;&#x305B;&#x3093;&#x306E;&#x3067;&#x3001;&#x5909;&#x66F4;&#x3059;&#x308B;&#x3068; <code>docker-compose</code> &#x3067;&#x5B9F;&#x884C;&#x3059;&#x308B;&#x969B;&#x306B;&#x30A8;&#x30E9;&#x30FC;&#x306B;&#x306A;&#x308B;&#x53EF;&#x80FD;&#x6027;&#x304C;&#x9AD8;&#x3044;&#x3067;&#x3059;&#x3002;</p>
+<h2 id="&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;">// &#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;</h2>
+<ul>
+<li><code>name</code> ... &#x6240;&#x5C5E;&#x3059;&#x308B;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x3092;&#x4F5C;&#x6210;&#x3059;&#x308B;&#x5834;&#x5408;&#x306B;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</li>
+<li><code>external</code> ... &#x65E2;&#x306B;&#x5B58;&#x5728;&#x3059;&#x308B;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x306B;&#x53C2;&#x52A0;&#x3059;&#x308B;&#x5834;&#x5408;&#x306F;&#x5B9F;&#x969B;&#x306E;&#x540D;&#x79F0;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</li>
+</ul>
 
                                 
                                 </section>
@@ -998,7 +1003,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"基本設定","level":"11.1.1","depth":2,"next":{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"path":"docs/conf-lampman.md","ref":"docs/conf-lampman.md","articles":[]},"previous":{"title":"設定ファイル詳説","level":"11.1","depth":1,"ref":"","articles":[{"title":"基本設定","level":"11.1.1","depth":2,"path":"docs/conf-base.md","ref":"docs/conf-base.md","articles":[]},{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"path":"docs/conf-lampman.md","ref":"docs/conf-lampman.md","articles":[]},{"title":"MySQLコンテナ設定","level":"11.1.3","depth":2,"path":"docs/conf-mysql.md","ref":"docs/conf-mysql.md","articles":[]},{"title":"PostgreSQLコンテナ設定","level":"11.1.4","depth":2,"path":"docs/conf-postgresql.md","ref":"docs/conf-postgresql.md","articles":[]},{"title":"ログコマンド設定","level":"11.1.5","depth":2,"path":"docs/conf-logs.md","ref":"docs/conf-logs.md","articles":[]},{"title":"Extraコマンド設定","level":"11.1.6","depth":2,"path":"docs/conf-extra.md","ref":"docs/conf-extra.md","articles":[]},{"title":"起動時アクション設定","level":"11.1.7","depth":2,"path":"docs/conf-upped.md","ref":"docs/conf-upped.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.0"},"title":"Lampman 0.2.0","language":"ja","gitbook":"*"},"file":{"path":"docs/conf-base.md","mtime":"2019-11-23T15:26:46.088Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-23T15:41:40.356Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"基本設定","level":"11.1.1","depth":2,"next":{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"path":"docs/conf-lampman.md","ref":"docs/conf-lampman.md","articles":[]},"previous":{"title":"📝 設定ファイル解説：config.js","level":"11.1","depth":1,"ref":"","articles":[{"title":"基本設定","level":"11.1.1","depth":2,"path":"docs/conf-base.md","ref":"docs/conf-base.md","articles":[]},{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"path":"docs/conf-lampman.md","ref":"docs/conf-lampman.md","articles":[]},{"title":"MySQLコンテナ設定","level":"11.1.3","depth":2,"path":"docs/conf-mysql.md","ref":"docs/conf-mysql.md","articles":[]},{"title":"PostgreSQLコンテナ設定","level":"11.1.4","depth":2,"path":"docs/conf-postgresql.md","ref":"docs/conf-postgresql.md","articles":[]},{"title":"ログコマンド設定","level":"11.1.5","depth":2,"path":"docs/conf-logs.md","ref":"docs/conf-logs.md","articles":[]},{"title":"Extraコマンド設定","level":"11.1.6","depth":2,"path":"docs/conf-extra.md","ref":"docs/conf-extra.md","articles":[]},{"title":"起動時アクション設定","level":"11.1.7","depth":2,"path":"docs/conf-upped.md","ref":"docs/conf-upped.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.4"},"title":"Lampman 0.2.4","language":"ja","gitbook":"*"},"file":{"path":"docs/conf-base.md","mtime":"2019-11-27T07:52:52.928Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-27T04:59:10.848Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

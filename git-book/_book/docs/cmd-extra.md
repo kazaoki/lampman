@@ -1,11 +1,11 @@
+###### 🔍 調査/その他コマンド
 
-# lamp extra
+# 独自で設定したコマンドを実行する：`lamp (extraコマンド設定名)`
+----------------------------------------------------------------------
 
-## extra コマンド
+### `lamp (extraコマンド設定名)`
 
-### `lamp (独自で設定したコマンド)`
-
-`.lampman/config.js` に設定すると `lamp` コマンドとして機能が実行できるものです。
+`.lampman/config.js` に設定すると独自の `lamp` コマンドとして機能が実行できるものです。
 
 設定のフォーマットは以下の通りです。
 <pre class="cmd">
@@ -28,7 +28,7 @@
 
 ### コンテナ内でコマンド実行
 
-設定例：`lamp expose`
+##### extraコマンド例：`lamp expose`
 <pre class="cmd">
 ...
     extra: {
@@ -43,7 +43,7 @@
 
 ### 指定URLでブラウザを開く
 
-設定例：`lamp open`
+##### extraコマンド例：`lamp open`
 <pre class="cmd">
 ...
     extra: {
@@ -63,7 +63,7 @@
 
 ### コマンドの代わりに Node.js 関数を実行
 
-設定例：`lamp envs`
+##### extraコマンド例：`lamp envs`
 <pre class="cmd">
 ...
     extra: {
@@ -83,7 +83,7 @@
 
 ### extraコマンドで引数を渡す
 
-設定例：`lamp sum 12 34`
+##### extraコマンド例：`lamp sum 12 34`
 
 <pre class="cmd">
 ...

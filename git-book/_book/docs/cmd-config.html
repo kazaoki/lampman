@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>lamp config · Lampman 0.2.0</title>
+        <title>lamp config · Lampman 0.2.4</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -94,16 +94,15 @@
                 <span>
             
                     
-                    Lampman（ランプマン）
+                    Lampman
             
                 </span>
             
 
             
-            <ul class="articles">
-                
+        </li>
     
-        <li class="chapter " data-level="1.1.1" data-path="../">
+        <li class="chapter " data-level="1.2" data-path="../">
             
                 <a href="../">
             
@@ -116,7 +115,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.2" data-path="intro-detail.html">
+        <li class="chapter " data-level="1.3" data-path="intro-detail.html">
             
                 <a href="intro-detail.html">
             
@@ -126,11 +125,6 @@
                 </a>
             
 
-            
-        </li>
-    
-
-            </ul>
             
         </li>
     
@@ -146,7 +140,7 @@
                 <span>
             
                     
-                    セットアップ
+                    💻 Lampman セットアップ
             
                 </span>
             
@@ -155,9 +149,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.1" data-path="require.html">
+        <li class="chapter " data-level="2.1.1" data-path="setup-require.html">
             
-                <a href="require.html">
+                <a href="setup-require.html">
             
                     
                     動作要件
@@ -168,9 +162,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2" data-path="install.html">
+        <li class="chapter " data-level="2.1.2" data-path="setup-install.html">
             
-                <a href="install.html">
+                <a href="setup-install.html">
             
                     
                     lamp コマンドインストール
@@ -198,7 +192,7 @@
                 <span>
             
                     
-                    共通オプション
+                    ⚡ 共通オプション
             
                 </span>
             
@@ -250,7 +244,7 @@
                 <span>
             
                     
-                    セットアップコマンド
+                    🔨 セットアップコマンド
             
                 </span>
             
@@ -289,7 +283,7 @@
                 <span>
             
                     
-                    コンテナ起動/終了コマンド
+                    🚩 コンテナ起動/終了コマンド
             
                 </span>
             
@@ -341,7 +335,7 @@
                 <span>
             
                     
-                    設定コマンド
+                    🔧 設定コマンド
             
                 </span>
             
@@ -368,7 +362,7 @@
                 <a href="cmd-xdebug.html">
             
                     
-                    lamp xon/xoff
+                    lamp xon, lamp xoff
             
                 </a>
             
@@ -393,7 +387,7 @@
                 <span>
             
                     
-                    掃除コマンド
+                    ✨ 掃除コマンド
             
                 </span>
             
@@ -458,7 +452,7 @@
                 <span>
             
                     
-                    監視コマンド
+                    👀 監視コマンド
             
                 </span>
             
@@ -510,7 +504,7 @@
                 <span>
             
                     
-                    DB操作コマンド
+                    📚 DB操作コマンド
             
                 </span>
             
@@ -562,7 +556,7 @@
                 <span>
             
                     
-                    調査/その他コマンド
+                    🔍 調査/その他コマンド
             
                 </span>
             
@@ -653,7 +647,7 @@
                 <span>
             
                     
-                    設定ファイル詳説
+                    📝 設定ファイル解説：config.js
             
                 </span>
             
@@ -770,7 +764,7 @@
                 <span>
             
                     
-                    技術情報
+                    🤖 技術情報
             
                 </span>
             
@@ -848,7 +842,7 @@
                 <span>
             
                     
-                    その他
+                    🚽 その他
             
                 </span>
             
@@ -933,11 +927,11 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="lamp-config">lamp config</h1>
-<h2 id="&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x958B;&#x304F;">&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x958B;&#x304F;</h2>
+                                <h6 id="&#x1F527;-&#x8A2D;&#x5B9A;&#x30B3;&#x30DE;&#x30F3;&#x30C9;">&#x1F527; &#x8A2D;&#x5B9A;&#x30B3;&#x30DE;&#x30F3;&#x30C9;</h6>
+<h1 id="&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x958B;&#x304F;&#xFF1A;lamp-config">&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x958B;&#x304F;&#xFF1A;<code>lamp config</code></h1>
+<hr>
 <h3 id="lamp-config"><code>lamp config</code></h3>
-<p>&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB; <code>.lampman/config.js</code> &#x3092;&#x6A19;&#x6E96;&#x306E;&#x30A8;&#x30C7;&#x30A3;&#x30BF;&#x3067;&#x958B;&#x304D;&#x307E;&#x3059;&#x3002;
-&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+<p>&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB; <code>.lampman/config.js</code> &#x3092;&#x304A;&#x4F7F;&#x3044;&#x306E;&#x30A8;&#x30C7;&#x30A3;&#x30BF;&#x3067;&#x958B;&#x304D;&#x307E;&#x3059;&#x3002;<br>&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
 
                                 
                                 </section>
@@ -966,7 +960,7 @@
             
                 
                 
-                <a href="cmd-xdebug.html" class="navigation navigation-next navigation-unique" aria-label="Next page: lamp xon/xoff">
+                <a href="cmd-xdebug.html" class="navigation navigation-next navigation-unique" aria-label="Next page: lamp xon, lamp xoff">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -977,7 +971,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"lamp config","level":"6.1.1","depth":2,"next":{"title":"lamp xon/xoff","level":"6.1.2","depth":2,"path":"docs/cmd-xdebug.md","ref":"docs/cmd-xdebug.md","articles":[]},"previous":{"title":"設定コマンド","level":"6.1","depth":1,"ref":"","articles":[{"title":"lamp config","level":"6.1.1","depth":2,"path":"docs/cmd-config.md","ref":"docs/cmd-config.md","articles":[]},{"title":"lamp xon/xoff","level":"6.1.2","depth":2,"path":"docs/cmd-xdebug.md","ref":"docs/cmd-xdebug.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.0"},"title":"Lampman 0.2.0","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-config.md","mtime":"2019-11-21T04:38:21.533Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-23T15:41:40.356Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"lamp config","level":"6.1.1","depth":2,"next":{"title":"lamp xon, lamp xoff","level":"6.1.2","depth":2,"path":"docs/cmd-xdebug.md","ref":"docs/cmd-xdebug.md","articles":[]},"previous":{"title":"🔧 設定コマンド","level":"6.1","depth":1,"ref":"","articles":[{"title":"lamp config","level":"6.1.1","depth":2,"path":"docs/cmd-config.md","ref":"docs/cmd-config.md","articles":[]},{"title":"lamp xon, lamp xoff","level":"6.1.2","depth":2,"path":"docs/cmd-xdebug.md","ref":"docs/cmd-xdebug.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.4"},"title":"Lampman 0.2.4","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-config.md","mtime":"2019-11-27T06:01:25.904Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-27T04:59:10.848Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
