@@ -156,22 +156,24 @@ export async function action(argv:any, lampman:any)
         procs = []
 
         // ボリューム削除
-        for(let item of targets.filter((item: any)=>'volume'===item.type)) {
-            let vid = item.name
-            procs.push(
-                new Promise((resolve, reject)=>{
-                    child.execFile('docker',['volume', 'rm', '-f', vid])
-                        .stderr.on('data', (data: string)=>{
-                            console.log(`Removing volume ${vid} ... ${color.red('ng')}`)
-                            reject(data)
-                        })
-                        .on('close', (code: any)=>{
-                            console.log(`Removing volume ${vid} ... ${color.green('done')}`)
-                            resolve()
-                        })
-                    ;
-                })
-            )
+        if(!argv.noVolumes) {
+            for(let item of targets.filter((item: any)=>'volume'===item.type)) {
+                let vid = item.name
+                procs.push(
+                    new Promise((resolve, reject)=>{
+                        child.execFile('docker',['volume', 'rm', '-f', vid])
+                            .stderr.on('data', (data: string)=>{
+                                console.log(`Removing volume ${vid} ... ${color.red('ng')}`)
+                                reject(data)
+                            })
+                            .on('close', (code: any)=>{
+                                console.log(`Removing volume ${vid} ... ${color.green('done')}`)
+                                resolve()
+                            })
+                        ;
+                    })
+                )
+            }
         }
 
         // 処理すべきものがあれば実行

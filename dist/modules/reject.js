@@ -177,23 +177,25 @@ function action(argv, lampman) {
                     _h.label = 7;
                 case 7:
                     procs = [];
-                    _loop_2 = function (item) {
-                        var vid = item.name;
-                        procs.push(new Promise(function (resolve, reject) {
-                            child.execFile('docker', ['volume', 'rm', '-f', vid])
-                                .stderr.on('data', function (data) {
-                                console.log("Removing volume " + vid + " ... " + color.red('ng'));
-                                reject(data);
-                            })
-                                .on('close', function (code) {
-                                console.log("Removing volume " + vid + " ... " + color.green('done'));
-                                resolve();
-                            });
-                        }));
-                    };
-                    for (_f = 0, _g = targets.filter(function (item) { return 'volume' === item.type; }); _f < _g.length; _f++) {
-                        item = _g[_f];
-                        _loop_2(item);
+                    if (!argv.noVolumes) {
+                        _loop_2 = function (item) {
+                            var vid = item.name;
+                            procs.push(new Promise(function (resolve, reject) {
+                                child.execFile('docker', ['volume', 'rm', '-f', vid])
+                                    .stderr.on('data', function (data) {
+                                    console.log("Removing volume " + vid + " ... " + color.red('ng'));
+                                    reject(data);
+                                })
+                                    .on('close', function (code) {
+                                    console.log("Removing volume " + vid + " ... " + color.green('done'));
+                                    resolve();
+                                });
+                            }));
+                        };
+                        for (_f = 0, _g = targets.filter(function (item) { return 'volume' === item.type; }); _f < _g.length; _f++) {
+                            item = _g[_f];
+                            _loop_2(item);
+                        }
                     }
                     if (!procs.length) return [3, 9];
                     return [4, Promise.all(procs).catch(function (err) { libs.Error(err); })];

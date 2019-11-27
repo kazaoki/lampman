@@ -24,6 +24,11 @@ export function meta(lampman:any)
         command: 'sweep [options]',
         describe: '全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃',
         options: {
+            'containers': {
+                alias: 'c',
+                describe: 'コンテナのみ一掃します。',
+                type: 'boolean',
+            },
             'force': {
                 alias: 'f',
                 describe: '確認なしで実行します。',
@@ -47,7 +52,10 @@ export async function action(argv:any, lampman:any)
             {
                 type: 'toggle',
                 name: 'value',
-                message: '起動しているかどうかに関わらず、全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークを一掃しますが本当によろしいですか？\n（※docker-compose外のコンテナも対象です）',
+                message: (argv.containers
+                    ? '起動しているかどうかに関わらず、全てのコンテナを一掃しますが本当によろしいですか？\n（※docker-compose外のコンテナも対象です）'
+                    : '起動しているかどうかに関わらず、全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークを一掃しますが本当によろしいですか？\n（※docker-compose外のコンテナも対象です）'
+                ),
                 initial: false,
                 active: 'yes',
                 inactive: 'no'
@@ -57,13 +65,13 @@ export async function action(argv:any, lampman:any)
     }
 
     // 全てのコンテナとボリューム削除
-    await reject({force: true}, lampman)
+    await reject({noVolumes: argv.containers, force: true}, lampman)
 
     // <none>イメージ削除
-    await rmi({prune: true}, lampman)
+    if(!argv.containers) await rmi({prune: true}, lampman)
 
     // 不要ネットワークの削除
-    child.spawnSync('docker', ['network', 'prune', '-f'], {stdio: 'inherit'})
+    if(!argv.containers) child.spawnSync('docker', ['network', 'prune', '-f'], {stdio: 'inherit'})
 
     return
 }

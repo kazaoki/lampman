@@ -45,6 +45,11 @@ function meta(lampman) {
         command: 'sweep [options]',
         describe: '全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークの一掃',
         options: {
+            'containers': {
+                alias: 'c',
+                describe: 'コンテナのみ一掃します。',
+                type: 'boolean',
+            },
             'force': {
                 alias: 'f',
                 describe: '確認なしで実行します。',
@@ -66,7 +71,9 @@ function action(argv, lampman) {
                             {
                                 type: 'toggle',
                                 name: 'value',
-                                message: '起動しているかどうかに関わらず、全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークを一掃しますが本当によろしいですか？\n（※docker-compose外のコンテナも対象です）',
+                                message: (argv.containers
+                                    ? '起動しているかどうかに関わらず、全てのコンテナを一掃しますが本当によろしいですか？\n（※docker-compose外のコンテナも対象です）'
+                                    : '起動しているかどうかに関わらず、全てのコンテナ、未ロックボリューム、<none>イメージ、不要ネットワークを一掃しますが本当によろしいですか？\n（※docker-compose外のコンテナも対象です）'),
                                 initial: false,
                                 active: 'yes',
                                 inactive: 'no'
@@ -77,13 +84,17 @@ function action(argv, lampman) {
                     if (!response.value)
                         return [2];
                     _a.label = 2;
-                case 2: return [4, reject_1.action({ force: true }, lampman)];
+                case 2: return [4, reject_1.action({ noVolumes: argv.containers, force: true }, lampman)];
                 case 3:
                     _a.sent();
+                    if (!!argv.containers) return [3, 5];
                     return [4, rmi_1.action({ prune: true }, lampman)];
                 case 4:
                     _a.sent();
-                    child.spawnSync('docker', ['network', 'prune', '-f'], { stdio: 'inherit' });
+                    _a.label = 5;
+                case 5:
+                    if (!argv.containers)
+                        child.spawnSync('docker', ['network', 'prune', '-f'], { stdio: 'inherit' });
                     return [2];
             }
         });
