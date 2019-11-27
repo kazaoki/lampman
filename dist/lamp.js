@@ -122,6 +122,11 @@ yargs
     .wrap(null)
     .scriptName('lamp')
     .argv;
-if (!keys.includes(argv._[0])) {
+if (!argv._.length) {
     libs.dockerLs(lampman);
+}
+else if (!keys.includes(argv._[0])) {
+    yargs.showHelp();
+    console.log();
+    libs.Message("\u30B3\u30DE\u30F3\u30C9 `" + argv._[0] + "` \u306F\u3042\u308A\u307E\u305B\u3093\u3002\u4E0A\u8A18\u30D8\u30EB\u30D7\u3092\u53C2\u7167\u304F\u3060\u3055\u3044\u3002", 'danger');
 }

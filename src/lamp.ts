@@ -130,7 +130,7 @@ if('undefined'!==typeof lampman.config && 'extra' in lampman.config) {
     }
 }
 
-// グローバルオプション設定
+// グローバルオプション設定、引数解析実行
 yargs
     .locale('en')
     .help('help', 'ヘルプ表示').alias('help', 'h')
@@ -142,7 +142,13 @@ yargs
     .scriptName('lamp')
     .argv
 
-// 引数なし、または存在しないコマンドの場合は docker の情報を表示
-if(!keys.includes(argv._[0])) {
+// コマンド指定が無い場合は docker の情報を表示
+if(!argv._.length) {
     libs.dockerLs(lampman)
+}
+// 存在しないコマンドの場合はヘルプを表示
+else if(!keys.includes(argv._[0])) {
+    yargs.showHelp()
+    console.log()
+    libs.Message(`コマンド \`${argv._[0]}\` はありません。上記ヘルプを参照ください。`, 'danger')
 }
