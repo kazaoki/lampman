@@ -1004,22 +1004,81 @@
 <h2 id="apache">// Apache</h2>
 <p>Web&#x30B5;&#x30FC;&#x30D0; <a href="https://httpd.apache.org/" target="_blank">Apache</a> &#x306E;&#x8A2D;&#x5B9A;&#x3092;&#x3057;&#x307E;&#x3059;&#x3002;</p>
 <ul>
-<li><p>start:<br><code>true</code> ... Apache&#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x3059;<br><code>false</code> ... Apache&#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x305B;&#x3093;  </p>
+<li><p><strong>start:</strong><br><code>true</code> ... Apache &#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x3059;<br><code>false</code> ... Apache &#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x305B;&#x3093;  </p>
 </li>
-<li><p>ports:
-CCCCC</p>
+<li><p><strong>ports:</strong><br>Apache&#x306B;&#x901A;&#x3059;&#x30DD;&#x30FC;&#x30C8;&#x3092; Docker &#x5F62;&#x5F0F;&#x306E;&#x6587;&#x5B57;&#x5217;&#x3067;&#x8907;&#x6570;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;  </p>
+<pre><code>(&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x30DD;&#x30FC;&#x30C8;):(&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x5074;&#x30DD;&#x30FC;&#x30C8;)
+</code></pre></li>
+<li><p><strong>mounts:</strong><br><code>lampman</code> &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306E;&#x4E2D;&#x306B;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3057;&#x305F;&#x3044;&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x306E;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x3092; Docker &#x5F62;&#x5F0F;&#x306E;&#x6587;&#x5B57;&#x5217;&#x3067;&#x8907;&#x6570;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;  </p>
+<pre><code>(&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x30D1;&#x30B9;):(&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x5074;&#x30D1;&#x30B9;)
+</code></pre><p>&#x5C1A;&#x3001;&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x30D1;&#x30B9;&#x306F;&#x76F8;&#x5BFE;&#x30D1;&#x30B9;&#x3067;&#x66F8;&#x304F;&#x3068;&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x30D1;&#x30B9;&#x304B;&#x3089;&#x306E;&#x76F8;&#x5BFE;&#x3068;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;
+&#x307E;&#x305F;&#x3001;Web&#x516C;&#x958B;&#x306E;&#x5834;&#x5408;&#x306F;&#x5FC5;&#x305A; <code>/var/www/html</code> &#x306B;&#x516C;&#x958B;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x3092;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3059;&#x308B;&#x3088;&#x3046;&#x306B;&#x3057;&#x307E;&#x3057;&#x3087;&#x3046;&#x3002;</p>
 </li>
-<li><p>mounts:
-CCCCC</p>
-</li>
-<li><p>rewrite_log:
-CCCCC</p>
+<li><p><strong>rewrite_log:</strong><br>mod_rewrite &#x306E;&#x30ED;&#x30B0;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A2D;&#x5B9A;&#x3067;&#x3059;&#x3002;&#x3046;&#x307E;&#x304F;&#x30EA;&#x30E9;&#x30A4;&#x30C8;&#x3055;&#x308C;&#x306A;&#x3044;&#x5834;&#x5408;&#x306A;&#x3069;&#x306B;&#x4FBF;&#x5229;&#x3067;&#x3059;&#x3002;<br><code>false</code> ... &#x30ED;&#x30B0;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x51FA;&#x529B;&#x3057;&#x307E;&#x305B;&#x3093;&#x3002;<br><code>1</code>&#xFF5E;<code>8</code> ... &#x30EC;&#x30D9;&#x30EB;1&#xFF5E;8&#x306E;&#x30ED;&#x30B0;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x51FA;&#x529B;&#x3057;&#x307E;&#x3059;<br><code>true</code> ... &#x30EC;&#x30D9;&#x30EB;8&#x306E;&#x30ED;&#x30B0;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x51FA;&#x529B;&#x3057;&#x307E;&#x3059;</p>
 </li>
 </ul>
 <h2 id="php">// PHP</h2>
+<ul>
+<li><p><strong>image:</strong><br>&#x672A;&#x6307;&#x5B9A;&#xFF08;&#x30B3;&#x30E1;&#x30F3;&#x30C8;&#x30A2;&#x30A6;&#x30C8;&#xFF09;&#x306E;&#x5834;&#x5408;&#x306F;&#x3001;lampman&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x6A19;&#x6E96;&#x306E;PHP&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x304C;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;&#xFF08;php5.4&#x306A;&#x3069;&#xFF09;<br>PHP&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001;&#x4EE5;&#x4E0B;&#x304B;&#x3089;&#x5C02;&#x7528;&#x306E;Docker&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;&#xFF08;phpenv&#x3067;&#x69CB;&#x7BC9;&#x3057;&#x305F;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x96C6;&#x3067;&#x3059;&#xFF09;<br><a href="https://hub.docker.com/r/kazaoki/phpenv/tags" target="_blank">https://hub.docker.com/r/kazaoki/phpenv/tags</a><br>&#x4F8B;&#xFF1A;</p>
+<pre><code>image: &apos;kazaoki/phpenv:7.2.5&apos;,
+</code></pre><p>&#x3082;&#x3057;&#x8A72;&#x5F53;&#x306E;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x304C;&#x306A;&#x304B;&#x3063;&#x305F;&#x3089;&#x3001;<a href="https://github.com/kazaoki/anyenv-bins/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc" target="_blank">Github&#x306E;Issue</a>&#x306B;&#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x51FA;&#x3057;&#x3066;&#x3082;&#x3089;&#x3048;&#x308C;&#x3070;&#x53EF;&#x80FD;&#x306A;&#x9650;&#x308A;&#x7528;&#x610F;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+</li>
+<li><p><strong>error_report:</strong><br><code>true</code> ... PHP&#x306E;&#x30A8;&#x30E9;&#x30FC;&#x30EC;&#x30DD;&#x30FC;&#x30C8;&#x3092;&#x6709;&#x52B9;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;<br><code>false</code> ... PHP&#x306E;&#x30A8;&#x30E9;&#x30FC;&#x30EC;&#x30DD;&#x30FC;&#x30C8;&#x3092;&#x7121;&#x52B9;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+</li>
+<li><p><strong>xdebug_start:</strong><br><code>true</code> ... &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8D77;&#x52D5;&#x6642;&#x306B;Xdebug&#x3092;&#x958B;&#x59CB;&#x3057;&#x307E;&#x3059;&#x3002;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8D77;&#x52D5;&#x5F8C;&#x306F; <code>lamp xoff</code> &#x3067;&#x505C;&#x6B62;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;<br><code>false</code> ... &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8D77;&#x52D5;&#x6642;&#x306B;&#x306F;Xdebug&#x3092;&#x958B;&#x59CB;&#x3057;&#x307E;&#x305B;&#x3093;&#x3002;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8D77;&#x52D5;&#x5F8C;&#x306F; <code>lamp xon</code> &#x3067;&#x958B;&#x59CB;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+</li>
+<li><p><strong>xdebug_host:</strong><br>xDebug&#x7528;&#x306E;&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x5074;&#x306E;IP&#x3092;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;
+&#x4F8B;&#xFF1A;</p>
+<pre><code>xdebug_host: &apos;192.168.0.10&apos;,
+</code></pre></li>
+<li><p><strong>xdebug_port:</strong><br>xDebug&#x7528;&#x306E;&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x5074;&#x306E;&#x30DD;&#x30FC;&#x30C8;&#x756A;&#x53F7;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;
+&#x4F8B;&#xFF1A;</p>
+<pre><code>xdebug_port: 9000,
+</code></pre></li>
+</ul>
 <h2 id="maildev">// maildev</h2>
+<p><a href="https://github.com/maildev/maildev" target="_blank">MailDev</a> &#x306F;sendmail&#x3092;&#x5229;&#x7528;&#x3057;&#x3066;&#x9001;&#x4FE1;&#x3055;&#x308C;&#x308B;&#x30E1;&#x30FC;&#x30EB;&#x3092;&#x6355;&#x7372;&#x3057;&#x3066;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x3067;&#x78BA;&#x8A8D;&#x3059;&#x308B;&#x305F;&#x3081;&#x306E;&#x30C4;&#x30FC;&#x30EB;&#x3067;&#x3059;&#x3002;&#x8D77;&#x52D5;&#x3057;&#x3066;&#x304A;&#x304F;&#x3068;&#x5B9F;&#x969B;&#x306E;&#x30E1;&#x30FC;&#x30EB;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x306B;&#x306F;&#x5C4A;&#x304B;&#x305A;&#x3001;&#x5C02;&#x7528;&#x306E;&#x753B;&#x9762;&#x3067;&#x306E;&#x307F;&#x30E1;&#x30FC;&#x30EB;&#x306E;&#x5185;&#x5BB9;&#x304C;&#x78BA;&#x8A8D;&#x304C;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x306A;&#x308B;&#x306E;&#x3067;&#x3001;&#x30E1;&#x30FC;&#x30EB;&#x9001;&#x4FE1;&#x30D7;&#x30ED;&#x30B0;&#x30E9;&#x30E0;&#x7B49;&#x306E;&#x78BA;&#x8A8D;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<ul>
+<li><p><strong>start:</strong><br><code>true</code> ... Maildev &#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x3059;<br><code>false</code> ... Maildev &#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x305B;&#x3093;  </p>
+</li>
+<li><p><strong>ports:</strong><br>MailDev&#x306B;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3059;&#x308B;&#x305F;&#x3081;&#x306E;&#x30DD;&#x30FC;&#x30C8;&#x6307;&#x5B9A;&#x3092;Docker &#x5F62;&#x5F0F;&#x306E;&#x6587;&#x5B57;&#x5217;&#x3067;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x5074;&#x3067;&#x306F; <code>1080</code> &#x30DD;&#x30FC;&#x30C8;&#x3067;&#x8D77;&#x52D5;&#x3057;&#x3066;&#x3044;&#x308B;&#x306E;&#x3067;&#x3001;<code>:</code>&#x306E;&#x5DE6;&#x5074;&#x306B;&#x30DB;&#x30B9;&#x30C8;&#x5074;&#x3067;&#x53D7;&#x3051;&#x305F;&#x3044;&#x30DD;&#x30FC;&#x30C8;&#x756A;&#x53F7;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>ports: [&apos;9981:1080&apos;],
+</code></pre><p>&#x3053;&#x306E;&#x4F8B;&#x306E;&#x5834;&#x5408;&#x3001;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x304B;&#x3089; <a href="http://localhost:9981" target="_blank">http://localhost:9981</a> &#x306A;&#x3069;&#x3069;&#x3057;&#x3066;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3059;&#x308C;&#x3070; MailDev &#x753B;&#x9762;&#x304C;&#x958B;&#x304D;&#x307E;&#x3059;&#x3002;
+SSL&#x901A;&#x4FE1;&#x3067;&#x306F;&#x306A;&#x3044;&#x306E;&#x3067;&#x3001;&#x5916;&#x90E8;&#x3092;&#x901A;&#x308B;&#x56DE;&#x7DDA;&#x306A;&#x3069;&#x306E;&#x5834;&#x5408;&#x306F;&#x3054;&#x6CE8;&#x610F;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+</li>
+</ul>
 <h2 id="postfix">// postfix</h2>
+<p>&#x30E1;&#x30FC;&#x30EB;&#x30B5;&#x30FC;&#x30D0; <a href="http://www.postfix.org/" target="_blank">Postfix</a> &#x306E;&#x8A2D;&#x5B9A;&#x3067;&#x3059;&#x3002;MailDev&#x3092;&#x4F7F;&#x7528;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x5FC5;&#x305A;&#x8D77;&#x52D5;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+<ul>
+<li><p><strong>start:</strong><br><code>true</code> ... Postfix &#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x3059;<br><code>false</code> ... Postfix &#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x305B;&#x3093;  </p>
+</li>
+<li><p><strong>ports:</strong><br>&#x3082;&#x3057; MailDev &#x3092;&#x4F7F;&#x7528;&#x305B;&#x305A;&#x3001;&#x901A;&#x5E38;&#x306E;&#x30E1;&#x30FC;&#x30EB;&#x30B5;&#x30FC;&#x30D0;&#x3068;&#x3057;&#x3066;&#x5229;&#x7528;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x3067;&#x3001;&#x5916;&#x304B;&#x3089;&#x63A5;&#x7D9A;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306B;&#x30DD;&#x30FC;&#x30C8;&#x6307;&#x5B9A;&#x3092;Docker &#x5F62;&#x5F0F;&#x306E;&#x6587;&#x5B57;&#x5217;&#x3067;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>ports: [&apos;25:25&apos;, &apos;587:587&apos;],
+</code></pre><p>&#x305F;&#x3060;&#x3057;&#x3001;Lampman&#x306E;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x304B;&#x3089;&#x306F;&#x3053;&#x306E;&#x5185;&#x8535;&#x3057;&#x3066;&#x3044;&#x308B; Postfix &#x30B5;&#x30FC;&#x30D0;&#x3092;&#x7D30;&#x304F;&#x8A2D;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x305B;&#x3093;&#x3002; &#x5225;&#x9014;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x7528;&#x610F;&#x3057;&#x3001; <code>docker-compose.override.yml</code> &#x7B49;&#x3067;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x304C;&#x8003;&#x3048;&#x3089;&#x308C;&#x307E;&#x3059;&#x3002;</p>
+</li>
+</ul>
 <h2 id="sshd">// sshd</h2>
+<p>SSH&#x30B5;&#x30FC;&#x30D0; <a href="https://www.openssh.com/" target="_blank">OpenSSH</a> &#x306E;&#x8A2D;&#x5B9A;&#x3067;&#x3059;&#x3002;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306E;&#x4E2D;&#x306B;&#x76F4;&#x63A5;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3067;&#x304D;&#x3066;&#x3057;&#x307E;&#x3046;&#x306E;&#x3067;&#x3001;&#x4E0D;&#x8981;&#x3067;&#x3042;&#x308C;&#x3070;&#x8A2D;&#x5B9A;&#x3057;&#x306A;&#x3044;&#x65B9;&#x304C;&#x3044;&#x3044;&#x3067;&#x3057;&#x3087;&#x3046;&#x3002;<br>&#x203B;&#x30E6;&#x30FC;&#x30B6;&#x30FC;ID=1000 &#x306E; 1&#x30A2;&#x30AB;&#x30A6;&#x30F3;&#x30C8; &#x306E;&#x307F;&#x8A2D;&#x5B9A;&#x304C;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;  </p>
+<ul>
+<li><p><strong>start:</strong><br><code>true</code> ... sshd &#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x3059;<br><code>false</code> ... sshd &#x3092;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x305B;&#x3093;  </p>
+</li>
+<li><p><strong>ports:</strong><br>&#x5916;&#x304B;&#x3089;&#x63A5;&#x7D9A;&#x3059;&#x308B;&#x30DD;&#x30FC;&#x30C8;&#x6307;&#x5B9A;&#x3092;Docker &#x5F62;&#x5F0F;&#x306E;&#x6587;&#x5B57;&#x5217;&#x3067;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x5074;&#x3067;&#x306F; <code>22</code> &#x30DD;&#x30FC;&#x30C8;&#x3067;&#x8D77;&#x52D5;&#x3057;&#x3066;&#x3044;&#x308B;&#x306E;&#x3067;&#x3001;<code>:</code>&#x306E;&#x5DE6;&#x5074;&#x306B;&#x30DB;&#x30B9;&#x30C8;&#x5074;&#x3067;&#x53D7;&#x3051;&#x305F;&#x3044;&#x30DD;&#x30FC;&#x30C8;&#x756A;&#x53F7;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>ports: [&apos;2222:22&apos;],
+</code></pre><p>&#x5C1A;&#x3001;&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x3067;&#x30D5;&#x30A1;&#x30A4;&#x30A2;&#x30A6;&#x30A9;&#x30FC;&#x30EB;&#x3092;&#x5C0E;&#x5165;&#x3057;&#x3066;&#x3044;&#x3066;&#x3082;&#x3001;&#x3053;&#x3053;&#x3067;&#x6307;&#x5B9A;&#x3057;&#x305F;&#x30DD;&#x30FC;&#x30C8;&#x306F;&#x305D;&#x306E;&#x307E;&#x307E;&#x901A;&#x3063;&#x3066;&#x3057;&#x307E;&#x3046;&#x5834;&#x5408;&#x304C;&#x3042;&#x308A;&#x307E;&#x3057;&#x305F;&#x306E;&#x3067;&#x3001;&#x5341;&#x5206;&#x306B;&#x3054;&#x6CE8;&#x610F;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+</li>
+<li><p><strong>user:</strong><br>&#x63A5;&#x7D9A;&#x30E6;&#x30FC;&#x30B6;&#x30FC;&#x540D;&#x3067;&#x3059;&#x3002;&#x3053;&#x3053;&#x3067;&#x6307;&#x5B9A;&#x3057;&#x305F;&#x30E6;&#x30FC;&#x30B6;&#x30FC;&#x540D;&#x306F;&#x3001;&#x30E6;&#x30FC;&#x30B6;&#x30FC;ID=1000&#x3068;&#x3057;&#x3066;&#x8FFD;&#x52A0;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>user: &apos;sshuser&apos;,
+</code></pre></li>
+<li><p><strong>pass:</strong><br>&#x63A5;&#x7D9A;&#x30D1;&#x30B9;&#x30EF;&#x30FC;&#x30C9;&#x3067;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>pass: &apos;123456&apos;,
+</code></pre><p>&#x307E;&#x305F;&#x306F;&#x3001;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x76F4;&#x63A5;&#x30D1;&#x30B9;&#x30EF;&#x30FC;&#x30C9;&#x3092;&#x66F8;&#x304D;&#x305F;&#x304F;&#x306A;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001; <code>.env</code> &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3084;&#x74B0;&#x5883;&#x5909;&#x6570; <code>LAMPMAN_SSHD_PASS</code> &#x7B49;&#x306B;&#x30BB;&#x30C3;&#x30C8;&#x3057;&#x3066;&#x304A;&#x304D;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306B;&#x3059;&#x308B;&#x3053;&#x3068;&#x3082;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>pass: process.env.LAMPMAN_SSHD_PASS,
+</code></pre></li>
+<li><p><strong>path:</strong><br>&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x6210;&#x529F;&#x3057;&#x305F;&#x969B;&#x306E;&#x7740;&#x5730;&#x3059;&#x308B;&#x30D1;&#x30B9;&#x3067;&#x3059;&#x3002;
+&#x7279;&#x306B; chroot &#x3084;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x5236;&#x9650;&#x7B49;&#x306F;&#x6A19;&#x6E96;&#x3067;&#x306F;&#x304B;&#x304B;&#x3063;&#x3066;&#x3044;&#x307E;&#x305B;&#x3093;&#x306E;&#x3067;&#x3001;&#x3054;&#x6CE8;&#x610F;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>path: &apos;/var/www/html&apos;,
+</code></pre></li>
+</ul>
 
                                 
                                 </section>
@@ -1063,7 +1122,7 @@ CCCCC</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"next":{"title":"MySQLコンテナ設定","level":"11.1.3","depth":2,"path":"docs/conf-mysql.md","ref":"docs/conf-mysql.md","articles":[]},"previous":{"title":"基本設定","level":"11.1.1","depth":2,"path":"docs/conf-base.md","ref":"docs/conf-base.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.4"},"title":"Lampman 0.2.4","language":"ja","gitbook":"*"},"file":{"path":"docs/conf-lampman.md","mtime":"2019-11-27T07:59:14.725Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-27T04:59:10.848Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"next":{"title":"MySQLコンテナ設定","level":"11.1.3","depth":2,"path":"docs/conf-mysql.md","ref":"docs/conf-mysql.md","articles":[]},"previous":{"title":"基本設定","level":"11.1.1","depth":2,"path":"docs/conf-base.md","ref":"docs/conf-base.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.4"},"title":"Lampman 0.2.4","language":"ja","gitbook":"*"},"file":{"path":"docs/conf-lampman.md","mtime":"2019-11-27T14:39:07.646Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-27T08:47:44.152Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

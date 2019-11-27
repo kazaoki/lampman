@@ -932,6 +932,7 @@
                                 <h1 id="&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;mysql&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8A2D;&#x5B9A;">&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;MySQL&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8A2D;&#x5B9A;</h1>
 <h2 id="configjs-&#x8A2D;&#x5B9A;&#x4F8B;">config.js &#x8A2D;&#x5B9A;&#x4F8B;</h2>
 <pre class="cmd">
+...
     /**
      * ---------------------------------------------------------------
      * MySQL&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8A2D;&#x5B9A;
@@ -940,11 +941,11 @@
     mysql: {
         image:          &apos;mysql:5.7&apos;,
         ports:          [&apos;3306:3306&apos;],
-        database:       &apos;test&apos;,
-        user:           &apos;test&apos;,
-        password:       &apos;test&apos;, // same root password
-        charset:        &apos;utf8mb4&apos;,
-        collation:      &apos;utf8mb4_general_ci&apos;,
+        database:       &apos;db9999&apos;,
+        user:           &apos;hanakochan&apos;,
+        password:       &apos;XXXX&apos;, // same root password
+        charset:        &apos;utf8&apos;,
+        collation:      &apos;utf8_general_ci&apos;,
         hosts:          [&apos;main.db&apos;],
         volume_locked:  false,
         query_log:      true,
@@ -955,25 +956,79 @@
         }
     },
     mysql_old: {
-        image:          &apos;mysql:5.7&apos;,
+        image:          &apos;mysql:5.6&apos;,
         ports:          [&apos;3307:3306&apos;],
-        database:       &apos;test&apos;,
-        user:           &apos;test&apos;,
-        password:       &apos;test&apos;, // same root password
+        database:       &apos;db-002&apos;,
+        user:           &apos;tarou&apos;,
+        password:       &apos;123456789&apos;, // same root password
         charset:        &apos;utf8mb4&apos;,
         collation:      &apos;utf8mb4_general_ci&apos;,
         hosts:          [&apos;old.db&apos;],
-        volume_locked:  false,
+        volume_locked:  true,
         query_log:      false,
         query_cache:    false,
         dump: {
             rotations:  1,
-            filename:   &apos;dump.sql&apos;,
+            filename:   &apos;dump.sql.gz&apos;,
         }
     },
+...
 </pre>
 
-<h2 id="mysql&#xFF5E;"><code>mysql&#xFF5E;</code></h2>
+<h2 id="mysql&#xFF5E;"><code>mysql&#xFF5E;:</code></h2>
+<p>&#x4E0A;&#x8A18;&#x4F8B;&#x3067;&#x306F; <code>mysql</code> &#x3068; <code>mysql_old</code> &#x306E;&#xFF12;&#x3064;&#x304C;&#x8A2D;&#x5B9A;&#x3055;&#x308C;&#x3066;&#x304A;&#x308A;&#x3001;Lampman &#x8D77;&#x52D5;&#x6642;&#x306B;&#xFF12;&#x3064;&#x306E;MySQL&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x304C;&#x7ACB;&#x3061;&#x4E0A;&#x304C;&#x308A;&#x307E;&#x3059;&#x3002;
+MySQL&#x3092;&#x8907;&#x6570;&#x8A2D;&#x5B9A;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001;&#x3053;&#x306E;&#x3088;&#x3046;&#x306B; <code>mysql&#xFF5E;</code> &#x304B;&#x3089;&#x59CB;&#x307E;&#x308B;&#x30AD;&#x30FC;&#x540D;&#x3067;&#x8907;&#x6570;&#x5B9A;&#x7FA9;&#x3057;&#x3066;&#x304A;&#x304F;&#x3053;&#x3068;&#x3067;&#x3001;&#x305D;&#x308C;&#x305E;&#x308C;&#x5225;&#x306E;&#x8A2D;&#x5B9A;&#x3067;MySQL&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x304C;&#x7ACB;&#x3061;&#x4E0A;&#x304C;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<ul>
+<li><p><strong>image:</strong><br>&#x4F7F;&#x7528;&#x3059;&#x308B;MySQL&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;<br><a href="https://hub.docker.com/" target="_blank">Docker Hub</a> &#x306B;&#x4E0A;&#x304C;&#x3063;&#x3066;&#x3044;&#x308B;<a href="https://hub.docker.com/_/mysql" target="_blank">&#x516C;&#x5F0F;&#x30A4;&#x30E1;&#x30FC;&#x30B8;</a>&#x3067;&#x3082;&#x30ED;&#x30FC;&#x30AB;&#x30EB;&#x3067;&#x30D3;&#x30EB;&#x30C9;&#x3057;&#x305F;&#x81EA;&#x4F5C;&#x306E;&#x3082;&#x306E;&#x3067;&#x3082;OK&#x3067;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>image: &apos;mysql:5.7&apos;,
+</code></pre></li>
+<li><p><strong>ports:</strong><br>mysql&#x306B;&#x63A5;&#x7D9A;&#x30DD;&#x30FC;&#x30C8;&#x6307;&#x5B9A;&#x3092;Docker &#x5F62;&#x5F0F;&#x306E;&#x6587;&#x5B57;&#x5217;&#x3067;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x5074;&#x3067;&#x306F; <code>3306</code> &#x30DD;&#x30FC;&#x30C8;&#x3067;&#x8D77;&#x52D5;&#x3057;&#x3066;&#x3044;&#x308B;&#x306E;&#x3067;&#x3001;<code>:</code>&#x306E;&#x5DE6;&#x5074;&#x306B;&#x30DB;&#x30B9;&#x30C8;&#x5074;&#x3067;&#x53D7;&#x3051;&#x305F;&#x3044;&#x30DD;&#x30FC;&#x30C8;&#x756A;&#x53F7;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>port: [&apos;3306:3306&apos;],
+</code></pre></li>
+<li><p><strong>database:</strong><br>&#x4F5C;&#x6210;&#x3059;&#x308B;&#x30C7;&#x30FC;&#x30BF;&#x30D9;&#x30FC;&#x30B9;&#x540D;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>database: &apos;db001&apos;,
+</code></pre></li>
+<li><p><strong>user:</strong><br>&#x4F5C;&#x6210;&#x3059;&#x308B;&#x30E6;&#x30FC;&#x30B6;&#x30FC;&#x540D;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>user: &apos;user123&apos;,
+</code></pre></li>
+<li><p><strong>password:</strong><br>&#x63A5;&#x7D9A;&#x30D1;&#x30B9;&#x30EF;&#x30FC;&#x30C9;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>password: &apos;123456&apos;,
+</code></pre><p>&#x307E;&#x305F;&#x306F;&#x3001;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x76F4;&#x63A5;&#x30D1;&#x30B9;&#x30EF;&#x30FC;&#x30C9;&#x3092;&#x66F8;&#x304D;&#x305F;&#x304F;&#x306A;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001; <code>.env</code> &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3084;&#x74B0;&#x5883;&#x5909;&#x6570; <code>LAMPMAN_MYSQL_PASSWORD</code> &#x7B49;&#x306B;&#x30BB;&#x30C3;&#x30C8;&#x3057;&#x3066;&#x304A;&#x304D;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306B;&#x3059;&#x308B;&#x3053;&#x3068;&#x3082;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>password: process.env.LAMPMAN_MYSQL_PASSWORD,
+</code></pre></li>
+<li><p><strong>charset:</strong><br>&#x30AD;&#x30E3;&#x30E9;&#x30BB;&#x30C3;&#x30C8;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>charset: &apos;utf8mb4&apos;,
+</code></pre></li>
+<li><p><strong>collation:</strong><br>&#x30B3;&#x30EC;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>collation: &apos;utf8mb4_general_ci&apos;,
+</code></pre></li>
+<li><p><strong>hosts:</strong><br><code>lampman</code> &#x304B;&#x3089;&#x63A5;&#x7D9A;&#x3059;&#x308B;&#x969B;&#x306E;&#x30DB;&#x30B9;&#x30C8;&#x540D;&#x3092;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x5B9F;&#x969B;&#x306E;MySQL&#x30B5;&#x30FC;&#x30D0;&#x306E;&#x63A5;&#x7D9A;&#x5148;URL&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x3053;&#x3068;&#x3067;&#x3001;&#x672C;&#x756A;&#x3068;&#x540C;&#x69D8;&#x306E;&#x8A2D;&#x5B9A;&#x306E;&#x307E;&#x307E;&#x63A5;&#x7D9A;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x306A;&#x308B;&#x4FBF;&#x5229;&#x6A5F;&#x80FD;&#x3067;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>hosts: [
+    &apos;main.db&apos;,
+    &apos;db-server.hogehoge.com&apos;
+],
+</code></pre><p>&#x4E0A;&#x8A18;&#x306E;&#x4F8B;&#x3067;&#x306F;&#x3001; <code>lampman</code> &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x304B;&#x3089;MySQL&#x63A5;&#x7D9A;&#x5148;&#x306B; <code>main.db</code> &#x307E;&#x305F;&#x306F; <code>dbserver.hogehoge.com</code> &#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x3053;&#x3068;&#x3067; Lampman &#x3067;&#x4F5C;&#x6210;&#x3055;&#x308C;&#x305F; mysql &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306B;&#x63A5;&#x7D9A;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;<br>&#xFF08;&#x5185;&#x90E8;&#x3067;&#x306F; hosts &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x66F8;&#x304D;&#x63DB;&#x3048;&#x3066;&#x6307;&#x5B9A;&#x30DB;&#x30B9;&#x30C8;&#x3092;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306E;IP&#x306B;&#x66F8;&#x304D;&#x63DB;&#x3048;&#x3066;&#x3044;&#x307E;&#x3059;&#xFF09;</p>
+</li>
+<li><p><strong>volume_locked:</strong><br><strong>Lampman &#x3067;&#x7BA1;&#x7406;&#x3059;&#x308B;&#x4E0A;&#x3067;</strong>&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3092;&#x524A;&#x9664;&#x3055;&#x308C;&#x306B;&#x304F;&#x304F;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;<br>Lampman &#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x306B;&#x306F; <code>lamp up -f</code> &#x3084; <code>lamp sweep</code> &#x3084; <code>lamp reject</code> &#x306A;&#x3069;&#x3001;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3092;&#x7C21;&#x5358;&#x306B;&#x6D88;&#x3057;&#x3066;&#x3057;&#x307E;&#x3046;&#x5F37;&#x529B;&#x306A;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x304C;&#x591A;&#x3005;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;&#x3046;&#x3063;&#x304B;&#x308A;&#x524A;&#x9664;&#x3055;&#x308C;&#x3066;&#x306F;&#x56F0;&#x308B;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3092;&#x30ED;&#x30C3;&#x30AF;&#x3059;&#x308B;&#x3053;&#x3068;&#x3067; <code>lamp reject --locked</code> &#x3067;&#x3057;&#x304B;&#x524A;&#x9664;&#x3067;&#x304D;&#x306A;&#x3044;&#x3088;&#x3046;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;&#xFF08;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x540D;&#x306E;&#x982D;&#x306B; <code>locked_</code> &#x304C;&#x4ED8;&#x304D;&#x307E;&#x3059;&#xFF09;<br><code>true</code> ... &#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3092;&#x30ED;&#x30C3;&#x30AF;&#x3057;&#x307E;&#x3059;&#x3002;<br><code>false</code> ... &#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3092;&#x30ED;&#x30C3;&#x30AF;&#x3057;&#x307E;&#x305B;&#x3093;&#x3002;<br>&#x203B;&#x305F;&#x3060;&#x3057;&#x3001;&#x3042;&#x304F;&#x307E;&#x3067; Lampman &#x5074;&#x304C;&#x305D;&#x3046;&#x8A8D;&#x8B58;&#x3059;&#x308B;&#x3060;&#x3051;&#x3067;&#x3001;Docker &#x5074;&#x3067;&#x306F;&#x7121;&#x95A2;&#x4FC2;&#x306B;&#x524A;&#x9664;&#x3067;&#x304D;&#x3066;&#x3057;&#x307E;&#x3046;&#x306E;&#x3067;&#x6CE8;&#x610F;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;  </p>
+</li>
+<li><p><strong>query_log:</strong><br>&#x6709;&#x52B9;&#x306B;&#x3059;&#x308B;&#x3068;MySQL&#x306E;&#x30AF;&#x30A8;&#x30EA;&#x30ED;&#x30B0;&#x3092; <code>lampman</code> &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306E; <code>/var/log/(&#x8A2D;&#x5B9A;&#x30AD;&#x30FC;&#x540D;)/query.log</code> &#x306B;&#x51FA;&#x529B;&#x3059;&#x308B;&#x3088;&#x3046;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;<br><code>true</code> ... &#x30AF;&#x30A8;&#x30EA;&#x30ED;&#x30B0;&#x3092;&#x51FA;&#x529B;&#x3057;&#x307E;&#x3059;&#x3002;<br><code>false</code> ... &#x30AF;&#x30A8;&#x30EA;&#x30ED;&#x30B0;&#x3092;&#x51FA;&#x529B;&#x3057;&#x307E;&#x305B;&#x3093;&#x3002;  </p>
+</li>
+<li><p><strong>query_cache:</strong><br>MySQL&#x306E;&#x30AF;&#x30A8;&#x30EA;&#x30AD;&#x30E3;&#x30C3;&#x30B7;&#x30E5;&#x6A5F;&#x80FD;&#x3092;&#x6709;&#x52B9;&#x306B;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x305F;&#x3060;&#x3057;&#x3001;MySQL8&#x304B;&#x3089;&#x306F;&#x3053;&#x306E;&#x6A5F;&#x80FD;&#x306F;&#x7121;&#x304F;&#x306A;&#x3063;&#x305F;&#x3088;&#x3046;&#x3067;&#x3059;&#x306E;&#x3067;&#x6709;&#x52B9;&#x306B;&#x3057;&#x306A;&#x3044;&#x3067;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br><code>true</code> ... &#x30AF;&#x30A8;&#x30EA;&#x30AD;&#x30E3;&#x30C3;&#x30B7;&#x30E5;&#x3092;&#x6709;&#x52B9;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;
+<code>false</code> ... &#x30AF;&#x30A8;&#x30EA;&#x30AD;&#x30E3;&#x30C3;&#x30B7;&#x30E5;&#x3092;&#x6709;&#x52B9;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+</li>
+<li><p><strong>dump:</strong><br>&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x3064;&#x3044;&#x3066;&#x306E;&#x8A2D;&#x5B9A;&#x3067;&#x3059;&#x3002;</p>
+<ul>
+<li><p><strong>rotations:</strong><br>&#x30ED;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x6570;&#x3092;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x4F8B;&#x3048;&#x3070; 3 &#x3068;&#x3059;&#x308B;&#x3068; <code>dump.sql.1</code>, <code>dump.sql.2</code>, <code>dump.sql.3</code> &#x307E;&#x3067;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;&#x304C;&#x30ED;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3055;&#x308C;&#x3066;&#x6B8B;&#x308A;&#x307E;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>rotations: 3,
+</code></pre></li>
+<li><p><strong>filename:</strong><br>&#x30C0;&#x30F3;&#x30D7;&#x3055;&#x308C;&#x308B;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x540D;&#x3092;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x51FA;&#x529B;&#x5148;&#x306E;&#x30D1;&#x30B9;&#x306F;&#x3053;&#x3053;&#x3067;&#x306F;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x305A; <code>.lampman/(&#x8A2D;&#x5B9A;&#x30AD;&#x30FC;&#x540D;)/*.sql</code> &#x3068;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;&#xFF08;&#x51FA;&#x529B;&#x30D1;&#x30B9;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F; <code>lamp mysql -d --dump-path=xxx</code> &#x3092;&#x3054;&#x5229;&#x7528;&#x304F;&#x3060;&#x3055;&#x3044;&#xFF09;<br>&#x62E1;&#x5F35;&#x5B50;&#x304C; <code>*.sql</code> &#x3067;&#x3042;&#x308C;&#x3070;&#x901A;&#x5E38;&#x306E;SQL&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3068;&#x3057;&#x3066;&#x30C0;&#x30F3;&#x30D7;&#x3055;&#x308C;&#x3001; <code>*.sql.gz</code> &#x304C;&#x6307;&#x5B9A;&#x3055;&#x308C;&#x308C;&#x3070;&#x81EA;&#x52D5;&#x7684;&#x306B; gunzip &#x3067;&#x5727;&#x7E2E;&#x3055;&#x308C;&#x3066;&#x30C0;&#x30F3;&#x30D7;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;<br>&#x4F8B;&#xFF1A;</p>
+<pre><code>filename: &apos;dump.sql&apos;,
+</code></pre><pre><code>filename: &apos;old-db.sql.gz&apos;,
+</code></pre><p>&#x5C1A;&#x3001;&#x3053;&#x306E;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x304C;&#x5B58;&#x5728;&#x3057;&#x3066;&#x3044;&#x308B;&#x72B6;&#x614B;&#x3067; <code>lamp mysql -r</code> &#x307E;&#x305F;&#x306F; <code>lamp up</code> &#x3092;&#x884C;&#x3046;&#x3068;&#x30C0;&#x30F3;&#x30D7;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x304B;&#x3089;DB&#x306B;&#x30C7;&#x30FC;&#x30BF;&#x304C;&#x307E;&#x308B;&#x3063;&#x3068;&#x30EA;&#x30B9;&#x30C8;&#x30A2;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;<br>&#x203B;&#x305F;&#x3060;&#x3057;&#x3001;<code>lamp up</code> &#x5B9F;&#x884C;&#x6642;&#x306B;&#x65E2;&#x306B;&#x8A72;&#x5F53;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x304C;&#x5B58;&#x5728;&#x3057;&#x3066;&#x3044;&#x308B;&#x5834;&#x5408;&#x306F;&#x30EA;&#x30B9;&#x30C8;&#x30A2;&#x3057;&#x307E;&#x305B;&#x3093;&#x3002;<code>lamp up -f</code> &#x3059;&#x308B;&#x3068;DB&#x3082;&#x5168;&#x3066;&#x30AF;&#x30EA;&#x30A2;&#x3055;&#x308C;&#x30EA;&#x30B9;&#x30C8;&#x30A2;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
+</li>
+</ul>
+</li>
+</ul>
 
                                 
                                 </section>
@@ -1017,7 +1072,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"MySQLコンテナ設定","level":"11.1.3","depth":2,"next":{"title":"PostgreSQLコンテナ設定","level":"11.1.4","depth":2,"path":"docs/conf-postgresql.md","ref":"docs/conf-postgresql.md","articles":[]},"previous":{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"path":"docs/conf-lampman.md","ref":"docs/conf-lampman.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.4"},"title":"Lampman 0.2.4","language":"ja","gitbook":"*"},"file":{"path":"docs/conf-mysql.md","mtime":"2019-11-23T16:07:28.498Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-27T04:59:10.848Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"MySQLコンテナ設定","level":"11.1.3","depth":2,"next":{"title":"PostgreSQLコンテナ設定","level":"11.1.4","depth":2,"path":"docs/conf-postgresql.md","ref":"docs/conf-postgresql.md","articles":[]},"previous":{"title":"Lampmanコンテナ設定","level":"11.1.2","depth":2,"path":"docs/conf-lampman.md","ref":"docs/conf-lampman.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.4"},"title":"Lampman 0.2.4","language":"ja","gitbook":"*"},"file":{"path":"docs/conf-mysql.md","mtime":"2019-11-27T15:38:41.711Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-27T08:47:44.152Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
