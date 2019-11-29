@@ -18,7 +18,7 @@ npm i lampman -g
 <pre class="cmd">
 $ npm i lampman -g
 
-...（インストール実行）
+<span class="comment">...（インストール実行）</span>
 
 $ lamp version
 
@@ -31,5 +31,5 @@ $ lamp version
 <span class="comment">※ `lm version` でも同じです。</span>
 </pre>
 
-尚、Lampman のバージョンアップを行うには、上記と同様のコマンドを打てば自動的に本体のバージョンアップが行われます。
+尚、Lampman のバージョンアップを行うには、上記と同様のコマンド `npm i lampman -g` を再度打てば自動的に本体のバージョンアップが行われます。
 `lamp version` と打って正常にインストールされたか確認してください。
