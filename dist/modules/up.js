@@ -43,6 +43,7 @@ var path = require('path');
 var color = require('cli-color');
 var fs = require('fs');
 var find = require('find');
+var open = require('open');
 function meta(lampman) {
     return {
         command: 'up [options]',
@@ -135,7 +136,7 @@ function action(argv, lampman) {
                         stdio: 'inherit'
                     });
                     proc.on('close', function (code) { return __awaiter(_this, void 0, void 0, function () {
-                        var procs, lampman_id, sp, _loop_1, _i, _a, key, _b, _c, key, docker_host, http_port, https_port, count, _d, _e, action_1, url, opencmd, extraopt;
+                        var procs, lampman_id, sp, _loop_1, _i, _a, key, _b, _c, key, docker_host, http_port, https_port, count, _d, _e, action_1, url, extraopt;
                         return __generator(this, function (_f) {
                             switch (_f.label) {
                                 case 0:
@@ -194,52 +195,56 @@ function action(argv, lampman) {
                                     if (process.env.LAMPMAN_EXPORT_LAMPMAN_1080)
                                         console.log(color.magenta.bold('  [Maildev] ') +
                                             color.magenta("http://" + docker_host + ":" + process.env.LAMPMAN_EXPORT_LAMPMAN_1080));
-                                    if ('on_upped' in lampman.config && lampman.config.on_upped.length && !argv.thruUpped) {
-                                        count = 0;
-                                        for (_d = 0, _e = lampman.config.on_upped; _d < _e.length; _d++) {
-                                            action_1 = _e[_d];
-                                            if ('open_browser' === action_1.type) {
-                                                url = action_1.url
-                                                    ? new URL(action_1.url)
-                                                    : new URL('http://' + docker_host);
-                                                if (action_1.schema) {
-                                                    url.protocol = action_1.schema;
-                                                    url.port = docker.exchangePortFromSchema(action_1.schema, action_1.container, lampman);
-                                                }
-                                                if (action_1.path)
-                                                    url.pathname = action_1.path;
-                                                if (action_1.port)
-                                                    url.port = docker.exchangePort(action_1.port, action_1.container, lampman);
-                                                opencmd = libs.isWindows()
-                                                    ? 'start'
-                                                    : libs.isMac()
-                                                        ? 'open'
-                                                        : '';
-                                                if (opencmd)
-                                                    child.execSync(opencmd + " " + url.href);
-                                            }
-                                            if ('show_message' === action_1.type && action_1.message.length) {
-                                                libs.Message(action_1.message, action_1.style);
-                                                count++;
-                                            }
-                                            if ('run_command' === action_1.type) {
-                                                extraopt = action_1;
-                                                if ('object' === typeof extraopt.command)
-                                                    extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
-                                                console.log();
-                                                libs.extra_action(extraopt, extraopt.args, lampman);
-                                                count++;
-                                            }
-                                            if ('run_extra_command' === action_1.type && action_1.name in lampman.config.extra) {
-                                                console.log();
-                                                libs.extra_action(lampman.config.extra[action_1.name], action_1.args, lampman);
-                                                count++;
-                                            }
-                                        }
-                                        if (count)
-                                            console.log();
+                                    if (!('on_upped' in lampman.config && lampman.config.on_upped.length && !argv.thruUpped)) return [3, 7];
+                                    count = 0;
+                                    _d = 0, _e = lampman.config.on_upped;
+                                    _f.label = 2;
+                                case 2:
+                                    if (!(_d < _e.length)) return [3, 6];
+                                    action_1 = _e[_d];
+                                    if (!('open_browser' === action_1.type)) return [3, 4];
+                                    url = action_1.url
+                                        ? new URL(action_1.url)
+                                        : new URL('http://' + docker_host);
+                                    if (action_1.schema) {
+                                        url.protocol = action_1.schema;
+                                        url.port = docker.exchangePortFromSchema(action_1.schema, action_1.container, lampman);
                                     }
-                                    return [2];
+                                    if (action_1.path)
+                                        url.pathname = action_1.path;
+                                    if (action_1.port)
+                                        url.port = docker.exchangePort(action_1.port, action_1.container, lampman);
+                                    return [4, open(url.href)];
+                                case 3:
+                                    _f.sent();
+                                    _f.label = 4;
+                                case 4:
+                                    if ('show_message' === action_1.type && action_1.message.length) {
+                                        libs.Message(action_1.message, action_1.style);
+                                        count++;
+                                    }
+                                    if ('run_command' === action_1.type) {
+                                        extraopt = action_1;
+                                        if ('object' === typeof extraopt.command)
+                                            extraopt.command = extraopt.command[libs.isWindows() ? 'win' : 'unix'];
+                                        console.log();
+                                        libs.extra_action(extraopt, extraopt.args, lampman);
+                                        count++;
+                                    }
+                                    if ('run_extra_command' === action_1.type && action_1.name in lampman.config.extra) {
+                                        console.log();
+                                        libs.extra_action(lampman.config.extra[action_1.name], action_1.args, lampman);
+                                        count++;
+                                    }
+                                    _f.label = 5;
+                                case 5:
+                                    _d++;
+                                    return [3, 2];
+                                case 6:
+                                    if (count)
+                                        console.log();
+                                    _f.label = 7;
+                                case 7: return [2];
                             }
                         });
                     }); });

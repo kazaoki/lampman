@@ -8,15 +8,16 @@
  * -------------------------------------------------------------------
  */
 
-import libs = require('../libs');
-import docker = require('../docker');
-import { action as reject } from './reject';
+import libs = require('../libs')
+import docker = require('../docker')
+import { action as reject } from './reject'
 
 const child = require('child_process')
 const path  = require('path')
-const color = require('cli-color');
-const fs    = require('fs');
-const find  = require('find');
+const color = require('cli-color')
+const fs    = require('fs')
+const find  = require('find')
+const open  = require('open')
 
 /**
  * コマンド登録用メタデータ
@@ -223,12 +224,7 @@ export async function action(argv:any, lampman:any)
                     }
                     if(action.path) url.pathname = action.path
                     if(action.port) url.port = docker.exchangePort(action.port, action.container, lampman)
-                    let opencmd = libs.isWindows()
-                        ? 'start'
-                        : libs.isMac()
-                            ? 'open'
-                            :''
-                    if(opencmd) child.execSync(`${opencmd} ${url.href}`)
+                    await open(url.href)
                 }
 
                 // メッセージを表示する
