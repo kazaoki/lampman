@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>lamp up · Lampman 0.2.4</title>
+        <title>Dockerイメージについて · Lampman 0.2.4</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -59,7 +59,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="cmd-down.html" />
+    <link rel="next" href="tech-entrypoint.html" />
     
     
 
@@ -292,7 +292,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="5.1.1" data-path="cmd-up.html">
+        <li class="chapter " data-level="5.1.1" data-path="cmd-up.html">
             
                 <a href="cmd-up.html">
             
@@ -942,7 +942,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="14.1.1" data-path="tech-images.html">
+        <li class="chapter active" data-level="14.1.1" data-path="tech-images.html">
             
                 <a href="tech-images.html">
             
@@ -1016,7 +1016,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >lamp up</a>
+        <a href=".." >Dockerイメージについて</a>
     </h1>
 </div>
 
@@ -1031,34 +1031,92 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h6 id="&#x1F6A9;-&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8D77;&#x52D5;&#x7D42;&#x4E86;&#x30B3;&#x30DE;&#x30F3;&#x30C9;">&#x1F6A9; &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8D77;&#x52D5;/&#x7D42;&#x4E86;&#x30B3;&#x30DE;&#x30F3;&#x30C9;</h6>
-<h1 id="&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8D77;&#x52D5;&#xFF1A;lamp-up">&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x8D77;&#x52D5;&#xFF1A;<code>lamp up</code></h1>
+                                <h6 id="&#x1F916;-&#x6280;&#x8853;&#x60C5;&#x5831;&#x30AB;&#x30B9;&#x30BF;&#x30E0;">&#x1F916; &#x6280;&#x8853;&#x60C5;&#x5831;/&#x30AB;&#x30B9;&#x30BF;&#x30E0;</h6>
+<h1 id="docker&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x306B;&#x3064;&#x3044;&#x3066;">Docker&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x306B;&#x3064;&#x3044;&#x3066;</h1>
 <hr>
-<h3 id="lamp-up"><code>lamp up</code></h3>
-<p>&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x7121;&#x3057;&#x3067;&#x5B9F;&#x884C;&#x3059;&#x308B;&#x3068;&#x3001;&#x73FE;&#x5728;&#x306E; <code>.lampman/config.js</code> &#x3092;&#x5143;&#x306B; <code>.lampman/docker-compose.yml</code> &#x304C;&#x81EA;&#x52D5;&#x751F;&#x6210;&#x3055;&#x308C;&#x3001;&#x5185;&#x90E8;&#x3067; <code>docker-compose</code> &#x304C;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;&#x305F;&#x3060;&#x3057;&#x3053;&#x306E;&#x6642;&#x3001;&#x30D5;&#x30A9;&#x30A2;&#x30B0;&#x30E9;&#x30A6;&#x30F3;&#x30C9;&#x30E2;&#x30FC;&#x30C9;&#x3067;&#x306F;&#x306A;&#x304F;&#x30C7;&#x30FC;&#x30E2;&#x30F3;&#x30E2;&#x30FC;&#x30C9;&#x3067;&#x6A5F;&#x80FD;&#x3057;&#x307E;&#x3059;&#x306E;&#x3067;&#x3001;&#x30ED;&#x30B0;&#x7B49;&#x306F;&#x753B;&#x9762;&#x306B;&#x6D41;&#x308C;&#x307E;&#x305B;&#x3093;&#x3002;  </p>
-<p>&#x6A5F;&#x80FD;&#x7684;&#x306B;&#x306F;&#x4EE5;&#x4E0B;&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x5B9F;&#x884C;&#x3059;&#x308B;&#x306E;&#x3068;&#x307B;&#x307C;&#x540C;&#x7B49;&#x3068;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<h2 id="kazaokilampman-&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x306E;&#x4ED5;&#x69D8;"><a href="https://hub.docker.com/repository/docker/kazaoki/lampman" target="_blank"><code>kazaoki/lampman</code></a> &#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x306E;&#x4ED5;&#x69D8;</h2>
+<p>Lampman &#x304C;&#x30E1;&#x30A4;&#x30F3;&#x3067;&#x4F7F;&#x7528;&#x3059;&#x308B;LAMP&#x30B5;&#x30FC;&#x30D0;&#x306E;&#x6BCD;&#x4F53;&#x3068;&#x306A;&#x308B;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306E;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3067;&#x3059;&#x3002;<a href="https://hub.docker.com/repository/docker/kazaoki/lampman" target="_blank">Docker Hub</a> &#x306B;&#x4E0A;&#x304C;&#x3063;&#x3066;&#x3044;&#x308B;&#x306E;&#x3067;&#x30D3;&#x30EB;&#x30C9;&#x306E;&#x5FC5;&#x8981;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+<table>
+<thead>
+<tr>
+<th>Services/Apps</th>
+<th>External ports</th>
+<th>Version</th>
+<th>&#x5099;&#x8003;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux</td>
+<td></td>
+<td><a href="https://www.centos.org/" target="_blank">CentOS</a> 7.6</td>
+<td></td>
+</tr>
+<tr>
+<td>Apache</td>
+<td>80, 443</td>
+<td></td>
+<td><code>/var/www/html</code>&#x304C;&#x30C9;&#x30AD;&#x30E5;&#x30E1;&#x30F3;&#x30C8;&#x30EB;&#x30FC;&#x30C8;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;</td>
+</tr>
+<tr>
+<td>PHP</td>
+<td></td>
+<td><a href="https://www.php.net/" target="_blank">PHP</a> 5.4.16</td>
+<td>OS&#x306B;&#x7D44;&#x307F;&#x8FBC;&#x307E;&#x308C;&#x3066;&#x3044;&#x308B;PHP&#x3067;&#x3059;&#x3002;&#x3053;&#x306E;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x306F;&#x53E4;&#x3044;&#x306E;&#x3067;&#x4F7F;&#x7528;&#x306F;&#x304A;&#x3059;&#x3059;&#x3081;&#x3057;&#x307E;&#x305B;&#x3093;&#x3002;</td>
+</tr>
+<tr>
+<td>Perl/CGI</td>
+<td></td>
+<td><a href="https://www.perl.org/" target="_blank">perl</a> 5.16.3</td>
+<td>&#x6A19;&#x6E96;&#x3067;&#x62E1;&#x5F35;&#x5B50; <code>.cgi</code> &#x3067;CGI&#x3068;&#x3057;&#x3066;&#x5B9F;&#x884C;&#x53EF;&#x80FD;&#x306A; Apache &#x8A2D;&#x5B9A;&#x306B;&#x306A;&#x3063;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;</td>
+</tr>
+<tr>
+<td><a href="https://danfarrelly.nyc/MailDev/" target="_blank">MailDev</a></td>
+<td>1080</td>
+<td><a href="https://github.com/maildev/maildev" target="_blank">MailDev</a> 1.1.0</td>
+<td>sendmail &#x306B;&#x98DB;&#x3093;&#x3067;&#x304D;&#x305F;&#x30E1;&#x30FC;&#x30EB;&#x3092;&#x30AD;&#x30E3;&#x30C3;&#x30C1;&#x3057;&#x3066;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x3067;&#x4E2D;&#x8EAB;&#x3092;&#x78BA;&#x8A8D;&#x3067;&#x304D;&#x308B;&#x30C4;&#x30FC;&#x30EB;&#x3067;&#x3059;&#x3002;</td>
+</tr>
+<tr>
+<td><a href="http://www.postfix.org/" target="_blank">Postfix</a></td>
+<td></td>
+<td><a href="http://www.postfix.org/" target="_blank">Postfix</a> 2.10</td>
+<td>&#x30E1;&#x30FC;&#x30EB;&#x306E;&#x9001;&#x4FE1;&#x51E6;&#x7406;&#x306B;&#x5FC5;&#x8981;&#x3067;&#x3059;&#x3002;&#xFF08;MailDev&#x306B;&#x98DB;&#x3070;&#x3059;&#x306E;&#x306B;&#x3082;&#x4F7F;&#x7528;&#x3057;&#x307E;&#x3059;&#xFF09;</td>
+</tr>
+</tbody>
+</table>
+<p>&#x203B;Docker&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3092;&#x30D3;&#x30EB;&#x30C9;&#x3059;&#x308B;&#x969B;&#x306B;&#x53D6;&#x308A;&#x8FBC;&#x3080;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#xFF08;ADD,COPY&#x7B49;&#xFF09;&#x306F;&#x4E00;&#x5207;&#x7121;&#x3044;&#x306E;&#x3067;&#x3001;<a href="https://hub.docker.com/r/kazaoki/lampman/dockerfile" target="_blank">Dockerfile</a> &#x306E;&#x307F;&#x3067;&#x69CB;&#x7BC9;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;<br>&#x203B;&#xFF11;&#x30B5;&#x30FC;&#x30D3;&#x30B9;&#xFF11;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x304C;&#x63A8;&#x5968;&#x306E;Docker&#x3067;&#x3059;&#x304C;&#x3001;LAMP&#x69CB;&#x6210;&#x3092;&#xFF11;&#x3064;&#x306E;&#x5927;&#x304D;&#x306A;&#x30B5;&#x30FC;&#x30D3;&#x30B9;&#x3068;&#x3057;&#x3066;&#xFF11;&#x3064;&#x306E;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x306B;&#x307E;&#x3068;&#x3081;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&#xFF08;&#x306E;&#x3067;&#x3001;&#x7D50;&#x69CB;&#x3067;&#x304B;&#x3044;&#x3067;&#x3059;&#x3002;700MB&#x4EE5;&#x4E0A;&#x3042;&#x308A;&#x307E;&#x3059;&#xFF09;</p>
+<h2 id="&#x305D;&#x306E;&#x4ED6;&#x306B;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x308B;docker&#x30A4;&#x30E1;&#x30FC;&#x30B8;">&#x305D;&#x306E;&#x4ED6;&#x306B;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x308B;Docker&#x30A4;&#x30E1;&#x30FC;&#x30B8;</h2>
+<table>
+<thead>
+<tr>
+<th>Images</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://hub.docker.com/r/kazaoki/phpenv/tags" target="_blank"><code>kazaoki/phpenv</code></a></td>
+<td><code>config.js</code> &#x3067;PHP&#x306E;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x3068;&#x3001;&#x3053;&#x3053;&#x306B;&#x3042;&#x308B;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x304C;&#x8FFD;&#x52A0;&#x3067;&#x30C0;&#x30A6;&#x30F3;&#x30ED;&#x30FC;&#x30C9;&#x3055;&#x308C;&#x3066; <code>lampman</code> &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306B;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;&#x305D;&#x3057;&#x3066;&#x521D;&#x671F;&#x8D77;&#x52D5;&#x6642;&#x306B;&#x5185;&#x90E8;&#x3067;phpenv&#x306B;&#x3088;&#x308B;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x306E;&#x5207;&#x308A;&#x66FF;&#x3048;&#x304C;&#x884C;&#x308F;&#x308C;&#x308B;&#x3068;&#x3044;&#x3046;&#x4ED5;&#x7D44;&#x307F;&#x3067;&#x3059;&#x3002;</td>
+</tr>
+<tr>
+<td><a href="https://hub.docker.com/_/mysql" target="_blank"><code>mysql</code></a></td>
+<td>MySQL &#x306E;&#x516C;&#x5F0F;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3067;&#x3059;&#x3002;</td>
+</tr>
+<tr>
+<td><a href="https://hub.docker.com/_/postgres" target="_blank"><code>postgres</code></a></td>
+<td>PostgreSQL &#x306E;&#x516C;&#x5F0F;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3067;&#x3059;&#x3002;</td>
+</tr>
+</tbody>
+</table>
+<p>&#x203B;&#x305F;&#x3060;&#x3057;&#x3001;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x308B;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x306F; <code>config.js</code> &#x3067;&#x5168;&#x3066;&#x81EA;&#x7531;&#x306B;&#x5909;&#x66F4;&#x3067;&#x304D;&#x308B;&#x306E;&#x3067;&#x3001;&#x81EA;&#x4F5C;&#x30AB;&#x30B9;&#x30BF;&#x30E0;&#x306E;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x306B;&#x5DEE;&#x3057;&#x66FF;&#x3048;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x4F8B;&#xFF1A;MySQL &#x306E;&#x8A2D;&#x5B9A;&#x306B; MariaDB &#x306E;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;</p>
 <pre class="cmd">
-$ cd .lampman/
-$ docker-compose up -d --project-name=(&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;)
+...
+    mysql: {
+        image:          &apos;mariadb:10.4&apos;,
+        ports:          [&apos;3306:3306&apos;],
+        ...
 </pre>
-
-<p>&#x518D;&#x8D77;&#x52D5;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x3082;&#x540C;&#x69D8;&#x306B; <code>lamp up</code> &#x3068;&#x6253;&#x3066;&#x3070;OK&#x3067;&#x3059;&#x3002;yml&#x304C;&#x66F4;&#x65B0;&#x3055;&#x308C;&#x5FC5;&#x8981;&#x306A;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x304C;&#x518D;&#x8D77;&#x52D5;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;&#x78BA;&#x5B9F;&#x306B;&#x5168;&#x3066;&#x518D;&#x8D77;&#x52D5;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F; <code>lamp down &amp;&amp; lamp up</code> &#x307E;&#x305F;&#x306F; <code>lamp up --flush</code> &#x3068;&#x6253;&#x3063;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#xFF08;&#x5F8C;&#x8FF0;&#xFF09;</p>
-<h3 id="lamp-up--flamp-up---flush"><code>lamp up -f</code><br><code>lamp up --flush</code></h3>
-<p>&#x65E2;&#x5B58;&#x306E;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3068;&#x672A;&#x30ED;&#x30C3;&#x30AF;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3092;&#x5168;&#x3066;&#x524A;&#x9664;&#x3057;&#x3066;&#x30AD;&#x30EC;&#x30A4;&#x306B;&#x3057;&#x3066;&#x304B;&#x3089;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x3059;&#x3002;&#xFF08;&#x30ED;&#x30C3;&#x30AF;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3068;&#x306F; Lampman &#x72EC;&#x81EA;&#x306E;&#x8B58;&#x5225;&#x3067; <code>locked_</code> &#x304B;&#x3089;&#x59CB;&#x307E;&#x308B;&#x540D;&#x79F0;&#x306E;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x306E;&#x3053;&#x3068;&#x3067;&#x3059;&#x3002;&#x5F8C;&#x8FF0;&#xFF09;
-&#x3053;&#x306E;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x306F;&#x3001;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x304C;&#x7D42;&#x4E86;&#x3057;&#x3066;&#x3044;&#x3088;&#x3046;&#x304C;&#x8D77;&#x52D5;&#x3057;&#x3066;&#x3044;&#x3088;&#x3046;&#x304C;&#x95A2;&#x4FC2;&#x306A;&#x304F;&#x3059;&#x3063;&#x304B;&#x308A;&#x30AD;&#x30EC;&#x30A4;&#x306B;&#x6383;&#x9664;&#x3057;&#x3066;&#x304B;&#x3089;&#x8D77;&#x52D5;&#x3092;&#x8A66;&#x307F;&#x308B;&#x3082;&#x306E;&#x3067;&#x3001;&#x30DD;&#x30FC;&#x30C8;&#x958B;&#x653E;&#x304C;&#x3046;&#x307E;&#x304F;&#x3044;&#x304B;&#x306A;&#x304B;&#x3063;&#x305F;&#x308A;&#x65E2;&#x5B58;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x304C;&#x90AA;&#x9B54;&#x3057;&#x3066;&#x305F;&#x308A;&#x3059;&#x308B;&#x53EF;&#x80FD;&#x6027;&#x304C;&#x3042;&#x308B;&#x5834;&#x5408;&#x306A;&#x3069;&#x306B;&#x304A;&#x3059;&#x3059;&#x3081;&#x3067;&#x3059;&#x304C;&#x3001;&#x30ED;&#x30C3;&#x30AF;&#x3057;&#x3066;&#x3044;&#x306A;&#x3044;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3082;&#x30AD;&#x30EC;&#x30A4;&#x306B;&#x6D88;&#x3048;&#x308B;&#x306E;&#x3067;&#x5341;&#x5206;&#x6CE8;&#x610F;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
-<h3 id="lamp-up--o-&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x6587;&#x5B57;&#x5217;lamp-up---docker-compose-options&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x6587;&#x5B57;&#x5217;"><code>lamp up -o &lt;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x6587;&#x5B57;&#x5217;&gt;</code><br><code>lamp up --docker-compose-options=&lt;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x6587;&#x5B57;&#x5217;&gt;</code></h3>
-<p><code>docker-compose</code> &#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x306B;&#x6E21;&#x3059;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x6587;&#x5B57;&#x5217;&#x3067;&#x6307;&#x5B9A;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;
-&#x305F;&#x3060;&#x3057;&#x3001;&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x306E;&#x554F;&#x984C;&#x306A;&#x306E;&#x304B;&#x3001;&#x30CF;&#x30A4;&#x30D5;&#x30F3;&#x306E;&#x524D;&#x306B;&#x30D0;&#x30C3;&#x30AF;&#x30B9;&#x30E9;&#x30C3;&#x30B7;&#x30E5;&#x3092;&#x5165;&#x308C;&#x306A;&#x3044;&#x3068;&#x30A8;&#x30E9;&#x30FC;&#x306B;&#x306A;&#x308B;&#x3088;&#x3046;&#x3067;&#x3059;&#x3002;&#xFF08;Windows&#x3067;&#x78BA;&#x8A8D;&#xFF09;</p>
-<pre class="cmd">
-$ lamp up -o &quot;-t 300&quot;      ... NG
-$ lamp up -o &quot;\-t 300&quot;     ... OK
-</pre>
-
-<h3 id="lamp-up--d"><code>lamp up -D</code></h3>
-<p>&#x30C7;&#x30FC;&#x30E2;&#x30F3;&#x30E2;&#x30FC;&#x30C9;&#x3058;&#x3083;&#x306A;&#x304F;&#x30D5;&#x30A9;&#x30A2;&#x30B0;&#x30E9;&#x30A6;&#x30F3;&#x30C9;&#x30E2;&#x30FC;&#x30C9;&#x3067;&#x8D77;&#x52D5;&#x3057;&#x307E;&#x3059;&#x3002;&#x5404;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x304C;&#x5410;&#x304F;&#x30ED;&#x30B0;&#x304C;&#x76F4;&#x63A5;&#x78BA;&#x8A8D;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x306E;&#x3067;&#x3001;&#x3046;&#x307E;&#x304F;docker&#x304C;&#x8D77;&#x52D5;&#x3057;&#x306A;&#x3044;&#x5834;&#x5408;&#x306A;&#x3069;&#x306B;&#x6D3B;&#x7528;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;
-&#x7D42;&#x4E86;&#x3059;&#x308B;&#x5834;&#x5408;&#x306F; <code>ctrl+C</code> &#x30AD;&#x30FC;&#x3067;&#x3059;&#x3002;</p>
-<h3 id="lamp-up--nlamp-up---no-update"><code>lamp up -n</code><br><code>lamp up --no-update</code></h3>
-<p><code>.lampman/docker-compose.yml</code> &#x3092;&#x66F4;&#x65B0;&#x305B;&#x305A;&#x306B;&#x8D77;&#x52D5;&#x3055;&#x305B;&#x308B;&#x3053;&#x3068;&#x304C;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x66F8;&#x304D;&#x63DB;&#x3048;&#x3066;&#x3057;&#x307E;&#x3063;&#x305F;&#x3082;&#x306E;&#x306E;&#x3001;&#x73FE;&#x884C;&#x306E;yml&#x306E;&#x307E;&#x307E;&#x3067;&#x8D77;&#x52D5;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306A;&#x3069;&#x306B;&#x3054;&#x6307;&#x5B9A;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
 
                                 
                                 </section>
@@ -1087,7 +1145,7 @@ $ lamp up -o &quot;\-t 300&quot;     ... OK
             
                 
                 
-                <a href="cmd-down.html" class="navigation navigation-next navigation-unique" aria-label="Next page: lamp down">
+                <a href="tech-entrypoint.html" class="navigation navigation-next navigation-unique" aria-label="Next page: entrypoint.shについて">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1098,7 +1156,7 @@ $ lamp up -o &quot;\-t 300&quot;     ... OK
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"lamp up","level":"5.1.1","depth":2,"next":{"title":"lamp down","level":"5.1.2","depth":2,"path":"docs/cmd-down.md","ref":"docs/cmd-down.md","articles":[]},"previous":{"title":"🚩 コンテナ起動/終了コマンド","level":"5.1","depth":1,"ref":"","articles":[{"title":"lamp up","level":"5.1.1","depth":2,"path":"docs/cmd-up.md","ref":"docs/cmd-up.md","articles":[]},{"title":"lamp down","level":"5.1.2","depth":2,"path":"docs/cmd-down.md","ref":"docs/cmd-down.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.4"},"title":"Lampman 0.2.4","language":"ja","gitbook":"*"},"file":{"path":"docs/cmd-up.md","mtime":"2019-11-27T08:01:18.048Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-12-01T15:00:15.744Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Dockerイメージについて","level":"14.1.1","depth":2,"next":{"title":"entrypoint.shについて","level":"14.1.2","depth":2,"path":"docs/tech-entrypoint.md","ref":"docs/tech-entrypoint.md","articles":[]},"previous":{"title":"🤖 技術情報/カスタム","level":"14.1","depth":1,"ref":"","articles":[{"title":"Dockerイメージについて","level":"14.1.1","depth":2,"path":"docs/tech-images.md","ref":"docs/tech-images.md","articles":[]},{"title":"entrypoint.shについて","level":"14.1.2","depth":2,"path":"docs/tech-entrypoint.md","ref":"docs/tech-entrypoint.md","articles":[]},{"title":"Lampman自体をいじりたい人へ","level":"14.1.3","depth":2,"path":"docs/tech-lampman-dev.md","ref":"docs/tech-lampman-dev.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"0.2.4"},"title":"Lampman 0.2.4","language":"ja","gitbook":"*"},"file":{"path":"docs/tech-images.md","mtime":"2019-12-01T15:41:44.408Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-12-01T15:00:15.744Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

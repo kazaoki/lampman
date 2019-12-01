@@ -63,13 +63,22 @@
   - [起動時アクション設定](docs/conf-upped.md)
 
 
-- 🤖 技術情報
-  - [Dockerイメージについて](docs/tech-images.md)
-  - [ディレクトリ構成例](docs/tech-dirs-example.md)
-  - [本番用構成例](docs/tech-product-example.md)
-  - [その他](docs/tech-misc.md)
-
-
-- 🚽 その他
-  - [必要なPHPバージョンが一覧にない場合]()
+- 👆 構成例
   - [コンテナ実行前にサーバに手入れしたい]()
+  - [本番で使いたい]()
+  - [localhostでDBしたい]()
+  - [fluentでログしたい]()
+  - [マウントせずgit cloneしたい]()
+
+
+- 😵 困ったとき
+  - [必要なPHPバージョンが一覧にない](docs/help-need-phpver.md)
+  - [レンタルサーバに上げたら動かない](docs/help-error-prod.md)
+  - [データベースが正常に復元しない](docs/help-db-restore.md)
+  - [アクセス超遅いんだけど](docs/help-slowly.md)
+
+
+- 🤖 技術情報/カスタム
+  - [Dockerイメージについて](docs/tech-images.md)
+  - [entrypoint.shについて](docs/tech-entrypoint.md)
+  - [Lampman自体をいじりたい人へ](docs/tech-lampman-dev.md)
