@@ -92,7 +92,8 @@ PostgreSQLを複数設定したい場合は、このように `postgresql～` �
   ],
   ```
   上記の例では、 `lampman` コンテナからPostgreSQL接続先に `main.db` または `dbserver.hogehoge.com` を指定することで Lampman で作成された postgresql コンテナに接続できるようになります。  
-  （内部では hosts ファイルを書き換えて指定ホストをコンテナのIPに書き換えています）
+  （内部では hosts ファイルを書き換えて指定ホストをコンテナのIPに書き換えています）  
+  ただし、 `localhost` は指定できません。
 
 - **volume_locked:**  
   **Lampman で管理する上で**ボリュームを削除されにくくすることができます。  
