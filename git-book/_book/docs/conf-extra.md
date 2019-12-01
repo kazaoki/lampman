@@ -29,4 +29,10 @@
     },
 </pre>
 
-## `extra`
+## `lamp (extraコマンド設定名)`
+
+`.lampman/config.js` に設定すると独自の `lamp` コマンドとして機能が実行できるものです。
+
+詳細は以下から御覧ください。
+
+- [独自で設定したコマンドを実行する：lamp （extraコマンド）](cmd-extra.html)
