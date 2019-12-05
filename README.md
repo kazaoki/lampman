@@ -10,7 +10,7 @@ $ npm i lampman -g
 ## サンプル
 
 ```
-$ mkdir public_html/
+$ mkdir public_html
 $ echo "Hello Lampman" > public_html/index.php
 $ lamp init
 $ lamp up
