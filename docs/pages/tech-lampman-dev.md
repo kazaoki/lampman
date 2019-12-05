@@ -5,7 +5,7 @@
 
 ## ソースコード
 
-GitHubに上がってますのでフォークするなりしてください。
+GitHubに上がってますので煮るなり焼くなりフォークするなりしてください。
 
 https://github.com/kazaoki/lampman
 
@@ -15,18 +15,13 @@ https://github.com/kazaoki/lampman
 $ git clone https://github.com/kazaoki/lampman
 $ cd lampman
 $ npm i
-$ lamp up
+$ lamp up -f
 </pre>
 
-`lamp up` すると起動後に gulp 走り出します。
-
-`src/*.ts` をいじると自動的に `dist/*.js` にコンパイルされます。
+`lamp up` するとブラウザ起動後に `gulp` が実行され自動コンパイルが走り出します。（`src/*.ts` をいじると自動的に `dist/*.js` にコンパイルされます）
 
 
-
-
-
-## ドキュメント作成
+## ドキュメント作成用のタスクランナー
 
 ドキュメント作成には [gitbook-cli](https://github.com/GitbookIO/gitbook-cli) を使ってます。
 
@@ -36,6 +31,12 @@ $ cd lampman/gitbook
 $ gitbook install
 $ lamp gb
 </pre>
-Windowsだと `lamp gb` のあとに `lamp gbc` しないとmdファイル更新時にランナーこけます。
 
-`git-book/*.md` をいじると自動的に `git-book/_book/*.html` にコンパイルされます。
+`lamp gb` するとブラウザ起動後に自動コンパイルが走り出します。（`git-book/*.md` をいじると自動的に `fit-book/*.html` にコンパイルされますが、これは一時的なファイルでコミット対象ではありません）  
+※また、Windowsだと `lamp gb` のあとに `lamp gbc` しないとmdファイル更新時にランナーこけます。  
+
+正式なビルドは以下のコマンドを実行してください。 `docs/` に生成されます。
+
+<pre class="cmd">
+$ lamp gbb
+</pre>

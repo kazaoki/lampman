@@ -49,7 +49,6 @@ MySQLクライアントに接続します。
 
 この場合、起動後、コマンドラインから
 
-
 <pre class="cmd">
 $ lamp mysql mysql
 </pre>

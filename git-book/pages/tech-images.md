@@ -24,8 +24,8 @@ Lampman がメインで使用するLAMPサーバの母体となるコンテナ�
 | Images                                                           | Description                                                    |
 | -----------------------------------------------------------------| -------------------------------------------------------------- |
 | [`kazaoki/phpenv`](https://hub.docker.com/r/kazaoki/phpenv/tags) | `config.js` でPHPのバージョンを指定すると、ここにあるイメージが追加でダウンロードされて `lampman` コンテナにマウントされます。そして初期起動時に内部でphpenvによるバージョンの切り替えが行われるという仕組みです。 |
-| [`mysql`](https://hub.docker.com/_/mysql)                        | MySQL の公式イメージです。                                        |
-| [`postgres`](https://hub.docker.com/_/postgres)                  | PostgreSQL の公式イメージです。                                   |
+| [`mysql`](https://hub.docker.com/_/mysql)                        | MySQL の公式イメージです。MySQLを設定すると基本的にこれが利用されます |
+| [`postgres`](https://hub.docker.com/_/postgres)                  | PostgreSQL の公式イメージです。PostgreSQLを設定すると基本的にこれが利用されます |
 
 ※ただし、使用されるイメージは `config.js` で全て自由に変更できるので、自作カスタムのイメージに差し替え可能です。
 

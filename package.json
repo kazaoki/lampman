@@ -35,10 +35,5 @@
         "prompts": "^2.2.1",
         "string-width": "^4.1.0",
         "yargs": "^15.0.2"
-    },
-    "scripts": {
-        "gb": "lm gb",
-        "gbc": "lm gbc",
-        "gbb": "lm gbb"
     }
 }
