@@ -151,11 +151,14 @@ function action(argv, lampman) {
                         catch (e) { }
                     }
                     login_path = '/';
-                    if (sname in lampman.config && 'login_path' in lampman.config[sname]) {
+                    if (lampman.config && sname in lampman.config && 'login_path' in lampman.config[sname]) {
                         login_path = lampman.config[sname].login_path;
                     }
-                    if (argv.path) {
+                    else if (argv.path) {
                         login_path = argv.path;
+                    }
+                    else {
+                        login_path = '/';
                     }
                     console.log(color.white.bold("<" + target_cname + ">"));
                     return [4, child.spawn('docker', [

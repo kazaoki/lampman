@@ -129,11 +129,12 @@ export async function action(argv:any, lampman:any)
 
     // ログインパス指定
     let login_path = '/'
-    if(sname in lampman.config && 'login_path' in lampman.config[sname]) {
+    if(lampman.config && sname in lampman.config && 'login_path' in lampman.config[sname]) {
         login_path = lampman.config[sname].login_path
-    }
-    if(argv.path) {
+    } else if(argv.path) {
         login_path = argv.path
+    } else {
+        login_path = '/'
     }
 
     // いざログイン
