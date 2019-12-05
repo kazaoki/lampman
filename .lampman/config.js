@@ -212,6 +212,11 @@ module.exports.config = {
             desc: 'delete git-book serve dir'
             // https://takamints.hatenablog.jp/entry/avoid-a-gitbook-bug-on-windows
         },
+        // ドキュメントビルド
+        gbb: {
+            command: 'gitbook build git-book/ docs/',
+            desc: 'gitbook build to docs/'
+        },
     },
 
     /**
