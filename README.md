@@ -22,7 +22,7 @@ $ lamp up
 
 設定方法や機能などは別途ドキュメントページを用意しております。
 
-https://kazaoki.github.io/lampman/
+[https://kazaoki.github.io/lampman/](https://kazaoki.github.io/lampman/)
 
 ## ライセンス
 Apache License 2.0
