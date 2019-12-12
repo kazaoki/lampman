@@ -10,7 +10,7 @@
 
 import libs = require('../libs')
 import docker = require('../docker')
-import { action as reject } from './reject'
+import { action as sweep } from './sweep'
 
 const child = require('child_process')
 const path  = require('path')
@@ -30,7 +30,12 @@ export function meta(lampman:any)
         options: {
             'flush': {
                 alias: 'f',
-                describe: '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する',
+                describe: '既存のコンテナを全て強制削除してキレイにしてから起動する',
+                type: 'boolean',
+            },
+            'flush-with-volumes': {
+                alias: 'v',
+                describe: '`lamp -f` 時に未ロックボリュームも一緒に削除する',
                 type: 'boolean',
             },
             'docker-compose-options': {
@@ -110,7 +115,7 @@ export async function action(argv:any, lampman:any)
     // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
     if(argv.flush) {
         libs.Label('Flush cleaning')
-        await reject({force:true}, lampman)
+        await sweep({containers:!argv.flushWithVolumes, force:true}, lampman)
         console.log()
     }
 

@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var docker = require("../docker");
-var reject_1 = require("./reject");
+var sweep_1 = require("./sweep");
 var child = require('child_process');
 var path = require('path');
 var color = require('cli-color');
@@ -51,7 +51,12 @@ function meta(lampman) {
         options: {
             'flush': {
                 alias: 'f',
-                describe: '既存のコンテナと未ロックボリュームを全て削除してキレイにしてから起動する',
+                describe: '既存のコンテナを全て強制削除してキレイにしてから起動する',
+                type: 'boolean',
+            },
+            'flush-with-volumes': {
+                alias: 'v',
+                describe: '`lamp -f` 時に未ロックボリュームも一緒に削除する',
                 type: 'boolean',
             },
             'docker-compose-options': {
@@ -121,7 +126,7 @@ function action(argv, lampman) {
                     }
                     if (!argv.flush) return [3, 2];
                     libs.Label('Flush cleaning');
-                    return [4, reject_1.action({ force: true }, lampman)];
+                    return [4, sweep_1.action({ containers: !argv.flushWithVolumes, force: true }, lampman)];
                 case 1:
                     _c.sent();
                     console.log();
