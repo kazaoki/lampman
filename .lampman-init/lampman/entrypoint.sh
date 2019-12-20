@@ -55,7 +55,7 @@ export LAMPMAN_PHP_INI_PATH=$phpini
 # --------------------------------------------------------------------
 if [[ $LAMPMAN_APACHE_START == 1 ]]; then
   # not logging for resource files
-  echo "SetEnvIfNoCase Request_URI \"\.(gif|jpg|jpeg|jpe|png|css|js|ico|woff|woff2|map)$\" resourcefiles" >> /etc/httpd/conf/httpd.conf
+  echo "SetEnvIfNoCase Request_URI \"\.(gif|jpg|jpeg|jpe|png|css|js|ico|woff|woff2|map|svg)$\" resourcefiles" >> /etc/httpd/conf/httpd.conf
   sed -i "s/CustomLog \"logs\/access_log\" combined$/CustomLog \"logs\/access_log\" combined env\=\!resourcefiles/" /etc/httpd/conf/httpd.conf
   sed -i "s/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\"/\"%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\\\\"%r\\\\\" %b\" env\=\!resourcefiles/" /etc/httpd/conf.d/ssl.conf
   # for local domain
