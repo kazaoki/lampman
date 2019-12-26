@@ -7,18 +7,19 @@ var path = require("path");
 var color = require("cli-color");
 var yargs = require("yargs");
 var libs = require("./libs");
-require('dotenv').config();
 console.log();
 var argv = yargs
     .help(false)
     .option('mode', {
     describe: '実行モードを指定',
     alias: 'm',
-    default: 'default'
+    default: ''
 })
     .argv;
 if ('mode' in argv && argv.mode.length)
     process.env.LAMPMAN_MODE = argv.mode;
+if (!process.env.LAMPMAN_MODE)
+    process.env.LAMPMAN_MODE = 'default';
 var lampman = {
     mode: process.env.LAMPMAN_MODE
 };

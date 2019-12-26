@@ -8,9 +8,7 @@ import fs    = require('fs')
 import path  = require('path')
 import color = require('cli-color')
 import yargs = require('yargs')
-import child  = require('child_process')
 import libs  = require('./libs')
-require('dotenv').config()
 
 // 1行改行
 console.log()
@@ -22,11 +20,12 @@ let argv = yargs
         {
             describe: '実行モードを指定',
             alias: 'm',
-            default: 'default'
+            default: ''
         }
     )
     .argv
 if('mode' in argv && argv.mode.length) process.env.LAMPMAN_MODE = argv.mode
+if(!process.env.LAMPMAN_MODE) process.env.LAMPMAN_MODE = 'default'
 
 // Lampmanオブジェクト用意
 let lampman: any = {
