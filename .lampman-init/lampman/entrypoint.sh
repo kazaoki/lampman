@@ -18,7 +18,7 @@ if [[ $LAMPMAN_PHP_PHPENV_IMAGE != '' ]]; then
   . ~/.bashrc
   phpenv global $LAMPMAN_PHP_PHPENV_VERSION
   \cp -f $PHPENV_ROOT/versions/$LAMPMAN_PHP_PHPENV_VERSION/httpd_modules/*.so* /etc/httpd/modules/
-  \cp -f $PHPENV_ROOT/versions/$LAMPMAN_PHP_PHPENV_VERSION/lib64_modules/*.so* /usr/local/lib64/
+  \cp -f $PHPENV_ROOT/versions/$LAMPMAN_PHP_PHPENV_VERSION/lib64_modules/*.so* /usr/lib64/
   phpini=$PHPENV_ROOT/versions/$LAMPMAN_PHP_PHPENV_VERSION/etc/php.ini
   # -- php7 config
   if expr $LAMPMAN_PHP_PHPENV_VERSION : "^7" > /dev/null; then
