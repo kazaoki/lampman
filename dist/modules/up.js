@@ -81,16 +81,21 @@ function meta(lampman) {
                 describe: 'config.jsで設定した起動時コマンド"on_upped"を実行しない',
                 type: 'boolean',
             },
+            'restore-volumes': {
+                alias: 'r',
+                describe: '該当する未ロックボリュームも全て削除してから起動します。',
+                type: 'boolean',
+            },
         },
     };
 }
 exports.meta = meta;
 function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, mount, dirs, pubdir, stats, files, _b, files_1, file, args, do_kill_conflicted, do_sweep_force, conflicts, message, _c, _d, id, potrs_str, response, result, message, _e, _f, id, proc;
+        var _i, _a, mount, dirs, pubdir, stats, files, _b, files_1, file, args, do_kill_conflicted, do_sweep_force, conflicts, message, _c, _d, id, potrs_str, response, result, message, _e, _f, id, volume_string, volumes, _g, _h, volume, result, proc;
         var _this = this;
-        return __generator(this, function (_g) {
-            switch (_g.label) {
+        return __generator(this, function (_j) {
+            switch (_j.label) {
                 case 0:
                     docker.needDockerLive();
                     if (!libs.existConfig(lampman)) {
@@ -163,7 +168,7 @@ function action(argv, lampman) {
                             hint: 'Ctrl+Cで終了',
                         })];
                 case 3:
-                    response = _g.sent();
+                    response = _j.sent();
                     if ('kill' === response.action) {
                         do_kill_conflicted = true;
                     }
@@ -175,7 +180,7 @@ function action(argv, lampman) {
                     else {
                         return [2];
                     }
-                    _g.label = 4;
+                    _j.label = 4;
                 case 4:
                     if (do_kill_conflicted) {
                         libs.Label('Kill conflicted containers');
@@ -191,10 +196,24 @@ function action(argv, lampman) {
                     libs.Label('Sweep force');
                     return [4, sweep_1.action({ force: true }, lampman)];
                 case 5:
-                    _g.sent();
+                    _j.sent();
                     console.log();
-                    _g.label = 6;
+                    _j.label = 6;
                 case 6:
+                    if (argv.restoreVolumes) {
+                        libs.Label('Restore volumes (rm containers & volumes)');
+                        volume_string = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config', '--volumes'], { cwd: lampman.config_dir }).toString().trim();
+                        child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'kill'], { cwd: lampman.config_dir });
+                        child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'rm', '-fv'], { cwd: lampman.config_dir });
+                        volumes = [];
+                        for (_g = 0, _h = volume_string.split(/\s+/); _g < _h.length; _g++) {
+                            volume = _h[_g];
+                            volumes.push(lampman.config.project + '-' + volume);
+                        }
+                        result = child.execFileSync('docker', ['volume', 'rm', '-f'].concat(volumes)).toString().trim();
+                        console.log(result);
+                        console.log();
+                    }
                     libs.Label('Upping docker-compose');
                     proc = child.spawn('docker-compose', args, {
                         cwd: lampman.config_dir,

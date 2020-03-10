@@ -60,6 +60,11 @@ export function meta(lampman:any)
                 describe: 'config.jsで設定した起動時コマンド"on_upped"を実行しない',
                 type: 'boolean',
             },
+            'restore-volumes': {
+                alias: 'r',
+                describe: '該当する未ロックボリュームも全て削除してから起動します。',
+                type: 'boolean',
+            },
         },
     }
 }
@@ -196,6 +201,27 @@ export async function action(argv:any, lampman:any)
     if(do_sweep_force) {
         libs.Label('Sweep force')
         await sweep({force:true}, lampman)
+        console.log()
+    }
+
+    // 未ロックボリュームを全て削除する
+    if(argv.restoreVolumes) {
+        libs.Label('Restore volumes (rm containers & volumes)')
+
+        // 該当ボリューム名の取得
+        const volume_string = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config', '--volumes'], {cwd: lampman.config_dir}).toString().trim()
+
+        // コンテナ数量＆除去（しないとボリューム消せないので）
+        child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'kill'], {cwd: lampman.config_dir})
+        child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'rm', '-fv'], {cwd: lampman.config_dir})
+
+        // ボリューム削除
+        let volumes: string[] = []
+        for(let volume of volume_string.split(/\s+/)) {
+            volumes.push(lampman.config.project+'-'+volume)
+        }
+        let result = child.execFileSync('docker', ['volume', 'rm', '-f', ...volumes]).toString().trim()
+        console.log(result)
         console.log()
     }
 
