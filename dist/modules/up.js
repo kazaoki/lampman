@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var libs = require("../libs");
 var docker = require("../docker");
+var jsYaml = require("js-yaml");
 var sweep_1 = require("./sweep");
 var child = require('child_process');
 var path = require('path');
@@ -44,19 +45,20 @@ var color = require('cli-color');
 var fs = require('fs');
 var find = require('find');
 var open = require('open');
+var prompts = require('prompts');
 function meta(lampman) {
     return {
         command: 'up [options]',
         describe: "LAMP\u8D77\u52D5\uFF08.lampman" + libs.ModeString(lampman.mode) + "/docker-compose.yml \u81EA\u52D5\u66F4\u65B0\uFF09",
         options: {
-            'flush': {
-                alias: 'f',
-                describe: '既存のコンテナを全て強制削除してキレイにしてから起動する',
+            'kill-conflicted': {
+                alias: 'c',
+                describe: '該当ポートが使用中の既存コンテナを強制的に終了させてから起動する',
                 type: 'boolean',
             },
-            'flush-with-volumes': {
-                alias: 'v',
-                describe: '`lamp -f` 時に未ロックボリュームも一緒に削除する',
+            'sweep-force': {
+                alias: 'f',
+                describe: '`sweep -f` を実行して全て一層してから起動する',
                 type: 'boolean',
             },
             'docker-compose-options': {
@@ -85,10 +87,10 @@ function meta(lampman) {
 exports.meta = meta;
 function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, mount, dirs, pubdir, stats, files, _b, files_1, file, args, proc;
+        var _i, _a, mount, dirs, pubdir, stats, files, _b, files_1, file, args, do_kill_conflicted, do_sweep_force, conflicts, message, _c, _d, id, potrs_str, response, result, message, _e, _f, id, proc;
         var _this = this;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        return __generator(this, function (_g) {
+            switch (_g.label) {
                 case 0:
                     docker.needDockerLive();
                     if (!libs.existConfig(lampman)) {
@@ -120,21 +122,79 @@ function action(argv, lampman) {
                     args = [
                         '--project-name', lampman.config.project,
                         'up',
+                        '--force-recreate',
                     ];
                     if (!argv.D) {
                         args.push('-d');
                     }
-                    if (!argv.flush) return [3, 2];
-                    libs.Label('Flush cleaning');
-                    return [4, sweep_1.action({ containers: !argv.flushWithVolumes, force: true }, lampman)];
-                case 1:
-                    _c.sent();
-                    console.log();
-                    _c.label = 2;
-                case 2:
                     if (argv.dockerComposeOptions) {
                         args.push.apply(args, argv.dockerComposeOptions.replace('\\', '').split(' '));
                     }
+                    do_kill_conflicted = false;
+                    do_sweep_force = false;
+                    if (!argv.sweepForce) return [3, 1];
+                    do_sweep_force = true;
+                    return [3, 4];
+                case 1:
+                    conflicts = get_confilict(lampman);
+                    if (!Object.keys(conflicts).length) return [3, 4];
+                    if (!argv.killConflicted) return [3, 2];
+                    do_kill_conflicted = true;
+                    return [3, 4];
+                case 2:
+                    message = '以下のコンテナが公開ポートを使用中のため起動できない恐れがあります。\n';
+                    for (_c = 0, _d = Object.keys(conflicts); _c < _d.length; _c++) {
+                        id = _d[_c];
+                        potrs_str = conflicts[id].ports.join(', ');
+                        message += "- " + conflicts[id].label + " [" + potrs_str + "]\n";
+                    }
+                    libs.Message(message, 'warning', 1);
+                    console.log();
+                    return [4, prompts({
+                            type: 'select',
+                            name: 'action',
+                            message: 'どうしますか。',
+                            choices: [
+                                { title: '該当コンテナのみ強制終了してから起動', value: 'kill', selected: true },
+                                { title: '全てのコンテナ/未ロックボリューム/ネットワークを強制削除してから起動（sweep -f 同様）', value: 'sweep', selected: false },
+                                { title: 'このまま起動してみる', value: 'nothing', selected: false },
+                            ],
+                            instructions: false,
+                            hint: 'Ctrl+Cで終了',
+                        })];
+                case 3:
+                    response = _g.sent();
+                    if ('kill' === response.action) {
+                        do_kill_conflicted = true;
+                    }
+                    else if ('sweep' === response.action) {
+                        do_sweep_force = true;
+                    }
+                    else if ('nothing' === response.action) {
+                    }
+                    else {
+                        return [2];
+                    }
+                    _g.label = 4;
+                case 4:
+                    if (do_kill_conflicted) {
+                        libs.Label('Kill conflicted containers');
+                        result = child.execFileSync('docker', ['kill'].concat(Object.keys(conflicts))).toString().trim();
+                        message = '';
+                        for (_e = 0, _f = result.split(/\s+/); _e < _f.length; _e++) {
+                            id = _f[_e];
+                            message += conflicts[id].label + " (" + id + ") [" + conflicts[id].ports.join(', ') + "]\n";
+                        }
+                        console.log(message);
+                    }
+                    if (!do_sweep_force) return [3, 6];
+                    libs.Label('Sweep force');
+                    return [4, sweep_1.action({ force: true }, lampman)];
+                case 5:
+                    _g.sent();
+                    console.log();
+                    _g.label = 6;
+                case 6:
                     libs.Label('Upping docker-compose');
                     proc = child.spawn('docker-compose', args, {
                         cwd: lampman.config_dir,
@@ -259,3 +319,59 @@ function action(argv, lampman) {
     });
 }
 exports.action = action;
+function get_confilict(lampman) {
+    var result_yaml_comp = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config'], { cwd: lampman.config_dir }).toString().trim();
+    var config = jsYaml.load(result_yaml_comp);
+    var yaml_ports = [];
+    if (config.services) {
+        for (var _i = 0, _a = Object.keys(config.services); _i < _a.length; _i++) {
+            var service_name = _a[_i];
+            if (config.services[service_name].ports) {
+                for (var _b = 0, _c = config.services[service_name].ports; _b < _c.length; _b++) {
+                    var lump = _c[_b];
+                    var matches = lump.match(/(\d+)\:/);
+                    if (matches && matches[1])
+                        yaml_ports.push(matches[1]);
+                }
+            }
+        }
+    }
+    var service_names = [];
+    var result_services = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config', '--services'], { cwd: lampman.config_dir }).toString().trim();
+    for (var _d = 0, _e = result_services.split(/\s+/); _d < _e.length; _d++) {
+        var service = _e[_d];
+        service_names.push(lampman.config.project + '-' + service);
+    }
+    var conflicts = {};
+    var used_ports = {};
+    var result_containers = child.execFileSync('docker', ['ps', '-a', '--format', '{{.ID}} {{.Names}} {{.Ports}}']).toString().trim();
+    for (var _f = 0, _g = result_containers.split(/[\r\n]+/); _f < _g.length; _f++) {
+        var line = _g[_f];
+        var column = line.split(/\s+/);
+        if (service_names.includes(column[1]))
+            continue;
+        if (2 >= column.length)
+            continue;
+        if (null === column[2] || !column[2].length)
+            continue;
+        var id = column.shift();
+        var label = column.shift();
+        for (var _h = 0, column_1 = column; _h < column_1.length; _h++) {
+            var port = column_1[_h];
+            var matches = port.match(/\:(\d+)\-\>/);
+            if (matches && matches[1]) {
+                var port_1 = matches[1];
+                if (yaml_ports.includes(port_1)) {
+                    if (!conflicts[id])
+                        conflicts[id] = {
+                            "id": id,
+                            "label": label,
+                            "ports": [],
+                        };
+                    conflicts[id].ports.push(port_1);
+                }
+            }
+        }
+    }
+    return conflicts;
+}

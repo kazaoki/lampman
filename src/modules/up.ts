@@ -10,6 +10,7 @@
 
 import libs = require('../libs')
 import docker = require('../docker')
+import jsYaml = require('js-yaml');
 import { action as sweep } from './sweep'
 
 const child = require('child_process')
@@ -18,6 +19,7 @@ const color = require('cli-color')
 const fs    = require('fs')
 const find  = require('find')
 const open  = require('open')
+const prompts = require('prompts')
 
 /**
  * コマンド登録用メタデータ
@@ -28,14 +30,14 @@ export function meta(lampman:any)
         command: 'up [options]',
         describe: `LAMP起動（.lampman${libs.ModeString(lampman.mode)}/docker-compose.yml 自動更新）`,
         options: {
-            'flush': {
-                alias: 'f',
-                describe: '既存のコンテナを全て強制削除してキレイにしてから起動する',
+            'kill-conflicted': {
+                alias: 'c',
+                describe: '該当ポートが使用中の既存コンテナを強制的に終了させてから起動する',
                 type: 'boolean',
             },
-            'flush-with-volumes': {
-                alias: 'v',
-                describe: '`lamp -f` 時に未ロックボリュームも一緒に削除する',
+            'sweep-force': {
+                alias: 'f',
+                describe: '`sweep -f` を実行して全て一層してから起動する',
                 type: 'boolean',
             },
             'docker-compose-options': {
@@ -105,6 +107,7 @@ export async function action(argv:any, lampman:any)
     let args = [
         '--project-name', lampman.config.project,
         'up',
+        '--force-recreate',
     ]
 
     // -D が指定されてればフォアグラウンドーモードに。
@@ -112,19 +115,88 @@ export async function action(argv:any, lampman:any)
         args.push('-d')
     }
 
-    // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除
-    if(argv.flush) {
-        libs.Label('Flush cleaning')
-        await sweep({containers:!argv.flushWithVolumes, force:true}, lampman)
-        console.log()
-    }
-
     // -o が指定されてれば追加引数セット
-    // ただし、ハイフン前になにもないとエラーになるので以下のように指定すること（commanderのバグ？
+    // ただし、ハイフン前になにもないとエラーになるので以下のように指定すること（Windowsのみの現象？
     // ex. $lamp up -o "\-t 300"
     //    バックスラッシュ↑ 必要...
     if(argv.dockerComposeOptions) {
         args.push(...argv.dockerComposeOptions.replace('\\', '').split(' '))
+    }
+
+    // -c と -f の処理はコンフリクト状況と選択肢にカラムので変数(do_～)で処理わけ
+    let do_kill_conflicted = false
+    let do_sweep_force = false
+    let conflicts
+    if(argv.sweepForce) {
+        // -f が指定されてれば既存のコンテナと未ロックボリュームを全て削除してから起動
+        do_sweep_force = true
+    } else {
+        conflicts = get_confilict(lampman)
+        // ぶつかるポートがある
+        if(Object.keys(conflicts).length) {
+            if(argv.killConflicted) {
+                // -c 指定があれば該当コンテナ終了処理
+                do_kill_conflicted = true
+            } else {
+
+                // 文章生成
+                let message = '以下のコンテナが公開ポートを使用中のため起動できない恐れがあります。\n'
+                for(let id of Object.keys(conflicts)) {
+                    const potrs_str = conflicts[id].ports.join(', ')
+                    message += `- ${conflicts[id].label} [${potrs_str}]\n`
+                }
+
+                // ぶつかっているポート情報を表示
+                libs.Message(message, 'warning', 1)
+                console.log()
+
+                // 選択してもらう
+                let response = await prompts({
+                    type: 'select',
+                    name: 'action',
+                    message: 'どうしますか。',
+                    choices: [
+                        { title: '該当コンテナのみ強制終了してから起動', value: 'kill', selected: true },
+                        { title: '全てのコンテナ/未ロックボリューム/ネットワークを強制削除してから起動（sweep -f 同様）', value: 'sweep', selected: false },
+                        { title: 'このまま起動してみる',  value: 'nothing', selected: false },
+                    ],
+                    instructions: false,
+                    hint: 'Ctrl+Cで終了',
+                })
+
+                // 処理分岐
+                if('kill'===response.action) {
+                    // 該当コンテナのみ強制終了してから起動 = `lampman up -c` と同じなので呼び出し
+                    do_kill_conflicted = true
+                } else if('sweep'===response.action) {
+                    // 全て削除 = `lampman sweep -f` と同じなので呼び出し
+                    do_sweep_force = true
+                } else if('nothing'===response.action) {
+                    // そのまま起動
+                } else {
+                    // キャンセル
+                    return
+                }
+            }
+        }
+    }
+
+    // ぶつかってるポートのコンテナを終了する
+    if(do_kill_conflicted) {
+        libs.Label('Kill conflicted containers')
+        let result = child.execFileSync('docker', ['kill', ...Object.keys(conflicts)]).toString().trim()
+        let message = ''
+        for(let id of result.split(/\s+/)){
+            message += `${conflicts[id].label} (${id}) [${conflicts[id].ports.join(', ')}]\n`
+        }
+        console.log(message)
+    }
+
+    // sweep -f する
+    if(do_sweep_force) {
+        libs.Label('Sweep force')
+        await sweep({force:true}, lampman)
+        console.log()
     }
 
     // up実行
@@ -259,4 +331,61 @@ export async function action(argv:any, lampman:any)
 
         return
     })
+}
+
+/**
+ * ポートがコンフリクトしたコンテナを返す
+ */
+function get_confilict(lampman:any)
+{
+    // ymlファイルから公開ポートを得る
+    let result_yaml_comp = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config'], {cwd: lampman.config_dir}).toString().trim()
+    const config = jsYaml.load(result_yaml_comp)
+    const yaml_ports: number[] = []
+    if(config.services) {
+        for(let service_name of Object.keys(config.services)) {
+            if(config.services[service_name].ports) {
+                for(let lump of config.services[service_name].ports) {
+                    let matches = lump.match(/(\d+)\:/)
+                    if(matches && matches[1]) yaml_ports.push(matches[1])
+                }
+            }
+        }
+    }
+
+    // 設定ファイルから実際のサービス名を全て生成する
+    let service_names = []
+    let result_services = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config', '--services'], {cwd: lampman.config_dir}).toString().trim()
+    for(let service of result_services.split(/\s+/)) {
+        service_names.push(lampman.config.project+'-'+service)
+    }
+
+    // dockerコマンドで状況を取得し、プロジェクト以外のコンテナで使用中のポートを取得する
+    let conflicts: any = {}
+    let used_ports: any = {}
+    let result_containers = child.execFileSync('docker', ['ps', '-a', '--format', '{{.ID}} {{.Names}} {{.Ports}}']).toString().trim()
+    for(let line of result_containers.split(/[\r\n]+/)) {
+        let column = line.split(/\s+/)
+        if(service_names.includes(column[1])) continue
+        if(2>=column.length) continue
+        if(null===column[2] || !column[2].length) continue
+        const id = column.shift()
+        const label = column.shift()
+        for(let port of column) {
+            let matches = port.match(/\:(\d+)\-\>/)
+            if(matches && matches[1]) {
+                const port = matches[1]
+                if(yaml_ports.includes(port)) {
+                    if(!conflicts[id]) conflicts[id] = {
+                        "id": id,
+                        "label": label,
+                        "ports": [],
+                    }
+                    conflicts[id].ports.push(port)
+                }
+            }
+        }
+    }
+
+    return conflicts
 }
