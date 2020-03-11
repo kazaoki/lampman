@@ -83,7 +83,7 @@ function meta(lampman) {
             },
             'restore-volumes': {
                 alias: 'r',
-                describe: '該当する未ロックボリュームも全て削除してから起動します。',
+                describe: '該当するボリュームも全て削除してから起動する（ロックボリュームは除く）',
                 type: 'boolean',
             },
         },
@@ -147,7 +147,7 @@ function action(argv, lampman) {
                     do_kill_conflicted = true;
                     return [3, 4];
                 case 2:
-                    message = '以下のコンテナが公開ポートを使用中のため起動できない恐れがあります。\n';
+                    message = '以下のコンテナが公開ポートを使用中のため起動できない可能性があります。\n';
                     for (_c = 0, _d = Object.keys(conflicts); _c < _d.length; _c++) {
                         id = _d[_c];
                         potrs_str = conflicts[id].ports.join(', ');

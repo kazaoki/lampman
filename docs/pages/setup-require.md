@@ -11,6 +11,7 @@
 - コマンドラインが打てる何か（なんでもいいです
   - おすすめ
     - [Visual Studio Code](https://azure.microsoft.com/ja-jp/products/visual-studio-code/)<small>（の中のコマンドパネル）</small>
+    - [Windows Terminal](https://github.com/microsoft/terminal)
 - [Git](https://git-scm.com/)
     - Lampmanの設定ファイルをバージョン管理する場合に必要です。必須ではありませんがあったほうが安心です。
 

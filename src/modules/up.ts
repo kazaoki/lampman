@@ -62,7 +62,7 @@ export function meta(lampman:any)
             },
             'restore-volumes': {
                 alias: 'r',
-                describe: '該当する未ロックボリュームも全て削除してから起動します。',
+                describe: '該当するボリュームも全て削除してから起動する（ロックボリュームは除く）',
                 type: 'boolean',
             },
         },
@@ -145,7 +145,7 @@ export async function action(argv:any, lampman:any)
             } else {
 
                 // 文章生成
-                let message = '以下のコンテナが公開ポートを使用中のため起動できない恐れがあります。\n'
+                let message = '以下のコンテナが公開ポートを使用中のため起動できない可能性があります。\n'
                 for(let id of Object.keys(conflicts)) {
                     const potrs_str = conflicts[id].ports.join(', ')
                     message += `- ${conflicts[id].label} [${potrs_str}]\n`
