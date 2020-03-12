@@ -10,6 +10,8 @@
 
 const child = require('child_process')
 import docker = require('../docker');
+import libs   = require('../libs');
+const color    = require('cli-color')
 
 /**
  * コマンド登録用メタデータ
@@ -18,7 +20,7 @@ export function meta(lampman:any)
 {
     return {
         command: 'down',
-        describe: 'LAMP終了',
+        describe: 'LAMP高速終了（名無しボリュームは消える）',
     }
 }
 
@@ -30,15 +32,23 @@ export function action(argv:any, lampman:any)
     // Docker起動必須
     docker.needDockerLive()
 
-    // down実行
-    child.spawn('docker-compose',
-        [
-            '--project-name', lampman.config.project,
-            'down'
-        ],
-        {
-            cwd: lampman.config_dir,
-            stdio: 'inherit'
+    // 設定ファイルから実際のサービス名を全て生成する
+    let service_names = []
+    let result_services = child.execFileSync('docker-compose', ['--project-name', lampman.config.project, 'config', '--services'], {cwd: lampman.config_dir}).toString().trim()
+    for(let service of result_services.split(/\s+/)) {
+        service_names.push(lampman.config.project+'-'+service)
+    }
+    if(service_names) {
+        libs.Label('Down containers')
+        for(let service_name of service_names) {
+            const id = child.execFileSync('docker', ['ps', '-qa', '--filter', `name=${service_name}`]).toString().trim()
+            if(id) {
+                process.stdout.write(service_name+' ... ')
+                const result = child.execFileSync('docker', ['rm', '-fv', service_name]).toString().trim()
+                console.log(color.green('done'))
+            }
         }
-    )
+    }
+
+    return
 }
