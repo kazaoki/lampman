@@ -363,7 +363,7 @@ function get_confilict(lampman) {
     }
     var conflicts = {};
     var used_ports = {};
-    var result_containers = child.execFileSync('docker', ['ps', '-a', '--format', '{{.ID}} {{.Names}} {{.Ports}}']).toString().trim();
+    var result_containers = child.execFileSync('docker', ['ps', '-a', '--format', '{{.ID}} {{.Names}} {{.Ports}}', '--filter', 'status=running']).toString().trim();
     for (var _f = 0, _g = result_containers.split(/[\r\n]+/); _f < _g.length; _f++) {
         var line = _g[_f];
         var column = line.split(/\s+/);
