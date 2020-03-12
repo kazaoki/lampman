@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.6
+2020-03-12
+
+- Improved the behavior of `up` command options  
+    `lamp down` ... Down without using docker-compose.
+
 ## 1.0.5
 2020-03-11
 
