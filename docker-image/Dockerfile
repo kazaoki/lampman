@@ -1,5 +1,7 @@
 FROM centos:7
 
+RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+
 RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
     && yum install -y epel-release \
     && yum update -y \
