@@ -29,4 +29,8 @@
 # echo 'opcache.revalidate_freq=2' >> /root/.anyenv/envs/phpenv/versions/7.3.6/etc/php.ini
 # echo 'opcache.fast_shutdown=1' >> /root/.anyenv/envs/phpenv/versions/7.3.6/etc/php.ini
 
+# # -- Force DefaultCharset
+# echo 'AddDefaultCharset Shift_JIS' >> /etc/httpd/conf/httpd.conf
+# echo 'AddDefaultCharset EUC-JP' >> /etc/httpd/conf/httpd.conf
+
 # -- etc...

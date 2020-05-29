@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.8
+2020-05-29
+
+- Add sample command for entrypoint-add.sh  
+    `AddDefaultCharset`
+
 ## 1.0.7
 2020-05-29
 
