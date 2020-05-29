@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.8-d
+2020-05-29
+
+- Remove shortcut command  
+    `lu` removed  
+    `lg` removed
+
 ## 1.0.8
 2020-05-29
 

@@ -1,14 +1,12 @@
 {
     "name": "lampman",
     "description": "LAMP server orchestration tool on docker-compose (Under development...)",
-    "version": "1.0.8",
+    "version": "1.0.8-d",
     "license": "Apache License",
     "private": false,
     "bin": {
         "lamp": "dist/lamp.js",
-        "lm": "dist/lamp.js",
-        "lu": "dist/lamp.js up",
-        "lg": "dist/lamp.js logs"
+        "lm": "dist/lamp.js"
     },
     "devDependencies": {
         "@types/cli-color": "^0.3.29",
