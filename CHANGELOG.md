@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.7
+2020-05-29
+
+- Changed initial value for config.js  
+    xdebug_host `192.168.0.10` -> `host.docker.internal`
+
 ## 1.0.6
 2020-03-12
 

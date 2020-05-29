@@ -50,7 +50,7 @@ module.exports.config = {
             // ↑ コメントアウトするとlampman標準のPHP使用(5.4とか)
             error_report: true, // 本番環境の場合は必ずfalseに。
             xdebug_start: true, // 本番環境の場合は必ずfalseに。
-            xdebug_host: '192.168.0.10',
+            xdebug_host: 'host.docker.internal',
             xdebug_port: 9000,
         },
 
