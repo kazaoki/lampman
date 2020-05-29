@@ -3,6 +3,14 @@
 ## 1.0.8
 2020-05-29
 
+- Add shortcut command  
+    `lu` added ... As `lamp up`  
+    `lg` added ... As `lamp logs`  
+
+- Changed init option  
+    `lamp init -s` removed ... Option selection to appear as default.  
+    `lamp init -f` added ... Skip option selection.
+
 - Add sample command for entrypoint-add.sh  
     `AddDefaultCharset`
 
