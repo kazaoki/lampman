@@ -23,9 +23,9 @@ export function meta(lampman:any)
         command: 'init [options]',
         describe: `初期化（.lampman${libs.ModeString(lampman.mode)}/ ディレクトリ作成）`,
         options: {
-            'select': {
-                alias: 's',
-                describe: 'セットアップ可能な選択肢が出ます。',
+            'force': {
+                alias: 'f',
+                describe: 'セットアップを飛ばします。',
                 type: 'boolean',
             },
             'project': {
@@ -56,7 +56,7 @@ export async function action(argv:any, lampman:any)
 
     // セットアップ内容を選択
     let setup = []
-    if(argv.select) {
+    if(!argv.force) {
         let response = await prompts({
             type: 'multiselect',
             name: 'setup',
@@ -73,7 +73,7 @@ export async function action(argv:any, lampman:any)
         if(!response.setup) return
         setup = response.setup
     } else {
-        // --select 無しのときの標準設定
+        // --force のときの標準設定
         setup.push('LampmanConfig')
     }
 

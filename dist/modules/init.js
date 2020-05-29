@@ -45,9 +45,9 @@ function meta(lampman) {
         command: 'init [options]',
         describe: "\u521D\u671F\u5316\uFF08.lampman" + libs.ModeString(lampman.mode) + "/ \u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u4F5C\u6210\uFF09",
         options: {
-            'select': {
-                alias: 's',
-                describe: 'セットアップ可能な選択肢が出ます。',
+            'force': {
+                alias: 'f',
+                describe: 'セットアップを飛ばします。',
                 type: 'boolean',
             },
             'project': {
@@ -76,7 +76,7 @@ function action(argv, lampman) {
                     config_dirname = ".lampman" + libs.ModeString(lampman.mode);
                     config_dir = path.join(process.cwd(), config_dirname);
                     setup = [];
-                    if (!argv.select) return [3, 2];
+                    if (!!argv.force) return [3, 2];
                     return [4, prompts({
                             type: 'multiselect',
                             name: 'setup',
