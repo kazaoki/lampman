@@ -6,7 +6,9 @@
     "private": false,
     "bin": {
         "lamp": "dist/lamp.js",
-        "lm": "dist/lamp.js"
+        "lm": "dist/lamp.js",
+        "lu": "dist/lamp.js up",
+        "lg": "dist/lamp.js logs"
     },
     "devDependencies": {
         "@types/cli-color": "^0.3.29",
