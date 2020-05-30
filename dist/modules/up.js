@@ -46,6 +46,7 @@ var fs = require('fs');
 var find = require('find');
 var open = require('open');
 var prompts = require('prompts');
+var notifier = require('node-notifier');
 function meta(lampman) {
     return {
         command: 'up [options]',
@@ -155,6 +156,10 @@ function action(argv, lampman) {
                     }
                     libs.Message(message, 'warning', 1);
                     console.log();
+                    notifier.notify({
+                        title: 'Lampman',
+                        message: 'ぶつかってるポートがあるのでそのままでは起動できません。',
+                    });
                     return [4, prompts({
                             type: 'select',
                             name: 'action',

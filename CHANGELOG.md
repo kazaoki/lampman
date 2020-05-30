@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.9
+2020-05-30
+
+- Show toast notice on ports conflict at `lamp up`
+
 ## 1.0.8-d
 2020-05-29
 

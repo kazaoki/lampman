@@ -20,6 +20,7 @@ const fs    = require('fs')
 const find  = require('find')
 const open  = require('open')
 const prompts = require('prompts')
+const notifier = require('node-notifier')
 
 /**
  * コマンド登録用メタデータ
@@ -154,6 +155,14 @@ export async function action(argv:any, lampman:any)
                 // ぶつかっているポート情報を表示
                 libs.Message(message, 'warning', 1)
                 console.log()
+
+                // トースト表示
+                notifier.notify(
+                    {
+                        title: 'Lampman',
+                        message: 'ぶつかってるポートがあるのでそのままでは起動できません。',
+                    }
+                );
 
                 // 選択してもらう
                 let response = await prompts({
