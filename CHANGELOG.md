@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.10
+2020-06-22
+
+- Add 'AddDefaultCharset Off' to entrypoint-add.sh
+
 ## 1.0.9
 2020-05-30
 

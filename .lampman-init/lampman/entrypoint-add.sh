@@ -32,5 +32,6 @@
 # # -- Force DefaultCharset
 # echo 'AddDefaultCharset Shift_JIS' >> /etc/httpd/conf/httpd.conf
 # echo 'AddDefaultCharset EUC-JP' >> /etc/httpd/conf/httpd.conf
+# echo 'AddDefaultCharset Off' >> /etc/httpd/conf/httpd.conf
 
 # -- etc...
