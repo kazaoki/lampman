@@ -381,8 +381,12 @@ function get_confilict(lampman:any)
         for(let service_name of Object.keys(config.services)) {
             if(config.services[service_name].ports) {
                 for(let lump of config.services[service_name].ports) {
-                    let matches = lump.match(/(\d+)\:/)
-                    if(matches && matches[1]) yaml_ports.push(matches[1])
+                    if('object'===typeof(config.services[service_name].ports)) {
+                        yaml_ports.push(lump.published)
+                    } else {
+                        let matches = lump.match(/(\d+)\:/)
+                        if(matches && matches[1]) yaml_ports.push(matches[1])
+                    }
                 }
             }
         }

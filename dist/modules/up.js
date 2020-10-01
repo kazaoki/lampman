@@ -353,9 +353,14 @@ function get_confilict(lampman) {
             if (config.services[service_name].ports) {
                 for (var _b = 0, _c = config.services[service_name].ports; _b < _c.length; _b++) {
                     var lump = _c[_b];
-                    var matches = lump.match(/(\d+)\:/);
-                    if (matches && matches[1])
-                        yaml_ports.push(matches[1]);
+                    if ('object' === typeof (config.services[service_name].ports)) {
+                        yaml_ports.push(lump.published);
+                    }
+                    else {
+                        var matches = lump.match(/(\d+)\:/);
+                        if (matches && matches[1])
+                            yaml_ports.push(matches[1]);
+                    }
                 }
             }
         }
