@@ -372,7 +372,6 @@ function get_confilict(lampman) {
         service_names.push(lampman.config.project + '-' + service);
     }
     var conflicts = {};
-    var used_ports = {};
     var result_containers = child.execFileSync('docker', ['ps', '-a', '--format', '{{.ID}} {{.Names}} {{.Ports}}', '--filter', 'status=running']).toString().trim();
     for (var _f = 0, _g = result_containers.split(/[\r\n]+/); _f < _g.length; _f++) {
         var line = _g[_f];
@@ -389,7 +388,7 @@ function get_confilict(lampman) {
             var port = column_1[_h];
             var matches = port.match(/\:(\d+)\-\>/);
             if (matches && matches[1]) {
-                var port_1 = matches[1];
+                var port_1 = parseInt(matches[1]);
                 if (yaml_ports.includes(port_1)) {
                     if (!conflicts[id])
                         conflicts[id] = {

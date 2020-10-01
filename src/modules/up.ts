@@ -401,7 +401,6 @@ function get_confilict(lampman:any)
 
     // dockerコマンドで状況を取得し、プロジェクト以外のコンテナで使用中のポートを取得する
     let conflicts: any = {}
-    let used_ports: any = {}
     let result_containers = child.execFileSync('docker', ['ps', '-a', '--format', '{{.ID}} {{.Names}} {{.Ports}}', '--filter', 'status=running']).toString().trim()
     for(let line of result_containers.split(/[\r\n]+/)) {
         let column = line.split(/\s+/)
@@ -413,7 +412,7 @@ function get_confilict(lampman:any)
         for(let port of column) {
             let matches = port.match(/\:(\d+)\-\>/)
             if(matches && matches[1]) {
-                const port = matches[1]
+                const port = parseInt(matches[1]);
                 if(yaml_ports.includes(port)) {
                     if(!conflicts[id]) conflicts[id] = {
                         "id": id,

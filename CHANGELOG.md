@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.11
+## 1.0.11 - 1.0.12
 2020-10-01
 
 - Fixed an issue where the new version of Docker couldn't `lamp up` successfully.
