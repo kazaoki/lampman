@@ -1,5 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.action = exports.meta = void 0;
 var libs = require("../libs");
 var color = require('cli-color');
 function meta(lampman) {

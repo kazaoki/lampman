@@ -1,5 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.action = exports.meta = void 0;
 var child = require("child_process");
 var docker = require("../docker");
 function meta(lampman) {

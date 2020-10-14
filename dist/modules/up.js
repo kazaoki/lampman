@@ -1,9 +1,10 @@
 'use strict';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -34,7 +35,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.action = exports.meta = void 0;
 var libs = require("../libs");
 var docker = require("../docker");
 var jsYaml = require("js-yaml");
@@ -189,7 +198,7 @@ function action(argv, lampman) {
                 case 4:
                     if (do_kill_conflicted) {
                         libs.Label('Kill conflicted containers');
-                        result = child.execFileSync('docker', ['kill'].concat(Object.keys(conflicts))).toString().trim();
+                        result = child.execFileSync('docker', __spreadArrays(['kill'], Object.keys(conflicts))).toString().trim();
                         message = '';
                         for (_e = 0, _f = result.split(/\s+/); _e < _f.length; _e++) {
                             id = _f[_e];
@@ -215,7 +224,7 @@ function action(argv, lampman) {
                             volume = _h[_g];
                             volumes.push(lampman.config.project + '-' + volume);
                         }
-                        result = child.execFileSync('docker', ['volume', 'rm', '-f'].concat(volumes)).toString().trim();
+                        result = child.execFileSync('docker', __spreadArrays(['volume', 'rm', '-f'], volumes)).toString().trim();
                         console.log(result);
                         console.log();
                     }
@@ -226,8 +235,9 @@ function action(argv, lampman) {
                     });
                     proc.on('close', function (code) { return __awaiter(_this, void 0, void 0, function () {
                         var procs, lampman_id, sp, _loop_1, _i, _a, key, _b, _c, key, docker_host, http_port, https_port, count, _d, _e, action_1, url, extraopt;
-                        return __generator(this, function (_f) {
-                            switch (_f.label) {
+                        var _f, _g, _h;
+                        return __generator(this, function (_j) {
+                            switch (_j.label) {
                                 case 0:
                                     if (code) {
                                         libs.Error("Up process exited with code " + code);
@@ -258,7 +268,7 @@ function action(argv, lampman) {
                                     }
                                     return [4, Promise.all(procs).catch(function (e) { return libs.Error(e); })];
                                 case 1:
-                                    _f.sent();
+                                    _j.sent();
                                     if (!docker.isRunning('lampman', lampman)) {
                                         console.log();
                                         libs.Error('lampman container dead!!');
@@ -281,13 +291,13 @@ function action(argv, lampman) {
                                     if (https_port)
                                         console.log(color.magenta.bold('  [Https] ') +
                                             color.magenta("https://" + docker_host + ('443' === https_port ? '' : ':' + https_port)));
-                                    if (process.env.LAMPMAN_EXPORT_LAMPMAN_1080)
+                                    if (((_h = (_g = (_f = lampman === null || lampman === void 0 ? void 0 : lampman.config) === null || _f === void 0 ? void 0 : _f.lampman) === null || _g === void 0 ? void 0 : _g.maildev) === null || _h === void 0 ? void 0 : _h.start) && process.env.LAMPMAN_EXPORT_LAMPMAN_1080)
                                         console.log(color.magenta.bold('  [Maildev] ') +
                                             color.magenta("http://" + docker_host + ":" + process.env.LAMPMAN_EXPORT_LAMPMAN_1080));
                                     if (!('on_upped' in lampman.config && lampman.config.on_upped.length && !argv.thruUpped)) return [3, 7];
                                     count = 0;
                                     _d = 0, _e = lampman.config.on_upped;
-                                    _f.label = 2;
+                                    _j.label = 2;
                                 case 2:
                                     if (!(_d < _e.length)) return [3, 6];
                                     action_1 = _e[_d];
@@ -305,8 +315,8 @@ function action(argv, lampman) {
                                         url.port = docker.exchangePort(action_1.port, action_1.container, lampman);
                                     return [4, open(url.href)];
                                 case 3:
-                                    _f.sent();
-                                    _f.label = 4;
+                                    _j.sent();
+                                    _j.label = 4;
                                 case 4:
                                     if ('show_message' === action_1.type && action_1.message.length) {
                                         libs.Message(action_1.message, action_1.style);
@@ -325,14 +335,14 @@ function action(argv, lampman) {
                                         libs.extra_action(lampman.config.extra[action_1.name], action_1.args, lampman);
                                         count++;
                                     }
-                                    _f.label = 5;
+                                    _j.label = 5;
                                 case 5:
                                     _d++;
                                     return [3, 2];
                                 case 6:
                                     if (count)
                                         console.log();
-                                    _f.label = 7;
+                                    _j.label = 7;
                                 case 7: return [2];
                             }
                         });

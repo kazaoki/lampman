@@ -315,7 +315,7 @@ export async function action(argv:any, lampman:any)
             color.magenta.bold('  [Https] ')+
             color.magenta(`https://${docker_host}${'443'===https_port?'':':'+https_port}`)
         )
-        if(process.env.LAMPMAN_EXPORT_LAMPMAN_1080) console.log(
+        if(lampman?.config?.lampman?.maildev?.start && process.env.LAMPMAN_EXPORT_LAMPMAN_1080) console.log(
             color.magenta.bold('  [Maildev] ')+
             color.magenta(`http://${docker_host}:${process.env.LAMPMAN_EXPORT_LAMPMAN_1080}`)
         )

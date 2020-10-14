@@ -9,18 +9,18 @@
         "lm": "dist/lamp.js"
     },
     "devDependencies": {
-        "@types/cli-color": "^0.3.29",
-        "@types/fs-extra": "^8.0.0",
-        "@types/js-yaml": "^3.12.1",
-        "@types/node": "^12.7.2",
-        "@types/yargs": "^13.0.3",
-        "browser-sync": "^2.26.7",
+        "@types/cli-color": "^0.3.30",
+        "@types/fs-extra": "^8.1.1",
+        "@types/js-yaml": "^3.12.5",
+        "@types/node": "^12.12.67",
+        "@types/yargs": "^13.0.11",
+        "browser-sync": "^2.26.12",
         "gulp": "^4.0.2",
         "gulp-concat": "^2.6.1",
         "gulp-rename": "^1.4.0",
         "gulp-typescript": "^5.0.1",
         "gulp-uglify": "^3.0.2",
-        "typescript": "^3.5.3"
+        "typescript": "^3.9.7"
     },
     "dependencies": {
         "cli-color": "^1.4.0",
@@ -28,13 +28,13 @@
         "dotenv": "^8.2.0",
         "find": "^0.3.0",
         "fs-extra": "^8.1.0",
-        "get-port": "^5.0.0",
+        "get-port": "^5.1.1",
         "jp-wrap": "^0.2.2",
-        "js-yaml": "^3.13.1",
-        "node-notifier": "^7.0.1",
-        "open": "^7.0.0",
-        "prompts": "^2.2.1",
-        "string-width": "^4.1.0",
-        "yargs": "^15.0.2"
+        "js-yaml": "^3.14.0",
+        "node-notifier": "^7.0.2",
+        "open": "^7.3.0",
+        "prompts": "^2.3.2",
+        "string-width": "^4.2.0",
+        "yargs": "^15.4.1"
     }
 }

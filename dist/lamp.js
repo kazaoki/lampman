@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 'use strict';
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 var fs = require("fs");
@@ -28,7 +35,7 @@ var dirs = process.cwd().split(path.sep);
 if ('' === dirs[0])
     dirs[0] = '/';
 while (1 !== dirs.length) {
-    var config_dir = path.join.apply(path, dirs.concat(['.lampman' + ('default' === lampman.mode ? '' : '-' + lampman.mode)]));
+    var config_dir = path.join.apply(path, __spreadArrays(dirs, ['.lampman' + ('default' === lampman.mode ? '' : '-' + lampman.mode)]));
     try {
         fs.accessSync(config_dir, fs.constants.R_OK);
         lampman.config_dir = config_dir;
@@ -73,7 +80,7 @@ order.forEach(function (item) {
         module_files.splice(index, 1);
     }
 });
-module_files = files_new.concat(module_files.sort());
+module_files = __spreadArrays(files_new, module_files.sort());
 var keys = [];
 module_files.forEach(function (file) {
     var module = require('./modules/' + file);
