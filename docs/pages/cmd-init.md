@@ -5,15 +5,11 @@
 
 
 ### `lamp init`
-カレントディレクトリに `.lampman/` 設定ディレクトリが生成されます。
-
-### `lamp init -s`<br>`lamp init --select`
-
-追加のインストールオプションが表示されますので、ご希望があれば選択してください。
+インストールオプションの選択が表示されますので、ご希望の項目を選択して決定するとカレントディレクトリに `.lampman/` 設定ディレクトリが生成され、必要な設定ファイルが作成されます。
 
 例： 
 <pre class="cmd">
-$ lamp init -s
+$ lamp init
 
 ? セットアップしたい内容を選択してください。（スペースキーで複数選択可） »  
 (*)  Lampman設定 - (proj)/.lampman/config.js
@@ -22,6 +18,10 @@ $ lamp init -s
 ( )  .envサンプル設定
 ( )  VSCode用Xdebug設定
 </pre>
+
+### `lamp init -f`<br>`lamp init --force`
+インストールオプションの選択を出さずに、必要最低限の設定で `.lampman/` 設定ディレクトリが作成されます。
+
 
 ### `lamp init -p <プロジェクト名>`<br>`lamp init --project=<プロジェクト名>`
 

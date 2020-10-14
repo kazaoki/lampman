@@ -28,7 +28,7 @@ MySQLクライアントに接続します。
             filename:   'dump.sql',
         }
     },
-    mysql_sub: { <span class="comment">// 複数設定する場合「mysql～」として定義</span>
+    mysql_sub: { <span class="comment">// 複数設定する場合「mysql_～」として定義</span>
         image:          'mysql:5.6',
         ports:          ['3307:3306'],
         database:       'test',
@@ -58,7 +58,7 @@ $ lamp mysql mysql_sub
 
 と打てばそれぞれのMySQLクライアントに接続します。
 
-※ちなみに複数のMySQL設定を定義する場合はかならず設定名を「mysql～」としてください。
+※ちなみに複数のMySQL設定を定義する場合はかならず設定名を「mysql_～」としてください。
 
 
 ### `lamp mysql -d`<br>`lamp mysql --dump`

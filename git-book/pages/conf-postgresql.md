@@ -41,7 +41,7 @@
 ## `postgresql～:`
 
 上記例では `postgresql` と `postgresql_v8` の２つが設定されており、Lampman 起動時に２つのPostgreSQLコンテナが立ち上がります。
-PostgreSQLを複数設定したい場合は、このように `postgresql～` から始まるキー名で複数定義しておくことで、それぞれ別の設定でPostgreSQLコンテナが立ち上がります。
+PostgreSQLを複数設定したい場合は、この２つ目のように `postgresql_～` から始まるキー名で複数定義しておくことで、それぞれ別の設定でPostgreSQLコンテナが立ち上がります。
 
 - **image:**  
   使用するPostgreSQLイメージを指定します。  

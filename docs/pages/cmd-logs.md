@@ -45,7 +45,7 @@
 
 ### 別のコンテナ内のログファイルも一緒に眺めたい場合
 
-Lampmanで設定できるMySQLでは、クエリログを有効に設定すると `lampman` コンテナに `/bar/log/(mysql設定名)` にmysqlコンテナのログディレクトリが自動でマウントされるようになりますが、これ以外で `lampman` 本体以外のコンテナの中のファイルを `lamp logs` で眺める方法を Lampman 側では特に方法を用意していません。  
+Lampmanで設定できるMySQLでは、クエリログを有効に設定すると `lampman` コンテナに `/var/log/(mysql設定名)` にmysqlコンテナのログディレクトリが自動でマウントされるようになりますが、これ以外で `lampman` 本体以外のコンテナの中のファイルを `lamp logs` で眺める方法を Lampman 側では特に方法を用意していません。  
 ですが、 `docker-compose.override.yml` に設定を追記して、`lampman` コンテナに該当のコンテナのディレクトリをマウントすることで比較的カンタンに対応できます。以下例です。
 
 ##### `docker-compose.override.yml` 設定例：

@@ -24,7 +24,7 @@ psqlクライアントに接続します。
             filename:  'dump.sql',
         }
     },
-    postgresql_2: { <span class="comment">// 複数設定する場合「postgresql～」として定義</span>
+    postgresql_2: { <span class="comment">// 複数設定する場合「postgresql_～」として定義</span>
         image:         'postgres:9',
         ports:         ['5433:5432'],
         database:      'test',
@@ -50,7 +50,7 @@ $ lamp psql postgresql_2
 
 と打てばそれぞれのpsqlクライアントに接続します。
 
-※ちなみに複数のpsql設定を定義する場合はかならず設定名を「postgresql～」としてください。
+※ちなみに複数のpsql設定を定義する場合はかならず設定名を「postgresql_～」としてください。
 
 
 ### `lamp psql -d`<br>`lamp psql --dump`

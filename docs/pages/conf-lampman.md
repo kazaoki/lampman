@@ -135,7 +135,7 @@ Webサーバ [Apache](https://httpd.apache.org/) の設定をします。
   ```
 
 ## // maildev
-[MailDev](https://github.com/maildev/maildev) はsendmailを利用して送信されるメールを捕獲してブラウザで確認するためのツールです。起動しておくと実際のメールアドレスには届かず、専用の画面でのみメールの内容が確認ができるようになるので、メール送信プログラム等の確認ができます。
+[MailDev](https://github.com/maildev/maildev) はsendmailを利用して送信されるメールを捕捉してブラウザで確認するためのツールです。起動しておくと実際のメールアドレスには届かず、専用の画面でのみメールの内容が確認ができるようになるので、メール送信プログラム等の確認ができます。
 
 - **start:**  
   `true` ... Maildev を起動します  
@@ -150,6 +150,8 @@ Webサーバ [Apache](https://httpd.apache.org/) の設定をします。
 
   この例の場合、ブラウザから [http://localhost:9981](http://localhost:9981) などどしてアクセスすれば MailDev 画面が開きます。
   SSL通信ではないので、外部を通る回線などの場合はご注意ください。
+
+  尚、SMTP送信やAPIを利用したメール配信の場合は捕捉できません。あくまで sendmail を通る場合のみですのでご注意ください。
 
 ## // postfix
 メールサーバ [Postfix](http://www.postfix.org/) の設定です。MailDevを使用したい場合は必ず起動してください。
