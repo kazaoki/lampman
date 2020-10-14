@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>起動時アクション設定 · Lampman 1.0.13</title>
+        <title>WSL2環境でXDebugが機能しない · Lampman 1.0.13</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -60,7 +60,7 @@
 
     
     
-    <link rel="prev" href="conf-extra.html" />
+    <link rel="prev" href="help-slowly.html" />
     
 
     </head>
@@ -734,7 +734,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="11.1.7" data-path="conf-upped.html">
+        <li class="chapter " data-level="11.1.7" data-path="conf-upped.html">
             
                 <a href="conf-upped.html">
             
@@ -825,7 +825,7 @@
             
         </li>
     
-        <li class="chapter " data-level="12.1.5" data-path="help-wsl2-xdebug.html">
+        <li class="chapter active" data-level="12.1.5" data-path="help-wsl2-xdebug.html">
             
                 <a href="help-wsl2-xdebug.html">
             
@@ -938,7 +938,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >起動時アクション設定</a>
+        <a href=".." >WSL2環境でXDebugが機能しない</a>
     </h1>
 </div>
 
@@ -953,97 +953,30 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h6 id="&#x1F4DD;-&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x89E3;&#x8AAC;&#xFF1A;configjs">&#x1F4DD; &#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x89E3;&#x8AAC;&#xFF1A;config.js</h6>
-<h1 id="&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;&#x8D77;&#x52D5;&#x6642;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x8A2D;&#x5B9A;">&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x8A73;&#x8AAC;&#xFF1A;&#x8D77;&#x52D5;&#x6642;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x8A2D;&#x5B9A;</h1>
+                                <h6 id="&#x1F635;-&#x56F0;&#x3063;&#x305F;&#x3068;&#x304D;">&#x1F635; &#x56F0;&#x3063;&#x305F;&#x3068;&#x304D;</h6>
+<h1 id="wsl2&#x74B0;&#x5883;&#x3067;xdebug&#x304C;&#x6A5F;&#x80FD;&#x3057;&#x306A;&#x3044;&#x5834;&#x5408;">WSL2&#x74B0;&#x5883;&#x3067;XDebug&#x304C;&#x6A5F;&#x80FD;&#x3057;&#x306A;&#x3044;&#x5834;&#x5408;</h1>
 <hr>
-<h2 id="configjs-&#x8A2D;&#x5B9A;&#x4F8B;">config.js &#x8A2D;&#x5B9A;&#x4F8B;</h2>
+<p>2020-10-14 &#x306E;&#x6642;&#x70B9;&#x3067;&#x3001;WSL2&#x74B0;&#x5883;&#x4E0A;&#x3067;&#x306F;&#x305D;&#x306E;&#x307E;&#x307E;&#x3067;&#x306F;XDebug&#x304C;&#x6B63;&#x5E38;&#x306B;&#x6A5F;&#x80FD;&#x3057;&#x306A;&#x3044;&#x3053;&#x3068;&#x304C;&#x308F;&#x304B;&#x3063;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;
+&#x3053;&#x308C;&#x306F;WSL&#x3084;Docker&#x5074;&#x306E;&#x4E0D;&#x5177;&#x5408;&#x306E;&#x53EF;&#x80FD;&#x6027;&#x3082;&#x3042;&#x308A;&#x307E;&#x3059;&#x306E;&#x3067;&#x3001;&#x4E00;&#x65E6;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306A;&#x5BFE;&#x5FDC;&#x3092;&#x3059;&#x308B;&#x3053;&#x3068;&#x3067;&#x56DE;&#x907F;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+<p>&#x307E;&#x305A; <code>docker-compose.override.yml</code> &#x3092;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306B;&#x66F8;&#x304D;&#x3001; <code>LAMPMAN_PHP_XDEBUG_HOST</code> &#x3092; <code>${WSL_IP}</code> &#x3067;&#x4E0A;&#x66F8;&#x304D;&#x3057;&#x307E;&#x3059;&#x3002;</p>
 <pre class="cmd">
-    /**
-     * ---------------------------------------------------------------
-     * &#x8D77;&#x52D5;&#x6642;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x8A2D;&#x5B9A;
-     * ---------------------------------------------------------------
-     */
-    on_upped: [
-        {
-            // open MailDev on upped (win&amp;mac only)
-            type: &apos;open_browser&apos;,
-            port: &apos;1080&apos;,
-        },
-        {
-            // open browser on upped (win&amp;mac only)
-            type: &apos;open_browser&apos;,
-            schema: &apos;https&apos;,
-            path: &apos;/&apos;,
-            // port: &apos;&apos;,
-            // container: &apos;lampman&apos;,
-            // url: &apos;http://localhost:9981&apos;,
-        },
-        {
-            type: &apos;run_command&apos;,
-            command: &apos;gulp&apos;,
-        },
-        {
-            // show message on upped
-            type: &apos;show_message&apos;,
-            message: &apos;hogehoge&apos;,
-            style: &apos;primary&apos;, // primary|success|danger|warning|info|default
-        },
-        {
-            // run extra command on upped
-            type: &apos;run_extra_command&apos;,
-            name: &apos;ab&apos;,
-            // args: [],
-        },
-        {
-            // run command on upped
-            type: &apos;run_command&apos;,
-            command: {
-                win: &apos;dir&apos;,
-                unix: &apos;ls -la&apos;,
-            },
-        },
-    ],
+version: &apos;2.2&apos;
+services:
+  lampman:
+    environment:
+      LAMPMAN_PHP_XDEBUG_HOST: &apos;${WSL_IP}&apos;
 </pre>
 
-<h2 id="onupped"><code>on_upped:</code></h2>
-<p><code>lamp up</code> &#x6642;&#x306B;&#x5404;&#x7A2E;&#x8D77;&#x52D5;&#x5B8C;&#x4E86;&#x5F8C;&#x306B;&#x81EA;&#x52D5;&#x5B9F;&#x884C;&#x3055;&#x305B;&#x308B;&#x6A5F;&#x80FD;&#x3092;&#x8A18;&#x8FF0;&#x3057;&#x3066;&#x304A;&#x3051;&#x307E;&#x3059;&#x3002;
-&#x8907;&#x6570;&#x5B9A;&#x7FA9;&#x3057;&#x3066;&#x304A;&#x304F;&#x3068;&#x3001;&#x4E0A;&#x304B;&#x3089;&#x9806;&#x756A;&#x306B;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
-<ul>
-<li><p><strong>type: &apos;show_message&apos;</strong><br>&#x30B3;&#x30F3;&#x30BD;&#x30FC;&#x30EB;&#x753B;&#x9762;&#x306B;&#x30E1;&#x30C3;&#x30BB;&#x30FC;&#x30B8;&#x3092;&#x67A0;&#x4ED8;&#x304D;&#x3067;&#x51FA;&#x529B;&#x3057;&#x307E;&#x3059;&#x3002;&#x958B;&#x767A;&#x6642;&#x306E;&#x6CE8;&#x610F;&#x70B9;&#x306A;&#x3069;&#x30E1;&#x30E2;&#x3057;&#x3066;&#x304A;&#x304F;&#x3068;&#x5FD8;&#x308C;&#x306A;&#x304F;&#x3066;&#x3044;&#x3044;&#x3067;&#x3059;&#x3002;</p>
-<ul>
-<li><strong>message:</strong><br>&#x3053;&#x3053;&#x306B;&#x30E1;&#x30C3;&#x30BB;&#x30FC;&#x30B8;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</li>
-<li><strong>style:</strong><br>&#x8272;&#x3092;&#x9078;&#x629E;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x4EE5;&#x4E0B;&#x306E;&#x3044;&#x305A;&#x308C;&#x304B;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br><code>primary</code><br><code>success</code><br><code>danger</code><br><code>warning</code><br><code>info</code><br><code>default</code>  </li>
-</ul>
-</li>
-<li><p><strong>type: &apos;open_browser&apos;</strong><br>&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x3067;&#x898F;&#x5B9A;&#x306E;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x304C;&#x7ACB;&#x3061;&#x4E0A;&#x304C;&#x308A;&#x307E;&#x3059;&#x3002;</p>
-<ul>
-<li><p><strong>port:</strong><br>&#x6307;&#x5B9A;&#x306E;&#x30DD;&#x30FC;&#x30C8;&#x3078;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3057;&#x307E;&#x3059;&#x3002;&#x305F;&#x3060;&#x3057;&#x3001;&#x6307;&#x5B9A;&#x30DD;&#x30FC;&#x30C8;&#x304C;&#x7A7A;&#x3044;&#x3066;&#x3044;&#x306A;&#x3044;&#x5834;&#x5408;&#x306F;&#x81EA;&#x52D5;&#x7684;&#x306B;&#x5916;&#x90E8;&#x30DD;&#x30FC;&#x30C8;&#x756A;&#x53F7;&#x306B;&#x5909;&#x63DB;&#x3057;&#x3066;&#x518D;&#x5EA6;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3057;&#x307E;&#x3059;&#x3002;</p>
-</li>
-<li><p><strong>schema:</strong><br><code>http</code> &#x3001; <code>https</code> &#x306A;&#x3069;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;</p>
-</li>
-<li><p><strong>path:</strong><br>&#x5FC5;&#x8981;&#x3067;&#x3042;&#x308C;&#x3070;&#x30C9;&#x30E1;&#x30A4;&#x30F3;&#x306E;&#x3042;&#x3068;&#x306E;URL&#x30D1;&#x30B9;&#x3092;&#x8A18;&#x8FF0;&#x3057;&#x307E;&#x3059;&#x3002;</p>
-</li>
-<li><p><strong>url:</strong><br>&#x4E0A;&#x8A18;&#x306E;&#x3088;&#x3046;&#x306A;URL&#x6307;&#x5B9A;&#x65B9;&#x6CD5;&#x3067;&#x306F;&#x306A;&#x304F;&#x3001;&#x76F4;&#x63A5;&#x56FA;&#x5B9A;&#x306E;URL&#x3092;&#x6307;&#x5B9A;&#x3057;&#x305F;&#x3044;&#x3068;&#x304D;&#x306F;&#x3053;&#x3061;&#x3089;&#x3067;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;</p>
-</li>
-</ul>
-<p>&#x203B; <code>url:</code> &#x3084; <code>schema</code> &#x306E;&#x6307;&#x5B9A;&#x304C;&#x306A;&#x3051;&#x308C;&#x3070;&#x81EA;&#x52D5;&#x7684;&#x306B; <code>http://&#xFF08;Docker&#x30DB;&#x30B9;&#x30C8;&#xFF09;</code> &#x306B;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3057;&#x307E;&#x3059;&#x3002;</p>
-</li>
-<li><p><strong>type: &apos;run_command&apos;</strong><br>&#x6307;&#x5B9A;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x5B9F;&#x884C;&#x3057;&#x307E;&#x3059;&#x3002;</p>
-<ul>
-<li><strong>command:</strong><br>&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;
-OS&#x5225;&#x306B;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3055;&#x3089;&#x306B;&#x4E0B;&#x4F4D;&#x306B; <code>win:</code>, <code>unix:</code> &#x3068;&#x3057;&#x3066;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x8A18;&#x8FF0;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</li>
-<li><strong>container:</strong><br>&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306E;&#x4E2D;&#x3067;&#x5B9F;&#x884C;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3053;&#x3061;&#x3089;&#x3082;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#x5B9F;&#x969B;&#x306E;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x540D;&#x3067;&#x306F;&#x306A;&#x304F;&#x3001; <code>lampman</code> <code>mysql_2</code> &#x306A;&#x3069;&#x306E;&#x30B5;&#x30FC;&#x30D3;&#x30B9;&#x540D;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x307E;&#x3059;&#x3002;</li>
-<li><strong>args:</strong><br>&#x5F15;&#x6570;&#x304C;&#x6E21;&#x305B;&#x308B;Extra&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x3042;&#x308C;&#x3070;&#x3053;&#x3061;&#x3089;&#x306E;&#x6307;&#x5B9A;&#x3082;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;&#x914D;&#x5217;&#x3067;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x4F8B;&#xFF1A;<pre><code>args: [&apos;--limit&apos;, &apos;999&apos;]
-</code></pre></li>
-</ul>
-</li>
-<li><p><strong>type: &apos;run_extra_command&apos;</strong><br>&#x65E2;&#x306B;Extra&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x8A2D;&#x5B9A;&#x3067;&#x5B9A;&#x7FA9;&#x3055;&#x308C;&#x305F;&#x3082;&#x306E;&#x3092;&#x5B9F;&#x884C;&#x3059;&#x308B;&#x5834;&#x5408;&#x306F;Extra&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x540D;&#x306E;&#x6307;&#x5B9A;&#x3060;&#x3051;&#x3067;OK&#x3067;&#x3059;&#x3002;</p>
-<ul>
-<li><strong>name:</strong><br>Extra&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x540D;&#x3092;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</li>
-<li><strong>args:</strong><br>&#x5F15;&#x6570;&#x304C;&#x6E21;&#x305B;&#x308B;Extra&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x3042;&#x308C;&#x3070;&#x3053;&#x3061;&#x3089;&#x306E;&#x6307;&#x5B9A;&#x3082;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;&#x914D;&#x5217;&#x3067;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x203B; <code>type: &apos;run_command&apos;</code> &#x3068;&#x540C;&#x69D8;&#x3067;&#x3059;&#x3002;</li>
-</ul>
-</li>
-</ul>
+<p>&#x305D;&#x3057;&#x3066; WSL&#x5074;&#x306E;&#x30B7;&#x30A7;&#x30EB;&#x3067;&#x4EE5;&#x4E0B;&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x6253;&#x3061;&#x3001;&#x74B0;&#x5883;&#x5909;&#x6570; <code>WSL_IP</code> &#x304C;&#x30BB;&#x30C3;&#x30C8;&#x3055;&#x308C;&#x308B;&#x3088;&#x3046;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<pre class="cmd">
+echo &apos;export WSL_IP=$(hostname -I)&apos; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</pre>
+
+<p>&#x3053;&#x308C;&#x3067;&#x518D;&#x5EA6; <code>lamp up</code> &#x3057;&#x3066;&#x307F;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#x4ECA;&#x5EA6;&#x306F;&#x3046;&#x307E;&#x304F;&#x30D6;&#x30EC;&#x30A4;&#x30AF;&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x3067;&#x6B62;&#x307E;&#x308B;&#x306F;&#x305A;&#x3067;&#x3059;&#x3002;&#xFF08;&#x3082;&#x3061;&#x308D;&#x3093;&#x5FC5;&#x8981;&#x306A;&#x5404;&#x7A2E;&#x8A2D;&#x5B9A;&#x306F;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#xFF09;</p>
+<p>&#x672C;&#x6765;&#x306F; XDebug &#x306E;&#x30DB;&#x30B9;&#x30C8;&#x5148;&#x306F; <code>host.docker.internal</code> &#x3068;&#x306A;&#x3063;&#x3066;&#x304A;&#x308A;&#x3001;Docker&#x304C;&#x52D5;&#x3044;&#x3066;&#x3044;&#x308B;Windows&#x30DB;&#x30B9;&#x30C8;&#x306E;IP&#x306A;&#x306E;&#x3067;&#x3059;&#x304C;&#x3001;WSL2&#x74B0;&#x5883;&#x3067;&#x306F;&#x4E2D;&#x9593;&#x306B;WSL&#x7528;&#x306E;OS&#xFF08;Ubuntu&#x306A;&#x3069;&#xFF09;&#x304C;&#x631F;&#x307E;&#x3063;&#x3066;&#x3044;&#x308B;&#x305F;&#x3081;&#x3001;&#x3053;&#x306E;&#x4E2D;&#x9593;OS&#x306E;IP&#x306E;&#x6307;&#x5B9A;&#x304C;&#x5FC5;&#x8981;&#x306E;&#x3088;&#x3046;&#x3067;&#x3057;&#x305F;&#x3002;&#x4E0A;&#x8A18;&#x306E;&#x624B;&#x9806;&#x3067;&#x305D;&#x306E;IP&#x306B;&#x66F8;&#x304D;&#x63DB;&#x3048;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x203B;&#x307E;&#x305F;&#x3001;Lampman&#x81EA;&#x4F53;&#x307E;&#x3060;WSL2&#x5BFE;&#x5FDC;&#x304C;&#x5B8C;&#x74A7;&#x3067;&#x306F;&#x306A;&#x304F;&#x3001;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x304C;&#x6B63;&#x5E38;&#x306B;&#x7D42;&#x4E86;&#x305B;&#x305A;&#x306B;&#x6B62;&#x307E;&#x3063;&#x305F;&#x308A;&#x3001;&#x306A;&#x306B;&#x304B;&#x306E;&#x30D7;&#x30ED;&#x30BB;&#x30B9;&#x304C;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x63B4;&#x3093;&#x3067;&#x96E2;&#x3055;&#x306A;&#x3044;&#xFF08;&#x524A;&#x9664;&#x3067;&#x304D;&#x306A;&#x3044;&#xFF09;&#x7B49;&#x306E;&#x554F;&#x984C;&#x3082;&#x78BA;&#x8A8D;&#x3057;&#x3066;&#x304A;&#x308A;&#x307E;&#x3059;&#x3002;
+&#x6210;&#x719F;&#x3092;&#x5F85;&#x3061;&#x307E;&#x3057;&#x3087;&#x3046;&#x3002;</p>
 
                                 
                                 </section>
@@ -1071,7 +1004,7 @@ OS&#x5225;&#x306B;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3055;&#x308
 
             
                 
-                <a href="conf-extra.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Extraコマンド設定">
+                <a href="help-slowly.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: アクセス超遅いんだけど">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -1083,7 +1016,7 @@ OS&#x5225;&#x306B;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3055;&#x308
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"起動時アクション設定","level":"11.1.7","depth":2,"next":{"title":"😵 困ったとき","level":"12.1","depth":1,"ref":"","articles":[{"title":"必要なPHPバージョンが一覧にない","level":"12.1.1","depth":2,"path":"pages/help-need-phpver.md","ref":"pages/help-need-phpver.md","articles":[]},{"title":"レンタルサーバに上げたら動かない","level":"12.1.2","depth":2,"path":"pages/help-error-prod.md","ref":"pages/help-error-prod.md","articles":[]},{"title":"データベースが正常に復元しない","level":"12.1.3","depth":2,"path":"pages/help-db-restore.md","ref":"pages/help-db-restore.md","articles":[]},{"title":"アクセス超遅いんだけど","level":"12.1.4","depth":2,"path":"pages/help-slowly.md","ref":"pages/help-slowly.md","articles":[]},{"title":"WSL2環境でXDebugが機能しない","level":"12.1.5","depth":2,"path":"pages/help-wsl2-xdebug.md","ref":"pages/help-wsl2-xdebug.md","articles":[]}]},"previous":{"title":"Extraコマンド設定","level":"11.1.6","depth":2,"path":"pages/conf-extra.md","ref":"pages/conf-extra.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"1.0.13"},"title":"Lampman 1.0.13","language":"ja","gitbook":"*"},"file":{"path":"pages/conf-upped.md","mtime":"2019-12-05T07:37:23.910Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-14T13:31:31.323Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"WSL2環境でXDebugが機能しない","level":"12.1.5","depth":2,"next":{"title":"🤖 技術情報/カスタム","level":"13.1","depth":1,"ref":"","articles":[{"title":"Dockerイメージについて","level":"13.1.1","depth":2,"path":"pages/tech-images.md","ref":"pages/tech-images.md","articles":[]},{"title":"entrypoint.shについて","level":"13.1.2","depth":2,"path":"pages/tech-entrypoint.md","ref":"pages/tech-entrypoint.md","articles":[]},{"title":"Lampman自体をいじりたい人へ","level":"13.1.3","depth":2,"path":"pages/tech-lampman-dev.md","ref":"pages/tech-lampman-dev.md","articles":[]}]},"previous":{"title":"アクセス超遅いんだけど","level":"12.1.4","depth":2,"path":"pages/help-slowly.md","ref":"pages/help-slowly.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"1.0.13"},"title":"Lampman 1.0.13","language":"ja","gitbook":"*"},"file":{"path":"pages/help-wsl2-xdebug.md","mtime":"2020-10-14T13:29:12.743Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-14T13:31:31.323Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
