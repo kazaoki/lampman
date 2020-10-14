@@ -62,6 +62,9 @@ export function ConfigToYaml(config:any, config_dir:string)
                 image: config.lampman.php.image,
                 labels: [proj]
             }
+            if(config.network && 'name' in config.network) {
+                yaml.services.phpenv.networks = [config.network.name]
+            }
             yaml.services.lampman.depends_on.push('phpenv')
             yaml.services.lampman.environment.LAMPMAN_PHP_PHPENV_IMAGE = config.lampman.php.image
             const matches = config.lampman.php.image.match(/\:(.*)$/)
