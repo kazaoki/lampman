@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.14
+2020-10-19
+- debug postfix load
+- Add `kazaoki/lampman:useperl` image
+
+## 1.0.13
+2020-10-14
+- Update Document
+
 ## 1.0.11 - 1.0.12
 2020-10-01
 
