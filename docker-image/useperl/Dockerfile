@@ -7,6 +7,8 @@ RUN yum install -y \
         perl-XML-TreePP \
         perl-DateTime-Format-HTTP \
         perl-DBI \
+        perl-DBD-Pg \
+        perl-DBD-MySQL \
         perl-GD-Barcode \
     && rm -rf /var/cache/yum/* \
     && yum clean all
