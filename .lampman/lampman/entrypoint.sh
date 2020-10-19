@@ -130,7 +130,6 @@ if [[ $LAMPMAN_MAILDEV_START == 1 ]]; then
 
   # -- Postfix config change
   echo 'relayhost = 127.0.0.1:1025' >> /etc/postfix/main.cf
-  sed -i 's/inet_protocols = all/inet_protocols = ipv4/g' /etc/postfix/main.cf
 
   # -- MailDev start
   maildev -s 1025 -w 1080 &
@@ -138,6 +137,7 @@ fi
 
 # -- Postfix start
 if [[ $LAMPMAN_POSTFIX_START == 1 ]]; then
+  sed -i 's/inet_protocols = all/inet_protocols = ipv4/g' /etc/postfix/main.cf
   /usr/sbin/postfix start
 fi
 
