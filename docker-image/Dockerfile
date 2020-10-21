@@ -55,3 +55,13 @@ RUN cd /usr/bin \
 # -- permit for web log files
 RUN chmod 0755 /var/log/httpd/ \
     && chmod 0755 /var/log/nginx/
+
+# -- add docker user
+RUN groupadd -g 1000 docker \
+    && useradd -g docker -m -s /bin/bash docker \
+    && usermod -aG apache,nginx docker \
+    && localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
+
+# -- config httpd
+RUN sed -i 's/^User apache$/User docker/' /etc/httpd/conf/httpd.conf \
+    && sed -i 's/^Group apache$/Group docker/' /etc/httpd/conf/httpd.conf
