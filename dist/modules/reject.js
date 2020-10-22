@@ -92,7 +92,7 @@ function action(argv, lampman) {
                                     type: 'volume',
                                     name: name_2
                                 },
-                                disabled: !argv.locked && name_2.match(/^locked_/),
+                                disabled: !argv.locked && name_2.match(/([^A-Za-z0-9]|^)locked([^A-Za-z0-9]|$)/),
                             });
                         }
                     }
@@ -127,7 +127,7 @@ function action(argv, lampman) {
                     for (_c = 0, volumes_2 = volumes; _c < volumes_2.length; _c++) {
                         name_4 = volumes_2[_c];
                         if (name_4.length) {
-                            if (!argv.locked && name_4.match(/^locked_/))
+                            if (!argv.locked && name_4.match(/([^A-Za-z0-9]|^)locked([^A-Za-z0-9]|$)/))
                                 continue;
                             targets.push({
                                 type: 'volume',

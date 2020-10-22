@@ -73,7 +73,7 @@ export async function action(argv:any, lampman:any)
                     type: 'volume',
                     name: name
                 },
-                disabled: !argv.locked && name.match(/^locked_/),
+                disabled: !argv.locked && name.match(/([^A-Za-z0-9]|^)locked([^A-Za-z0-9]|$)/),
                 // description: 'xxx',
             })
         }
@@ -107,7 +107,7 @@ export async function action(argv:any, lampman:any)
         }
         for(let name of volumes) {
             if(name.length) {
-                if(!argv.locked && name.match(/^locked_/)) continue;
+                if(!argv.locked && name.match(/([^A-Za-z0-9]|^)locked([^A-Za-z0-9]|$)/)) continue;
                 targets.push({
                     type: 'volume',
                     name: name
