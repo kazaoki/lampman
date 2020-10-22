@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.15
+2020-10-22
+- Changed the lock volume from one that starts with `locked_` to one that contains` locked` as a word.
+
 ## 1.0.14
 2020-10-19
 - debug postfix load
