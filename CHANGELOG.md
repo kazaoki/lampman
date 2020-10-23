@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.16
+2020-10-23
+- Fixed an issue where output stopped when `lamp up` was performed on Linux.
+- Fixed so that the setting contents are displayed when `lm config` is executed on the linux command.
+
 ## 1.0.15
 2020-10-22
 - Changed the lock volume from one that starts with `locked_` to one that contains` locked` as a word.
