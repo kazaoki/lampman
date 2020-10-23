@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.action = exports.meta = void 0;
 var libs = require("../libs");
-var child = require('child_process');
 var fs = require('fs');
 var open = require('open');
 function meta(lampman) {
@@ -60,9 +59,15 @@ function action(argv, lampman) {
                             ("\u30D7\u30ED\u30B8\u30A7\u30AF\u30C8\u30D5\u30A9\u30EB\u30C0\u306E\u30EB\u30FC\u30C8\u306B\u3066 'lamp init" + (mode_label ? ' --mode ' + mode_label : '') + "' \u3092\u5B9F\u884C\u3057\u3066\u521D\u671F\u5316\u3092\u884C\u3063\u3066\u304F\u3060\u3055\u3044\u3002"), 'warning');
                         return [2];
                     }
-                    return [4, open(lampman.config_dir + "/config.js")];
-                case 1:
+                    if (!(libs.isLinux() && process.env.SHELL && process.env.SHLVL)) return [3, 1];
+                    console.log(lampman.config);
+                    return [3, 3];
+                case 1: return [4, open(lampman.config_dir + "/config.js")];
+                case 2:
                     _a.sent();
+                    _a.label = 3;
+                case 3:
+                    console.log();
                     return [2];
             }
         });

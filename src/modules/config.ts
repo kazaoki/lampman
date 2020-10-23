@@ -9,7 +9,6 @@
  */
 
 import libs = require('../libs');
-const child = require('child_process')
 const fs = require('fs')
 const open = require('open')
 
@@ -41,5 +40,10 @@ export async function action(argv:any, lampman:any)
     }
 
     // open
-    await open(`${lampman.config_dir}/config.js`)
+    if(libs.isLinux() && process.env.SHELL && process.env.SHLVL) {
+        console.log(lampman.config)
+    } else {
+        await open(`${lampman.config_dir}/config.js`)
+    }
+    console.log()
 }
