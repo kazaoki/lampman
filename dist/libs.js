@@ -103,6 +103,7 @@ function Message(message, type, line, opt) {
         line_color('╘') +
         line_color(Repeat('═', width)) +
         line_color('╛'));
+    console.log();
 }
 exports.Message = Message;
 function Error(message) {
@@ -120,6 +121,9 @@ function ContainerLogAppear(container, check_str, lampman) {
         var sp = child.spawn('docker-compose', ['--project-name', lampman.config.project, 'logs', '-f', '--no-color', container], { cwd: cwd });
         sp.stdout.on('data', function (data) {
             if (data.toString().match(check_str)) {
+                sp.stdin.end();
+                sp.stdout.destroy();
+                sp.stderr.destroy();
                 if ('win32' === process.platform) {
                     child.spawn('taskkill', ['/pid', sp.pid, '/f', '/t']);
                 }

@@ -122,6 +122,7 @@ export function Message (message: any, type: string='default', line: number=0, o
         line_color(Repeat('═', width)) +
         line_color('╛')
     )
+    console.log()
 }
 
 /**
@@ -156,6 +157,9 @@ export function ContainerLogAppear(container: string, check_str: string, lampman
         let sp = child.spawn('docker-compose', ['--project-name', lampman.config.project, 'logs', '-f', '--no-color', container], {cwd: cwd})
         sp.stdout.on('data', (data: any) => {
             if(data.toString().match(check_str)) {
+                sp.stdin.end();
+                sp.stdout.destroy();
+                sp.stderr.destroy();
                 if('win32'===process.platform) {
                     child.spawn('taskkill', ['/pid', sp.pid, '/f', '/t']);
                 } else {

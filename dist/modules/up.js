@@ -343,7 +343,9 @@ function action(argv, lampman) {
                                     if (count)
                                         console.log();
                                     _j.label = 7;
-                                case 7: return [2];
+                                case 7:
+                                    console.log();
+                                    return [2];
                             }
                         });
                     }); });

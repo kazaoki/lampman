@@ -32,6 +32,7 @@ function action(argv, lampman) {
             }
         }
     }
+    console.log();
     return;
 }
 exports.action = action;

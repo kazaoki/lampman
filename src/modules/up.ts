@@ -364,6 +364,7 @@ export async function action(argv:any, lampman:any)
             if(count) console.log()
         }
 
+        console.log()
         return
     })
 }
