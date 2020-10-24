@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.17
+2020-10-24
+- Fixed the part when the container was started because the behavior was strange on Linux.
+
 ## 1.0.16
 2020-10-23
 - Fixed an issue where output stopped when `lamp up` was performed on Linux.
