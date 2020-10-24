@@ -235,30 +235,24 @@ export async function action(argv:any, lampman:any)
         process.stdout.write(color.magenta.bold('  [Ready]'));
 
         // mysql Ready
-        procs.push(libs.ContainerLogAppear(
-            mysql.cname,
-            'Entrypoint finish.',
-            lampman,
-        )
-            .catch(err=>{libs.Error(err)})
-            .then(()=>process.stdout.write(color.magenta(` ${mysql.cname}`)))
+        procs.push(
+            libs.ContainerIsLoaded(mysql.cname, '/tmp/.container-loaded', lampman)
+                .catch(err=>{libs.Error(err)})
+                .then(()=>process.stdout.write(color.magenta(` ${mysql.cname}`)))
         )
 
         // lampman Ready
         if(mysql.query_log) {
             procs.push(
-                libs.ContainerLogAppear(
-                    'lampman',
-                    'lampman started',
-                    lampman,
-            )
-                .catch(err=>{libs.Error(err)})
-                .then(()=>process.stdout.write(color.magenta(' lampman')))
+                libs.ContainerIsLoaded('lampman', '/tmp/.container-loaded', lampman)
+                    .catch(err=>{libs.Error(err)})
+                    .then(()=>process.stdout.write(color.magenta(' lampman')))
             )
         }
 
         // Parallel processing
         await Promise.all(procs).catch(e=>libs.Error(e))
+        console.log()
         console.log()
 
         return

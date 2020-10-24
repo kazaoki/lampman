@@ -141,6 +141,7 @@ if [[ $LAMPMAN_POSTFIX_START == 1 ]]; then
   /usr/sbin/postfix start
 fi
 
+touch /tmp/.container-loaded
 echo 'lampman started.'
 
 # --------------------------------------------------------------------

@@ -41,5 +41,5 @@ fi
 
 # Pass to true shell
 # ------------------
-sed -i 's/exec "$@"/echo "Entrypoint finish."\nexec "$@"/' /entrypoint.sh
+sed -i 's/exec "$@"/touch \/tmp\/.container-loaded\nexec "$@"/' /entrypoint.sh
 exec /entrypoint.sh $@

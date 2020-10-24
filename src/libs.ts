@@ -145,35 +145,24 @@ export function Label(label: string) {
 }
 
 /**
- * ContainerLogAppear
+ * WaitContainerAppearFile
  * @param container コンテナ名
- * @param check_str 探す文字列
- * @param cwd composeファイルがあるパス（例：lampman.config_dir）
+ * @param checkfilepath 存在をチェックするファイルパス・名
+ * @param lampmanオブジェクト
  */
-export function ContainerLogAppear(container: string, check_str: string, lampman: any)
+export function ContainerIsLoaded(container: string, checkfilepath: string, lampman: any)
 {
-    let cwd = lampman.config_dir
     return new Promise((resolve, reject)=>{
-        let sp = child.spawn('docker-compose', ['--project-name', lampman.config.project, 'logs', '-f', '--no-color', container], {cwd: cwd})
-        sp.stdout.on('data', (data: any) => {
-            if(data.toString().match(check_str)) {
-                sp.stdin.end();
-                sp.stdout.destroy();
-                sp.stderr.destroy();
-                if('win32'===process.platform) {
-                    child.spawn('taskkill', ['/pid', sp.pid, '/f', '/t']);
-                } else {
-                    sp.kill()
-                }
+        const iv = setInterval(()=>{
+            const sp = child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'exec', '-T', container, 'ls', checkfilepath], {cwd: lampman.config_dir})
+            if(sp.stdout.toString()) {
+                clearInterval(iv)
                 resolve()
+            } else {
+                process.stdout.write(color.blackBright('.'))
             }
-        })
-        sp.on('error', (e: any)=>{
-            throw(e)
-        })
-        sp.on('close', (code:any)=>{
-            resolve()
-        })
+        }, 1000)
+
     })
 }
 

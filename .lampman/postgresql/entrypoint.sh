@@ -21,5 +21,5 @@ fi
 
 # Pass to main shell
 # ------------------
-sed -i 's/exec "$@"/echo "Entrypoint finish."\nexec "$@"/' /docker-entrypoint.sh
+sed -i 's/exec "$@"/touch \/tmp\/.container-loaded\nexec "$@"/' /docker-entrypoint.sh
 exec /docker-entrypoint.sh $@

@@ -1,6 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.extra_action = exports.existConfig = exports.dockerLs = exports.getLampmanVersion = exports.UpdateCompose = exports.LoadConfig = exports.ModeString = exports.RotateFile = exports.ContainerLogAppear = exports.Label = exports.Error = exports.Message = exports.Repeat = exports.isLinux = exports.isMac = exports.isWindows = exports.d = void 0;
+exports.extra_action = exports.existConfig = exports.dockerLs = exports.getLampmanVersion = exports.UpdateCompose = exports.LoadConfig = exports.ModeString = exports.RotateFile = exports.ContainerIsLoaded = exports.Label = exports.Error = exports.Message = exports.Repeat = exports.isLinux = exports.isMac = exports.isWindows = exports.d = void 0;
 var strwidth = require('string-width');
 var color = require('cli-color');
 var jpwrap = require('jp-wrap')(color.windowSize.width - 8);
@@ -115,33 +115,21 @@ function Label(label) {
     console.log(color.bold("<" + label + ">"));
 }
 exports.Label = Label;
-function ContainerLogAppear(container, check_str, lampman) {
-    var cwd = lampman.config_dir;
+function ContainerIsLoaded(container, checkfilepath, lampman) {
     return new Promise(function (resolve, reject) {
-        var sp = child.spawn('docker-compose', ['--project-name', lampman.config.project, 'logs', '-f', '--no-color', container], { cwd: cwd });
-        sp.stdout.on('data', function (data) {
-            if (data.toString().match(check_str)) {
-                sp.stdin.end();
-                sp.stdout.destroy();
-                sp.stderr.destroy();
-                if ('win32' === process.platform) {
-                    child.spawn('taskkill', ['/pid', sp.pid, '/f', '/t']);
-                }
-                else {
-                    sp.kill();
-                }
+        var iv = setInterval(function () {
+            var sp = child.spawnSync('docker-compose', ['--project-name', lampman.config.project, 'exec', '-T', container, 'ls', checkfilepath], { cwd: lampman.config_dir });
+            if (sp.stdout.toString()) {
+                clearInterval(iv);
                 resolve();
             }
-        });
-        sp.on('error', function (e) {
-            throw (e);
-        });
-        sp.on('close', function (code) {
-            resolve();
-        });
+            else {
+                process.stdout.write(color.blackBright('.'));
+            }
+        }, 1000);
     });
 }
-exports.ContainerLogAppear = ContainerLogAppear;
+exports.ContainerIsLoaded = ContainerIsLoaded;
 function RotateFile(filepath, max_number) {
     var dirname = path.dirname(filepath);
     var basename = path.basename(filepath);

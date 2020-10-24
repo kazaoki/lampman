@@ -239,30 +239,24 @@ export async function action(argv:any, lampman:any)
         process.stdout.write(color.magenta.bold('  [Ready]'));
 
         // postgresql Ready
-        procs.push(libs.ContainerLogAppear(
-            postgresql.cname,
-            'Entrypoint finish.',
-            lampman,
-        )
-            .catch(err=>{libs.Error(err)})
-            .then(()=>process.stdout.write(color.magenta(` ${postgresql.cname}`)))
+        procs.push(
+            libs.ContainerIsLoaded(postgresql.cname, '/tmp/.container-loaded', lampman)
+                .catch(err=>{libs.Error(err)})
+                .then(()=>process.stdout.write(color.magenta(` ${postgresql.cname}`)))
         )
 
-        // // lampman Ready
-        // if(postgresql.query_log) {
-        //     procs.push(
-        //         libs.ContainerLogAppear(
-        //             'lampman',
-        //             'lampman started',
-        //             lampman,
-        //     )
-        //         .catch(err=>{libs.Error(err)})
-        //         .then(()=>process.stdout.write(color.magenta(' lampman')))
-        //     )
-        // }
+        // lampman Ready
+        if(postgresql.query_log) {
+            procs.push(
+                libs.ContainerIsLoaded('lampman', '/tmp/.container-loaded', lampman)
+                    .catch(err=>{libs.Error(err)})
+                    .then(()=>process.stdout.write(color.magenta(' lampman')))
+            )
+        }
 
         // Parallel processing
         await Promise.all(procs).catch(e=>libs.Error(e))
+        console.log()
         console.log()
 
         return

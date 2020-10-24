@@ -240,17 +240,18 @@ function action(argv, lampman) {
                     console.log('');
                     procs = [];
                     process.stdout.write(color.magenta.bold('  [Ready]'));
-                    procs.push(libs.ContainerLogAppear(mysql.cname, 'Entrypoint finish.', lampman)
+                    procs.push(libs.ContainerIsLoaded(mysql.cname, '/tmp/.container-loaded', lampman)
                         .catch(function (err) { libs.Error(err); })
                         .then(function () { return process.stdout.write(color.magenta(" " + mysql.cname)); }));
                     if (mysql.query_log) {
-                        procs.push(libs.ContainerLogAppear('lampman', 'lampman started', lampman)
+                        procs.push(libs.ContainerIsLoaded('lampman', '/tmp/.container-loaded', lampman)
                             .catch(function (err) { libs.Error(err); })
                             .then(function () { return process.stdout.write(color.magenta(' lampman')); }));
                     }
                     return [4, Promise.all(procs).catch(function (e) { return libs.Error(e); })];
                 case 6:
                     _c.sent();
+                    console.log();
                     console.log();
                     return [2];
                 case 7: return [4, child.spawn('docker-compose', [

@@ -263,27 +263,21 @@ export async function action(argv:any, lampman:any)
         procs.push(sp)
 
         // Ready before
-        console.log('');
+        console.log();
         process.stdout.write(color.magenta.bold('  [Ready]'));
 
         // lampman Ready
         procs.push(
-            libs.ContainerLogAppear(
-                'lampman',
-                'lampman started',
-                lampman,
-            ).then(()=>process.stdout.write(color.magenta(' lampman')))
+            libs.ContainerIsLoaded('lampman', '/tmp/.container-loaded', lampman)
+                .then(()=>process.stdout.write(color.magenta(' lampman')))
         )
 
         // mysql|postgresql Ready
         for(let key of Object.keys(lampman.config)) {
             if(!key.match(/^(mysql|postgresql)/)) continue
             procs.push(
-                libs.ContainerLogAppear(
-                    key,
-                    'Entrypoint finish.',
-                    lampman,
-                ).then(()=>process.stdout.write(color.magenta(` ${key}`)))
+                libs.ContainerIsLoaded(key, '/tmp/.container-loaded', lampman)
+                    .then(()=>process.stdout.write(color.magenta(` ${key}`)))
             )
         }
 
