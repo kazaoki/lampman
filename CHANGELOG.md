@@ -1,8 +1,12 @@
 # Changelog
 
+## 1.0.18
+2020-10-24
+- Fix init sh file.
+
 ## 1.0.17
 2020-10-24
-- Fixed the part when the container was started because the behavior was strange on Linux.
+- Fixed the part when the container was started because the behavior was strange on Linux. **Please overwrite new docker-entrypoint.sh.**
 
 ## 1.0.16
 2020-10-23
