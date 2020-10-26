@@ -135,10 +135,10 @@ function ConfigToYaml(config, config_dir) {
                 for (var _g = 0, _h = config[key].hosts; _g < _h.length; _g++) {
                     var host = _h[_g];
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
-                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += ", " + host + ":" + key;
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += ", " + host + ":" + proj + "-" + key;
                     }
                     else {
-                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = host + ":" + key;
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = host + ":" + proj + "-" + key;
                     }
                 }
             }
@@ -216,10 +216,10 @@ function ConfigToYaml(config, config_dir) {
                 for (var _j = 0, _k = config[key].hosts; _j < _k.length; _j++) {
                     var host = _k[_j];
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
-                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += ", " + host + ":" + key;
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += ", " + host + ":" + proj + "-" + key;
                     }
                     else {
-                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = host + ":" + key;
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = host + ":" + proj + "-" + key;
                     }
                 }
             }

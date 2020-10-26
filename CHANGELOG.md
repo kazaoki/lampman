@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.19
+2020-10-26
+- Fixed a case where a container with the same name without the project name was connected to another DB when accessing the domain specified by `hosts` in the DB setting when it was on the same network.
+
 ## 1.0.18
 2020-10-24
 - Fix init sh file.

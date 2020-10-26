@@ -132,9 +132,9 @@ export function ConfigToYaml(config:any, config_dir:string)
             if('hosts' in config[key] && config[key].hosts.length) {
                 for(let host of config[key].hosts) {
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
-                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += `, ${host}:${key}`
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += `, ${host}:${proj}-${key}`
                     } else {
-                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = `${host}:${key}`
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = `${host}:${proj}-${key}`
                     }
                 }
             }
@@ -211,9 +211,9 @@ export function ConfigToYaml(config:any, config_dir:string)
             if('hosts' in config[key] && config[key].hosts.length) {
                 for(let host of config[key].hosts) {
                     if ('LAMPMAN_BIND_HOSTS' in yaml.services.lampman.environment) {
-                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += `, ${host}:${key}`
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS += `, ${host}:${proj}-${key}`
                     } else {
-                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = `${host}:${key}`
+                        yaml.services.lampman.environment.LAMPMAN_BIND_HOSTS = `${host}:${proj}-${key}`
                     }
                 }
             }
