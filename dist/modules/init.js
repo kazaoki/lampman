@@ -42,6 +42,7 @@ var fs = require("fs-extra");
 var path = require("path");
 var config_1 = require("./config");
 var prompts = require('prompts');
+var color = require('cli-color');
 function meta(lampman) {
     return {
         command: 'init [options]',
@@ -65,20 +66,81 @@ function meta(lampman) {
                 nargs: 1,
                 default: 'public_html',
             },
+            'reset-entrypoint-shell': {
+                alias: 'r',
+                describe: 'lampman及び各DBコンテナの entrypoint.sh を標準のもので上書きする。',
+                type: 'boolean',
+            },
         },
     };
 }
 exports.meta = meta;
 function action(argv, lampman) {
     return __awaiter(this, void 0, void 0, function () {
-        var config_dirname, config_dir, setup, response, messages, copyFromMaster, _i, _a, name_1, content;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var config_dirname, config_dir, targets, _i, _a, key, list_string, _b, targets_1, obj, response, _c, targets_2, target, setup, response, messages, copyFromMaster, _d, _e, name_1, content;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
                 case 0:
                     config_dirname = ".lampman" + libs.ModeString(lampman.mode);
                     config_dir = path.join(process.cwd(), config_dirname);
+                    if (!argv.resetEntrypointShell) return [3, 2];
+                    if (!lampman.config_dir) {
+                        libs.Message('設定ディレクトリが見つかりません。先にセットアップしてください。', 'warning');
+                        return [2];
+                    }
+                    targets = [];
+                    targets.push({
+                        'from': path.join(__dirname, '../../.lampman-init/lampman/entrypoint.sh'),
+                        'to': path.join(lampman.config_dir, '/lampman/entrypoint.sh')
+                    });
+                    for (_i = 0, _a = Object.keys(lampman.config); _i < _a.length; _i++) {
+                        key = _a[_i];
+                        if (key.match(/^mysql/)) {
+                            targets.push({
+                                'from': path.join(__dirname, '../../.lampman-init/mysql/entrypoint.sh'),
+                                'to': path.join(lampman.config_dir, "/" + key + "/entrypoint.sh")
+                            });
+                        }
+                        if (key.match(/^postgresql/)) {
+                            targets.push({
+                                'from': path.join(__dirname, '../../.lampman-init/postgresql/entrypoint.sh'),
+                                'to': path.join(lampman.config_dir, "/" + key + "/entrypoint.sh")
+                            });
+                        }
+                    }
+                    list_string = '';
+                    for (_b = 0, targets_1 = targets; _b < targets_1.length; _b++) {
+                        obj = targets_1[_b];
+                        list_string += "- " + obj.to + "\n";
+                    }
+                    libs.Message(list_string, 'primary');
+                    return [4, prompts([
+                            {
+                                type: 'toggle',
+                                name: 'value',
+                                message: '上記のファイルをそれぞれ標準の entrypoint.sh で上書きしますがよろしいでしょうか。',
+                                initial: false,
+                                active: 'yes',
+                                inactive: 'no'
+                            }
+                        ])];
+                case 1:
+                    response = _f.sent();
+                    if (!response.value)
+                        return [2];
+                    console.log();
+                    for (_c = 0, targets_2 = targets; _c < targets_2.length; _c++) {
+                        target = targets_2[_c];
+                        fs.copySync(target.from, target.to, {
+                            overwrite: true,
+                            errorOnExist: true
+                        });
+                        console.log(color.green('- ' + target.to + ' ... done'));
+                    }
+                    return [2];
+                case 2:
                     setup = [];
-                    if (!!argv.force) return [3, 2];
+                    if (!!argv.force) return [3, 4];
                     return [4, prompts({
                             type: 'multiselect',
                             name: 'setup',
@@ -92,16 +154,16 @@ function action(argv, lampman) {
                             ],
                             instructions: false,
                         })];
-                case 1:
-                    response = _b.sent();
+                case 3:
+                    response = _f.sent();
                     if (!response.setup)
                         return [2];
                     setup = response.setup;
-                    return [3, 3];
-                case 2:
+                    return [3, 5];
+                case 4:
                     setup.push('LampmanConfig');
-                    _b.label = 3;
-                case 3:
+                    _f.label = 5;
+                case 5:
                     messages = [];
                     try {
                         copyFromMaster = function (name, use_initdir) {
@@ -116,12 +178,12 @@ function action(argv, lampman) {
                             });
                         };
                         if (setup.includes('LampmanConfig')) {
-                            for (_i = 0, _a = [
+                            for (_d = 0, _e = [
                                 'lampman',
                                 'config.js',
                                 'docker-compose.override.yml',
-                            ]; _i < _a.length; _i++) {
-                                name_1 = _a[_i];
+                            ]; _d < _e.length; _d++) {
+                                name_1 = _e[_d];
                                 copyFromMaster(name_1, true);
                                 messages.push("  - " + path.join(config_dir, '/' + name_1));
                             }

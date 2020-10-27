@@ -13,6 +13,7 @@ import fs   = require('fs-extra');
 import path = require('path');
 import { action as config } from './config';
 const prompts = require('prompts')
+const color   = require('cli-color')
 
 /**
  * コマンド登録用メタデータ
@@ -41,6 +42,11 @@ export function meta(lampman:any)
                 nargs: 1,
                 default: 'public_html',
             },
+            'reset-entrypoint-shell': {
+                alias: 'r',
+                describe: 'lampman及び各DBコンテナの entrypoint.sh を標準のもので上書きする。',
+                type: 'boolean',
+            },
         },
     }
 }
@@ -53,6 +59,73 @@ export async function action(argv:any, lampman:any)
     // 作成する設定ディレクトリを特定
     let config_dirname = `.lampman${libs.ModeString(lampman.mode)}`
     let config_dir = path.join(process.cwd(), config_dirname)
+
+    // entrypoint.sh リセット処理して終わる
+    if(argv.resetEntrypointShell) {
+        if(!lampman.config_dir) {
+            libs.Message('設定ディレクトリが見つかりません。先にセットアップしてください。', 'warning')
+            return
+        }
+
+        let targets = []
+
+        // lampman本体
+        targets.push({
+            'from': path.join(__dirname, '../../.lampman-init/lampman/entrypoint.sh'),
+            'to':   path.join(lampman.config_dir, '/lampman/entrypoint.sh')
+        })
+
+        // 各DB
+        for(const key of Object.keys(lampman.config)) {
+            // MySQL
+            if(key.match(/^mysql/)) {
+                targets.push({
+                    'from': path.join(__dirname, '../../.lampman-init/mysql/entrypoint.sh'),
+                    'to':   path.join(lampman.config_dir, `/${key}/entrypoint.sh`)
+                })
+            }
+            // PostgreSQL
+            if(key.match(/^postgresql/)) {
+                targets.push({
+                    'from': path.join(__dirname, '../../.lampman-init/postgresql/entrypoint.sh'),
+                    'to':   path.join(lampman.config_dir, `/${key}/entrypoint.sh`)
+                })
+            }
+        }
+
+        let list_string = ''
+        for(let obj of targets) {
+            list_string += `- ${obj.to}\n`
+        }
+        libs.Message(list_string, 'primary')
+
+        const response = await prompts([
+            {
+                type: 'toggle',
+                name: 'value',
+                message: '上記のファイルをそれぞれ標準の entrypoint.sh で上書きしますがよろしいでしょうか。',
+                initial: false,
+                active: 'yes',
+                inactive: 'no'
+            }
+        ]);
+        if(!response.value) return
+
+        // マスターからコピー
+        console.log()
+        for(let target of targets) {
+            fs.copySync(
+                target.from,
+                target.to,
+                {
+                    overwrite: true,
+                    errorOnExist: true
+                }
+            )
+            console.log(color.green('- '+target.to+' ... done'))
+        }
+        return
+    }
 
     // セットアップ内容を選択
     let setup = []

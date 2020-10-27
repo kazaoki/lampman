@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.21
+2020-10-28
+- Added command `lamp init --reset-entrypoint-shell` to overwrite entrypoint.sh of lampman and each DB container with master one.
+
 ## 1.0.20
 2020-10-27
 - If the mode is not specified and there is ".lampman-xxx / config.js" in the ancestor path, xxx is set as the mode.

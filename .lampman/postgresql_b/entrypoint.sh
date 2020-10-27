@@ -19,7 +19,7 @@ if [ -e /postgresql/entrypoint-add.sh ]; then
   /postgresql/entrypoint-add.sh
 fi
 
-# Pass to true shell
+# Pass to main shell
 # ------------------
 sed -i 's/exec "$@"/touch \/tmp\/.container-loaded\nexec "$@"/' /docker-entrypoint.sh
 exec /docker-entrypoint.sh $@
