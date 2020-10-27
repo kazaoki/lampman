@@ -25,6 +25,22 @@ var argv = yargs
     .argv;
 if ('mode' in argv && argv.mode.length)
     process.env.LAMPMAN_MODE = argv.mode;
+if (!process.env.LAMPMAN_MODE) {
+    var dirs_1 = process.cwd().split(path.sep);
+    while (1 !== dirs_1.length) {
+        var config_js_path = path.join.apply(path, __spreadArrays(dirs_1, ['config.js']));
+        var matches = dirs_1[dirs_1.length - 1].match(/^.lampman\-?(.+)$/);
+        if (matches) {
+            try {
+                fs.accessSync(config_js_path, fs.constants.R_OK);
+                process.env.LAMPMAN_MODE = matches[1];
+                break;
+            }
+            catch (e) { }
+        }
+        dirs_1.pop();
+    }
+}
 if (!process.env.LAMPMAN_MODE)
     process.env.LAMPMAN_MODE = 'default';
 var lampman = {
@@ -41,9 +57,7 @@ while (1 !== dirs.length) {
         lampman.config_dir = config_dir;
         break;
     }
-    catch (e) {
-        ;
-    }
+    catch (e) { }
     dirs.pop();
 }
 if ('default' !== lampman.mode && !lampman.config_dir && !process.argv.includes('init')) {

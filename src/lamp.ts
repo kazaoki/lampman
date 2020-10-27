@@ -25,6 +25,25 @@ let argv = yargs
     )
     .argv
 if('mode' in argv && argv.mode.length) process.env.LAMPMAN_MODE = argv.mode
+
+// モードが指定されていなくて、先祖パスに「.lampman-xxx/config.js」があればxxxをモードとする。
+if(!process.env.LAMPMAN_MODE) {
+    let dirs = process.cwd().split(path.sep)
+    while(1!==dirs.length) {
+        let config_js_path = path.join(...dirs, 'config.js')
+        let matches = dirs[dirs.length-1].match(/^.lampman\-?(.+)$/)
+        if(matches) {
+            try {
+                fs.accessSync(config_js_path, fs.constants.R_OK)
+                process.env.LAMPMAN_MODE = matches[1]
+                break
+            } catch(e) {}
+        }
+        dirs.pop()
+    }
+}
+
+// ここまででモードが不明な場合は default に。
 if(!process.env.LAMPMAN_MODE) process.env.LAMPMAN_MODE = 'default'
 
 // Lampmanオブジェクト用意
@@ -43,9 +62,7 @@ while(1!==dirs.length) {
         fs.accessSync(config_dir, fs.constants.R_OK)
         lampman.config_dir = config_dir
         break
-    } catch(e){
-        ;
-    }
+    } catch(e) {}
     dirs.pop()
 }
 

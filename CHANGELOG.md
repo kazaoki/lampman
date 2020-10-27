@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.20
+2020-10-27
+- If the mode is not specified and there is ".lampman-xxx / config.js" in the ancestor path, xxx is set as the mode.
+
 ## 1.0.19
 2020-10-26
 - Fixed a case where a container with the same name without the project name was connected to another DB when accessing the domain specified by `hosts` in the DB setting when it was on the same network.
