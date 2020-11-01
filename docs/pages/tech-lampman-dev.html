@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Lampman自体をいじりたい人へ · Lampman 1.0.13</title>
+        <title>Lampman自体をいじりたい人へ · Lampman 1.0.21</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -60,7 +60,7 @@
 
     
     
-    <link rel="prev" href="tech-entrypoint.html" />
+    <link rel="prev" href="tech-entrypoint-add.html" />
     
 
     </head>
@@ -877,12 +877,12 @@
             
         </li>
     
-        <li class="chapter " data-level="13.1.2" data-path="tech-entrypoint.html">
+        <li class="chapter " data-level="13.1.2" data-path="tech-entrypoint-add.html">
             
-                <a href="tech-entrypoint.html">
+                <a href="tech-entrypoint-add.html">
             
                     
-                    entrypoint.shについて
+                    entrypoint-add.shについて
             
                 </a>
             
@@ -971,13 +971,13 @@ $ lamp up -f
 <h2 id="&#x30C9;&#x30AD;&#x30E5;&#x30E1;&#x30F3;&#x30C8;&#x4F5C;&#x6210;&#x7528;&#x306E;&#x30BF;&#x30B9;&#x30AF;&#x30E9;&#x30F3;&#x30CA;&#x30FC;">&#x30C9;&#x30AD;&#x30E5;&#x30E1;&#x30F3;&#x30C8;&#x4F5C;&#x6210;&#x7528;&#x306E;&#x30BF;&#x30B9;&#x30AF;&#x30E9;&#x30F3;&#x30CA;&#x30FC;</h2>
 <p>&#x30C9;&#x30AD;&#x30E5;&#x30E1;&#x30F3;&#x30C8;&#x4F5C;&#x6210;&#x306B;&#x306F; <a href="https://github.com/GitbookIO/gitbook-cli" target="_blank">gitbook-cli</a> &#x3092;&#x4F7F;&#x3063;&#x3066;&#x307E;&#x3059;&#x3002;</p>
 <pre class="cmd">
-$ npm i gitbook -g
+$ npm i gitbook-cli -g
 $ cd lampman/gitbook
 $ gitbook install
 $ lamp gb
 </pre>
 
-<p><code>lamp gb</code> &#x3059;&#x308B;&#x3068;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x8D77;&#x52D5;&#x5F8C;&#x306B;&#x81EA;&#x52D5;&#x30B3;&#x30F3;&#x30D1;&#x30A4;&#x30EB;&#x304C;&#x8D70;&#x308A;&#x51FA;&#x3057;&#x307E;&#x3059;&#x3002;&#xFF08;<code>git-book/*.md</code> &#x3092;&#x3044;&#x3058;&#x308B;&#x3068;&#x81EA;&#x52D5;&#x7684;&#x306B; <code>fit-book/*.html</code> &#x306B;&#x30B3;&#x30F3;&#x30D1;&#x30A4;&#x30EB;&#x3055;&#x308C;&#x307E;&#x3059;&#x304C;&#x3001;&#x3053;&#x308C;&#x306F;&#x4E00;&#x6642;&#x7684;&#x306A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3067;&#x30B3;&#x30DF;&#x30C3;&#x30C8;&#x5BFE;&#x8C61;&#x3067;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#xFF09;<br>&#x203B;&#x307E;&#x305F;&#x3001;Windows&#x3060;&#x3068; <code>lamp gb</code> &#x306E;&#x3042;&#x3068;&#x306B; <code>lamp gbc</code> &#x3057;&#x306A;&#x3044;&#x3068;md&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x66F4;&#x65B0;&#x6642;&#x306B;&#x30E9;&#x30F3;&#x30CA;&#x30FC;&#x3053;&#x3051;&#x307E;&#x3059;&#x3002;  </p>
+<p><code>lamp gb</code> &#x3059;&#x308B;&#x3068;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x8D77;&#x52D5;&#x5F8C;&#x306B;&#x81EA;&#x52D5;&#x30B3;&#x30F3;&#x30D1;&#x30A4;&#x30EB;&#x304C;&#x8D70;&#x308A;&#x51FA;&#x3057;&#x307E;&#x3059;&#x3002;&#xFF08;<code>git-book/*.md</code> &#x3092;&#x3044;&#x3058;&#x308B;&#x3068;&#x81EA;&#x52D5;&#x7684;&#x306B; <code>git-book/*.html</code> &#x306B;&#x30B3;&#x30F3;&#x30D1;&#x30A4;&#x30EB;&#x3055;&#x308C;&#x307E;&#x3059;&#x304C;&#x3001;&#x3053;&#x308C;&#x306F;&#x4E00;&#x6642;&#x7684;&#x306A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3067;&#x30B3;&#x30DF;&#x30C3;&#x30C8;&#x5BFE;&#x8C61;&#x3067;&#x306F;&#x3042;&#x308A;&#x307E;&#x305B;&#x3093;&#xFF09;<br>&#x203B;Windows&#x3060;&#x3068;Node&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;13&#x4EE5;&#x5916;&#x3067;&#x306F;&#x5B9F;&#x884C;&#x6642;&#x306B;&#x30A8;&#x30E9;&#x30FC;&#x306B;&#x306A;&#x308B;&#x5834;&#x5408;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;<br>&#x203B;&#x307E;&#x305F;&#x3001;Windows&#x3060;&#x3068; <code>lamp gb</code> &#x306E;&#x3042;&#x3068;&#x306B; <code>lamp gbc</code> &#x3057;&#x306A;&#x3044;&#x3068;md&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x66F4;&#x65B0;&#x6642;&#x306B;&#x30E9;&#x30F3;&#x30CA;&#x30FC;&#x3053;&#x3051;&#x307E;&#x3059;&#x3002;  </p>
 <p>&#x6B63;&#x5F0F;&#x306A;&#x30D3;&#x30EB;&#x30C9;&#x306F;&#x4EE5;&#x4E0B;&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x5B9F;&#x884C;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002; <code>docs/</code> &#x306B;&#x751F;&#x6210;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
 <pre class="cmd">
 $ lamp gbb
@@ -1009,7 +1009,7 @@ $ lamp gbb
 
             
                 
-                <a href="tech-entrypoint.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: entrypoint.shについて">
+                <a href="tech-entrypoint-add.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: entrypoint-add.shについて">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -1021,7 +1021,7 @@ $ lamp gbb
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Lampman自体をいじりたい人へ","level":"13.1.3","depth":2,"previous":{"title":"entrypoint.shについて","level":"13.1.2","depth":2,"path":"pages/tech-entrypoint.md","ref":"pages/tech-entrypoint.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"1.0.13"},"title":"Lampman 1.0.13","language":"ja","gitbook":"*"},"file":{"path":"pages/tech-lampman-dev.md","mtime":"2019-12-05T07:37:23.919Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-14T13:31:31.323Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Lampman自体をいじりたい人へ","level":"13.1.3","depth":2,"previous":{"title":"entrypoint-add.shについて","level":"13.1.2","depth":2,"path":"pages/tech-entrypoint-add.md","ref":"pages/tech-entrypoint-add.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"1.0.21"},"title":"Lampman 1.0.21","language":"ja","gitbook":"*"},"file":{"path":"pages/tech-lampman-dev.md","mtime":"2020-11-01T14:41:15.512Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-11-01T15:44:29.607Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

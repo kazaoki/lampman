@@ -13,3 +13,5 @@ PHPのXdebugサーバを有効に切り替えます。
 ### `lamp xoff`
 
 PHPのXdebugサーバを無効に切り替えます。
+
+※切り替えの実態は `.lampman/lampman/php-xdebug-(on|off).sh` にあるシェルです。

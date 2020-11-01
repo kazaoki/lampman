@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>lamp init · Lampman 1.0.13</title>
+        <title>lamp init · Lampman 1.0.21</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -875,12 +875,12 @@
             
         </li>
     
-        <li class="chapter " data-level="13.1.2" data-path="tech-entrypoint.html">
+        <li class="chapter " data-level="13.1.2" data-path="tech-entrypoint-add.html">
             
-                <a href="tech-entrypoint.html">
+                <a href="tech-entrypoint-add.html">
             
                     
-                    entrypoint.shについて
+                    entrypoint-add.shについて
             
                 </a>
             
@@ -974,6 +974,14 @@ $ lamp init
 <p>&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;&#x3092;&#x82F1;&#x6570;&#x5B57;&#x3067;&#x6307;&#x5B9A;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;&#x672A;&#x6307;&#x5B9A;&#x306E;&#x5834;&#x5408;&#x306F; <code>lampman-proj</code> &#x3068;&#x3057;&#x3066;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x66F8;&#x304D;&#x8FBC;&#x307E;&#x308C;&#x307E;&#x3059;&#x306E;&#x3067;&#x3001;&#x5FC5;&#x8981;&#x306B;&#x5FDC;&#x3058;&#x3066;&#x5F8C;&#x3067;&#x76F4;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;&#x3053;&#x306E;&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x540D;&#x306F;&#x751F;&#x6210;&#x3055;&#x308C;&#x308B;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3084;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x306E;&#x63A5;&#x982D;&#x8F9E;&#xFF08;&#x982D;&#x306B;&#x4ED8;&#x304F;&#xFF09;&#x3068;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
 <h3 id="lamp-init--d-&#x516C;&#x958B;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;lamp-init---public-dir&#x516C;&#x958B;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;"><code>lamp init -d &lt;&#x516C;&#x958B;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&gt;</code><br><code>lamp init --public-dir=&lt;&#x516C;&#x958B;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&gt;</code></h3>
 <p>&#x30DB;&#x30B9;&#x30C8;OS&#x5074;&#x306E;&#x30D7;&#x30ED;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x30D1;&#x30B9;&#x306B;&#x3066;&#x306E;&#x516C;&#x958B;&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;&#x3092;&#x6307;&#x5B9A;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;&#x672A;&#x6307;&#x5B9A;&#x306E;&#x5834;&#x5408;&#x306F; <code>public_html</code> &#x3068;&#x3057;&#x3066;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x66F8;&#x304D;&#x8FBC;&#x307E;&#x308C;&#x307E;&#x3059;&#x304C;&#x3001;&#x5FC5;&#x8981;&#x306B;&#x5FDC;&#x3058;&#x3066;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x4FEE;&#x6B63;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</p>
+<h3 id="lamp-init--rlamp-init---reset-entrypoint-shell"><code>lamp init -r</code><br><code>lamp init --reset-entrypoint-shell</code></h3>
+<p>Lampman&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;1.0.17&#x4EE5;&#x964D;&#x3001;&#x305D;&#x308C;&#x307E;&#x3067;&#x306E; <code>entrypoint.sh</code> &#x3067;&#x306F;&#x8D77;&#x52D5;&#x304C;&#x5B8C;&#x4E86;&#x3057;&#x306A;&#x304F;&#x306A;&#x308A;&#x307E;&#x3059;&#x306E;&#x3067;&#x3001;&#x3053;&#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x66F4;&#x65B0;&#x7528;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x3059;&#x3002;<br>Lampman&#x53CA;&#x3073;&#x5404;DB&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306E; <code>entrypoint.sh</code> &#x3092;&#x6A19;&#x6E96;&#x306E;&#x3082;&#x306E;&#x3067;&#x4E0A;&#x66F8;&#x304D;&#x3092;&#x884C;&#x3044;&#x307E;&#x3059;&#x3002;&#x4EE5;&#x4E0B;&#x3001;&#x66F4;&#x65B0;&#x5BFE;&#x8C61;&#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3067;&#x3059;&#x3002;</p>
+<ul>
+<li><code>.lampman/lampman/entrypoint.sh</code></li>
+<li><code>.lampman/mysql/entrypoint.sh</code></li>
+<li><code>.lampman/psql/entrypoint.sh</code></li>
+</ul>
+<p>&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x5B9F;&#x884C;&#x3059;&#x308B;&#x3068;&#x5BFE;&#x8C61;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x78BA;&#x8A8D;&#x304C;&#x51FA;&#x307E;&#x3059;&#x306E;&#x3067;&#x3001;<code>yes</code> &#x3092;&#x9078;&#x629E;&#x3059;&#x308B;&#x3068;&#x305D;&#x308C;&#x305E;&#x308C;&#x5BFE;&#x5FDC;&#x3059;&#x308B;&#x6A19;&#x6E96;&#x306E; <code>entrypoint.sh</code> &#x3067;&#x4E0A;&#x66F8;&#x304D;&#x66F4;&#x65B0;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
 
                                 
                                 </section>
@@ -1009,7 +1017,7 @@ $ lamp init
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"lamp init","level":"4.1.1","depth":2,"next":{"title":"🚩 コンテナ起動/終了コマンド","level":"5.1","depth":1,"ref":"","articles":[{"title":"lamp up","level":"5.1.1","depth":2,"path":"pages/cmd-up.md","ref":"pages/cmd-up.md","articles":[]},{"title":"lamp down","level":"5.1.2","depth":2,"path":"pages/cmd-down.md","ref":"pages/cmd-down.md","articles":[]}]},"previous":{"title":"🔨 セットアップコマンド","level":"4.1","depth":1,"ref":"","articles":[{"title":"lamp init","level":"4.1.1","depth":2,"path":"pages/cmd-init.md","ref":"pages/cmd-init.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"1.0.13"},"title":"Lampman 1.0.13","language":"ja","gitbook":"*"},"file":{"path":"pages/cmd-init.md","mtime":"2020-10-14T06:41:01.868Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-14T13:31:31.323Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"lamp init","level":"4.1.1","depth":2,"next":{"title":"🚩 コンテナ起動/終了コマンド","level":"5.1","depth":1,"ref":"","articles":[{"title":"lamp up","level":"5.1.1","depth":2,"path":"pages/cmd-up.md","ref":"pages/cmd-up.md","articles":[]},{"title":"lamp down","level":"5.1.2","depth":2,"path":"pages/cmd-down.md","ref":"pages/cmd-down.md","articles":[]}]},"previous":{"title":"🔨 セットアップコマンド","level":"4.1","depth":1,"ref":"","articles":[{"title":"lamp init","level":"4.1.1","depth":2,"path":"pages/cmd-init.md","ref":"pages/cmd-init.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","hide-published-with"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hide-published-with":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"version":"1.0.21"},"title":"Lampman 1.0.21","language":"ja","gitbook":"*"},"file":{"path":"pages/cmd-init.md","mtime":"2020-11-01T15:43:58.350Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-11-01T15:44:29.607Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

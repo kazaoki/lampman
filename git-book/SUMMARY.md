@@ -83,5 +83,5 @@
 
 - 🤖 技術情報/カスタム
   - [Dockerイメージについて](pages/tech-images.md)
-  - [entrypoint.shについて](pages/tech-entrypoint.md)
+  - [entrypoint-add.shについて](pages/tech-entrypoint-add.md)
   - [Lampman自体をいじりたい人へ](pages/tech-lampman-dev.md)

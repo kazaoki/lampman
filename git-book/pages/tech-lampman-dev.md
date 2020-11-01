@@ -26,13 +26,14 @@ $ lamp up -f
 ドキュメント作成には [gitbook-cli](https://github.com/GitbookIO/gitbook-cli) を使ってます。
 
 <pre class="cmd">
-$ npm i gitbook -g
+$ npm i gitbook-cli -g
 $ cd lampman/gitbook
 $ gitbook install
 $ lamp gb
 </pre>
 
-`lamp gb` するとブラウザ起動後に自動コンパイルが走り出します。（`git-book/*.md` をいじると自動的に `fit-book/*.html` にコンパイルされますが、これは一時的なファイルでコミット対象ではありません）  
+`lamp gb` するとブラウザ起動後に自動コンパイルが走り出します。（`git-book/*.md` をいじると自動的に `git-book/*.html` にコンパイルされますが、これは一時的なファイルでコミット対象ではありません）  
+※WindowsだとNodeバージョン13以外では実行時にエラーになる場合があります。  
 ※また、Windowsだと `lamp gb` のあとに `lamp gbc` しないとmdファイル更新時にランナーこけます。  
 
 正式なビルドは以下のコマンドを実行してください。 `docs/` に生成されます。

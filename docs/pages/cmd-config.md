@@ -5,5 +5,5 @@
 
 ### `lamp config`
 
-設定ファイル `.lampman/config.js` をお使いのエディタで開きます。  
+設定ファイル `.lampman/config.js` をお使いのエディタで開きます。ただし、Linuxの場合は設定値の出力になります。  
 オプションはありません。
