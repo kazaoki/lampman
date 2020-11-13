@@ -3,7 +3,7 @@
 # PHP Xdebug有効/無効切り替え：`lamp xon`, `lamp xoff`
 ----------------------------------------------------------------------
 
-以下コマンドは `lampman` コンテナの中で [Apache](https://httpd.apache.org/) の再起動が行われます。
+以下コマンドは `lampman` コンテナの中で [PHP Xdebug](https://xdebug.org/) の有効/無効を切り替えます。[Apache](https://httpd.apache.org/) の再起動が行われますので、PHP上でなにか処理してるときなどに実行しない方が良いでしょう。  
 オプションはありません。
 
 ### `lamp xon`
