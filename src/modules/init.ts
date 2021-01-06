@@ -75,6 +75,16 @@ export async function action(argv:any, lampman:any)
             'to':   path.join(lampman.config_dir, '/lampman/entrypoint.sh')
         })
 
+        // XDebugスイッチ
+        targets.push({
+            'from': path.join(__dirname, '../../.lampman-init/lampman/php-xdebug-off.sh'),
+            'to':   path.join(lampman.config_dir, '/lampman/php-xdebug-off.sh')
+        })
+        targets.push({
+            'from': path.join(__dirname, '../../.lampman-init/lampman/php-xdebug-on.sh'),
+            'to':   path.join(lampman.config_dir, '/lampman/php-xdebug-on.sh')
+        })
+
         // 各DB
         for(const key of Object.keys(lampman.config)) {
             // MySQL

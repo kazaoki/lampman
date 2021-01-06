@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.24, 1.0.25
+2021-01-06
+- Added support for XDebug3.
+
 ## 1.0.21
 2020-10-28
 - Added command `lamp init --reset-entrypoint-shell` to overwrite entrypoint.sh of lampman and each DB container with master one.

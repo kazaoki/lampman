@@ -93,6 +93,14 @@ function action(argv, lampman) {
                         'from': path.join(__dirname, '../../.lampman-init/lampman/entrypoint.sh'),
                         'to': path.join(lampman.config_dir, '/lampman/entrypoint.sh')
                     });
+                    targets.push({
+                        'from': path.join(__dirname, '../../.lampman-init/lampman/php-xdebug-off.sh'),
+                        'to': path.join(lampman.config_dir, '/lampman/php-xdebug-off.sh')
+                    });
+                    targets.push({
+                        'from': path.join(__dirname, '../../.lampman-init/lampman/php-xdebug-on.sh'),
+                        'to': path.join(lampman.config_dir, '/lampman/php-xdebug-on.sh')
+                    });
                     for (_i = 0, _a = Object.keys(lampman.config); _i < _a.length; _i++) {
                         key = _a[_i];
                         if (key.match(/^mysql/)) {
