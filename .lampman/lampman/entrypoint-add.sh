@@ -28,5 +28,6 @@
 # echo 'opcache.max_accelerated_files=4000' >> /root/.anyenv/envs/phpenv/versions/7.3.6/etc/php.ini
 # echo 'opcache.revalidate_freq=2' >> /root/.anyenv/envs/phpenv/versions/7.3.6/etc/php.ini
 # echo 'opcache.fast_shutdown=1' >> /root/.anyenv/envs/phpenv/versions/7.3.6/etc/php.ini
+# echo 'display_errors=Off' >> /root/.anyenv/envs/phpenv/versions/7.3.6/etc/php.ini
 
 # -- etc...
