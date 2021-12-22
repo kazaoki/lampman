@@ -185,7 +185,7 @@ function action(argv, lampman) {
                             mysql.cname,
                             'sh',
                             '-c',
-                            "mysqldump " + mysql.database + " -u" + mysql.user + " -p" + mysql.password + (is_gzip ? ' | gzip' : '')
+                            "mysqldump " + mysql.database + " -u\"" + mysql.user + "\" -p\"" + mysql.password + "\"" + (is_gzip ? ' | gzip' : '')
                         ], {
                             cwd: lampman.config_dir,
                             stdio: [
