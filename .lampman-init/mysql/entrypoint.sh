@@ -29,6 +29,10 @@ if [ $QUERY_CACHE = '1' ]; then
   echo "CREATE EVENT flush_query_cache ON SCHEDULE EVERY 1 DAY STARTS '2019-05-24 05:00:00' ENABLE DO FLUSH QUERY CACHE;" > /docker-entrypoint-initdb.d/flush-query-cache.sql
 fi
 
+# Chmod cnf file
+# -----------------------------------------------
+chmod 0666 /etc/mysql/my.cnf
+
 # Set Max connections
 # -------------------
 echo 'max_connections=1000' >> /etc/mysql/my.cnf
