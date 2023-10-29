@@ -60,7 +60,7 @@ export function ConfigToYaml(config:any, config_dir:string)
             yaml.services.phpenv = {
                 container_name: `${proj}-phpenv`,
                 image: config.lampman.php.image,
-                labels: [proj]
+                labels: ['label='+proj]
             }
             if(config.network && 'name' in config.network) {
                 yaml.services.phpenv.networks = [config.network.name]
@@ -115,7 +115,7 @@ export function ConfigToYaml(config:any, config_dir:string)
                 ],
                 entrypoint: '/mysql/entrypoint.sh',
                 command: ['mysqld'],
-                labels: [proj],
+                labels: ['label='+proj],
                 environment: {},
             }
             if(config.network && 'name' in config.network) {
@@ -186,7 +186,7 @@ export function ConfigToYaml(config:any, config_dir:string)
                 ],
                 entrypoint: '/postgresql/entrypoint.sh',
                 command: 'postgres',
-                labels: [proj],
+                labels: ['label='+proj],
                 environment: {},
             }
             if(config.network && 'name' in config.network) {
